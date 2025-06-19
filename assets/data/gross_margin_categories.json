@@ -1,0 +1,42 @@
+{
+    "category":[
+        {
+            "id":1,
+            "name":"maize",
+            "content":[
+                {
+                    "id":1,
+                    "name":" Ultra Early Maturing varieties (80 days) ",
+                    "average_yield":5000,
+                    "price":700,
+                    "total_income":3500000
+
+            },
+                {
+                    "id":2,
+                    "name":"  Very Early Maturing varieties (90 days)  ",
+                    "average_yield":5000,
+                    "price":700,
+                    "total_income":3500000
+
+            },
+                {
+                    "id":3,
+                    "name":"  Mid Maturing varieties (115days -130days) ",
+                    "average_yield":8000,
+                    "price":700,
+                    "total_income":5600000
+
+            },
+                            {
+                        "id":4,
+                        "name":"  Late maturing varieties (158 days) ",
+                        "average_yield":9000,
+                        "price":700,
+                        "total_income":63000000
+
+     }
+            ]
+        }
+    ]
+}

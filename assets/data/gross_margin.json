@@ -1,0 +1,1252 @@
+{
+    "crops":[
+        {
+            "id":1,
+            "name":"Maize",
+            "image":"maize",
+            "category":[
+              
+                        {
+                            "id":1,
+                            "name":" Ultra Early Maturing varieties (80 days) ",
+                            "average_yield":5000,
+                            "image":"ultra_early",
+                            "price":700,
+                            "total_income":3500000
+        
+                    },
+                        {
+                            "id":2,
+                            "name":"Very Early Maturing varieties (90 days)  ",
+                            "average_yield":5000,
+                            "image":"early",
+                            "price":700,
+                            "total_income":3500000
+        
+                    },
+                        {
+                            "id":3,
+                            "name":"  Mid Maturing varieties (115days -130days) ",
+                            "average_yield":8000,
+                            "image":"mid",
+                            "price":700,
+                            "total_income":5600000
+        
+                    },
+                                    {
+                                "id":4,
+                                "name":"  Late maturing varieties (158 days) ",
+                                "average_yield":9000,
+                                "image":"late",
+                                "price":700,
+                                "total_income":63000000
+        
+             }
+                  
+            ],
+            "section":[
+                {   "id":1,
+                    "name":"inputs",
+                    "content":[
+                        {   "id":1,
+                            "item":"seeds",
+                            "rate_acre":25,
+                            "unit":"kg",
+                            "unit_cost":5000,
+                            "total_cost":125000,
+                            "notes":"One hactare requires a plant population of 53,333 plants, hence you need 25kg per hactare and 10kg per acre"
+
+                        },
+                        {   "id":2,
+                            "item":"Basal fertilizer",
+                            "rate_acre":150,
+                            "unit":"kg",
+                            "unit_cost":1700,
+                            "total_cost":255000,
+                            "notes":"Apply compound fertilizer (NPK 23: 21:0+4S) at planting or 7days after seedling emergence using 1cupfull of fanta bottle top per station "
+
+                        },
+                        {   "id":3,
+                            "item":"Top dressing fertilizer",
+                            "rate_acre":150,
+                            "unit":"kg",
+                            "unit_cost":1640,
+                            "total_cost":246800,
+                            "notes":" Apply UREA fertiliser 3 to 4weeks afterseedling emergence using 1cupfull of fanta bottle top per station "
+
+                        },
+                        {   "id":4,
+                            "item":"insecticides",
+                            "rate_acre":3,
+                            "unit":"bottles",
+                            "unit_cost":25000,
+                            "total_cost":75000,
+                            "notes":" Apply 2 to 3 times per season to eradicate FAW"
+
+                        }
+                       
+
+                    ]
+
+                },
+                {   "id":2,
+                    "name":"Land Preparation",
+                    "content":[
+                            {   "id":5,
+                                "item":"Land Preparation",
+                                "rate_acre":2.25,
+                                "unit":"acre",
+                                "unit_cost":25000,
+                                "total_cost":45000,
+                                "notes":" Done once, as soon as crop is harvested to kill soil-borne diseases "
+
+                            },
+                            {   "id":6,
+                                "item":"ploughing",
+                                "rate_acre":2.25,
+                                "unit":"acre",
+                                "unit_cost":30000,
+                                "total_cost":67500,
+                                "notes":" Done once, as soon as crop is harvested to kill soil-borne diseases "
+
+                            },
+                            {   "id":7,
+                                "item":"Ridging",
+                                "rate_acre":2.25,
+                                "unit":"acre",
+                                "unit_cost":30000,
+                                "total_cost":67500,
+                                "notes":" Apply UREA fertiliser 3 to 4weeks afterseedling emergence using 1cupfull of fanta bottle top per station "
+
+                            }
+
+                        ]
+
+                    },
+                    {   "id":3,
+                        "name":"Crop Management",
+                        "content":[
+                            {   "id":8,
+                                "item":"Planting",
+                                "rate_acre":2.25,
+                                "unit":"acre",
+                                "unit_cost":25000,
+                                "total_cost":56250,
+                                "notes":" Plant 1 seed per station spaced at 25cm apart or 3seeds per station spaced at 75cm apart"
+
+                            },
+                            {   "id":9,
+                                "item":"Fertilizer application",
+                                "rate_acre":2.25,
+                                "unit":"acre",
+                                "unit_cost":25000,
+                                "total_cost":56250,
+                                "notes":" Ensure timely planting to allow for timely nutriotion utilisation by the plant"
+
+                            },
+                            {   "id":10,
+                                "item":"Weeding",
+                                "rate_acre":2.25,
+                                "unit":"acre",
+                                "unit_cost":20000,
+                                "total_cost":4500,
+                                "notes":" Ensure weeding is done beforeor soon after second application of fertiliser "
+
+                            },
+                            {   "id":11,
+                                "item":"Banding",
+                                "rate_acre":2.25,
+                                "unit":"acre",
+                                "unit_cost":25000,
+                                "total_cost":56250,
+                                "notes":" Ensure weeding is done beforeor soon after second application of fertiliser "
+
+                            }
+
+                        ]
+
+                    },
+                    {   "id":4,
+                        "name":"Harvesting ",
+                        "content":[
+                        {   "id":12,
+                            "item":"Harvesting",
+                            "rate_acre":2.25,
+                            "unit":"acre",
+                            "unit_cost":30000,
+                            "total_cost":67500,
+                            "notes":" Harvest when cobs are brown "
+
+                        },
+                        {   "id":13,
+                            "item":"Transporting",
+                            "rate_acre":1,
+                            "unit":"trip",
+                            "unit_cost":50000,
+                            "total_cost":50000,
+                            "notes":" Ensure timely planting to allow for timely nutriotion utilisation by the plant"
+
+                        }
+                       
+                    ]
+
+                },
+                {   "id":5,
+                        "name":"Post Harvest Handling ",
+                        "content":[
+                        {   "id":14,
+                            "item":"Shelling",
+                            "rate_acre":102,
+                            "unit":"50kg bags",
+                            "unit_cost":500,
+                            "total_cost":51000,
+                            "notes":" Using maize shellers is cheaper than manually, but requires more quantity to make economic sense. Apply storage chemicals or use Hermatic Bags to control storage pests "
+
+                        },
+                        {   "id":15,
+                            "item":"bagging",
+                            "rate_acre":100,
+                            "unit":"50kg bags",
+                            "unit_cost":350,
+                            "total_cost":35000,
+                            "notes":" "
+
+                        }
+                        ,
+                        {   "id":15,
+                            "item":"Storage Chemicals",
+                            "rate_acre":9,
+                            "unit":"bottles",
+                            "unit_cost":350,
+                            "total_cost":35000,
+                            "notes":" "
+
+                        }
+                       
+                    ]
+
+                }
+            ]
+        },
+        {
+            "id":2,
+            "name":"Irrigated Rice",
+            "image":"irrigate_rice",
+            "category":[
+              
+                {
+                    "id":1,
+                    "name":" Normal Irrigated Rice",
+                    "average_yield":4000,
+                    "image":"ultra_early",
+                    "price":2000,
+                    "total_income":8000000
+
+            }
+    ],
+            "section":[
+                {   "id":1,
+                    "name":"inputs",
+                    "content":[
+                        {   "id":1,
+                            "item":"Seedlings",
+                            "rate_acre":22.5,
+                            "unit":"nursery beds",
+                            "unit_cost":6000,
+                            "total_cost":135000,
+                            "notes":"One hactare requires a plant population of 53,333 plants, hence you need 25kg per hactare and 10kg per acre"
+
+                        },
+                        {   "id":2,
+                            "item":"Basal fertiliser",
+                            "rate_acre":100,
+                            "unit":"kg",
+                            "unit_cost":1700,
+                            "total_cost":170000,
+                            "notes":"Apply compound fertilizer (NPK 23: 21:0+4S) at planting or 7days after seedling emergence using 1cupfull of fanta bottle top per station"
+
+                        },
+                        {   "id":3,
+                            "item":"Top dressing",
+                            "rate_acre":100,
+                            "unit":"kg",
+                            "unit_cost":1640,
+                            "total_cost":164000,
+                            "notes":"Apply UREA fertiliser 3 to 4weeks afterseedling emergence using 1cupfull of fanta bottle top per station "
+
+                        },
+                        {   "id":4,
+                            "item":"insecticides",
+                            "rate_acre":3,
+                            "unit":"bottles",
+                            "unit_cost":25000,
+                            "total_cost":75000,
+                            "notes":" Apply 2 to 3 times per season to eradicate FAW"
+
+                        }
+                       
+
+                    ]
+
+                },
+                {   "id":2,
+                    "name":"Land Preparation",
+                    "content":[
+                            {   "id":5,
+                                "item":"Land Preparation",
+                                "rate_acre":2.25,
+                                "unit":"acre",                                "unit_cost":10000,
+                                "total_cost":25000,
+                                "notes":" "
+
+                            },
+                            {   "id":6,
+                                "item":"ploughing",
+                                "rate_acre":2.25,
+                                "unit":"acre",
+                                "unit_cost":60000,
+                                "total_cost":67500,
+                                "notes":"Done once, as soon as crop is harvested to break dormancy and kill soil-borne diseases"
+
+                            },
+                            {   "id":7,
+                                "item":"levelling",
+                                "rate_acre":2.25,
+                                "unit":"acre",
+                                "unit_cost":30000,
+                                "total_cost":67500,
+                                "notes":" Ensure ridges are spaced at a recommended spacing, usually 75cm apart "
+
+                            }
+
+                        ]
+
+                    },
+                    {   "id":3,
+                        "name":"Crop Management",
+                        "content":[
+                            {   "id":8,
+                                "item":"Planting",
+                                "rate_acre":2.25,
+                                "unit":"acre",
+                                "unit_cost":25000,
+                                "total_cost":56250,
+                                "notes":" Plant 1 seed per station spaced at 25cm apart or 3seeds per station spaced at 75cm apart"
+
+                            },
+                            {   "id":9,
+                                "item":"Basal Fertilizer application",
+                                "rate_acre":2.25,
+                                "unit":"acre",
+                                "unit_cost":25000,
+                                "total_cost":56250,
+                                "notes":" Ensure timely planting to allow for timely nutriotion utilisation by the plant"
+
+                            },
+                            {   "id":10,
+                                "item":"Top dressing fertilizer applicatio" ,
+                                "rate_acre":2.25,
+                                "unit":"acre",
+                                "unit_cost":20000,
+                                "total_cost":45000,
+                                "notes":" Ensure timely planting to allow for timely nutriotion utilisation by the plant"
+
+                            },
+                            {   "id":11,
+                                "item":"Weeding",
+                                "rate_acre":2.25,
+                                "unit":"acre",
+                                "unit_cost":20000,
+                                "total_cost":45000,
+                                "notes":" Ensure weeding is done before or soon after second application of fertiliser "
+
+                            },
+                            {   "id":12,
+                                "item":"Scaffolding",
+                                "rate_acre":2.25,
+                                "unit":"acre",
+                                "unit_cost":0,
+                                "total_cost":0,
+                                "notes":" "
+
+                            }
+                            ,
+                            {   "id":13,
+                                "item":"Loosening the soil",
+                                "rate_acre":2.25,
+                                "unit":"acre",
+                                "unit_cost":20000,
+                                "total_cost":45000,
+                                "notes":" Ensure roots of weeds are fully dried to avoid re-growing of the weeds"
+
+                            }
+
+                        ]
+
+                    },
+                    {   "id":4,
+                        "name":"Harvesting ",
+                        "content":[
+                        {   "id":14,
+                            "item":"Threshing",
+                            "rate_acre":2.25,
+                            "unit":"acre",
+                            "unit_cost":30000,
+                            "total_cost":67500,
+                            "notes":" Harvest when cobs are brown "
+
+                        },
+                        {   "id":15,
+                            "item":"Transporting",
+                            "rate_acre":1,
+                            "unit":"trip",
+                            "unit_cost":50000,
+                            "total_cost":50000,
+                            "notes":" Ensure timely planting to allow for timely nutriotion utilisation by the plant"
+
+                        }
+                       
+                    ]
+
+                },
+                {   "id":5,
+                        "name":"Post Harvest Handling ",
+                        "content":[
+                        {   "id":16,
+                            "item":"Winnowing",
+                            "rate_acre":50,
+                            "unit":"50kg bags",
+                            "unit_cost":500,
+                            "total_cost":25000,
+                            "notes":" Using maize shellers is cheaper than manually, but requires more quantity to make economic sense. Apply storage chemicals or use Hermatic Bags to control storage pests "
+
+                        },
+                        {   "id":17,
+                            "item":"bagging",
+                            "rate_acre":9,
+                            "unit":"bottles",
+                            "unit_cost":2800,
+                            "total_cost":25200,
+                            "notes":" "
+
+                        }
+                       
+                    ]
+
+                }
+            ]
+        },
+        {
+            "id":3,
+            "name":"Rained Rice",
+            "image":"rained_rice",
+            "category":[
+              
+                {
+                    "id":1,
+                    "name":"Normal rained Rice ",
+                    "average_yield":1500,
+                    "image":"ultra_early",
+                    "price":2000,
+                    "total_income":3000000
+
+            }
+          
+    ],
+            "section":[
+                {   "id":1,
+                    "name":"inputs",
+                    "content":[
+                        {   "id":1,
+                            "item":"seeds",
+                            "rate_acre":63,
+                            "unit":"kg",
+                            "unit_cost":5000,
+                            "total_cost":315000,
+                            "notes":"One hactare requires a plant population of 53,333 plants, hence you need 25kg per hactare and 10kg per acre"
+
+                        },
+                        {   "id":2,
+                            "item":"Basal Fertilizer",
+                            "rate_acre":150,
+                            "unit":"kg",
+                            "unit_cost":1700,
+                            "total_cost":255000,
+                            "notes":"Apply compound fertilizer (NPK 23: 21:0+4S) at planting or 7days after seedling emergence using 1cupfull of fanta bottle top per station "
+
+                        },
+                        {  "id":3,
+                            "item":"Top dressing fertilizer",
+                            "rate_acre":150,
+                            "unit":"kg",
+                            "unit_cost":1640,
+                            "total_cost":246800,
+                            "notes":" Apply UREA fertiliser 3 to 4weeks afterseedling emergence using 1cupfull of fanta bottle top per station "
+
+                        },
+                        {   "id":4,
+                            "item":"insecticides",
+                            "rate_acre":3,
+                            "unit":"bottles",
+                            "unit_cost":25000,
+                            "total_cost":75000,
+                            "notes":" Apply 2 to 3 times per season to eradicate FAW"
+
+                        }
+                       
+
+                    ]
+
+                },
+                {   "id":2,
+                    "name":"Land Preparation",
+                    "content":[
+                            {   "id":5,
+                                "item":"Land Preparation",
+                                "rate_acre":2.25,
+                                "unit":"acre",
+                                "unit_cost":20000,
+                                "total_cost":45000,
+                                "notes":" Done once, as soon as crop is harvested to kill soil-borne diseases "
+
+                            },
+                            {   "id":6,
+                                "item":"ploughing",
+                                "rate_acre":2.25,
+                                "unit":"acre",
+                                "unit_cost":30000,
+                                "total_cost":67500,
+                                "notes":" Done once, as soon as crop is harvested to kill soil-borne diseases "
+
+                            },
+                            {   "id":7,
+                                "item":"Ridging",
+                                "rate_acre":2.25,
+                                "unit":"acre",
+                                "unit_cost":30000,
+                                "total_cost":67500,
+                                "notes":" Apply UREA fertiliser 3 to 4weeks afterseedling emergence using 1cupfull of fanta bottle top per station "
+
+                            }
+
+                        ]
+
+                    },
+                    {   "id":3,
+                        "name":"Crop Management",
+                        "content":[
+                            {   "id":8,
+                                "item":"Planting",
+                                "rate_acre":2.25,
+                                "unit":"acre",
+                                "unit_cost":25000,
+                                "total_cost":56250,
+                                "notes":" Plant 1 seed per station spaced at 25cm apart or 3seeds per station spaced at 75cm apart"
+
+                            },
+                            {   "id":9,
+                                "item":"Fertilizer application",
+                                "rate_acre":2.25,
+                                "unit":"acre",
+                                "unit_cost":25000,
+                                "total_cost":56250,
+                                "notes":" Ensure timely planting to allow for timely nutriotion utilisation by the plant"
+
+                            },
+                            {   "id":10,
+                                "item":"Weeding",
+                                "rate_acre":2.25,
+                                "unit":"acre",
+                                "unit_cost":20000,
+                                "total_cost":4500,
+                                "notes":" Ensure weeding is done beforeor soon after second application of fertiliser "
+
+                            },
+                            {   "id":11,
+                                "item":"Banding",
+                                "rate_acre":2.25,
+                                "unit":"acre",
+                                "unit_cost":25000,
+                                "total_cost":56250,
+                                "notes":" Ensure weeding is done beforeor soon after second application of fertiliser "
+
+                            }
+
+                        ]
+
+                    },
+                    {   "id":4,
+                        "name":"Harvesting ",
+                        "content":[
+                        {   "id":12,
+                            "item":"Harvesting",
+                            "rate_acre":2.25,
+                            "unit":"acre",
+                            "unit_cost":30000,
+                            "total_cost":67500,
+                            "notes":" Harvest when cobs are brown "
+
+                        },
+                        {   "id":13,
+                            "item":"Transporting",
+                            "rate_acre":1,
+                            "unit":"trip",
+                            "unit_cost":50000,
+                            "total_cost":50000,
+                            "notes":" Ensure timely planting to allow for timely nutriotion utilisation by the plant"
+
+                        }
+                       
+                    ]
+
+                },
+                {   "id":5,
+                        "name":"Post Harvest Handling ",
+                        "content":[
+                        {   "id":14,
+                            "item":"Shelling and bagging",
+                            "rate_acre":50,
+                            "unit":"50kg bags",
+                            "unit_cost":500,
+                            "total_cost":51000,
+                            "notes":" Using maize shellers is cheaper than manually, but requires more quantity to make economic sense. Apply storage chemicals or use Hermatic Bags to control storage pests "
+
+                        },
+                        {   "id":2,
+                            "item":"bagging",
+                            "rate_acre":100,
+                            "unit":"50kg bags",
+                            "unit_cost":350,
+                            "total_cost":35000,
+                            "notes":" "
+
+                        }
+                       
+                    ]
+
+                }
+            ]
+        },
+        {
+            "id":4,
+            "name":"Groundnuts",
+            "image":"groundnuts",
+            "category":[
+              
+                {
+                    "id":1,
+                    "name":"Recommended for low-altitude areas",
+                    "average_yield":1350,
+                    "image":"low_altitude",
+                    "price":2500,
+                    "total_income":337500
+
+            },
+                {
+                    "id":2,
+                    "name":"Recommended for mid-altitude areas",
+                    "average_yield":2500,
+                    "image":"low_altitude",
+                    "price":2500,
+                    "total_income":6250000
+
+            },
+                {
+                    "id":3,
+                    "name":"Recommended for all-altitude areas",
+                    "average_yield":2500,
+                    "image":"all_altitude",
+                    "price":2500,
+                    "total_income":6250000
+
+            }
+          
+    ],
+            "section":[
+                {   "id":1,
+                    "name":"inputs",
+                    "content":[
+                        {   "id":1,
+                            "item":"seeds",
+                            "rate_acre":110,
+                            "unit":"kg",
+                            "unit_cost":2500,
+                            "total_cost":275000,
+                            "notes":"You need 45 to 120kg per hactare of seed depending on variety"
+
+                        },
+                        {   "id":2,
+                            "item":"Inoculant",
+                            "rate_acre":10,
+                            "unit":"Sachet",
+                            "unit_cost":20000,
+                            "total_cost":45000,
+                            "notes":"Apply inoculant to the seed before planting. Make sure it is thoroughly dried before planting. Mix 1 sachet of inoculant with 10kg of seed. "
+
+                        }
+                       
+
+                    ]
+
+                },
+                {   "id":2,
+                    "name":"Land Preparation",
+                    "content":[
+                            {   "id":3,
+                                "item":"Land Preparation",
+                                "rate_acre":2.25,
+                                "unit":"acre",
+                                "unit_cost":20000,
+                                "total_cost":45000,
+                                "notes":" Done once, as soon as crop is harvested to kill soil-borne diseases "
+
+                            },
+                            {   "id":4,
+                                "item":"ploughing",
+                                "rate_acre":2.25,
+                                "unit":"acre",
+                                "unit_cost":30000,
+                                "total_cost":67500,
+                                "notes":" Done once, as soon as crop is harvested to kill soil-borne diseases "
+
+                            },
+                            {   "id":5,
+                                "item":"Ridging",
+                                "rate_acre":2.25,
+                                "unit":"acre",
+                                "unit_cost":30000,
+                                "total_cost":67500,
+                                "notes":" Ensure ridges are spaced at a recommended spacing, usually 75cm apart"
+
+                            }
+
+                        ]
+
+                    },
+                    {   "id":3,
+                        "name":"Crop Management",
+                        "content":[
+                            {   "id":6,
+                                "item":"Planting",
+                                "rate_acre":2.25,
+                                "unit":"acre",
+                                "unit_cost":25000,
+                                "total_cost":56250,
+                                "notes":" Plant 1 seed per station spaced at 25cm apart or 3seeds per station spaced at 75cm apart"
+
+                            },
+                            {   "id":7,
+                                "item":"First weeding",
+                                "rate_acre":2.25,
+                                "unit":"acre",
+                                "unit_cost":20000,
+                                "total_cost":45000,
+                                "notes":" Weed at the first 20 days "
+
+                            },
+                            {   "id":8,
+                                "item":"Second Weeding",
+                                "rate_acre":2.25,
+                                "unit":"acre",
+                                "unit_cost":20000,
+                                "total_cost":45000,
+                                "notes":"Use hand weeding to avoid plucking of flowers at 45-50days "
+
+                            }
+
+                        ]
+
+                    },
+                    {   "id":4,
+                        "name":"Harvesting ",
+                        "content":[
+                        {   "id":9,
+                            "item":"Harvesting",
+                            "rate_acre":2.25,
+                            "unit":"acre",
+                            "unit_cost":30000,
+                            "total_cost":67500,
+                            "notes":"Lift few pods and examine the inside, nuts are ready for harvest when the inside of the shell has brown pale spots"
+
+                        },
+                        {   "id":10,
+                            "item":"Transporting",
+                            "rate_acre":1,
+                            "unit":"trip",
+                            "unit_cost":50000,
+                            "total_cost":50000,
+                            "notes":" Ensure timely planting to allow for timely nutriotion utilisation by the plant"
+
+                        }
+                       
+                    ]
+
+                },
+                {   "id":5,
+                        "name":"Post Harvest Handling ",
+                        "content":[
+                        {   "id":11,
+                            "item":"Plucking",
+                            "rate_acre":50,
+                            "unit":"50kg bag",
+                            "unit_cost":1000,
+                            "total_cost":50000,
+                            "notes":" Using maize shellers is cheaper than manually, but requires more quantity to make economic sense. Apply storage chemicals or use Hermatic Bags to control storage pests "
+
+                        },
+                        {   "id":2,
+                            "item":"bagging",
+                            "rate_acre":50,
+                            "unit":"50kg bag",
+                            "unit_cost":350,
+                            "total_cost":35000,
+                            "notes":"Groundnuts is stored better unshelled "
+
+                        }
+                       
+                    ]
+
+                }
+            ]
+        },
+        {
+            "id":5,
+            "name":"SoyBean",
+            "image":"soybean",
+            "category":[
+              
+                {
+                    "id":1,
+                    "name":" Ultra Early Maturing varieties (80 days) ",
+                    "average_yield":5000,
+                    "image":"ultra_early",
+                    "price":700,
+                    "total_income":3500000
+
+            },
+                {
+                    "id":2,
+                    "name":"Very Early Maturing varieties (90 days)  ",
+                    "average_yield":5000,
+                    "image":"early",
+                    "price":700,
+                    "total_income":3500000
+
+            },
+                {
+                    "id":3,
+                    "name":"  Mid Maturing varieties (115days -130days) ",
+                    "average_yield":8000,
+                    "image":"mid",
+                    "price":700,
+                    "total_income":5600000
+
+            },
+                            {
+                        "id":4,
+                        "name":"  Late maturing varieties (158 days) ",
+                        "average_yield":9000,
+                        "image":"late",
+                        "price":700,
+                        "total_income":63000000
+
+     }
+          
+    ],
+            "section":[
+                {   "id":1,
+                    "name":"inputs",
+                    "content":[
+                        {   "id":1,
+                            "item":"seeds",
+                            "rate_acre":25,
+                            "unit":"kg",
+                            "unit_cost":5000,
+                            "total_cost":125000,
+                            "notes":"One hactare requires a plant population of 53,333 plants, hence you need 25kg per hactare and 10kg per acre"
+
+                        },
+                        {   "id":2,
+                            "item":"NPK",
+                            "rate_acre":150,
+                            "unit":"kg",
+                            "unit_cost":1700,
+                            "total_cost":255000,
+                            "notes":"Apply compound fertilizer (NPK 23: 21:0+4S) at planting or 7days after seedling emergence using 1cupfull of fanta bottle top per station "
+
+                        },
+                        {   "id":3,
+                            "item":"Urea",
+                            "rate_acre":150,
+                            "unit":"kg",
+                            "unit_cost":1640,
+                            "total_cost":246800,
+                            "notes":" Apply UREA fertiliser 3 to 4weeks afterseedling emergence using 1cupfull of fanta bottle top per station "
+
+                        },
+                        {   "id":4,
+                            "item":"insecticides",
+                            "rate_acre":3,
+                            "unit":"bottles",
+                            "unit_cost":25000,
+                            "total_cost":75000,
+                            "notes":" Apply 2 to 3 times per season to eradicate FAW"
+
+                        }
+                       
+
+                    ]
+
+                },
+                {   "id":2,
+                    "name":"Land Preparation",
+                    "content":[
+                            {   "id":1,
+                                "item":"Land Preparation",
+                                "rate_acre":2.25,
+                                "unit":"acre",
+                                "unit_cost":25000,
+                                "total_cost":45000,
+                                "notes":" Done once, as soon as crop is harvested to kill soil-borne diseases "
+
+                            },
+                            {   "id":2,
+                                "item":"ploughing",
+                                "rate_acre":2.25,
+                                "unit":"acre",
+                                "unit_cost":30000,
+                                "total_cost":67500,
+                                "notes":" Done once, as soon as crop is harvested to kill soil-borne diseases "
+
+                            },
+                            {   "id":3,
+                                "item":"Ridging",
+                                "rate_acre":2.25,
+                                "unit":"acre",
+                                "unit_cost":30000,
+                                "total_cost":67500,
+                                "notes":" Apply UREA fertiliser 3 to 4weeks afterseedling emergence using 1cupfull of fanta bottle top per station "
+
+                            }
+
+                        ]
+
+                    },
+                    {   "id":3,
+                        "name":"Crop Management",
+                        "content":[
+                            {   "id":1,
+                                "item":"Planting",
+                                "rate_acre":2.25,
+                                "unit":"acre",
+                                "unit_cost":25000,
+                                "total_cost":56250,
+                                "notes":" Plant 1 seed per station spaced at 25cm apart or 3seeds per station spaced at 75cm apart"
+
+                            },
+                            {   "id":2,
+                                "item":"Fertilizer application",
+                                "rate_acre":2.25,
+                                "unit":"acre",
+                                "unit_cost":25000,
+                                "total_cost":56250,
+                                "notes":" Ensure timely planting to allow for timely nutriotion utilisation by the plant"
+
+                            },
+                            {   "id":3,
+                                "item":"Weeding",
+                                "rate_acre":2.25,
+                                "unit":"acre",
+                                "unit_cost":20000,
+                                "total_cost":4500,
+                                "notes":" Ensure weeding is done beforeor soon after second application of fertiliser "
+
+                            },
+                            {   "id":4,
+                                "item":"Banding",
+                                "rate_acre":2.25,
+                                "unit":"acre",
+                                "unit_cost":25000,
+                                "total_cost":56250,
+                                "notes":" Ensure weeding is done beforeor soon after second application of fertiliser "
+
+                            }
+
+                        ]
+
+                    },
+                    {   "id":4,
+                        "name":"Harvesting ",
+                        "content":[
+                        {   "id":1,
+                            "item":"Harvesting",
+                            "rate_acre":2.25,
+                            "unit":"acre",
+                            "unit_cost":30000,
+                            "total_cost":67500,
+                            "notes":" Harvest when cobs are brown "
+
+                        },
+                        {   "id":2,
+                            "item":"Transporting",
+                            "rate_acre":1,
+                            "unit":"trip",
+                            "unit_cost":50000,
+                            "total_cost":50000,
+                            "notes":" Ensure timely planting to allow for timely nutriotion utilisation by the plant"
+
+                        }
+                       
+                    ]
+
+                },
+                {   "id":5,
+                        "name":"Post Harvest Handling ",
+                        "content":[
+                        {   "id":1,
+                            "item":"Shelling",
+                            "rate_acre":102,
+                            "unit":"50kg bags",
+                            "unit_cost":500,
+                            "total_cost":51000,
+                            "notes":" Using maize shellers is cheaper than manually, but requires more quantity to make economic sense. Apply storage chemicals or use Hermatic Bags to control storage pests "
+
+                        },
+                        {   "id":2,
+                            "item":"bagging",
+                            "rate_acre":100,
+                            "unit":"50kg bags",
+                            "unit_cost":350,
+                            "total_cost":35000,
+                            "notes":" "
+
+                        }
+                       
+                    ]
+
+                }
+            ]
+        },
+        {
+            "id":6,
+            "name":"Sunflower",
+            "image":"sunflower",
+            "category":[
+              
+                {
+                    "id":1,
+                    "name":" Ultra Early Maturing varieties (80 days) ",
+                    "average_yield":5000,
+                    "image":"ultra_early",
+                    "price":700,
+                    "total_income":3500000
+
+            },
+                {
+                    "id":2,
+                    "name":"Very Early Maturing varieties (90 days)  ",
+                    "average_yield":5000,
+                    "image":"early",
+                    "price":700,
+                    "total_income":3500000
+
+            },
+                {
+                    "id":3,
+                    "name":"  Mid Maturing varieties (115days -130days) ",
+                    "average_yield":8000,
+                    "image":"mid",
+                    "price":700,
+                    "total_income":5600000
+
+            },
+                            {
+                        "id":4,
+                        "name":"  Late maturing varieties (158 days) ",
+                        "average_yield":9000,
+                        "image":"late",
+                        "price":700,
+                        "total_income":63000000
+
+     }
+          
+                    ],
+            "section":[
+                {   "id":1,
+                    "name":"inputs",
+                    "content":[
+                        {   "id":1,
+                            "item":"seeds",
+                            "rate_acre":25,
+                            "unit":"kg",
+                            "unit_cost":5000,
+                            "total_cost":125000,
+                            "notes":"One hactare requires a plant population of 53,333 plants, hence you need 25kg per hactare and 10kg per acre"
+
+                        },
+                        {   "id":2,
+                            "item":"NPK",
+                            "rate_acre":150,
+                            "unit":"kg",
+                            "unit_cost":1700,
+                            "total_cost":255000,
+                            "notes":"Apply compound fertilizer (NPK 23: 21:0+4S) at planting or 7days after seedling emergence using 1cupfull of fanta bottle top per station "
+
+                        },
+                        {   "id":3,
+                            "item":"Urea",
+                            "rate_acre":150,
+                            "unit":"kg",
+                            "unit_cost":1640,
+                            "total_cost":246800,
+                            "notes":" Apply UREA fertiliser 3 to 4weeks afterseedling emergence using 1cupfull of fanta bottle top per station "
+
+                        },
+                        {   "id":4,
+                            "item":"insecticides",
+                            "rate_acre":3,
+                            "unit":"bottles",
+                            "unit_cost":25000,
+                            "total_cost":75000,
+                            "notes":" Apply 2 to 3 times per season to eradicate FAW"
+
+                        }
+                       
+
+                    ]
+
+                },
+                {   "id":2,
+                    "name":"Land Preparation",
+                    "content":[
+                            {   "id":1,
+                                "item":"Land Preparation",
+                                "rate_acre":2.25,
+                                "unit":"acre",
+                                "unit_cost":25000,
+                                "total_cost":45000,
+                                "notes":" Done once, as soon as crop is harvested to kill soil-borne diseases "
+
+                            },
+                            {   "id":2,
+                                "item":"ploughing",
+                                "rate_acre":2.25,
+                                "unit":"acre",
+                                "unit_cost":30000,
+                                "total_cost":67500,
+                                "notes":" Done once, as soon as crop is harvested to kill soil-borne diseases "
+
+                            },
+                            {   "id":3,
+                                "item":"Ridging",
+                                "rate_acre":2.25,
+                                "unit":"acre",
+                                "unit_cost":30000,
+                                "total_cost":67500,
+                                "notes":" Apply UREA fertiliser 3 to 4weeks afterseedling emergence using 1cupfull of fanta bottle top per station "
+
+                            }
+
+                        ]
+
+                    },
+                    {   "id":3,
+                        "name":"Crop Management",
+                        "content":[
+                            {   "id":1,
+                                "item":"Planting",
+                                "rate_acre":2.25,
+                                "unit":"acre",
+                                "unit_cost":25000,
+                                "total_cost":56250,
+                                "notes":" Plant 1 seed per station spaced at 25cm apart or 3seeds per station spaced at 75cm apart"
+
+                            },
+                            {   "id":2,
+                                "item":"Fertilizer application",
+                                "rate_acre":2.25,
+                                "unit":"acre",
+                                "unit_cost":25000,
+                                "total_cost":56250,
+                                "notes":" Ensure timely planting to allow for timely nutriotion utilisation by the plant"
+
+                            },
+                            {   "id":3,
+                                "item":"Weeding",
+                                "rate_acre":2.25,
+                                "unit":"acre",
+                                "unit_cost":20000,
+                                "total_cost":4500,
+                                "notes":" Ensure weeding is done beforeor soon after second application of fertiliser "
+
+                            },
+                            {   "id":4,
+                                "item":"Banding",
+                                "rate_acre":2.25,
+                                "unit":"acre",
+                                "unit_cost":25000,
+                                "total_cost":56250,
+                                "notes":" Ensure weeding is done beforeor soon after second application of fertiliser "
+
+                            }
+
+                        ]
+
+                    },
+                    {   "id":4,
+                        "name":"Harvesting ",
+                        "content":[
+                        {   "id":1,
+                            "item":"Harvesting",
+                            "rate_acre":2.25,
+                            "unit":"acre",
+                            "unit_cost":30000,
+                            "total_cost":67500,
+                            "notes":" Harvest when cobs are brown "
+
+                        },
+                        {   "id":2,
+                            "item":"Transporting",
+                            "rate_acre":1,
+                            "unit":"trip",
+                            "unit_cost":50000,
+                            "total_cost":50000,
+                            "notes":" Ensure timely planting to allow for timely nutriotion utilisation by the plant"
+
+                        }
+                       
+                    ]
+
+                },
+                {   "id":5,
+                        "name":"Post Harvest Handling ",
+                        "content":[
+                        {   "id":1,
+                            "item":"Shelling",
+                            "rate_acre":102,
+                            "unit":"50kg bags",
+                            "unit_cost":500,
+                            "total_cost":51000,
+                            "notes":" Using maize shellers is cheaper than manually, but requires more quantity to make economic sense. Apply storage chemicals or use Hermatic Bags to control storage pests "
+
+                        },
+                        {   "id":2,
+                            "item":"bagging",
+                            "rate_acre":100,
+                            "unit":"50kg bags",
+                            "unit_cost":350,
+                            "total_cost":35000,
+                            "notes":" "
+
+                        }
+                       
+                    ]
+
+                }
+            ]
+        }
+        
+       
+        
+    ]
+}

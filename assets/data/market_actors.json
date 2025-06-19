@@ -1,0 +1,1155 @@
+{
+    "buyers": [
+      {
+        "name": "Mr Kainga",
+        "location": "Khonjeni",
+        "contact": "884060127",
+        "value_chain": "Pigeon peas",
+        "recommended_starting_quantities": "1000 bags",
+        "district": "Zomba"
+      },
+      {
+        "name": "Laston Kakoma",
+        "location": "Sable",
+        "contact": "990845943",
+        "value_chain": "Pigeon peas",
+        "recommended_starting_quantities": "1000 bags",
+        "district": "Zomba"
+      },
+      {
+        "name": "Patrick Makawa",
+        "location": "Chimwalira",
+        "contact": ["0888042628", "0998083649"],
+        "value_chain": "Pigeon peas",
+        "recommended_starting_quantities": "1000 bags",
+        "district": "Zomba"
+      },
+      {
+        "name": "Yamikani Chimala",
+        "location": "Kadzuwa",
+        "contact": ["0884932129", "0996539776"],
+        "value_chain": "Pigeon peas",
+        "recommended_starting_quantities": "300 bags",
+        "district": "Zomba"
+      },
+      {
+        "name": "Josephy Chiphazi",
+        "location": "Lototoni 2",
+        "contact": ["0888616590", "0991881133"],
+        "value_chain": "Pigeon peas",
+        "recommended_starting_quantities": "300 bags",
+        "district": "Zomba"
+      },
+      {
+        "name": "Mr Masiye",
+        "location": "Pensulo",
+        "contact": "881171668",
+        "value_chain": "Pigeon peas",
+        "recommended_starting_quantities": "1000 bags",
+        "district": "Zomba"
+      },
+      {
+        "name": "Cedric Saiwala",
+        "location": "Lototoni 1",
+        "contact": "999028452",
+        "value_chain": "Pigeon peas",
+        "recommended_starting_quantities": "1000 bags",
+        "district": "Zomba"
+      },
+      {
+        "name": "Victor Kapeya",
+        "location": "Gwembere",
+        "contact": "880767912",
+        "value_chain": "Pigeon peas",
+        "recommended_starting_quantities": "100 - 200 bags",
+        "district": "Zomba"
+      },
+      {
+        "name": "Moses Nkhokwe",
+        "location": "Lundu 1",
+        "contact": "881654723",
+        "value_chain": "Pigeon peas",
+        "recommended_starting_quantities": "70 - 80 bags",
+        "district": "Zomba"
+      },
+      {
+        "name": "Daniel Matias",
+        "location": "Kamala",
+        "contact": "882193469",
+        "value_chain": "Pigeon peas",
+        "recommended_starting_quantities": "60 - 80 bags",
+        "district": "Zomba"
+      },
+      {
+        "name": "Daniel Makwinja",
+        "location": "Lundu 1",
+        "contact": "881011647",
+        "value_chain": "Pigeon peas",
+        "recommended_starting_quantities": "70 - 80 bags",
+        "district": "Zomba"
+      },
+      {
+        "name": "Gift Malizani",
+        "location": "Namatikha",
+        "contact": "882742660",
+        "value_chain": "Pigeon peas",
+        "recommended_starting_quantities": "50 - 80 bags",
+        "district": "Zomba"
+      },
+      {
+        "name": "James Musselburgh",
+        "location": "Masiyamphanje",
+        "contact": "893114666",
+        "value_chain": "Pigeon peas",
+        "recommended_starting_quantities": "100 - 200 bags",
+        "district": "Zomba"
+      },
+      {
+        "name": "Patric Nantchengwa",
+        "location": "Mkweza",
+        "contact": "998827577",
+        "value_chain": "Pigeon peas",
+        "recommended_starting_quantities": "40 - 100 bags",
+        "district": "Zomba"
+      },
+      {
+        "name": "Kennedy Haward",
+        "location": "Nsomati",
+        "contact": "999876647",
+        "value_chain": "Pigeon peas",
+        "recommended_starting_quantities": "45 - 100 bags",
+        "district": "Zomba"
+      },
+      {
+        "name": "Lexson Selemani",
+        "location": "Kaliwo",
+        "contact": "999916034",
+        "value_chain": "Pigeon peas",
+        "recommended_starting_quantities": "40 - 100 bags",
+        "district": "Zomba"
+      },
+      {
+        "name": "Dyson Pinifolo",
+        "location": "Jenala",
+        "contact": "999191338",
+        "value_chain": "Pigeon peas",
+        "recommended_starting_quantities": "25 tons",
+        "district": "Zomba"
+      },
+      {
+        "name": "Charles Chimenya",
+        "location": "Jenala",
+        "contact": "999951903",
+        "value_chain": "Pigeon peas",
+        "recommended_starting_quantities": "30 tons",
+        "district": "Zomba"
+      },
+      {
+        "name": "Vincent Nkhongoza",
+        "location": "Thondwe Trading centre",
+        "contact": "991209383",
+        "value_chain": "Pigeon peas",
+        "recommended_starting_quantities": "Any quantity",
+        "district": "Zomba"
+      },
+      {
+        "name": "Rony Byson",
+        "location": "6 Miles Market",
+        "contact": "980447944",
+        "value_chain": "Pigeon peas",
+        "recommended_starting_quantities": "Any quantity",
+        "district": "Zomba"
+      },
+      {
+        "name": "Anold Chimenya",
+        "location": "Njala",
+        "contact": "882357724",
+        "value_chain": "Pigeon peas",
+        "recommended_starting_quantities": "Any quantity",
+        "district": "Zomba"
+      },
+      {
+        "name": "Paul Mwantisi",
+        "location": "Masala Trading centre",
+        "contact": "997373494",
+        "value_chain": "Rice/Pigeon Peas",
+        "recommended_starting_quantities": "Any quantity",
+        "district": "Zomba"
+      },
+      {
+        "name": "Denis Mankhokwe",
+        "location": "Mina Trading centre",
+        "contact": "999351681",
+        "value_chain": "Rice/Pigeon Peas",
+        "recommended_starting_quantities": "Any quantity",
+        "district": "Zomba"
+      },
+      {
+        "name": "Charles Segula",
+        "location": "Makawa Trading Centre",
+        "contact": "992249334",
+        "value_chain": "Rice/Pigeon Peas",
+        "recommended_starting_quantities": "Any quantity",
+        "district": "Zomba"
+      },
+      {
+        "name": "Royd Taibu",
+        "location": "Ramusi Trading Centre",
+        "contact": "993393686",
+        "value_chain": "Rice",
+        "recommended_starting_quantities": "Any quantity",
+        "district": "Zomba"
+      },
+      {
+        "name": "Rose Timbo",
+        "location": "Mbalu",
+        "contact": "992518505",
+        "value_chain": "Rice",
+        "recommended_starting_quantities": "Any quantity",
+        "district": "Zomba"
+      },
+      {
+        "name": "Denson Chita",
+        "location": "Mpyupyu Market",
+        "contact": "995756075",
+        "value_chain": "Rice",
+        "recommended_starting_quantities": "Any quantity",
+        "district": "Zomba"
+      },
+      {
+        "name": "Florence Tutuma",
+        "location": "Mpyupyu Market",
+        "contact": "999732676",
+        "value_chain": "Rice",
+        "recommended_starting_quantities": "Any quantity",
+        "district": "Zomba"
+      },
+      {
+        "name": "Juliana Lifa",
+        "location": "Mpyupyu Market",
+        "contact": "999732676",
+        "value_chain": "Rice",
+        "recommended_starting_quantities": "Any quantity",
+        "district": "Zomba"
+      },
+      {
+        "name": "Magret Wayekha",
+        "location": "Mpyupyu Market",
+        "contact": "992300335",
+        "value_chain": "Rice",
+        "recommended_starting_quantities": "Any quantity",
+        "district": "Zomba"
+      },
+      {
+        "name": "Alfreed Matope",
+        "location": "Mpyupyu Market",
+        "contact": "995756075",
+        "value_chain": "Rice",
+        "recommended_starting_quantities": "Any quantity",
+        "district": "Zomba"
+      },
+      {
+        "name": "Aisha Taibu",
+        "location": "Mpyupyu Market",
+        "contact": "894301273",
+        "value_chain": "Pigeon Peas",
+        "recommended_starting_quantities": "Any quantity",
+        "district": "Zomba"
+      },
+      {
+        "name": "Washington Shaibu Phekere",
+        "location": "Mpyupyu Market",
+        "contact": "899215809",
+        "value_chain": "Pigeon Peas",
+        "recommended_starting_quantities": "Any quantity",
+        "district": "Zomba"
+      },
+      {
+        "name": "Fred Chidule",
+        "location": "Mpyupyu Market",
+        "contact": "988750333",
+        "value_chain": "Pigeon Peas",
+        "recommended_starting_quantities": "Any quantity",
+        "district": "Zomba"
+      },
+      {
+        "name": "Stornad Msuku",
+        "location": "Khanda",
+        "contact": "991919112",
+        "value_chain": "Rice",
+        "recommended_starting_quantities": "Any quantity",
+        "district": "Zomba"
+      },
+      {
+        "name": "Fred Maluwa",
+        "location": "Khanda",
+        "contact": "987116252",
+        "value_chain": "Rice",
+        "recommended_starting_quantities": "Any quantity",
+        "district": "Zomba"
+      },
+      {
+        "name": "Anold Chimenya",
+        "location": "Njala",
+        "contact": "882357724",
+        "value_chain": "Pigeon Peas",
+        "recommended_starting_quantities": "Any quantity",
+        "district": "Zomba"
+      },
+      {
+        "name": "Paul Mwantisi",
+        "location": "Masala Trading centre",
+        "contact": "997373494",
+        "value_chain": "Rice",
+        "recommended_starting_quantities": "Any quantity",
+        "district": "Zomba"
+      },
+      {
+        "name": "Denis Mankhokwe",
+        "location": "Mina Trading centre",
+        "contact": "999351681",
+        "value_chain": "Rice",
+        "recommended_starting_quantities": "Any quantity",
+        "district": "Zomba"
+      },
+      {
+        "name": "Charles Segula",
+        "location": "Makawa Trading Centre",
+        "contact": "992249334",
+        "value_chain": "Rice",
+        "recommended_starting_quantities": "Any quantity",
+        "district": "Zomba"
+      },
+      {
+        "name": "Royd Taibu",
+        "location": "Ramusi Trading Centre",
+        "contact": "993393686",
+        "value_chain": "Rice",
+        "recommended_starting_quantities": "Any quantity",
+        "district": "Zomba"
+      },
+      {
+        "name": "Saidi Kadangwe",
+        "location": "Songani",
+        "contact": "994823708",
+        "value_chain": "Pigeon Peas",
+        "recommended_starting_quantities": "Any quantity",
+        "district": "Zomba"
+      },
+      {
+        "name": "James Liston",
+        "location": "Songani",
+        "contact": "995525420",
+        "value_chain": "Pigeon Peas",
+        "recommended_starting_quantities": "Any quantity",
+        "district": "Zomba"
+      },
+      {
+        "name": "Chikondi Kamwandiphoso",
+        "location": "Songani",
+        "contact": "997552654",
+        "value_chain": "Rice",
+        "recommended_starting_quantities": "Any quantity",
+        "district": "Zomba"
+      },
+      {
+        "name": "Cassia Mbwana",
+        "location": "Songani",
+        "contact": "885873814",
+        "value_chain": "Pigeon Peas",
+        "recommended_starting_quantities": "Any quantity",
+        "district": "Zomba"
+      },
+      {
+        "name": "Sylvester Banda",
+        "location": "Songani",
+        "contact": ["990330982", "882817923"],
+        "value_chain": "Rice",
+        "recommended_starting_quantities": "Any quantity",
+        "district": "Zomba"
+      },
+      {
+        "name": "Saidi Kadangwe",
+        "location": "Songani",
+        "contact": "994823708",
+        "value_chain": "Pigeon Peas",
+        "recommended_starting_quantities": "Any quantity",
+        "district": "Zomba"
+      },
+      {
+        "name": "James Liston",
+        "location": "Songani",
+        "contact": "995525420",
+        "value_chain": "Pigeon Peas",
+        "recommended_starting_quantities": "Any quantity",
+        "district": "Zomba"
+      },
+      {
+        "name": "Ken Halare",
+        "location": "Songani",
+        "contact": "888759633",
+        "value_chain": "Pigeon Peas",
+        "recommended_starting_quantities": "Any quantity",
+        "district": "Zomba"
+      },
+      {
+        "name": "Lawrence Chipojola",
+        "location": "Songani",
+        "contact": "995912001",
+        "value_chain": "Pigeon Peas and Rice",
+        "recommended_starting_quantities": "Any quantity",
+        "district": "Zomba"
+      },
+      {
+        "name": "Master Dulla",
+        "location": "Songani",
+        "contact": "991978211",
+        "value_chain": "Rice and Pigeon Peas",
+        "recommended_starting_quantities": "Any quantity",
+        "district": "Zomba"
+      },
+      {
+        "name": "Charles S Muwa",
+        "location": "Songani",
+        "contact": "997270784",
+        "value_chain": "Pigeon Peas and Rice",
+        "recommended_starting_quantities": "Any quantity",
+        "district": "Zomba"
+      },
+      {
+        "name": "Blessings Daudi",
+        "location": "Songani",
+        "contact": "990000957",
+        "value_chain": "Pigeon Peas",
+        "recommended_starting_quantities": "Any quantity",
+        "district": "Zomba"
+      },
+      {
+        "name": "Enerst Malikebu",
+        "location": "Jokala",
+        "contact": "990183856",
+        "value_chain": "Rice and Pigeon Peas",
+        "recommended_starting_quantities": "Any quantity",
+        "district": "Zomba"
+      },
+      {
+        "name": "Ken Halare",
+        "location": "Songani",
+        "contact": "888759633",
+        "value_chain": "Pigeon Peas",
+        "recommended_starting_quantities": "Any quantity",
+        "district": "Zomba"
+      },
+      {
+        "name": "Ethel Katinji",
+        "location": "Namwera Turnoff",
+        "contact": "999023350",
+        "value_chain": "Rice and Pigeon Peas",
+        "recommended_starting_quantities": "Any quantity",
+        "district": "Zomba"
+      },
+      {
+        "name": "Davie Taulo",
+        "location": "Mayaka",
+        "contact": "992070007",
+        "value_chain": "Ppeas",
+        "recommended_starting_quantities": "5000kg",
+        "district": "Zomba"
+      },
+      {
+        "name": "Mbwindinga",
+        "location": "Mayaka",
+        "contact": "998189395",
+        "value_chain": "Ppeas",
+        "recommended_starting_quantities": "15000kg",
+        "district": "Zomba"
+      },
+      {
+        "name": "Muhuwabrothers",
+        "location": "Mayaka",
+        "contact": "992414695",
+        "value_chain": "Ppeas",
+        "recommended_starting_quantities": "6000kg",
+        "district": "Zomba"
+      },
+      {
+        "name": "Chauluka Investment",
+        "location": "Mayaka",
+        "contact": "992311226",
+        "value_chain": "Ppeas",
+        "recommended_starting_quantities": "10000kg",
+        "district": "Zomba"
+      },
+      {
+        "name": "James Macdonald",
+        "location": "Mayaka",
+        "contact": "888580094",
+        "value_chain": "Ppeas",
+        "recommended_starting_quantities": "15000kg",
+        "district": "Zomba"
+      },
+      {
+        "name": "Bola Kufika",
+        "location": "Mayaka",
+        "contact": "882449012",
+        "value_chain": "Ppeas",
+        "recommended_starting_quantities": "30000kg",
+        "district": "Zomba"
+      },
+      {
+        "name": "Thomson Chigamba",
+        "location": "Ngwelero",
+        "contact": "998101050",
+        "value_chain": "Ppeas",
+        "recommended_starting_quantities": "Any quantity",
+        "district": "Zomba"
+      },
+      {
+        "name": "Maxwel Kamowa",
+        "location": "Sunuzi",
+        "contact": "997587100",
+        "value_chain": "Ppeas",
+        "recommended_starting_quantities": "Any quantity",
+        "district": "Zomba"
+      },
+      {
+        "name": "Fredrick Naonje",
+        "location": "Govala",
+        "contact": "993700301",
+        "value_chain": "Rice",
+        "recommended_starting_quantities": "Any quantity",
+        "district": "Zomba"
+      },
+      {
+        "name": "Patrick Mphepo",
+        "location": "Sunuzi",
+        "contact": "999536475",
+        "value_chain": "Pigeon Peas",
+        "recommended_starting_quantities": "Any quantity",
+        "district": "Zomba"
+      },
+      {
+        "name": "Evance Kamanja",
+        "location": "Jali",
+        "contact": "996087626",
+        "value_chain": "Ppeas",
+        "recommended_starting_quantities": "Any quantity",
+        "district": "Zomba"
+      },
+      {
+        "name": "Steven Linje",
+        "location": "Jali",
+        "contact": "888559004",
+        "value_chain": "Ppeas",
+        "recommended_starting_quantities": "Any quantity",
+        "district": "Zomba"
+      },
+      {
+        "name": "Makawa Investments",
+        "location": "Jali",
+        "contact": "888042628",
+        "value_chain": "Ppeas",
+        "recommended_starting_quantities": "Any quantity",
+        "district": "Zomba"
+      },
+      {
+        "name": "Vincent Nkhunguzu",
+        "location": "Jali",
+        "contact": "991209383",
+        "value_chain": "Ppeas",
+        "recommended_starting_quantities": "Any quantity",
+        "district": "Zomba"
+      },
+      {
+        "name": "CHAMBA Investments",
+        "location": "Jali",
+        "contact": ["0993744612", "0888519384"],
+        "value_chain": "Ppeas",
+        "recommended_starting_quantities": "Any quantity",
+        "district": "Zomba"
+      },
+      {
+        "name": "Akalakane Investments",
+        "location": "Jali",
+        "contact": ["0994487103", "0887686669"],
+        "value_chain": "Ppeas",
+        "recommended_starting_quantities": "Any quantity",
+        "district": "Zomba"
+      },
+      {
+        "name": "Lovemore Namalika",
+        "location": "Jali",
+        "contact": ["099811117", "0881192202"],
+        "value_chain": "Ppeas & Rice",
+        "recommended_starting_quantities": "Any quantity",
+        "district": "Zomba"
+      },
+      {
+        "name": "Aida Kapito",
+        "location": "Jali",
+        "contact": "993352129",
+        "value_chain": "Ppeas & Rice",
+        "recommended_starting_quantities": "Any quantity",
+        "district": "Zomba"
+      },
+      {
+        "name": "Rambo Trading",
+        "location": "Limbe-Auction floors",
+        "contact": "999361241",
+        "value_chain": "Rice & Pigeon peas",
+        "recommended_starting_quantities": "10 Tons",
+        "district": "Zomba"
+      },
+      {
+        "name": "Rab processors",
+        "location": "Limbe",
+        "contact": "0888 824 709",
+        "value_chain": "Rice & Pigeon peas",
+        "recommended_starting_quantities": "10 Tons",
+        "district": "Zomba"
+      },
+      {
+        "name": "Paramount",
+        "location": "Limbe",
+        "contact": "0999 868 872",
+        "value_chain": "Pigeon peas",
+        "recommended_starting_quantities": "5 Tons",
+        "district": "Zomba"
+      },
+      {
+        "name": "Transglobe",
+        "location": "Limbe",
+        "contact": "0995 595 132",
+        "value_chain": "Pigeon peas",
+        "recommended_starting_quantities": "5 Tons",
+        "district": "Zomba"
+      },
+      {
+        "name": "Afri-Ventures",
+        "location": "Limbe",
+        "contact": "0998 063 459",
+        "value_chain": "Pigeon peas",
+        "recommended_starting_quantities": "10 Tons",
+        "district": "Zomba"
+      },
+      {
+        "name": "Fasa",
+        "location": "Limbe",
+        "contact": "08888 28786",
+        "value_chain": "Pigeon peas",
+        "recommended_starting_quantities": "15 Tons",
+        "district": "Zomba"
+      },
+      {
+        "name": "Saga Trading",
+        "location": "Limbe",
+        "contact": "0999 510 443",
+        "value_chain": "Pigeon peas",
+        "recommended_starting_quantities": "10 Tons",
+        "district": "Zomba"
+      },
+      {
+        "name": "HMS Foods",
+        "location": "Limbe",
+        "contact": "990426582",
+        "value_chain": "Pigeon peas",
+        "recommended_starting_quantities": "10 Tons",
+        "district": "Zomba"
+      },
+      {
+        "name": "Nkhungudzu General Dealers and Suppliers",
+        "location": "Thondwe",
+        "contact": "991209383",
+        "value_chain": "Pigeon peas",
+        "recommended_starting_quantities": "500kgs",
+        "district": "Zomba"
+      },
+      {
+        "name": "Mayi Annie Chamba (Chamba Investments)",
+        "location": "Mayaka, Jali, Mwambo",
+        "contact": ["999519384", "993744612", "888519384"],
+        "value_chain": "Pigeon peas",
+        "recommended_starting_quantities": "500kgs",
+        "district": "Zomba"
+      },
+      {
+        "name": "Akalakane Investments",
+        "location": "Chingale, Nkapita, Masaula",
+        "contact": ["994487103", "887686669"],
+        "value_chain": "Pigeon peas",
+        "recommended_starting_quantities": "500kgs",
+        "district": "Zomba"
+      },
+      {
+        "name": "Dyson Goliati",
+        "location": "Ngwelero",
+        "contact": ["997163346", "880767450"],
+        "value_chain": "Pigeon peas",
+        "recommended_starting_quantities": "500kgs",
+        "district": "Zomba"
+      },
+      {
+        "name": "Mitambalika Investments",
+        "location": "Mbiza",
+        "contact": ["888042628", "880767450"],
+        "value_chain": "Pigeon peas",
+        "recommended_starting_quantities": "500kgs",
+        "district": "Zomba"
+      },
+      {
+        "name": "Patrick Makawa",
+        "location": "TA Ntholowa",
+        "contact": ["888042628", "998083649"],
+        "value_chain": "Pigeon peas",
+        "recommended_starting_quantities": "500kgs",
+        "district": "Zomba"
+      },
+
+
+    
+
+    {
+        "name": "Gilbert Kadzanja",
+        "location": "Ntchisi Boma",
+        "contact": "991034899",
+        "value_chain": "Soya & beans",
+        "recommended_starting_quantities": "40 Tonnes",
+        "district": "Ntchisi"
+      },
+      {
+        "name": "Lawrence Kapakasa",
+        "location": "Ntchisi Boma",
+        "contact": "999303409",
+        "value_chain": "Soya",
+        "recommended_starting_quantities": "20 Tonnes",
+        "district": "Ntchisi"
+      },
+      {
+        "name": "Nason Chifu",
+        "location": "Ntchisi Boma",
+        "contact": "999295452",
+        "value_chain": "Soya & beans",
+        "recommended_starting_quantities": "35 Tonnes",
+        "district": "Ntchisi"
+      },
+      {
+        "name": "Sunseed Oil",
+        "location": "Lilongwe",
+        "contact": "999419099",
+        "value_chain": "Soya",
+        "recommended_starting_quantities": "100,000 Tonnes",
+        "district": "Ntchisi"
+      },
+      {
+        "name": "Nyanda Chiwembu",
+        "location": "Ntchisi Boma",
+        "contact": "999339092",
+        "value_chain": "Soya",
+        "recommended_starting_quantities": "600 Tonnes",
+        "district": "Ntchisi"
+      },
+      {
+        "name": "Chikondi Kalulu",
+        "location": "Ntchisi Boma",
+        "contact": "999616177",
+        "value_chain": "Soya",
+        "recommended_starting_quantities": "400 Tonnes",
+        "district": "Ntchisi"
+      },
+      {
+        "name": "Innocent Chazama",
+        "location": "Ntchisi Boma",
+        "contact": "996565688",
+        "value_chain": "Soya",
+        "recommended_starting_quantities": "100 Tonnes",
+        "district": "Ntchisi"
+      },
+      {
+        "name": "NEMA Seeds",
+        "location": "Lilongwe",
+        "contact": "999580854",
+        "value_chain": "G/nuts",
+        "recommended_starting_quantities": "300 Tonnes",
+        "district": "Ntchisi"
+      },
+      {
+        "name": "Chitsosa",
+        "location": "Mponera",
+        "contact": "999303572",
+        "value_chain": "G/nuts & soya",
+        "recommended_starting_quantities": "100,000 Tonnes",
+        "district": "Ntchisi"
+      },
+      {
+        "name": "Mandere",
+        "location": "Mponera",
+        "contact": "994902104",
+        "value_chain": "G/nuts & soya",
+        "recommended_starting_quantities": "50,000 Tonnes",
+        "district": "Ntchisi"
+      },
+      {
+        "name": "Henry Chikho",
+        "location": "Ntchisi Boma",
+        "contact": "991641650",
+        "value_chain": "Soya & beans",
+        "recommended_starting_quantities": "10 Tonnes",
+        "district": "Ntchisi"
+      },
+      {
+        "name": "Martin Magambo",
+        "location": "Ntchisi Boma",
+        "contact": "993742417",
+        "value_chain": "Soya & beans",
+        "recommended_starting_quantities": "15 Tonnes",
+        "district": "Ntchisi"
+      },
+      {
+        "name": "Chikondi Kalulu",
+        "location": "Ntchisi Boma",
+        "contact": "999616177",
+        "value_chain": "Soya & beans",
+        "recommended_starting_quantities": "35 Tonnes",
+        "district": "Ntchisi"
+      },
+      {
+        "name": "Blessings Kang’ombe",
+        "location": "Ntchisi Boma",
+        "contact": "996067465",
+        "value_chain": "Soya & beans",
+        "recommended_starting_quantities": "30 Tonnes",
+        "district": "Ntchisi"
+      },
+      {
+        "name": "Msanide Chikumbutso",
+        "location": "Ntchisi Boma",
+        "contact": "991543099",
+        "value_chain": "Soya & beans",
+        "recommended_starting_quantities": "10 Tonnes",
+        "district": "Ntchisi"
+      },
+      {
+        "name": "Davie Chiunjiza",
+        "location": "Ntchisi Boma",
+        "contact": "999410912",
+        "value_chain": "Soya, G/nuts & beans",
+        "recommended_starting_quantities": "35 Tonnes",
+        "district": "Ntchisi"
+      },
+      {
+        "name": "Green Phiri Agro-dealers",
+        "location": "Malomo",
+        "contact": "999073799",
+        "value_chain": "Soya, G/nuts & beans",
+        "recommended_starting_quantities": "30 Tonnes",
+        "district": "Ntchisi"
+      },
+      {
+        "name": "Che Nazombe Agro-dealer",
+        "location": "Malomo",
+        "contact": "994115991",
+        "value_chain": "Soya, G/nuts & beans",
+        "recommended_starting_quantities": "25 Tonnes",
+        "district": "Ntchisi"
+      },
+      {
+        "name": "C.J Investment",
+        "location": "Malomo",
+        "contact": "999485676",
+        "value_chain": "Soya, G/nuts & beans",
+        "recommended_starting_quantities": "300 Tonnes",
+        "district": "Ntchisi"
+      },
+      {
+        "name": "Jungle & Silla Agro-dealers",
+        "location": "Malomo",
+        "contact": "999492077",
+        "value_chain": "Soya, G/nuts & beans",
+        "recommended_starting_quantities": "50 Tonnes",
+        "district": "Ntchisi"
+      },
+      {
+        "name": "Kachere Agro-dealers",
+        "location": "Malomo",
+        "contact": "987707702",
+        "value_chain": "Soya, G/nuts & beans",
+        "recommended_starting_quantities": "200 Tonnes",
+        "district": "Ntchisi"
+      },
+      {
+        "name": "Kalima Investment",
+        "location": "Malomo",
+        "contact": "983483525",
+        "value_chain": "Soya, G/nuts & beans",
+        "recommended_starting_quantities": "10 Tonnes",
+        "district": "Ntchisi"
+      },
+      {
+        "name": "Hope of Grolly Investment",
+        "location": "Malomo",
+        "contact": "995454757",
+        "value_chain": "Soya, G/nuts & beans",
+        "recommended_starting_quantities": "20 Tonnes",
+        "district": "Ntchisi"
+      },
+      {
+        "name": "Kamuyambeni Agro-dealers",
+        "location": "",
+        "contact": "",
+        "value_chain": "Soya, G/nuts & beans",
+        "recommended_starting_quantities": "",
+        "district": "Ntchisi"
+      },
+      {
+        "name": "Pingeni Agro-dealers",
+        "location": "Malomo",
+        "contact": "995454757",
+        "value_chain": "Soya, G/nuts & beans",
+        "recommended_starting_quantities": "15 Tonnes",
+        "district": "Ntchisi"
+      },
+      {
+        "name": "",
+        "location": "Malomo",
+        "contact": "993576674",
+        "value_chain": "",
+        "recommended_starting_quantities": "10 Tonnes",
+        "district": "Ntchisi"
+      },
+      {
+        "name": "Sun seed oil",
+        "location": "Lilongwe",
+        "contact": "999419899",
+        "value_chain": "Soybean and Groundnuts",
+        "recommended_starting_quantities": "",
+        "district": "Mchinji"
+      },
+      {
+        "name": "Milere Agro processing",
+        "location": "Lilongwe",
+        "contact": "993328408",
+        "value_chain": "Soybean and Groundnuts",
+        "recommended_starting_quantities": "",
+        "district": "Mchinji"
+      },
+      {
+        "name": "Milere Agro processing- Gloria",
+        "location": "Lilongwe",
+        "contact": "994183164",
+        "value_chain": "Soybean and Groundnuts",
+        "recommended_starting_quantities": "",
+        "district": "Mchinji"
+      },
+      {
+        "name": "Paramount",
+        "location": "Lilongwe",
+        "contact": "997946625",
+        "value_chain": "Soybean and Groundnuts",
+        "recommended_starting_quantities": "",
+        "district": "Mchinji"
+      },
+      {
+        "name": "Paramount",
+        "location": "Njewa- Lilongwe",
+        "contact": "984660755",
+        "value_chain": "Soybean and Groundnuts",
+        "recommended_starting_quantities": "",
+        "district": "Mchinji"
+      },
+      {
+        "name": "Paramount",
+        "location": "Msundwe- Lilongwe",
+        "contact": "991330800",
+        "value_chain": "Soybean and Groundnuts",
+        "recommended_starting_quantities": "",
+        "district": "Mchinji"
+      },
+      {
+        "name": "Yamikani investment",
+        "location": "Lilongwe",
+        "contact": "999211058",
+        "value_chain": "Soybean and Groundnuts",
+        "recommended_starting_quantities": "",
+        "district": "Mchinji"
+      },
+      {
+        "name": "Agricultural Commodities Exchange",
+        "location": "Lilongwe",
+        "contact": "",
+        "value_chain": "Soybean and Groundnuts",
+        "recommended_starting_quantities": "",
+        "district": "Mchinji"
+      },
+      {
+        "name": "National Food Reserve Agency",
+        "location": "Lilongwe",
+        "contact": "",
+        "value_chain": "Soybean and Groundnuts",
+        "recommended_starting_quantities": "",
+        "district": "Mchinji"
+      },
+      {
+        "name": "World Food Program",
+        "location": "Lilongwe",
+        "contact": "",
+        "value_chain": "Soybean and Groundnuts",
+        "recommended_starting_quantities": "",
+        "district": "Mchinji"
+      },
+      {
+        "name": "Khama Investment",
+        "location": "Mchinji Boma",
+        "contact": "",
+        "value_chain": "Soybean and Groundnuts",
+        "recommended_starting_quantities": "",
+        "district": "Mchinji"
+      },
+      {
+        "name": "Jafali Nakwanje",
+        "business_name": "AGRO-QUIP",
+        "location": "Mangochi",
+        "contact": "0993463616",
+        "value_chain": "Not Specified",
+        "recommended_starting_quantities": "Supplier",
+        "district": "Mangochi"
+      },
+      {
+        "name": "Judith Katumbu",
+        "business_name": "Pretab Investments",
+        "location": "Mangochi",
+        "contact": "0997007011",
+        "value_chain": "Not Specified",
+        "recommended_starting_quantities": "Both",
+        "district": "Mangochi"
+      },
+      {
+        "name": "Meria Phiri",
+        "business_name": "Agri-Village",
+        "location": "Mangochi",
+        "contact": "0993997835",
+        "value_chain": "Not Specified",
+        "recommended_starting_quantities": "Both",
+        "district": "Mangochi"
+      },
+      {
+        "name": "Meria Nyambi",
+        "business_name": "EMCN",
+        "location": "Mangochi",
+        "contact": "0887896363",
+        "value_chain": "Not Specified",
+        "recommended_starting_quantities": "Supplier",
+        "district": "Mangochi"
+      },
+      {
+        "name": "Susan Ali Mzunga",
+        "business_name": "AHSULU Agro-Dealer",
+        "location": "Mangochi",
+        "contact": "0999488993",
+        "value_chain": "Not Specified",
+        "recommended_starting_quantities": "Supplier",
+        "district": "Mangochi"
+      },
+      {
+        "name": "Masida Chambo",
+        "business_name": "Bulawayo Agro-Dealer",
+        "location": "Mangochi",
+        "contact": "0999428795",
+        "value_chain": "Not Specified",
+        "recommended_starting_quantities": "Supplier",
+        "district": "Mangochi"
+      },
+      {
+        "name": "Austin Saidi",
+        "business_name": "Hope Agro-Dealer",
+        "location": "Mangochi",
+        "contact": "0999459398",
+        "value_chain": "Not Specified",
+        "recommended_starting_quantities": "Supplier",
+        "district": "Mangochi"
+      },
+      {
+        "name": "Chifundo Manyamba",
+        "business_name": "Greenpath Agri-Solutions",
+        "location": "Mangochi",
+        "contact": "0882859662",
+        "value_chain": "Not Specified",
+        "recommended_starting_quantities": "Both",
+        "district": "Mangochi"
+      },
+      {
+        "name": "Gift Njolomole",
+        "business_name": "GEF Investments",
+        "location": "Mangochi",
+        "contact": "0999745414",
+        "value_chain": "Not Specified",
+        "recommended_starting_quantities": "Both",
+        "district": "Mangochi"
+      },
+      {
+        "name": "Binali Benard",
+        "business_name": "Pangali Changamala",
+        "location": "Mangochi",
+        "contact": "0888131166",
+        "value_chain": "Not Specified",
+        "recommended_starting_quantities": "Both",
+        "district": "Mangochi"
+      },
+      {
+        "name": "George Banda",
+        "business_name": "Unity Agro-Dealer",
+        "location": "Mangochi",
+        "contact": "0998099384",
+        "value_chain": "Not Specified",
+        "recommended_starting_quantities": "Supplier",
+        "district": "Mangochi"
+      },
+      {
+        "name": "Blessings Kandoje",
+        "business_name": "ZAM Agro-Dealer",
+        "location": "Mangochi",
+        "contact": "0888798727",
+        "value_chain": "Not Specified",
+        "recommended_starting_quantities": "Supplier",
+        "district": "Mangochi"
+      },
+      {
+        "name": "Omar Sufian",
+        "business_name": "Omar Agro-Dealer",
+        "location": "Mangochi",
+        "contact": "0999347597",
+        "value_chain": "Not Specified",
+        "recommended_starting_quantities": "Supplier",
+        "district": "Mangochi"
+      },
+      {
+        "name": "Dafter Majiya",
+        "business_name": "Vision Agro-Dealer",
+        "location": "Mangochi",
+        "contact": "0999290505",
+        "value_chain": "Not Specified",
+        "recommended_starting_quantities": "Both",
+        "district": "Mangochi"
+      },
+      {
+        "name": "Latibu Kamphulusa",
+        "business_name": "Atupele Agro-Dealer",
+        "location": "Mangochi",
+        "contact": "0999259435",
+        "value_chain": "Not Specified",
+        "recommended_starting_quantities": "Supplier",
+        "district": "Mangochi"
+      },
+      {
+        "name": "Elaton Salimu",
+        "business_name": "Salimu Agro-Dealer",
+        "location": "Mangochi",
+        "contact": "0996109662",
+        "value_chain": "Not Specified",
+        "recommended_starting_quantities": "Supplier",
+        "district": "Mangochi"
+      }
+    
+
+    ]
+  }
+  

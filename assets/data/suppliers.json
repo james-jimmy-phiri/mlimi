@@ -1,0 +1,253 @@
+{
+    "maize": [
+      {
+        "customer_name": "John Doe",
+        "contact_number": "123456789",
+        "location_name": "Location A",
+        "quantities": "1000 kg",
+        "preferred_selling_price": "200 USD/ton",
+        "image_url": "https://via.placeholder.com/150"
+      },
+      {
+        "customer_name": "John Doe",
+        "contact_number": "123456789",
+        "location_name": "Location A",
+        "quantities": "1000 kg",
+        "preferred_selling_price": "200 USD/ton",
+        "image_url": "https://via.placeholder.com/150"
+      },
+      {
+        "customer_name": "John Doe",
+        "contact_number": "123456789",
+        "location_name": "Location A",
+        "quantities": "1000 kg",
+        "preferred_selling_price": "200 USD/ton",
+        "image_url": "https://via.placeholder.com/150"
+      },
+      {
+        "customer_name": "John Doe",
+        "contact_number": "123456789",
+        "location_name": "Location A",
+        "quantities": "1000 kg",
+        "preferred_selling_price": "200 USD/ton",
+        "image_url": "https://via.placeholder.com/150"
+      },
+      {
+        "customer_name": "John Doe",
+        "contact_number": "123456789",
+        "location_name": "Location A",
+        "quantities": "1000 kg",
+        "preferred_selling_price": "200 USD/ton",
+        "image_url": "https://via.placeholder.com/150"
+      },
+      {
+        "customer_name": "John Doe",
+        "contact_number": "123456789",
+        "location_name": "Location A",
+        "quantities": "1000 kg",
+        "preferred_selling_price": "200 USD/ton",
+        "image_url": "https://via.placeholder.com/150"
+      }
+    ],
+    "groundnuts": [
+      {
+        "customer_name": "Jane Smith",
+        "contact_number": "987654321",
+        "location_name": "Location B",
+        "quantities": "500 kg",
+        "preferred_selling_price": "300 USD/ton",
+        "image_url": "https://via.placeholder.com/150"
+      },
+      {
+        "customer_name": "John Doe",
+        "contact_number": "123456789",
+        "location_name": "Location A",
+        "quantities": "1000 kg",
+        "preferred_selling_price": "200 USD/ton",
+        "image_url": "https://via.placeholder.com/150"
+      },
+      {
+        "customer_name": "John Doe",
+        "contact_number": "123456789",
+        "location_name": "Location A",
+        "quantities": "1000 kg",
+        "preferred_selling_price": "200 USD/ton",
+        "image_url": "https://via.placeholder.com/150"
+      },
+      {
+        "customer_name": "John Doe",
+        "contact_number": "123456789",
+        "location_name": "Location A",
+        "quantities": "1000 kg",
+        "preferred_selling_price": "200 USD/ton",
+        "image_url": "https://via.placeholder.com/150"
+      },
+      {
+        "customer_name": "John Doe",
+        "contact_number": "123456789",
+        "location_name": "Location A",
+        "quantities": "1000 kg",
+        "preferred_selling_price": "200 USD/ton",
+        "image_url": "https://via.placeholder.com/150"
+      },
+      {
+        "customer_name": "John Doe",
+        "contact_number": "123456789",
+        "location_name": "Location A",
+        "quantities": "1000 kg",
+        "preferred_selling_price": "200 USD/ton",
+        "image_url": "https://via.placeholder.com/150"
+      }
+    ],
+    "rice": [
+        {
+          "customer_name": "Jane Smith",
+          "contact_number": "987654321",
+          "location_name": "Location B",
+          "quantities": "500 kg",
+          "preferred_selling_price": "300 USD/ton",
+          "image_url": "https://via.placeholder.com/150"
+        },
+        {
+          "customer_name": "John Doe",
+          "contact_number": "123456789",
+          "location_name": "Location A",
+          "quantities": "1000 kg",
+          "preferred_selling_price": "200 USD/ton",
+          "image_url": "https://via.placeholder.com/150"
+        },
+        {
+          "customer_name": "John Doe",
+          "contact_number": "123456789",
+          "location_name": "Location A",
+          "quantities": "1000 kg",
+          "preferred_selling_price": "200 USD/ton",
+          "image_url": "https://via.placeholder.com/150"
+        },
+        {
+          "customer_name": "John Doe",
+          "contact_number": "123456789",
+          "location_name": "Location A",
+          "quantities": "1000 kg",
+          "preferred_selling_price": "200 USD/ton",
+          "image_url": "https://via.placeholder.com/150"
+        },
+        {
+          "customer_name": "John Doe",
+          "contact_number": "123456789",
+          "location_name": "Location A",
+          "quantities": "1000 kg",
+          "preferred_selling_price": "200 USD/ton",
+          "image_url": "https://via.placeholder.com/150"
+        },
+        {
+          "customer_name": "John Doe",
+          "contact_number": "123456789",
+          "location_name": "Location A",
+          "quantities": "1000 kg",
+          "preferred_selling_price": "200 USD/ton",
+          "image_url": "https://via.placeholder.com/150"
+        }
+      ],
+      "cassava": [
+        {
+          "customer_name": "Jane Smith",
+          "contact_number": "987654321",
+          "location_name": "Location B",
+          "quantities": "500 kg",
+          "preferred_selling_price": "300 USD/ton",
+          "image_url": "https://via.placeholder.com/150"
+        },
+        {
+          "customer_name": "John Doe",
+          "contact_number": "123456789",
+          "location_name": "Location A",
+          "quantities": "1000 kg",
+          "preferred_selling_price": "200 USD/ton",
+          "image_url": "https://via.placeholder.com/150"
+        },
+        {
+          "customer_name": "John Doe",
+          "contact_number": "123456789",
+          "location_name": "Location A",
+          "quantities": "1000 kg",
+          "preferred_selling_price": "200 USD/ton",
+          "image_url": "https://via.placeholder.com/150"
+        },
+        {
+          "customer_name": "John Doe",
+          "contact_number": "123456789",
+          "location_name": "Location A",
+          "quantities": "1000 kg",
+          "preferred_selling_price": "200 USD/ton",
+          "image_url": "https://via.placeholder.com/150"
+        },
+        {
+          "customer_name": "John Doe",
+          "contact_number": "123456789",
+          "location_name": "Location A",
+          "quantities": "1000 kg",
+          "preferred_selling_price": "200 USD/ton",
+          "image_url": "https://via.placeholder.com/150"
+        },
+        {
+          "customer_name": "John Doe",
+          "contact_number": "123456789",
+          "location_name": "Location A",
+          "quantities": "1000 kg",
+          "preferred_selling_price": "200 USD/ton",
+          "image_url": "https://via.placeholder.com/150"
+        }
+      ],
+      "soya": [
+        {
+          "customer_name": "Jane Smith",
+          "contact_number": "987654321",
+          "location_name": "Location B",
+          "quantities": "500 kg",
+          "preferred_selling_price": "300 USD/ton",
+          "image_url": "https://via.placeholder.com/150"
+        },
+        {
+          "customer_name": "John Doe",
+          "contact_number": "123456789",
+          "location_name": "Location A",
+          "quantities": "1000 kg",
+          "preferred_selling_price": "200 USD/ton",
+          "image_url": "https://via.placeholder.com/150"
+        },
+        {
+          "customer_name": "John Doe",
+          "contact_number": "123456789",
+          "location_name": "Location A",
+          "quantities": "1000 kg",
+          "preferred_selling_price": "200 USD/ton",
+          "image_url": "https://via.placeholder.com/150"
+        },
+        {
+          "customer_name": "John Doe",
+          "contact_number": "123456789",
+          "location_name": "Location A",
+          "quantities": "1000 kg",
+          "preferred_selling_price": "200 USD/ton",
+          "image_url": "https://via.placeholder.com/150"
+        },
+        {
+          "customer_name": "John Doe",
+          "contact_number": "123456789",
+          "location_name": "Location A",
+          "quantities": "1000 kg",
+          "preferred_selling_price": "200 USD/ton",
+          "image_url": "https://via.placeholder.com/150"
+        },
+        {
+          "customer_name": "John Doe",
+          "contact_number": "123456789",
+          "location_name": "Location A",
+          "quantities": "1000 kg",
+          "preferred_selling_price": "200 USD/ton",
+          "image_url": "https://via.placeholder.com/150"
+        }
+      ]
+  }
+  

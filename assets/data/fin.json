@@ -1,0 +1,558 @@
+{
+    "financialthemes": [
+        {
+            "id": 1,
+            "name": "Understanding Financial Literacy",
+            "sub_themes": [
+                {
+                    "id": 1,
+                    "name": "Definitions",
+                    "key_messages": [
+                        {
+                            "title": "Financial literacy",
+                            "contents": [
+                                "Financial literacy refers to a variety of important financial skills and concepts that helps in financial decision making. It provides strong foundation that support various life goals, such as saving for children education or retirement, using loan responsibly, and running a business.",
+                                "It provides money education which is key stepping in making money"
+                            ]
+                        },
+                        {
+                            "title": "Financially literate person",
+                            "contents": [
+                                "A financially literate person has ability to grow, monitor and effectively use money in enhancing wellbeing and economic security of one self, family and business. Lack of basic financial skills contributes to personal hardship and broader economic risk.",
+                                "A financially literate person has ability to manage personal finances, select better financial services and products and translate knowledge into lifestyle."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": 2,
+                    "name": "Importance of financial literacy",
+                    "key_messages": [
+                        {
+                            "title": "Key Message",
+                            "contents": [
+                                "Improves personal/family decision making \u2013 being aware of advantages and disadvantages of one\u2019s financial decision",
+                                "Influences better choices and lifestyle \u2013 the person who knows financial products has advantage of making the decision to choose services that can help achieve long term financial goal; the good example is the retirement plan through pension products",
+                                "Self-management \u2013 this can be through budgeting to manage incomes and expenditures.",
+                                "Provides opportunities and variety of choices \u2013 knowing different types of products and providers can help one to grab opportunities available in their communities.",
+                                "Helps to identify financial risks \u2013 People who are financially literate are generally less vulnerable to financial fraud that usual come through\u00a0misleading, deceptive, or other illegal practices."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": 3,
+                    "name": "Understanding Personal Financial Management",
+                    "key_messages": [
+                        {
+                            "title": "Key Message",
+                            "contents": [
+                                "It is the efficient and effective utilization of money to accomplish individual or household objectives by ensuring economic empowerment and financial wellbeing",
+                                "It helps in making prudent financial decisions or methods of allocation of financial resources which an individual or a family unit is required to make taking into account various financial risks and future life events"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": 4,
+                    "name": "Good Financial Goals",
+                    "key_messages": [
+                        {
+                            "title": "Specific",
+                            "contents": [
+                                "state exactly what they want to achieve, how you are going to do it and when you want to achieve it."
+                            ]
+                        },
+                        {
+                            "title": "Measurable",
+                            "contents": [
+                                "A goal should be measurable so that one can know when it is achieved. Put the time and the amounts"
+                            ]
+                        },
+                        
+                        {
+                            "title": "Attainable",
+                            "contents": ["Make sure the goal is within reasonable reach."]
+                        },
+                        {
+                            "title": "Realistic",
+                            "contents": [
+                                "Is the goal realistic for you? Do not ignore your limitations. Your goals need to be ones that you can reasonably accomplish. For example: your goal should be in line with your income sources and the expenditures that you need to spend on."
+                            ]
+                        },
+                        {
+                            "title": "Trackable",
+                            "contents": [
+                                "Being able to track the progress encourages one to keep going and reach one goal."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": 5,
+                    "name": "Guiding Principles of PFM",
+                    "key_messages": [
+                        {
+                            "title": "Know and understand your income",
+                            "contents": [
+                                "Your current income is your starting point in whatever you want to achieve.",
+                                "The amount of money that you make in a given period of time, can be your initial capital.",
+                                "Live within that amount until such a time that your income has significantly changed."
+                            ]
+                        },
+                        {
+                            "title": "Determine what you need and what you can do without",
+                            "contents": [
+                                "It is important to distinguish between needs and wants",
+                                "Needs are things  that are needed to survive",
+                                "Wants are things that one desires but is able to do without",
+                                "Plan to meet your basic needs before thinking of any luxuries"
+                            ]
+                        },
+                        {
+                            "title": "Set Financial goals",
+                            "contents": [
+                                "Set a financial goal(s) to be able to manage your money well.",
+                                "Think of what you want in life and set goals towards achieving that",
+                                "If you are working for something that is important to you, and if you have a plan of action, you are more likely to succeed.",
+                                "If you feel that your income is not enough to meet your needs, decide what you can do with your current income to create an additional source of income."
+                            ]
+                        },
+                        {
+                            "title": "Raise money to meet your financial goals",
+                            "contents": [
+                                "After setting your financial goals, plan where you will get the money from. You can save little by little towards your financial goal.",
+                                "If you cannot get enough money from your income, raise additional money through home based projects (e.g. vegetable growing and marketing, roasting and selling of groundnuts, baking, etc.).",
+                                "You can also cut your expenses to save i.e. look for ways to spend less so that you can save some money to help you reach your financial goals."
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "name": "Budgeting",
+            "sub_themes": [
+                {
+                    "id": 1,
+                    "name": "Understanding a budget",
+                    "key_messages": [
+                        {
+                            "title": "Key Message",
+                            "contents": [
+                                "A budget is a financial plan on how to spend your income within a specified period of time.  For an effective budgeting process one need to understand where does money come from and when, and where does it go, and when.",
+                                "It helps in determining, well in advance, whether you will have enough or insufficient money to buy or pay for your expenses.",
+                                "It helps in ensuring that you are always tracking your income and expenses.",
+                                "It helps in prioritizing your needs over your wants.",
+                                "It helps in forward planning in case of financial shortfalls",
+                                "It helps to create avenues for savings"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": 2,
+                    "name": "Things to consider when budgeting",
+                    "key_messages": [
+                        {
+                            "title": "Key Message",
+                            "contents": [
+                                "Consult your household members - Sit down with your household members and discuss what the priority needs for the household are e.g. spouse, children.",
+                                "Predict your income - Know how much you are earning/receiving",
+                                "Determine your expenses - Outline your expenses and add them up. Ensure that your budgets prioritize needs over wants.",
+                                "Evaluate your Budget - Make sure expenses do not exceed expected income or else revise your budget by cutting on expenses.",
+                                "Identify area of saving - Make comparisons between expected income and expenses, remember to rank savings above all expenses for forward planning.",
+                                "Implement your budget - Develop your budget and start using it, spending only on those things that are on the budget"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": 3,
+                    "name": "Budgeting Tips",
+                    "key_messages": [
+                        {
+                            "title": "Key Message",
+                            "contents": [
+                                
+                                        "Remember your goals - Write them down. Put them where you can see them often and easily.",
+                                        "Be realistic - Connect spending to values. You need to be realistic about what you can live without and what you cannot. This will help you find ways to spend less and to save.",
+                                        "Make it simple - If your budget is too complex, you are less likely to stick to it. Use a system that is simple and easy to maintain.",
+                                        "Keep a record - Choose the best way for you to keep track of your spending. Your record might be in a little notebook.",
+                                        "Stay organized - You need to know where your financial records are and review them regularly. This saves time and reduces stress.",
+                                        "Include debt and savings in your budget - Use your monthly budget to reduce debt and increase savings. Otherwise, debt can grow out of control, while savings disappear.",
+                                        "Plan for change - Our expenses change. Our income changes. Our goals change. That is why you should review your budget regularly.",
+                                        "Be patient - The first few weeks of using a budget to guide your spending are often the hardest. Old habits can be hard to break and new ones hard to make. As time passes, you will grow more comfortable working with you budget.",
+                                        "Look for support - If you find you are getting off track, share your budget with someone you trust. Ask them to help you review your progress each month. To stay motivated, learn about people who are in control of their money and meeting their goals."
+                                
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": 4,
+                    "name": "Making your own budget",
+                    "key_messages": [
+                        {
+                            "title": "Step 1: List all sources of income in a month.",
+                            "contents": [
+                                "Put down how much is received from each source in a month. Add them up and divide them by 12. This is your Total Monthly Income."
+                            ]
+                        },
+                        {
+                            "title": "Step 2 List all expense categories.",
+                            "contents": [
+                                "Fixed expenses: Fill in the amounts for the fixed expenses first. The fixed expenses do not usually change each month.",
+                                "Seasonal spending: Next, identify and estimate how much is spend in each of variable categories. Includes things like yearly school fees, clothes for the kids, or farm inputs. Divide the total yearly cost by 12 to get an average monthly amount. Include that as a fixed expense in monthly budget.",
+                                "Pay yourself first: Include the monthly money you put aside to pay yourself so that you cover your most personal expenditures like airtime, transport to attend soccer match, etc.",
+                                "Savings: Put If you want to save towards a goal, take the total cost of the goal and divide it by the number of months you want to save up for it. Include that as a fixed expense in the budget. You can transfer the amounts for seasonal costs and savings goals out of your spending account into separate savings accounts. If you do that each month, the money builds up. It will be there for you to spend when you need it."
+                            ]
+                        },
+                        {
+                            "title": "Step 3: Adding up Income & Expenses Category",
+                            "contents": [
+                                "There will be a need to have totals for both categories. The incoming amount might be smaller than the outgoing, but a budget will help control that. The outgoing category needs more attention after getting a grand total.",
+                                "Add up Total Monthly Expenses. Subtract this amount from your Total Monthly Income."
+                            ]
+                        },
+                        {
+                            "title": "Step 4 - Revise your budget",
+                            "contents": [
+                                "If expenses are greater than income, there will be a need to relook in other categories. Where can you cut back on expenses? Where can you increase your income? Should you change your savings goals?"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "name": "Savings",
+            "sub_themes": [
+                {
+                    "id": 1,
+                    "name": "Understanding savings",
+                    "key_messages": [
+                        {
+                            "title": "Key Message",
+                            "contents": [
+                                "Saving is the practice of putting aside part of your current income for future use over a period of time. It is not done once but for a period of time. You may have to sacrifice current luxuries to save for a better future.",
+                                "Savings can be a springboard to economic empowerment and wealth creation.",
+                                "You also save for the unpredictable future",
+                                "It helps to avoid unnecessary debt",
+                                "It gives financial security and control."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": 2,
+                    "name": "Methods of saving",
+                    "key_messages": [
+                        {
+                            "title": "1. One by one makes a bundle",
+                            "contents": [
+                                "You do not need much money to start saving. Whether you are a student, a farmer, a teacher, nurse, banker, market vendor, taxi driver or a business person, you can always put a little money aside."
+                            ]
+                        },
+                        {
+                            "title": "2. Spend less to save more",
+                            "contents": [
+                                "Cutting down on consumption, such as alcohol and on buying new clothes for every function, enables you to save more money to provide for you and your family's future."
+                            ]
+                        },
+                        {
+                            "title": "3. Always have an \"Emergency Fund\"",
+                            "contents": [
+                                "Savings are very helpful in addressing unexpected or unforeseen problems such as illness, accidents, unemployment, robbery, drought, funerals, too much rain that destroys crops etc. In such situations, your savings can help you as you recover. Make sure that you keep money for emergencies. If you ever have to use part of your emergency fund, top it up again as soon as you can."
+                            ]
+                        },
+                        {
+                            "title": "4. Save for special events",
+                            "contents": ["Have a savings account or a small tin or box to save for luxuries such as birthdays, a wedding ceremony or holidays. You can plan ahead for this and hence save over a long period of time."]
+                        }
+                    ]
+                },
+                {
+                    "id": 3,
+                    "name": "Choose how you want to save",
+                    "key_messages": [
+                        {
+                            "title": "Key Message",
+                            "contents": [
+                                "Decide what you want to save for and find out how much it will cost. Ensure that what you are saving for is realistic and not over-ambitious.",
+                                "Start saving now- the sooner you start, the sooner you\u2019ll get there.",
+                                "Put your savings in a safe and secure place where you can earn good interest.",
+                                "Keep saving regularly and over a long period of time. It is only then that your money can accumulate."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": 4,
+                    "name": "Where to save money",
+                    "key_messages": [
+                        {
+                            "title": "General considerations when deciding where to save money",
+                            "contents": [
+                                "Choose a place that is safe and secure",
+                                "Must be easily accessible",
+                                "Have little or no charges on your account (make sure your monthly interest is more than the monthly charges",
+                                "Must value and treat you well as a client"
+                            ]
+                        },
+                        {
+                            "title": "Recommended places to save money",
+                            "contents": [
+                                "Savings and loan groups",
+                                "Financial Cooperatives",
+                                "Microfinance institutions",
+                                "Mobile money provider"
+                            ]
+                        },
+                        {
+                            "title": "Risk ways of saving",
+                            "contents": [
+                                "Commercial banks",
+                                "Saving in a tin",
+                                "Saving under the mattress or in a pillow",
+                                "Saving in a pit",
+                                "Saving with another person"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": 5,
+                    "name": "Requirements for saving",
+                    "key_messages": [
+                        {
+                            "title": "Key Message",
+                            "contents": [
+                                "Have discipline",
+                                "Believe that you can save",
+                                "Have a mechanism for saving i.e. A savings account or Saving scheme.",
+                                "Lead a conducive lifestyle",
+                                "Have set goals - If you save for nothing, you will spend the money on nothing"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "name": "Saving for Retirement",
+            "sub_themes": [
+                {
+                    "id": 1,
+                    "name": "Understanding Retirement",
+                    "key_messages": [
+                        {
+                            "title": "Key Message",
+                            "contents": [
+                                "Retirement is the withdraw from one\u2019s position or occupation or active working life",
+                                "It ensures that you are well cared for when you are ailing"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": 2,
+                    "name": "Guiding principles when planning for retirement savings",
+                    "key_messages": [
+                        {
+                            "title": "Key Message",
+                            "contents": [
+                                "Decide where you want to live",
+                                "Understand what you want to be doing?",
+                                "Know your retirement needs and wants at an early stage and determine how much money you need to have saved",
+                                "A few small changes to your dream plan will not be the end of the world."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": 3,
+                    "name": "Important considerations in saving for retirement",
+                    "key_messages": [
+                        {
+                            "title": "Be disciplined with your savings",
+                            "contents": [
+                                "Ensure that you do not withdraw your retirement savings before the actual retirement.",
+                                "If your circumstances change, consider and exhaust all other options before withdrawing from your retirement savings."
+                            ]
+                        },
+                        {
+                            "title": "Don't wait for the time you will have more money, it never comes",
+                            "contents": [
+                                "Start small if you have to and try to increase the amount you save each month.",
+                                "The sooner you start saving, the more time your money has to grow",
+                                "Devise a plan, stick to it, and set goals.",
+                                "Remember, it is never too early or too late to start saving.",
+                                "Start saving now and see your money grow"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "name": "Investing money",
+            "sub_themes": [
+                {
+                    "id": 1,
+                    "name": "Understanding Investing",
+                    "key_messages": [
+                        {
+                            "title": "Key Message",
+                            "contents": [
+                                "Investment is deciding not to use your money on today\u2019s consumption for an activity that will bring you more income in the future",
+                                "It involves putting your money to use so as to allow it to grow.",
+                                "An investment can be in form of property such as livestock (cows, goats, pigs), land (rental apartments, buildings), business (market stalls, grocery) or shares and bonds from which you can earn profits.",
+                                "Develop an investment plan",
+                                "Know that money increases when you invest",
+                                "Money saved at home loses its value with time",
+                                "Let your money work for you through profits or returns your money makes without you having to lift a finger, thereby earning more money, accumulating wealth and allowing you to live a financially comfortable life.",
+                                "Diversify your income sources to help the household to withstand various shocks and changes that may come in their environment or community",
+                                "Investment creates wealth and security for the person investing, increases the ability to earn more income, helps to establish incme generating activities for your old age,  enables your children to have some income and creates jobs for yourself and the family."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": 2,
+                    "name": "Where to invest",
+                    "key_messages": [
+                        {
+                            "title": "1. Self investment",
+                            "contents": [
+                                "You can start investing in your personal businesses"
+                            ]
+                        },
+                        {
+                            "title": "2. Investing as a group",
+                            "contents": [
+                                "Small savings in a small group with your like-minded friends may give you the financial breakthrough you desire."
+                            ]
+                        },
+                        {
+                            "title": "3. Investing in Collective Investiment Schemes",
+                            "contents": [
+                                "These are private financial arrangements regulated by RBM where many small investors pool resources. ",
+                                "Professional licensed and certified fund managers invest these resources in various ways such as shares, bonds, property, fixed deposit accounts and treasury bills with the main goal of generating high returns while minimizing risk through investing in different financial opportunities"
+                            ]
+                        },
+                        {
+                            "title": "4. Investing in a share",
+                            "contents": [
+                                "A share represents part ownership of a company.",
+                                "If you have shares in a company you can earn some money from the profits the company makes.",
+                                "The price of a share usually changes over time.",
+                                "If the price of a share increases, it will be worth more than the price at which you bought it. But if the price falls, it will be worth less than what you paid"
+                            ]
+                        },
+                        {
+                            "title": "5. Investing in Treasury Bills",
+                            "contents": [
+                                "Also known as Government Securities-these are agreements where an individual or business lends money to government for a specified period of time (between three months and 10 years) after which they will get their initial money back plus interest. Government securities come with almost no risk of default and the interest is fixed. Anybody can invest in government securities as the minimum amount is only K10,000. Approach your bank or RM for further advice on how to invest in government securities."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": 3,
+                    "name": "Investment saving tools",
+                    "key_messages": [
+                        {
+                            "title": "1. Financial Assets as a saving tool",
+                            "contents": [
+                                "High interest savings account: This is a type of deposit account. The bank pays you interest on your deposits. The rate of interest changes (variable rate interest) from time to time. The interest is slightly higher than a regular savings account. This is a very safe kind of account as it is covered by deposit insurance by the bank. You could use it to save money for the short, medium or long term. You can withdraw this money whenever you like. There may be fees for withdrawing money. There may also be a required minimum deposit.",
+                                "Fixed deposit: This is not an account per se. You deposit your money with a bank for a certain agreed period as an investment. During that period, you cannot withdraw your money, if you do, penalties will be charged. This account pays a higher interest rate than most deposit accounts."
+                            ]
+                        },
+                        {
+                            "title": "2. Real Assets as a savings tool",
+                            "contents": [
+                                "Commodities: This is a type of investment. You can buy commodities such as farm produce, livestock and sell them later at higher price. The farm produce is likely to earn higher return, however there is always higher market prices risks.",
+                                "Property investments: This is another type of savings that can also be classified as investment. You build houses, shops, office blocks that you can rent out and collect rentals. You can as well buy land and buildings, keep them and sell after they have appreciated (have increased) in value."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": 4,
+                    "name": "Types of Investments",
+                    "key_messages": [
+                        {
+                            "title": "Short term investment",
+                            "contents": [
+                                "Money is expected to bring returns soon and takes less than 2 years e.g. starting a business, buying a car or cow."
+                            ]
+                        },
+                        {
+                            "title": "Medium investment",
+                            "contents": [
+                                "Returns are expected to start flowing after 2 years e.g. buying shares."
+                            ]
+                        },
+                        {
+                            "title": "Long term investment",
+                            "contents": [
+                                "These require a lot of time and take long to get returns. e.g. investing in mega farms that require ten times your annual savings. If you do not get a loan you will finish the mega farm after 10 years and start earning afterwards."
+                            ]
+                        }
+                    ]
+                }
+                
+            ]
+        },
+        {
+            "id": 6,
+            "name": "Understanding credit",
+            "sub_themes": [
+                {
+                    "id": 1,
+                    "name": "Definitions",
+                    "key_messages": [
+                        {
+                            "title": "Key Message",
+                            "contents": [
+                                "A credit or loan is money that is borrowed and must be paid back, ususally with interest and other associated costs such as loan processing costs, insurance fees, stamp duty etc.",
+                                "Alternatively, a credit or a loan can be defined as a contractual agreement in which a borrower receives something of value now and agrees to repay the lender at some date in the future, generally with interest."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": 2,
+                    "name": "Types of loans",
+                    "key_messages": [
+                        {
+                            "title": "1. Secured loans",
+                            "contents": [
+                                "This is where the lender needs to make sure that he or she does not lose his or her money if you do not pay back the loan.",
+                                "You may, therefore, be required to present proof of security or collateral.",
+                                "Collateral is something you own (e.g. a piece of land) and which the lender can take over if you fail to pay back the loan.",
+                                "Some lenders accept another person to be a guarantor who in case you fail to pay back your loan, they must stand in for you and pay back that loan.",
+                                "You may also be required to provide the lender with indications or proof of your cash-flow and business activity.",
+                                "This will give the lender an understanding of your capacity and ability to pay back the loan and will therefore inform his/her decision of whether or not to give you a loan and how much to lend you."
+                            ]
+                        },
+                        {
+                            "title": "Unsecured loans",
+                            "contents": [
+                                "This is where the lender does not require any form of security/collateral",
+                                "Instead, they may charge very high interest rates or other fees because it is very risky for them to give out a loan that has no security.",
+                                "It is therefore imperative that in a case where you are offered a loan without security, make sure you understand all the terms and conditions including the cost of the loan."
+                            ]
+                        }
+                    ]
+                    
+                }
+            ]
+        }
+    ]
+}

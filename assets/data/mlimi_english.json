@@ -1,0 +1,1630 @@
+{
+  "sectors": [
+    {
+      "id": 1,
+      "name": "Crops",
+      "image": "crops_advisory",
+      "sectorimage":"maize1",
+      "categories": [
+        {
+          "id": 1,
+          "image": "cereals",
+          "name": "Cereals",
+          "description": "Cereals crops advisories such as Maize, rice, sorghum, and millet.",
+          "products": [
+            {
+              "id": 1,
+              "image": "maize",
+              "name": "Maize",
+              "section": [
+                {
+                  "id": 1,
+                  "image": "maize_variety",
+                  "title": "Choice of variety",
+                  "audio": "maize_01",
+                  "content": [
+                    "Select maize seed according to agro-ecology and rainfall pattern of your area",
+                    "The Department of Agricultural Research services and seed companies have a wide range of varieties suited to all agro-ecological zones and needs of the farmer"
+                  ]
+                },
+                {
+                  "id": 2,
+                  "image": "maize_seed",
+                  "title": "Source of seed",
+                  "audio": "maize_02",
+                  "content": [
+                    "Research institutions",
+                    "Accredited seed companies",
+                    "Agro-dealers",
+                    "For hybrid maize, new seed should be bought for every production to ensure optimum yields",
+                    "Open pollinated varieties (Composite) maize varieties can be recycled for another two seasons. If you bought certified seed in season one, you may plant seed from your harvest for another 2 years/productions. Ensure to buy new seed in the fourth season as recycling further lowers yield.",
+                    "For local maize, select seed of desirable attributes at harvest"
+                  ]
+                },
+                {
+                  "id": 3,
+                  "image": "maize_site_selection",
+                  "title": "Site selection",
+                  "audio": "maize_03",
+                  "content": [
+                    "Select deep, well-drained, fertile soils, and where total seasonal rainfall exceeds 500 mm",
+                    "Maize is reasonably tolerant to soil acidity, but if the soil is very acid, lime to improve the soil and enhance maize yields",
+                    "Maize is susceptible to both drought and waterlogging, therefore avoid poorly drained soils, apply practices like ridging, drainage and early planting to remedy these challenges.",
+                    "Drought during the four-week period spanning flowering (silking and tasselling) can cause serious yield losses, and therefore some form of water conservation is important (e.g., pot-holing, mulching, tied/box-ridges), especially in the drier areas.",
+                    "Temperatures above 38 degrees celcius affect yield by affecting pollen viability while temperatures below 10 retards maize growth."
+                  ]
+                },
+                {
+                  "id": 4,
+                  "image": "maize_land_section",
+                  "title": "Land preparation",
+                  "audio": "maize_04",
+                  "content": [
+                    "Prepare land early to ensure early planting",
+                    "Clear, plough and harrow the land where maize is to be planted",
+                    "In most cases, maize is planted on ridges while in some cases, the crop is planted in rows, especially under irrigated conditions. Ridges and rows should be spaced at 75cm apart"
+                  ]
+                },
+                {
+                  "id": 5,
+                  "image": "maize_planting_pattern",
+                  "title": "Planting pattern and seed rates",
+                  "audio": "maize_05",
+                  "content": [
+                    "Under rain fed conditions, plant after first effective rains, when the soils are sufficiently wetted to a depth of 15cm. This is usually between October and December.",
+                    "Under irrigation, plant when the soil is wet enough to such a depth of 15cm continuously for a longer duration. In most such cases, soils are continuously wet and are in wetted residual conditions",
+                    "Plant one seed per station every 25cm in the rows /ridges that are 75 cm apart",
+                    "You may also opt to plant 2 seeds per station every 50 cm in rows/ridges spaced at 75 cm apart. Similarly, a farmer may opt to plant 3. seeds per station every 50 cm in rows/ridges spaced at 75 cm apart",
+                    "Seed rate is 25 kg/ha (10kg/acre)"
+                  ]
+                },
+                {
+                  "id": 6,
+                  "image": "maize_fertilizer",
+                  "title": "Fertilizer application",
+                  "audio": "maize_06",
+                  "content": [
+                    "Apply basal dressing fertilizer is applied at planting, soon after planting or 5 to 7 days after seed emergency",
+                    "100kg (2 bags) of NPK (23:21:0+4S, Zn) are sufficient for one hectare",
+                    "Apply one full Coca-Cola bottle top of NPK fertilizer using the dollop method where a hole which is about 3-5cm deep is made between planting stations (where maize is planted at 25 cm apart) or on both sides of the seed station if planted at 50 and 90 cm apart",
+                    "Apply top dressing fertilizers 3 weeks from basal dressing fertilizer application",
+                    "Use a similar dollop methodology as it was done during basal dressing",
+                    "150kg (3bags) of Urea are sufficient for one hectare"
+                  ]
+                },
+                {
+                  "id": 7,
+                  "image": "maize_Weeding",
+                  "title": "Weeding",
+                  "audio": "maize_07",
+                  "content": [
+                    "Keep the maize field as free from weeds as much as possible",
+                    "Ensure maize crop is weed free for the first 2-6 weeks. Two to three hoe weeding rounds are enough after planting",
+                    "Weeding can be done manually or using herbicides",
+                    "Crop rotation and other cultural practices also help in reducing weed intensity."
+                  ]
+                },
+                {
+                  "id": 8,
+                  "image": "maize_desease",
+                  "title": "Disease and pest control in maize",
+                  "audio": "maize_08",
+                  "content": [
+                    "Maize is affected by leaf blight, maize streak virus, cob rot, grey leaf spot diseases.",
+                    "Important pests of maize are Fall army worms, maize stalk borer, leaf rollers, earth worms and termites",
+                    "Pests and diseases in maize can be controlled by planting resistant/tolerant varieties, good cultural practices and use of chemicals where ever necessary i.e. Crop rotation, early planting, right plant population/densities, and practices that ensure a healthy plant (proper soil pH and fertility) reduce the impact of pest and disease problems"
+                  ]
+                },
+                {
+                  "id": 9,
+                  "image": "maize_harvesting",
+                  "title": "Maize harvesting",
+                  "audio": "maize_09",
+                  "content": [
+                    "Harvest maize once it is dry",
+                    "Stoking is recommended for cobs to complete drying",
+                    "Once dry, remove cobs from stalks for shelling and storage or use"
+                  ]
+                },
+                {
+                  "id": 10,
+                  "image": "maize_storage",
+                  "title": "Maize storage",
+                  "audio": "maize_10",
+                  "content": [
+                    "Store well dried and cleaned maize grain",
+                    "Maize for storage should be well treated with storage pesticides following recommendations on safe use and correct application rates",
+                    "Check stored maize every 3-6 months to ensure safety from pest attack",
+                    "Maize grain is conveniently stored when packed in 50kg or 100kg bags stacked on pallets or poles for air circulation.",
+                    "Avoid contact of bags of maize with the floor and walls that may emit moisture. Storage facility should be leak-proof."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "image": "legumes",
+          "name": "Legumes",
+          "description": "legumes crops advisories  like groundnuts, soybeans, and pigeon peas",
+          "products": [
+            {
+              "id": 1,
+              "image": "groundnuts",
+              "name": "Groundnuts",
+              "section": [
+                {
+                  "id": 1, 
+                  "image": "groundseed",
+                  "title": "Choice of variety",
+                  "audio": "",
+                  "content": [
+                    "CG7 does well in a wide range of agro-ecologies",
+                    "Nsinjiro and Chalimbana 2005 are suitable for plateau areas",
+                    "Early maturing varieties like Kakoma, Baka and Chitala are good for the Lakeshore and Shire Valley",
+                    "CG 8, CG 9, CG 10 and CG 11, are medium duration Virginia varieties, and mature between 120-130 days, are well adapted to mid-altitude agro-ecologies",
+                    "CG 12, CG 13 and CG 14, are short duration Spanish varieties, maturing within 90-110 days, are well adapted for low-altitude agro-ecologies"
+                  ]
+                },
+                {
+                  "id": 2,
+                  "image": "groundnuts_seed",
+                  "title": "Source of seed",
+                  "audio": "",
+                  "content": [
+                    "Research institutions",
+                    "Accredited seed companies",
+                    "Agro-dealers are the best",
+                    "Recycling groundnut seed is acceptable for only two seasons. If you bought certified seed in season one, you may plant seed from your harvest for another 2 years. Ensure to buy new seed in the fourth season as recycling further lowers yield. Test  seed for germination so that seed rate can be adjusted accordingly to ensure optimum population is achieved"
+                  ]
+                },
+                {
+                  "id": 3,
+                  "image": "groundnuts_site",
+                  "title": "Site selection for groundnuts production",
+                  "audio": "",
+                  "content": [
+                    "Select deep, well-drained loamy-sand, sandy-loam, or sandy-clay-loam soil with moderate organic matter. Avoid fallow and virgin lands as these may not have the appropriate natural rhizobium for effective nodulation. A soil test  at a reputable soil laboratory helps determine whether the soil needs soil amendments or not"
+                  ]
+                },
+                {
+                  "id": 4,
+                  "image": "groundnuts_land",
+                  "title": "Land preparation",
+                  "audio": "",
+                  "content": [
+                    "Prepare land early enough to plant with the effective early rains in accordance with the chosen groundnut planting pattern",
+                    "Prepare flat-topped ridges 30cm high spaced 75 cm apart or flat seed beds"
+                  ]
+                },
+                {
+                  "id": 5,
+                  "image": "groundnuts_dressing",
+                  "title": "Dressing groundnuts seed with inoculant and fungicide before planting",
+                  "audio": "",
+                  "content": [
+                    "Treat groundnut seed with inoculant before planting to enhance biological nitrogen fixation (BNF) that meets the crop’s N requirement for high yield and quality",
+                    "Fungicide dressing protects the seed and the subsequent seedlings against soil fungi for optimum plant population."
+                  ]
+                },
+                {
+                  "id": 6,
+                  "image": "groundnuts_space",
+                  "title": "Planting pattern and seed rates",
+                  "audio": "",
+                  "content": [
+                    "Plant one seed every 10cm for Spanish varieties and 15cm for Virginia varieties in rows grooved 5-6 cm deep along the ridges",
+                    "Seed rate is between 50-70 kg/ha for Spanish varieties and 80-100 kg/ha for Virginia varieties for single row planting and 110-130 kg/ha for Spanish varieties and 180-200 kg/ha for Virginia varieties for double row planting",
+                    "Do not plant rainfed groundnuts after 15th January because of relatively high populations of aphids that transmit groundnut rosette virus. Planting late may result in dry conditions during the latter part of the growing cycle, affecting pod filling causing lower yields and greater potential for aflatoxin, if prolonged",
+                    "If planting on flat land, spacing between rows should be 45 cm apart."
+                  ]
+                },
+                {
+                  "id": 7,
+                  "image": "gro_lizer",
+                  "title": "Fertilizer application",
+                  "audio": "",
+                  "content": [
+                    "Groundnut can benefit from residual fertility and in some cases no additional fertilizer may be required if the crop is grown on well-managed land previously treated with a balanced fertilizer",
+                    "In areas where native fertility is low addition of fertilizer will increase yield. Apply 100 kg/ha (40kg/acre) of superphosphate before or at planting",
+                    "The fertilizer should be applied in a band on the ridge, or broadcast onto the soil and ploughed under before sowing",
+                    "The fertilizer should be applied in a band on the ridge, or broadcast onto the soil and ploughed under before sowing"
+                  ]
+                },
+                {
+                  "id": 8,
+                  "image": "groundnuts_weeding",
+                  "title": "Weeding",
+                  "audio": "",
+                  "content": [
+                    "Two to three hoe weeding rounds are enough between 3-6 weeks after planting",
+                    "Hand weeding is recommended, if necessary, at pegging and beyond",
+                    "Pre-emergence herbicides applied appropriately are another alternative and cost-saving weed control technology",
+                    "Crop rotation and other cultural practices also help in reducing weed intensity"
+                  ]
+                },
+                {
+                  "id": 9,
+                  "image": "groundnuts_pest",
+                  "title": "Disease and pest control in groundnuts",
+                  "audio": "",
+                  "content": [
+                    "Groundnuts are affected by early and late leaf spot, rust and groundnut rosette diseases as well as termites, aphids, hilda spp, white grabs and leaf miners",
+                    "Pests and diseases in groundnuts can be controlled by planting resistant varieties, good cultural practices and use of chemicals where ever necessary i.e. Crop rotation, Pests and diseases in groundnuts can be controlled by planting resistant varieties, good cultural practices and use of chemicals where ever necessary i.e. Early planting, higher plant densities, and practices that ensure a healthy plant (proper soil pH and fertility) reduce the impact of pest and disease problems. Removing or burying diseased infected crop residues, The newly released varieties, CG8, CG9, CG10, CG11, CG12, CG13 and CG14 are resistant to groundnut rosette disease and other foliar diseases"
+                  ]
+                },
+                {
+                  "id": 10,
+                  "image": "grou_vest",
+                  "title": "Groundnut harvesting",
+                  "audio": "",
+                  "content": [
+                    "A dry period is required at harvesting time.",
+                    "Harvest groundnuts as soon as they are mature to avoid fungal infections and aflatoxin contamination, loss of pods and sprouting",
+                    "Maturity can be determined by keeping a record of planting dates and following duration to maturity per variety and confirmed by looking at a layer of the skin inside the pod. Mature pods have dark brown spots",
+                    "Dry the pods on the plant in windrows or in ‘Mandela cocks’ right in the field for about a week depending on weather conditions.",
+                    "The pods are then plucked off the plants for further drying prior to storage"
+                  ]
+                },
+                {
+                  "id": 11,
+                  "image": "groundnuts_storage",
+                  "title": "Groundnut storage",
+                  "audio": "",
+                  "content": [
+                    "Groundnuts are best stored in shells, bagged and stacked on pallets in a dry and well-ventilated leak-proof storage room at least half a meter away from the walls.",
+                    "Do not store damaged, shrivelled, rotten and fungal infected pods",
+                    "There should be a gap between stacks to allow free air circulation. Stacks should not be more than 10 bags high"
+                  ]
+                },
+                {
+                  "id": 12,
+                  "image": "groundnuts_shelling",
+                  "title": "Shelling groundnut",
+                  "audio": "",
+                  "content": [
+                    "Groundnuts should be shelled only when they are to be used or sold if the market require shelled nuts",
+                    "Shelled nuts are easily damaged by pests and moulds which predispose them to aflatoxin contamination",
+                    "Groundnuts are shelled either manually or by time-saving mechanical means"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "image": "soy_bean",
+              "name": "Soybean",
+              "section": [
+                {
+                  "id": 1,
+                  "image": "soybean_choice",
+                  "title": "Choice of variety",
+                  "audio": "",
+                  "content": [
+                    "Tikolore and Solitaire are adaptable to a wide range of agro-ecologies",
+                    "Makwacha, Nasoko, Serenade, Soprano and Pan1867 are adapted to medium to high altitude areas",
+                    "Ocepara4 is good for medium altitudes",
+                    "Several other varieties high yielding varieties are under trial and are due for release soon",
+                    "Maturity period, market preference and yielding potential are important considerations in choice of a variety to be grown"
+                  ]
+                },
+                {
+                  "id": 2,
+                  "image": "soybean_seed",
+                  "title": "Source of seed",
+                  "audio": "",
+                  "content": [
+                    "Research institutions",
+                    "Accredited seed companies",
+                    "Agro-dealers are the best",
+                    "Recycling groundnut seed is acceptable for only two seasons. If you bought certified seed in season one, you may plant seed from your harvest for another 2 years. Ensure to buy new seed in the fourth season as recycling further lowers yield. Test  seed for germination so that seed rate can be adjusted accordingly to ensure optimum population is achieved"
+                  ]
+                },
+                {
+                  "id": 3,
+                  "image": "soybean_site",
+                  "title": "Site selection",
+                  "audio": "",
+                  "content": [
+                    "Select moderate slope",
+                    "well drained loamy soils",
+                    "land which has not had soybeans planted for the previous two years",
+                    "soybean should not follow tobacco",
+                    "Select land which is not heavily infected with rust and not heavily infested with couch grass"
+                  ]
+                },
+                {
+                  "id": 4,
+                  "image": "soybean_land",
+                  "title": "Land preparation",
+                  "audio": "",
+                  "content": [
+                    "Prepare land early enough to sow with the effective early rains in accordance with the chosen soybean planting pattern",
+                    "Prepare flat-topped ridges 30cm high spaced 75 cm apart or flat seed beds"
+                  ]
+                },
+                {
+                  "id": 5,
+                  "image": "soybean_innoculant",
+                  "title": "Dressing soybean seed with inoculant before planting",
+                  "audio": "",
+                  "content": [
+                    "Treat soybean seed with inoculant before planting to enhance BNF that meets the crop’s N requirement for high yield and quality.",
+                    "Fungicide dressing protects the seed and the subsequent seedlings against soil fungi for optimum plant population"
+                  ]
+                },
+                {
+                  "id": 6,
+                  "image": "soybean_pattern",
+                  "title": "Planting pattern and seed rates",
+                  "audio": "",
+                  "content": [
+                    "Plant one seed every 5cm on two rows spaced 20-30cm apart in grooves 2.5-3 cm deep along the ridges",
+                    "Seed rate is between 60-65 kg/ha for small seeded varieties like Tikolore and 80-100 kg/ha for large seeded varieties like Makwacha and Nasoko",
+                    "Here in Malawi, soybean can be planted in summer (December–April) and/or during winter (off-season) i.e. May/June with irrigation or in dimbas under residual moisture",
+                    "If grown under irrigation, planting should be done be¬tween May to June in low lying dry areas. Take note that soybean yields are re¬duced when grown off season due to photoperiod sensitivity of the crop",
+                    "Dependent upon the variety of soybean you have chosen to plant and the land cropping history, a soybean farmer maybe required to apply inoculant to seed at planting. For example, Tikolore may not require inoculation, while all the other varieties would. Where a previous crop of soybean was grown in the last 3 years, a new crop may still benefit from indigenous bacteria left by the earlier crop"
+                  ]
+                },
+                {
+                  "id": 7,
+                  "image": "soybean_fertilizer",
+                  "title": "Fertilizer application",
+                  "audio": "",
+                  "content": [
+                    "Under normal conditions, soybean as a legume should provide itself with nitrogen through biological nitrogen fixation",
+                    "A good fertilizer recommendation for soybean production depends on good soil test",
+                    "Where necessary, apply 100kg of 23:10:5 +4S or D-Compound/ha at planting or one week after planting. Use banding method incorporating 18g fertilizer per metre ridge spacing"
+                  ]
+                },
+                {
+                  "id": 8,
+                  "image": "soybean_weeding",
+                  "title": "Weeding",
+                  "audio": "",
+                  "content": [
+                    "Do first hoe weeding 2 weeks after planting. Subsequent weeding operations can be done when deemed necessary",
+                    "If an herbicide is applied at planting, one hoe weeding or none at all may be required at 5–6 weeks after planting",
+                    "Crop rotation and other cultural practices also help in reducing weed intensity"
+                  ]
+                },
+                {
+                  "id": 9,
+                  "image": "soybean_pest",
+                  "title": "Disease and pest control in soybeans",
+                  "audio": "",
+                  "content": [
+                    "Spray Folicur to control rust",
+                    "Bacterial pus¬tule, frogeye and soybean cyst nematodes can be controlled by good cultural practices, field hygiene and use of certified seed",
+                    "Insect pests like cat¬erpillars, soybean looper, leaf miners, leaf rollers and termites can also be controlled by good cultural practices, field hygiene and use of certified seed",
+                    "Spray with Cyper¬methrin or Dimethoate if severity warrants control by insecticide"
+                  ]
+                },
+                {
+                  "id": 10,
+                  "image": "soybean_harvest",
+                  "title": "Harvesting and threshing soybeans",
+                  "audio": "",
+                  "content": [
+                    "Harvesting in the morning soon after the dew disappears when the air temperature is still low to avoid shattering",
+                    "Dry the harvest on tarpaulins",
+                    "Thresh manually using pliable sticks or mechanically"
+                  ]
+                },
+                {
+                  "id": 11,
+                  "image": "soybean_clean",
+                  "title": "Cleaning soybeans",
+                  "audio": "",
+                  "content": [
+                    "Soybeans are cleaned by winnowing, sieving and grading to separate the sound seeds from rots, discoloured, shrivelled, splits, cracked, disease- and insect-damaged seeds, persistent debris, foreign matter, other crop seed, weed seed and other variety seed"
+                  ]
+                },
+                {
+                  "id": 12,
+                  "image": "soybean_storage",
+                  "title": "Storage",
+                  "audio": "",
+                  "content": [
+                    "Storage allows farmers to sell the grain when returns are at maximum",
+                    "Soybean grain is conveniently stored when packed in 50kg or 100kg bags stacked on pallets or poles for air circulation",
+                    "Avoid contact of bags of soybean with the floor and walls that may emit moisture. Storage facility should be leak-proof"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "image": "oil_and_seeds",
+          "name": "Oil and Seeds",
+          "description": "Oil and Seeds crops advisories such us sun flower ",
+          "products": [
+            {
+              "id": 1,
+              "image": "sun_flower",
+              "name": "Sunflower",
+              "section": [
+                {
+                  "id": 1,
+                  "image": "sunflower_choice",
+                  "title": "Choice of variety",
+                  "audio": "",
+                  "content": [
+                    "PAN 7351, PAN 7049, PAN 7033 hybrids are adaptable to mid-altitude agro-ecologies",
+                    "Milika is an Open pollinated varieties (OPV) variety that farmers are allowed to import from Zambia for production only",
+                    "Local recycled varieties. If planning to recycle select clean, plump grains from field OR storage",
+                    "Other hybrid varieties and an OPV were under trial and are due for release soon",
+                    "Maturity period, market preference (oil and protein content) and yielding potential are important considerations in choice of a variety to be grown."
+                  ]
+                },
+                {
+                  "id": 2,
+                  "image": "sunflower_seed",
+                  "title": "Source of seed",
+                  "audio": "",
+                  "content": [
+                    "Accredited seed companies",
+                    "Agro-dealers are the best",
+                    "Selection from previous harvest",
+                    "Recycling sunflower seed is acceptable for Open pollinated varieties and only two seasons. If you bought certified seed in season one, you may plant seed from your harvest for another 2 years. Ensure to buy new seed in the fourth season as recycling further lowers yield. For hybrids, new seed has to be bought for every production",
+                    "Test seed for germination so that seed rate can be adjusted accordingly to ensure optimum population is achieved"
+                  ]
+                },
+                {
+                  "id": 3,
+                  "image": "sunflower_site",
+                  "title": "Site selection",
+                  "audio": "",
+                  "content": [
+                    "Select deep, well-drained loam soils with good physical conditions such as good water holding capacity",
+                    "Sunflower can, be successfully grown on loam, sandy loam or sandy clay loam, or turf soils, as well as poor and slightly brackish soils, provided the soil is well-drained",
+                    "Sunflower does well on soils with a pH range of 6.5 – 7.5",
+                    "Ensure rotation. Crop rotation help reduce pest and disease attack as well as weed intensity"
+                  ]
+                },
+                {
+                  "id": 4,
+                  "image": "sunflower_land",
+                  "title": "Land preparation",
+                  "audio": "",
+                  "content": [
+                    "Prepare land early enough to sow at the appropriate time",
+                    "Sunflower reacts positively to good soil preparation, prepare you land to fine tilt",
+                    "A fine, well-prepared seed bed ensures good germination and an even stand ",
+                    "If planting on ridges, make ridges 30cm high spaced 75 cm apart"
+                  ]
+                },
+                {
+                  "id": 5,
+                  "image": "sunflower_dressing",
+                  "title": "Dressing seed with a fungicide before planting",
+                  "audio": "",
+                  "content": [
+                    "If possible, dress sunflower seed with fungicides before planting",
+                    "Fungicide dressing protects the seed and the subsequent seedlings against soil fungi for optimum plant population"
+                  ]
+                },
+                {
+                  "id": 6,
+                  "image": "sunflower_planting",
+                  "title": "Planting pattern and seed rates",
+                  "audio": "",
+                  "content": [
+                    "Plant one seed every 25cm, Or 2 seeds every 50cm, planting seed at 2-3 cm deep",
+                    "If planted on flat surface make single rows at 45cm apart, using same spacing between hills",
+                    "Seed rate is between 5 kg/ha or 2 kg/acre",
+                    "If planting recycled seed, increase the seed rate",
+                    "If planted more seeds per station, thin to one or 2 at 3 weeks after planting",
+                    "Sunflower is not very sensitive to date of planting, and may be grown over a long period in most areas- Planting may continue up to February in low lying areas and wetlands",
+                    "Sunflower has the ability to utilise nutrients which were applied to, but not utilised fully by a previous crop in the rotation system. It can, therefore, be successfully grown after other crops that were fertilized well, and do relatively well",
+                    "Sunflower is also planted in relay with cereals (maize or sorghum). This is common practice in the Shire highlands (Phalombe, Chiradzulu, Blantyre) and the crop benefits from residual fertilizers from the cereals"
+                  ]
+                },
+                {
+                  "id": 7,
+                  "image": "sunflower_fertilizer",
+                  "title": "Fertilizer application",
+                  "audio": "",
+                  "content": [
+                    "A good fertilizer recommendation for sunflower production depends on good soil test",
+                    "The bracket recommendation is 150kg of 23:21:0+4S and 100 kg of urea per hectare",
+                    "It is recommended to apply fertilizer which has boron where boron is deficient in the soils",
+                    "Apply the 23:21:0+4S fertilizer at planting or 10 days after planting for better root development and plant vigor",
+                    "Apply Urea 14 days after application of first fertilizer and after thinning. A standard cup number 5 can be used to apply fertilizer",
+                    "In most sunflower producing areas, farmers do not apply fertilizers. To achieve a good yield, fertilizer application is important, especially for hybrid varieties"
+                  ]
+                },
+                {
+                  "id": 8,
+                  "image": "sunflower_weeding",
+                  "title": "Weeding",
+                  "audio": "",
+                  "content": [
+                    "Ensure field is weed free in the first 6 weeks after planting",
+                    "Do first hoe/hand weeding 2 weeks after planting. Subsequent weeding operations can be done when deemed necessary",
+                    "If a herbicide is applied at planting, one hoe weeding or none at all may be required at 5–6 weeks after planting",
+                    "Crop rotation and other cultural practices also help in reducing weed intensity"
+                  ]
+                },
+                {
+                  "id": 9,
+                  "image": "sunflower_pest",
+                  "title": "Control of diseases and insect pests in sunflower",
+                  "audio": "",
+                  "content": [
+                    "A number of pest and diseases may attack sunflower. Oftentimes attacks are not serious enough to cause economic damage or impact on yield",
+                    "The only one disease of real economic importance is Sclerotinia Head Rot. The most effective and economical way of controlling diseases is to plant resistant cultivars and to follow good cultural practices, field hygiene and use of certified seed",
+                    "For, pests (grasshoppers, spidermites, bollworms), based on severity and potential yield loss, chemical control is recommended",
+                    "Spray appropriate agro-chemicals only if warrants control"
+                  ]
+                },
+                {
+                  "id": 10,
+                  "image": "sunflower_harvest",
+                  "title": "Maturity and Harvesting",
+                  "audio": "",
+                  "content": [
+                    "Maturity can be determined by keeping a record of planting dates and following duration to maturity per variety and confirmed by looking at the crop physiological changes",
+                    "Sunflower crop is mature when the backs of the heads turn from green to yellow and the outer tracts (small leaves) around the head circumference turn brown and brittle",
+                    "The fleshy heads and the stems will still be high in moisture",
+                    "Harvest when the backs of the heads are still slightly damp to reduce losses",
+                    "If bird damage is not a serious problem in the field, allow seed curing to take place on the standing stalk",
+                    "If harvest is required before the seed is completely dry, the heads must be cut and placed in thin layers on an open drying floor with occasional turning",
+                    "This drying operation will take 5-8 days"
+                  ]
+                },
+                {
+                  "id": 11,
+                  "image": "sunflower_threshing",
+                  "title": "Threshing and cleaning",
+                  "audio": "",
+                  "content": [
+                    "Once dry, the dried heads can be threshed by beating with sticks or rubbing them on a rough or slotted threshing board or by a threshing machine",
+                    "The seed should then be winnowed to remove all chaff and foreign matter",
+                    "Cleaning helps avoid molding and contamination by insects",
+                    "Dry sunflower grains below 12% moisture for temporary storage and below 9% moisture for long time storage (2-3 months)"
+                  ]
+                },
+                {
+                  "id": 12,
+                  "image": "sunflower_Storage",
+                  "title": "Storage",
+                  "audio": "",
+                  "content": [
+                    "Storage allows farmers to sell the grain when returns are at maximum",
+                    "Store in containers or sacks that are clean and treated with insecticide to avoid damage",
+                    "Sunflower grain is conveniently stored when packed in 50kg or 100kg bags stacked on pallets or poles for air circulation",
+                    "Avoid stored sunflower bags from coming in contact with the floor and walls that may emit moisture",
+                    "Storage facility should be leak-proof"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "image": "animal_advisory",
+      "name": "Livestock",
+      "sectorimage":"animal1",
+      "categories": [
+
+        {
+          "id": 1,
+          "image": "cattle",
+          "name": "Cattle Production",
+          "description": "Cattle Production advisories",
+          "products": [
+            {
+              "id": 1,
+              "image": "beef",
+              "name": "Beef Cattle Production",
+              "section": [
+                {
+                  "id": 1,
+                  "image": "livestock",
+                  "title": "How to construct a cattle house",
+                  "audio": "enBeef_01",
+                  "content": [
+                    "Use durable and locally available materials like bluegum, bamboo, grass",
+                    "Make a concrete floor to ease cleaning",
+                    "Construct a the house, 2.1m wide, 2.1m long and 2.4m high. This will occupy 1 cattle."
+
+                  ]
+                },
+                {
+                  "id": 2,
+                  "image": "beef_breed",
+                  "title": "Recommended beef breeds of Malawi",
+                  "audio": "enBeef_02",
+                  "content": [
+                    "Malawian Zebu, Brahman and their crosses"
+
+                  ]
+                },
+                {
+                  "id": 3,
+                  "image": "beef_breeding",
+                  "title": "Types of production systems",
+                  "audio": "enBeef_03",
+                  "content": [
+
+                    "Beef production is categorised based on feeding system. There is extensive feeding system and intensive feeding system.",
+                    "Extensive system: This is where by animals are left to graze either in free range or on a ranch",
+                    "Intensive system: this is where animals are fed specially formulated feed between 50 to 150 days to attain slaughter weight"
+
+                  ]
+                },
+                {
+                  "id": 4,
+                  "image": "beef_feed",
+                  "title": "How to feed beef cattle",
+                  "audio": "enBeef_04",
+                  "content": [
+
+                    "Ensure that animals should graze for at least 8 hours during the dry season and 5hours during the rainy season.",
+                    "Treat crop residues with mollasses or salt water before giving to animals to aid in digestion",
+                    "Provide clean water",
+                    "Provide supplement feed to your animals.Animals should be supplimented with 4-5kg of maize bran per animal per day to improve nutrition of the animal",
+                    " farmers should also grow pasture and fodder crops to preserve for future use"
+
+                  ]
+                },
+                {
+                  "id": 5,
+                  "image": "livestock",
+                  "title": "Breeding qualities for beef production",
+                  "audio": "enBeef_05",
+                  "content": [
+                   "Bulls must be of high growthrate and well developed body, chosen from high productive cows, not too fat or too thin,disease free. ",
+                    "Cows must be selected from cows that calve down every year, has normal udder with 4 teats, high weaning weights, calving ease, disease free",
+                    "Recommended ratio is 1bull:30-40cows",
+                    "Heifers should be bred before cows",
+                    "Animals should be bred from january to march so that there is plenty food when they calf-down around december"
+
+                  ]
+                },
+                {
+                  "id": 6,
+                  "image": "beef_birth",
+                  "title": "Birthing management practices",
+                  "audio": "enBeef_06",
+                  "content": [
+
+                    "Separate pregnant cows from the rest a week before giving birth to provide timely care.",
+                    "Signs that the cow is going into labour include dropping of breasts, increased mucous discharge, lack of appetite, restlessness",
+                    "Cut the umbilical cord with the help of the veterinary officer. Put some iodine to speed up healing of the wound as well as prevent germ infestation"
+
+                  ]
+                },
+                {
+                  "id": 7,
+                  "image": "beef_f",
+                  "title": "Proper management of calves",
+                  "audio": "enBeef_07",
+                  "content": [
+
+                    "Clean nostrils and mouth which helps the calf breathe better and help prevent future breathing problems. Allow the mother to lick the calf clean which promotes circulation within the calf's body and prepares the calf to stand up and walk.",
+                    "Consult a verterinary officer is lameness is observed in a calf",
+                    "Allow the calf to suckle frequently for the first 4 four days",
+                    "Calves can be weaned at 6-8months and be put on high quality roughage",
+                    "Calves should be regulary dewormed and supplement them with concentrates and minerals",
+                    "Young males not needed for breeding should be castrated"
+
+                  ]
+                },
+                {
+                  "id": 8,
+                  "image": "beef_diseases",
+                  "title": "Disease control in beef production",
+                  "audio": "enBeef_08",
+                  "content": [
+
+                    "Beef cattle is prone to many diseass of economic importance",
+                    "Some of the diseases include heartwater,lumpy skin, foot and mouth disease, babesiosis, anaplasmosis and many more",
+                    "Consult the nearest Verterinary Officer of any disease that occurs within your farm for quick treatment",
+                    "Follow all the control guidelines for different diseases to keep the animals vibrant and healthy"
+
+
+                  ]
+                },
+                {
+                  "id": 9,
+                  "image": "beef_parasite",
+                  "title": "Parasites(External parasites",
+                  "audio": "enBeef_09",
+                  "content": [
+
+                    "Ticks cause tickborne diseases that reduce yield of milk",
+                    "Apply acaricides"
+
+
+                  ]
+                },
+                {
+                  "id": 10,
+                  "image": "beef_pinter",
+                  "title": "Parasited(Internal parasites)",
+                  "audio": "enBeef_10",
+                  "content": [
+
+                    "Signs include diarrhoea, swollen belly, anemia. ",
+                    "Routine deworming at the start and end of rainy season, change razingland every 3-4weeks, practice good hygiene"
+
+                  ]
+                },
+                {
+                  "id": 11,
+                  "image": "beef_market",
+                  "title": "Things to consider when marketing beef",
+                  "audio": "enBeef_11",
+                  "content": [
+
+                    "Weigh about 350kg for small breeds and 500kg for large breeds",
+                    "Carry out a market research for beef to find the best offers",
+                    "Sell animals collectively to attain much bargaining power",
+                    "Commercial markets require constant supply of products, therefore, aggregate marketing can help attain the required amounts"
+
+                  ]
+                },
+                {
+                  "id": 12,
+                  "image": "beef_record",
+                  "title": "Importance of farm record keeping",
+                  "audio": "enBeef_12",
+                  "content": [
+                    "Record keeping is important for the farmer to decide on mating schedules, feeding schedules and financial analyses on the farm",
+                    "Make sure each animal is recorded separately",
+                    "Able to to calculate how much profit is made"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "image": "dairyproduction",
+              "name": "Dairy Production",
+              "section": [
+                {
+                  "id": 1,
+                  "image": "dairy_house",
+                  "title": "How to construct cattle housing",
+                  "audio": "enDairy_1",
+                  "content": [
+
+                    "Use durable and locally available materials like bluegum, bamboo, grass",
+                    "Make a concrete floor to ease cleaning",
+                    "Construct a the house, 3.7m wide, 6.1m long and 2.4m high. This will occupy 2 cattle."
+                  ]
+                },
+                {
+                  "id": 2,
+                  "image": "dairy_breed",
+                  "title": "Recommended dairy breeds of Malawi",
+                  "audio": "enDairy_02",
+                  "content": [
+                    "1. Friesian",
+                    "2. Holstein Friesian",
+                    "3. Ayrshire",
+                    "4. Jersey, Guernsey"
+
+                  ]
+                },
+                {
+                  "id": 3,
+                  "image": "dairy_feed",
+                  "title": "How to feed dairy cattle",
+                  "audio": "enDairy_03",
+                  "content": [
+                    "Dairy farmers must use  intensive feeding system to help prevent diseases. ",
+                    "The recommended feed for dairy cow is crop residues and grass like mazie stover, groundnut haulms, lucaena",
+                    "Give recommended amount of feed per animal, 3kg per each 100kg weight of the animal. For instance, an animal weighing 300kg will require 9kg of the feed",
+                    "Treat crop residues with mollasses or salt water before giving to animals to aid in digestion",
+                    "Provide clean water",
+                    "Provide supplement feed to your animals. Supplement feed can be made using 70kg of roughness (maize bran/maize), 29kg concentrates (soybean) and 1kg salt",
+                    "Provide 2kg of supplement feed for every 5L of milk to be produced"
+                  ]
+                },
+                {
+                  "id": 4,
+                  "image": "dairyproduction",
+                  "title": "Recommended size for breeding",
+                  "audio": "enDairy_04",
+                  "content": [
+                    "Use Artificial Insemination to improve milk yielding capacity of the calf",
+                    "Consult a verterinary officer to help in identifying the best cow for breeding during the natural mating process",
+                    "Herifers should be mated when they are 18months old, and weighing 300kg for Friesian or Holstein breeds, and 230Kg for Jerseys breed"
+
+                  ]
+                },
+                {
+                  "id": 5,
+                  "image": "dairy_period",
+                  "title": "Things to know about heat period in cattle",
+                  "audio": "enDairy_05",
+                  "content": [
+                    "Animals on heat will show the following signs; mounting other cattle, standing to be mounted by other cattle, clear vaginal discharge, bellowing, reduced milk yield, bellowing,vulva swelling and reddening",
+                    "Heat period subsides after 6-30hours and restarts after 21 days",
+                    "Mating should be done at the first 6hours of heat signs",
+                    "Do not use cows that have just delivered/given birth to allow it to recover. Such an animal can be mated at the second time of showing the heat, usually after 2 to 3 months.",
+                    "A cow must give birth every year"
+
+                  ]
+                },
+                {
+                  "id": 6,
+                  "image": "dairy_birth",
+                  "title": "Birthing management practices",
+                  "audio": "enDairy_06",
+                  "content": [
+                   "Stop milking the cow at 7months. Provide the cow with 2 to 4kg of highly nutritious feed that is rich in carbohydrates",
+                    "Separate pregnant cows from the rest a week before giving birth to provide timely care.",
+                    "Signs that the cow is going into labour include dropping of breasts, increased mucous discharge, lack of appetite, restlessness",
+                    "Cut the umbilical cord with the help of the veterinary officer. Put some iodine to speed up heling of the wound as well as prevent germ infestation",
+                    "Let the calf suckle within the first 24hours to get the colostrum for vibrant growth nd health"
+
+
+                  ]
+                },
+                {
+                  "id": 7,
+                  "image": "dairyproduction",
+                  "title": "Proper management of calves",
+                  "audio": "enDairy_07",
+                  "content": [
+                    "Clean nostrils and mouth which helps the calf breathe better and help prevent future breathing problems. Allow the mother to lick the calf clean which promotes circulation within the calf's body and prepares the calf to stand up and walk.",
+                    "Consult a verterinary officer is lameness is observed in a calf",
+                    "Allow the calf to suckle frequently for the first 4 four days",
+                    "Calves should be introduced to grasses in the third week to help their rumen develop",
+                    "Calves can be weaned off at 3months old",
+                    "Dehorn/disbud the calves at 2 to 3month old to reduce injuries, ease handling and maximise feeding space"
+
+                  ]
+                },
+                {
+                  "id": 8,
+                  "image": "dairy_improve",
+                  "title": "How to improve dairy production",
+                  "audio": "enDairy_08",
+                  "content": [
+                    ""
+
+                  ]
+                },
+                {
+                  "id": 9,
+                  "image": "dairyproduction",
+                  "title": "Tizilombo toyambitsa matenda(Nthata)",
+                  "audio": "Dairy_9",
+                  "content": [
+                    "Nthata zimayambitsa matenda osiyanasiyana amene amakhudza kapangidwe ka mkaka ku ng'ombe zathu",
+                    "Gwiritsani ntchito mankhwala opha nkhupakupa"
+                  ]
+                },
+                {
+                  "id": 10,
+                  "image": "dairy_diseases",
+                  "title": "Tizilombo toyambitsa matenda(Njoka za mmimba)",
+                  "audio": "Dairy_10",
+                  "content": [
+                    "Zizindikiro za matendawa ndi monga kutsegula m'mimba, kutupa mimba ndi kuchepa magazi.",
+                    "Mwetsani ng'ombe mankhwala a njoka za mmimba koyambilira ndi komalizira kwa nyengo ya mvula.",
+                    " Sinthani malo odyetsera pakatha masabata 3-4 alionse, ukhondo."
+                  ]
+                },
+                {
+                  "id": 11,
+                  "image": "dairyproduction",
+                  "title": "Kusunga akaundula paulimi",
+                  "audio": "Dairy_11",
+                  "content": [
+                    "Kaundula wa pa Famu ya ng’ombe za mkaka amathandiza kupanga chiganizo chokweretsa, kudyetsa ndi kuona momwe momwe ulimi wa ng’ombe za mkaka ukupindulira pa famupo.",
+                    "Lemberani momwe ng’ombe ili yonse ikupangira mu bukhu payokha payokha.",
+                    "Kaundulayu amathandizanso kutsatira zolowa ndi zotuluka pa ulimi wa mkaka."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "image": "chicken_pro",
+          "name": "Chicken Production",
+          "description": "Chicken advisories such us local chicken",
+          "products": [
+            {
+              "id": 1,
+              "image": "local_chicken",
+              "name": "Local Chicken",
+              "section": [
+                {
+                  "id": 1,
+                  "image": "chicken_house",
+                  "title": "construct a standard chicken house",
+                  "audio": "enBeef_01",
+                  "content": [
+                    "choose a site  which is protected from thieves and predators","Construct the kraal according to number of birds you want to keep, for instance, 15 birds require 2m by 2m space.","use grass or iron sheet to thatch your roof to keep the house dry",
+                    "use locally available materials to construct kraal"
+
+                  ]
+                },
+                {
+                  "id": 2,
+                  "image": "chicken_manage",
+                  "title": "How to manage a chicken house",
+                  "audio": "enBeef_02",
+                  "content": [
+                    "Provide necessary bedding for the chickens like wood shavings, rice husks. Make sure to change whenever necessary to improve cleanliness","Prepare a comfortable nesting place for your chickens ","Ensure that you observe cleanliness at all times to prevent disease infestation"
+
+                  ]
+                },
+                {
+                  "id": 3,
+                  "image": "chicken_breed",
+                  "title": "How to breed chickens",
+                  "audio": "enBeef_03",
+                  "content": [
+
+                    "Choose breeds that have good qualities like high growthrate ith good mothering abilities",
+                    "Crossbreed local chickens with Black Australorp to improve traits like fast growing, high egg production, high meat production",
+                    "Ratio of cock to hen should be 1:10. The cock must be changed after every 2years"
+
+                  ]
+                },
+                {
+                  "id": 4,
+                  "image": "chicken_eggs",
+                  "title": "How to care for eggs",
+                  "audio": "enBeef_04",
+                  "content": [
+
+                    "Eggs must be  kept in a clean and dry place with the pointed tip downwards",
+                    "Eggs must be incubated within 10 days of being laid, because hatchability decreases rapidly when eggs are stored for more than 10 days",
+                    "You may use incubators to hatch eggs"
+                    
+
+                  ]
+                },
+                {
+                  "id": 5,
+                  "image": "chicken_feed",
+                  "title": "How to feed local chickens",
+                  "audio": "enBeef_05",
+                  "content": [
+                   "Local chickens can be kept at a free range or intensively",
+                   "Inorder to improve the nutriotion of free range local chickens, farmers must give supplement feed like maize bran, maize, left overs, vegetables",
+                   "Chickens must also be supplemented with eggshells to improve shell strength",
+                   "chicks up to 6weeks must be intensively fed in a kraal to best control diseases, predators and monitor growth. "
+                   ,"Provide clean and adequate water at all times"
+                    
+                  ]
+                },
+                {
+                  "id": 6,
+                  "image": "chicken_make_feed",
+                  "title": "How to formulate feed for chickens",
+                  "audio": "enBeef_06",
+                  "content": [
+
+                    "Weigh two parts of maizebran or maize flour",
+                    "Mix with one part of roasted soybean flour",
+                    "Add some salt"
+                  ]
+                },
+                {
+                  "id": 7,
+                  "image": "chicken_parasites",
+                  "title": "Parasites",
+                  "audio": "enBeef_07",
+                  "content": [
+
+                    "External Parasites - Mites and Flees : Apply Chemicals like Actellic and Akheri powder  in the Khola and on the chickens",
+                    "Internal Parasites - Worms : Deworm chickens at week 18, week 21, week 41 and after  every 6 month "
+                    ]
+                },
+                {
+                  "id": 8,
+                  "image": "chicken_diseases",
+                  "title": "Diseases",
+                  "audio": "enBeef_08",
+                  "content": [
+
+                    "Gumboro  -  Transmission: Transimitted through contact with infected chickens or contaminated surfaces; aerols, dust, movement of live infected  birds or carcases, droppings and contaminated utensils. Causative organism: Virus Symptoms: Depression, stop eating and drink excessively, sit back on the cloaca, yellowish diarrhoea, death after few days. Prevention: Good feed and khola hygeine, disinfect the house  between batches of birds with 4% formalin solution. Vaccinate the floack at day 10 and day 21 of age. Do not mix new or young batch  with old batch, farmers should not visit or buy other people's sick birds. Treatment:  No treatment "
+                    ,"Newcastle - Cause: Caused by a virus Symptoms: Egg production drops or stps completely, incoordination, neck twisting, inability to stand, Green diarrhoea, high mortality. Snuffles, flothy air sacs, decreased feed conversion efficiency. Prevention: Good feed and khola hygein, disinfect the house  between batches of birds with 4% formalin solution. Vaccinate the floack at day 16, day 28 of age and then every 3 months. Do not mix new or young batch  with old batch, farmers should not visit or buy other people's sick birds. Treatment: There is no treatment. Consult your nearest veterinary officers. "
+                    ,"Coccidiosis - Cause: Caused by a Protozoa called coccidia Symptoms: Weight loss, paleness, blood in droppings, diarrhoea and ruffled feathers. Prevention: Keep litter dry, add coccidiostat in feed, don’t mix birds of different ages, clean and disinfect house at the end of the batch of birds. Treatment:  Admister Amprolium to chicckens",
+                    "Infectious coryza - Cause: Caused by bacteria Symtoms: Fascial swellings, purulent ocular and nasal discharge, swollen wattles, sneezing and dyspnoea, loss of condition and loss of appetite. Prevention: Practicing all in, all out system Treatment: Administer Antibiotics eg Streptomycin ",
+                    "Fowel Cholera - Cause: Caused by bacteria Symtoms: in acute form; death of many birds without showing signs, mortality increses rapidly, depresssion, anorexia, mucus discharge from  the  mouth, ruffled feathers, diarrhoea, increased resparatory rate. In Chronic form; lesions on sternal bursal, wattles, joints, tendon shealth and foot pads which are normally swollen. suprative lesions involving resparatory tract, the conjactiva and caseous arthritis. Prevention: Good management practices, High level of biosecurity. Rodents, wild animals and birds which are carriers of the bacteria must be excluded from poultry houses. Treatment: Administer Antibiotics eg Sulfonamides, Triple Sulfer ",
+                    "Fowl pox - Cause: Caused by virus Symtoms: start as small white lumps whch grow rapidly and turn brown on comb.face and wattles which become scabby after 2-3 weeks.   Egg production is reduced. Prevention: Vaccinate with poxine, apply Actellic dust in the Khola and on the birds. Treatment: No treatment but report to veterinary "
+                 
+
+                  ]
+                },
+                {
+                  "id": 9,
+                  "image": "chicken_gene",
+                  "title": "General management of local chickens",
+                  "audio": "enBeef_09",
+                  "content": [
+
+                    "Follow proper management and feeding procedures ",
+                    "Vaccinate chickes with Lasota every 1-2 months to control newcastle disease "
+                    ,"Deworm chickens towards and during the rainy season",
+                    "Burn or burry all infected chickens to control the spread of the disease",
+                    "oberve and treat chickens for any signs of disease infestation. Consult verterinary officer or shop for proper medication "
+
+
+                  ]
+                },
+                {
+                  "id": 10,
+                  "image": "chicken_market",
+                  "title": "Marketing local chickens",
+                  "audio": "enBeef_10",
+                  "content": [
+
+                    "Local chickens can be sold as chicks, point of lays and mature chickens ",
+                    "They can be sold both locally and internationally to countries like Burundi and South Africa where ther is high demand for local eggs"
+
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "image": "goats_pro",
+          "name": "Goats Production",
+          "description": "Goats Production advisories ",
+          "products": [
+            {
+              "id": 1,
+              "image": "goat",
+              "name": "Goat Production",
+              "section": [
+                {
+                  "id": 1,
+                  "image": "goats_breed",
+                  "title": "Types of breeds",
+                  "audio": "enBeef_01",
+                  "content": [
+                    "- Meat breeds - Indiginous and Boer",
+                    "- Dairy Breed - Saanen",
+                    "- Dual purpose - Alpine"
+
+                  ]
+                },
+                {
+                  "id": 2,
+                  "image": "goats_how_breed",
+                  "title": "When to breed goats",
+                  "audio": "enBeef_02",
+                  "content": [
+                    
+                    "Goatsare to be bred at the onset of rain season and at the end of rain season so that kidding is done when feed is adequately available",
+                    "a dow reaches maturity age at 5-6 months but should be served at age of 10-12 months", 
+                    "a buck reaches maturity age in 4-5 months and active to met at 6-9 Months. " ,
+                    "Heat signs in female goats include bleating continuously, mounting others, produces clear mucous,  urinating frequently, low appetite and frequently twists the tail."
+            
+                  ]
+                },
+                {
+                  "id": 3,
+                  "image": "goat_feed",
+                  "title": "How to feed goats",
+                  "audio": "enBeef_03",
+                  "content": [
+
+                    "There are three types of feed for goats:  Pastures: Legumes and grasses 2. Conserved feeds: Crop residues, Hay and silage 3. Concetrates: rice and maize bran and feed rations ",
+                    "Goats prefer legumes and these have medicinal value",
+                    "Goats must be given supplemental feed to balnce up the nutrition of the feed"
+
+
+                  ]
+                },
+                {
+                  "id": 4,
+                  "image": "goat_feeding",
+                  "title": "Feeding systems",
+                  "audio": "enBeef_04",
+                  "content": [
+
+                  "  Feeding methods 1. Free range 2. Herding 3. Tethering "                    
+
+                  ]
+                },
+                {
+                  "id": 5,
+                  "image": "goat_parasite",
+                  "title": "Parasites",
+                  "audio": "enBeef_05",
+                  "content": [
+                   
+                   "External Parasites control-Apply acaricides following guidelines as spciefied by the manufacturer",
+                    "Internal parasite control : Deworm goats at on-set of rains and at end of rain season. Esure practicing rotational grazing "
+                  ]
+                },
+                {
+                  "id": 6,
+                  "image": "goats_diseases",
+                  "title": "Diseases Control ",
+                  "audio": "enBeef_06",
+                  "content": [
+
+                   " Goats are prone to some diseass of economic importance",
+"Some of the diseases include heartwater,goat plague and foot rot",
+"Consult the nearest Verterinary Officer of any disease that occurs within your farm for quick treatment",
+"follow all the control guidelines for different diseases to keep the animals vibrant and healthy"
+
+                  ]
+                },
+                {
+                  "id": 7,
+                  "image": "goats_markert",
+                  "title": "Things to consider when marketing goats",
+                  "audio": "enBeef_07",
+                  "content": [
+
+                   " Carry out a market research for goats to find the best offers",
+"Sell animals collectively to attain much bargaining power",
+"Commercial markets require constant supply of products, therefore, aggregate marketing can help attain the required amounts"
+
+
+
+                    ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "image": "pigs_pro",
+          "name": "Pigs Production",
+          "description": "Pigs Production advisories",
+          "products": [
+            {
+              "id": 1,
+              "image": "pigs",
+              "name": "Pigs Production",
+              "section": [
+                {
+                  "id": 1,
+                  "image": "pigs_house",
+                  "title": "How to construct a pig house",
+                  "audio": "enBeef_01",
+                  "content": [
+                    "Pig house should have a living and exercise yard, double fenced wall with a concrete floor",
+ "A parent requires 2m by 2m space",
+"Spacing for one piglet should be 1m by 0.5m",
+"The total length of the pig house will be determined by the total number of pigs available"
+
+                  ]
+                },
+                {
+                  "id": 2,
+                  "image": "pigs_breed",
+                  "title": "Types of breeds",
+                  "audio": "enBeef_02",
+                  "content": [
+                    
+                    "Indigenous pigs, Large white, Landrace and Trista",
+"Large white",
+"Landrace",
+"Trista"
+
+                  ]
+                },
+                {
+                  "id": 3,
+                  "image": "pigs_breeding",
+                  "title": "Breeding",
+                  "audio": "enBeef_03",
+                  "content": [
+
+           "Considerations when selecting breeding stock : Healthy and fast growing, well developed sexual organs,those with fast growing traits, not selected from the same parental source",
+           "When to breed pigs : Pigs can be bred at any season of the year hence it is important that farmers identify sows on heat ",
+           "Heat detection : Sows on heat can be identified when they show the following signs: Restlessness, lack of appetite, swelling and reddening of the vulva and clear mucus discharge, when the pig is pressed hard with the hands on either side of the back she will stand still showing she is ready to accept the male " 
+                  ]
+                },
+                {
+                  "id": 4,
+                  "image": "pigs_feeding",
+                  "title": "Feeds and Feeding",
+                  "audio": "enBeef_04",
+                  "content": [
+                    "Types of pig feed : Pigs feed on a variety of feed. Some examples are maize and rice bran, vegetables, kitchen left overs, potato vines, banana chops, grass, guava and mango leaves, formulated rations",
+                    "How to feed pigs : -Pigs should be fed indoor and atleast 3 times a day - Provide clean and adequate water at alltimes"
+                    
+                    
+
+                  ]
+                },
+                {
+                  "id": 5,
+                  "image": "pigs_parasite",
+                  "title": "Parasites",
+                  "audio": "enBeef_05",
+                  "content": [
+                   
+                   "External Parasites control - External parasites  irritates the animal and sucks blood which can result into an animal being anaemic, parasites transmit diseases like mange and African swine fever (ASF) External parasites can be controlled by scrubbing pigs with insectcides/acaricides. Pig house/pens should be spread with insectcides/acaricides and kholas should be kept clean ",
+                    "Internal parasite control : Internal Parasites compete with the host animal on feed in the digetive system and  suck blood resulting in an animal being malnourished and anaemic. Internal parasites can be controlled by routine deworming of animals Kholas should be kept clean by removing dung every time when the khola is soiled "
+                  ]
+                },
+                {
+                  "id": 6,
+                  "image": "pigs_diseases",
+                  "title": "Diseases Control ",
+                  "audio": "enBeef_06",
+                  "content": [
+
+                    "African Swine Fever disease : Signs and Symptoms of ASF - Depression, weakness, swaying when walking, fever, haemorrhage, blueish discoloration of the skin, death after few hours or few days, diarrhoea/dysentry and abortion. How to control ASF - pigs should be confined all the time, the khola to have a Double fenced wall, the khola should have a foot bath, quaratine and isolate the sick ones, do not allow visitors to visit your pens, burry and destroy all affected pigs or carcass.  Treatment - There is no treatment ",
+                    "Mange or ringworms : Signs and Symptoms of Mange/ring worm - Pigs mostly scruch themselves against the walls, falling-off of hair, thinkening of the skin, sores and wounds. Mange/ring worms can be controlled by ensuring routine cleaning of kholas/pens and isolate a sick animal Apply wound spray to treat mange/ ringworms and consult your nearest veterinary officer "
+                    
+
+
+                  ]
+                },
+                {
+                  "id": 7,
+                  "image": "pigs_market",
+                  "title": "Things to consider when marketing Pigs",
+                  "audio": "enBeef_07",
+                  "content": [
+
+                   " Encourage farmers to work as a group by forming associations. When pigs and pig products are sold as a group they have more bargaining power and reduce competition amongst themselves ",
+                   "Ensure producer offtaker agreements",
+                   "Avoid panic selling of pigs. As such diversify to other crops which can become handy in times of need. Have some other income generating activities."
+
+
+
+                    ]
+                }
+              ]
+            }
+          ]
+        }
+        ,
+        {
+          "id": 5,
+          "image": "honey_bee",
+          "name": "Honey Production",
+          "description": "Honey value chain and bee keeping practices",
+          "products": [
+            {
+              "id": 1,
+              "image": "honey",
+              "name": "Honey Production",
+              "section": [
+                {
+                  "id": 1,
+                  "image": "bee_importance",
+                  "title": "Importance of Bee Keeping",
+                  "audio": "",
+                  "content": [
+                    "Beekeeping is a source of income.",
+                    "Bees play a role in pollination and biodiversity conservation, including Polination of crops such as sunflower, citrus fruits plums and macadamia including the natural vegetation",
+                    "Beekeeping contributes to food security: "
+                    ,"1. Provides source of income and food such as honey, which consist of simple sugars that do not need to be digested but assimilated directly by the body, thus making it a quick source of energy.",
+                    "2. Honey is a natural sweetener that can be used in any type of cooking and of sweeting beverages.",
+                    "3. Honey can also be used for wine making, wound dressing and Honey beer"
+                  ]
+                },
+                {
+                  "id": 2,
+                  "image": "bee_husbandry",
+                  "title": "Recommended (Bee Hive) Husbandry Practices",
+                  "audio": "",
+                  "content": [
+                    "In order to improve the quantity and quality of both honey and bees wax the following husbandry practices are recommended",
+                    "",
+                    "A. Recommended Bee Hive",
+                    "The Kenya Top Bar Hive is recommended for high production, ease of monitoring and harvesting. This type of hive is a simple long box covered with 30 movable slats called top bars. The hive can be constructed using timber or straw. For dimensions of the bee hive and other bee equipment, farmers are advised to contact their field extension workers, Wildlife offices or bee-keeping expert in consultation with any agriculture office. Where bees become a threat to human life, members of the community are advised to contact local beekeeping expert. Beside the Kenya Top Bar Hive there is also the Malawi Standard Top Bar Hive which is an adaptation of the Kenyan type to suit Malawi conditions. Farmers are therefore encouraged to use such top bar hives and refrain from using log or bark hives because these cause a lot of deforestation. In addition to the scarce tree resources. These are difficult to manage and are a source of bushfires. "
+
+                  ]
+                },
+                {
+                  "id": 3,
+                  "image": "bee_sitting",
+                  "title": "Recommended Siting and Hanging Beehives",
+                  "audio": "",
+                  "content": [
+                    "In order to improve the quantity and quality of both honey and bees wax the following husbandry practices are recommended",
+                    "",
+                    "B. Recommended Siting and Hanging Beehives",
+                    "The site should have vegetation that will adequately provide nectar, a good shade to protect the bees from excessive heat, dry and accessible and beat least 100m away from people’s and domesticated animals’ paths. Humid conditions are conducive to disease infection. Hang the hive between 2 strong trees or on a single strong branch using wire or strong rope. The distance from the ground will depend upon the bee-keeper’s height. Where honey badger (Mellivora capensis) (Chiuli) is a problem, suspend the hive at a minimum distance of 1.5m from the ground as well as from the supporting trees. After 2 to 3days check for bee colonization and ensure that pests and other unfavorable bee colonization conditions are either eliminated or controlled."
+
+                  ]
+                },
+                {
+                  "id": 4,
+                  "image": "bee_colony",
+                  "title": "Starting a colony",
+                  "audio": "",
+                  "content": [
+                    "As soon as the hive is colonized, provide a sugar syrup in the ratio of 1:1(one part of sugar and one part of water) or honey, if available, to feed the bees while they are getting established. ",
+                    "Put the syrup in a container which has a cover (like a chicken water drinker) and place it in the hive in such a way that the syrup trickles on to a cover from where bees can feed. The duration for initial feeding will normally depend on whether bees have started to acclimatize to the surrounding environment. This is provided for a period of 2 to 3 days."
+                  ]
+                },
+                
+                {
+                  "id": 5,
+                  "image": "bee_feeding",
+                  "title": "Initial feeding ",
+                  "audio": "",
+                  "content": [
+                    "A farmer can start bee-keeping by either baiting or catching swarms.",
+                    "",
+                    "i. BAITING SWARMS",
+                    "Rub the inside of the hive and along the ridge on the top bars with melted bees-wax or propolis so that it smells like bees and attracts them. Place the top bars on the hive and close with a lid. ",
+                    "After the hive is colonized inspect once every fortnight or as convenient (at shorter frequencies) to assess growth, queen presence and righteousness, (each bee cluster performing its functions accordingly) insect pests and diseases incidences, and honey availability.",
+                    "",
+                    "CATCHING A SWARM",
+                    "A natural swarm hanging from a tree is normally docile and can easily be removed and hived. When catching a swarm, the bee-keeper should have a smoker-ready and put on a veil and gloves. Avoid using inappropriate protective gear to ensure full personal safety from stings. Take a capture box or a carton and put it beneath the clustering bees. Smoke the bees gently, shake or brush the bees off directly into the capture box and make sure most of the bees have entered the box before you cover it. This will ensure that the queen has entered the box as well; otherwise the swarm will not grow. Put the swarm in an already installed hive and keep on inspecting 2 times a month to monitor growth. Where possible monitoring at closer frequencies is encouraged"
+
+                  ]
+                },
+                {
+                  "id": 6,
+                  "image": "bee_handling",
+                  "title": "Bee handling",
+                  "audio": "",
+                  "content": [
+                    "When handling bees, it is important to make sure that they are kept under control by good sense of judgment, confidence and gentleness of the bee- keeper in addition to smoke. The bees should be under control from the time the hives are approached to the end of the operation. ",
+                    "",
+                    "The following practices should be followed in order to manage bees properly when rearing them."
+                    ,"",
+                    "1. All unnecessary movements or noise when working with bees should be avoided. Rapid and nervous movements will annoy the bees. The bee-keeper should go by the side of the hive and not in-front as he/she may block the flight path and annoy the bees.",
+                    "2. Avoid perfumes and scented lotions when working with bees. Strong scents attract the bees and incite them to sting.",
+                    "3. Use smoke to control the bees.",
+                    "4. Smouldering pieces of dry cattle dung will provide the best smoke for bee handling. Make sure there is no glowing dung but plenty of cool white smoke should be maintained. Do not puff in too much smoke as this may affect the quality of honey through smell. Smoke induces the bees to start consuming some honey there by reducing their tendency to fly and sting. Smoke also assists to direct the bees away from areas of the hive in which the bee-keeper is working.",
+                    "5. Avoid killing bees as this may annoy the others and incite them to sting or swarm. Once a bee stings, it later on dies. The more the stings, the more the colony is depopulated by way of death.",
+                    "6. When opening a hive, blow a little smoke into the entrance holes several times and then move behind the hive. After 1 or 2 minutes lift the top cover and detector determine the empty side of the hive without combs. Then start working from the empty side of the hive. Every time you lift a top bar blow some smoke into the gap to keep the bees away and after the operation is over, quietly close the hive and move away. "
+                  
+                  
+                  
+                  ]
+                },
+                {
+                  "id": 7,
+                  "image": "bee_controlling",
+                  "title": "Controlling Swarming",
+                  "audio": "",
+                  "content": [
+                    "is a method by which bee colonies reproduce and control over crowding. A major cause of swarming is that the colony has grown so large that the hive is getting congested. If swarming is not checked a lot of colonies will leave the apiary, leaving behind small colonies that will take time to build-up again. This will result in producing very little honey.  ",
+                    "Prevent swarming by harvesting honey or dividing the bee colony in order to provide adequate room in the hive. This will result in brood rearing and honey storage. Dividing a colony prevents swarming. This can be done by removing 12 to 15 combs that should include bees, sealed, and unsealed brood, honey and pollen, into a capture hive. Carry the capture hive to a new site and transfer the colony into an empty hive, which has already been installed. This will have been properly baited or positioned for bee colonization."
+                  ]
+                },
+                
+               
+                {
+                  "id": 15,
+                  "image": "bee_safety",
+                  "title": "Bee Safety",
+                  "audio": "",
+                  "content": [
+                    "Where sprays and dusts are used to control crop pests, a farmer and bee-keepers should cooperate if the lives of bees are to be protected. The danger can be minimized by the farmer not spraying crops when flowers are open; ",
+                    "and the bee-keeper shutting hives the night before spraying is to begin making sure no chemical dust will fall on his hives. One can also avoid hanging hives close or where there is heavy use of pesticides or insecticides."
+                  
+                  ]
+                },
+                {
+                  "id": 16,
+                  "image": "bee_harvest",
+                  "title": "Harvesting of Honey",
+                  "audio": "",
+                  "content": [
+                    "Average honey yield is 15 to 35 kg per colony per harvest",
+                    "Have a bee suit, smoker, bee brush, hive too land pail ready when preparing to harvest honey. Honey is ready after 5 to 9 months from colonization depending on climate, vegetation and pest infestation. Honey is ripe when combs are sealed. Sealed honey has 17% water content and will not ferment. ",
+                    ". Harvest honey when 8 or more combs have sealed honey. Any comb with honey and brood mixture should not be harvested. Harvest by cutting the honey comb off the top bar. Put the comb in a plastic or stainless-steel bucket or pail and close tightly to prevent other bees from feeding on the honey. ",
+                    "Honey is the bees food. Leave enough combs for bees to feed on. Harvesting may be done up to 3 times a year. Average yields vary from 15 to 35kg per colony per harvest."
+                  ]
+                },
+                {
+                  "id": 17,
+                  "image": "bee_products",
+                  "title": "Other Hive Products",
+                  "audio": "",
+                  "content": [
+                    "Other hive products are bees-wax, pollen, bee brood, propolis and royal jelly, honey and bees-wax being the major products."
+                  ]
+                },
+                {
+                  "id": 18,
+                  "image": "honey_processing",
+                  "title": "Processing of Honey",
+                  "audio": "",
+                  "content": [
+                    "Cut the combs into small pieces and strain the honey through a coarse strainer, screen wire or nylon cloth. Then strain the honey through a fine strainer and leave the strained honey in a clean container such as pail for 3 to 5 days to settle. Then bottle the honey and close tightly ready for sale."
+                  ]
+                }
+              ]
+            }
+            ,
+            {
+              "id": 2,
+              "image": "honey_pest",
+              "name": "Honey Pest_control",
+              "section":[
+                {
+                  "id": 8,
+                  "image": "bee_pest_Wax",
+                  "title": "Pest Control - Wax Moth (Galleria mellonella)",
+                  "audio": "",
+                  "content": [
+                    "• This is the most serious pest on honey bee colonies. It is a small brown moth which normally attacks weak colonies where there are unguarded combs. ",
+                    "• Weak colonies are characterized by few number of bees usually because of inadequate feeding. The moth lays eggs in the combs and the larvae burrow through the wax, feeding on pollen while weaving tunnels of silk as they go.",
+                    "• Before pupating the larvae will often chew a depression in the wood of the hive and then spin a rough cocoon. If left unprotected, the combs are reduced to a mass of webs. ",
+                    "• Control is by making sure the colonies are strong with proper feeding, that is, with sugar syrup during the time of food shortage and leaving enough honey for the bees to feed on when harvesting. This will ensure that all combs are well guarded."
+                  ]
+                },
+                {
+                  "id": 9,
+                  "image": "bee_pest_Beetles",
+                  "title": "Pest Control - Beetles (Aethin atumida)",
+                  "audio": "",
+                  "content": [
+                    "• Beetles vary in color and size. They damage the colonies by feeding on the stored pollen. The greatest damage is done in weak colonies where the beetle will breed and the larvae allowed to burrow through the comb.",
+                    "• Control is by reducing the entrance holes of the hive to 1cm diameter. This will allow free passage to the hive but will prevent the entry of the large hive beetles."
+                  ]
+                },
+                {
+                  "id": 10,
+                  "image": "bee_pest_Ants",
+                  "title": "Pest Control - Ants (Iridomyrmex humilis)",
+                  "audio": "",
+                  "content": [
+                    "• These are a common pest of bee colonies in the country. ",
+                    "• Ants attack the brood (eggs, larvae and pupae) and not the honey. Ants usually overwhelm the colony by their numbers causing the bees to leave the hive. ",
+                    "• Control is by applying oil or grease to hive stands or wire supports so that ants have no access to the hive."
+                  ]
+                },
+                {
+                  "id": 11,
+                  "image": "bee_pest_Palarus",
+                  "title": "Pest Control - Bee pirate (Palarus latifrons)",
+                  "audio": "",
+                  "content": [
+                    "• When in large numbers, the pest demoralizes a colony causing the bees to stop for aging or collecting nectar, pollen and resins. It waits around hives during the heat of the day and pounces on passing foragers, stinging them off as food for its larvae. ",
+                    "• Control is by seeking wasp nests and burning them. "
+                   
+                  ]
+                },
+                {
+                  "id": 12,
+                  "image": "bee_pest_Braula",
+                  "title": "Pest Control - Bee lice (Braula spp.)",
+                  "audio": "",
+                  "content": [
+                    "• It is occasionally seen clinging to the body of the queen bee. ",
+                    "• It eats some food from the mouth parts of its host.  ",
+                    "• Control is by putting a heavily infested queen bee in a matchbox and blowing in tobacco smoke. ",
+                    "• The bee lice will fall off then the queen bee can be returned to her colony."
+                   
+                  ]
+                },
+                {
+                  "id": 13,
+                  "image": "bee_pest_Badger",
+                  "title": "Pest Control -The Honey Badger or Ratel (Mellivora capensis) (chiuli)",
+                  "audio": "",
+                  "content": [
+                    "• This is a destructive animal about 1m long with very tough skin and long strong curved claws. ",
+                    "• It breaks up bee hives and feeds on all combs without being worried by stings.",
+                    "• It can also attack human beings. ",
+                    "• Constructing a fence around the apiary so that it has no access to the hive can control the Honey Badger. Where wires suspend hives, pile thorns on bottom of trees supporting the hive three times a year. "
+                    ,"• You can also ensure that hives are suspended at a height slightly above a metre. This will disable the honey badger reaching the hive. However, it has to be noted that honey badger is capable of climbing trees and can jump onto the hive from tree branches. Hence, where this animal is a problem, avoid branches hanging over the hive"
+                  ]
+                },
+                {
+                  "id": 14,
+                  "image": "bee_yield",
+                  "title": "Yield and Disease Control",
+                  "audio": "",
+                  "content": [
+                    "Average honey yield is 15 to 35 kg per colony per harvest.",
+                    "There are no major bee diseases of economic importance currently."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 6,
+          "image": "food_preserve",
+          "name": "Food Preservation",
+          "description": "how to preserve food advisories",
+          "products": [
+            {
+              "id": 1,
+              "image": "food_preservation",
+              "name": "Food Preseversation",
+              "section": [
+                {
+                  "id": 1,
+                  "image": "food_pasture",
+                  "title": "Types of pasture",
+                  "audio": "enBeef_01",
+                  "content": [
+                    "There are two types of pasture.      ",                     
+                    " 1) Legumes: These contain more protein like silver leaf,leucaena and stylo", 
+                    " 2)Grasses: These contain more roughage such as rhodes grass, napier grass, Ntchisi panicum, branciaria and guatemala"
+
+
+                  ]
+                },
+                {
+                  "id": 2,
+                  "image": "food_when",
+                  "title": "When to preserve feed ",
+                  "audio": "enBeef_02",
+                  "content": [
+                    
+                    "Feed preservation should be done based on type of preservation on wants to do",
+                    "If preservation is to be done by crop residues, do it soon after harvesting.",
+                    "If you are using grass, cut them just before they start flowering. ",
+                    "If you are using legumes, cut them just before they start losing their leaves or just before they start flowering. "
+
+                  ]
+                },
+                {
+                  "id": 3,
+                  "image": "food_silege",
+                  "title": "Preserving silage",
+                  "audio": "enBeef_03",
+                  "content": [
+
+                    "Harvest tender maize or grass" ,      
+                    "Chop the material into smaller pieces",
+                    "Put them into plastic silos or pits and compact to remove air ",
+                    "Cover with a plastic sheet or large round bale tightly.",
+                    "Keep in a well drained and ventilated place"
+
+
+                  ]
+                },
+                {
+                  "id": 4,
+                  "image": "food_hay",
+                  "title": "Preserving hay",
+                  "audio": "enBeef_04",
+                  "content": [
+
+                    "Make hay from rhodes grass when it is showing the flower heads which have just started to emerge ", 
+                    "When using legumes to make hay, cut them just before they start losing their leaves or just before they start flowering.", 
+                    "Using a sickel, cut grass or legumes early in the morning",
+                    "Dry it as soon as possible; turn grass when 20% moisture content has been lost and stack the grass on tripods by late afternoon",
+                    "Collect dried hay and store in a properly constructed hay shed"
+                    
+                  ]
+                },
+                {
+                  "id": 5,
+                  "image": "food_res",
+                  "title": "Preserving crop residues",
+                  "audio": "enBeef_05",
+                  "content": [
+                   
+                    "These include maize, millet, sorghum, rice straw and dry grass found in dry season", 
+                    "Put them in bundles ", 
+                    "Store on a stall 0.5m high to protect from termites",
+                    "Feed must be treated with either mollases or Urea before it is given to animals, taking into consideration the proper procedure to avoid poisoning"
+                    
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+ 
+      ]
+    }
+  ]
+}
