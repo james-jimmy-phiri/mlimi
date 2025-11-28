@@ -7,18 +7,18 @@ import 'package:mlimi/models/advisory_model.dart';
 import 'package:mlimi/models/category.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mlimi/pages/advisory/advivory_all.dart';
 import 'package:mlimi/pages/advisory/finacial_literancy/themes_pages.dart';
 import 'package:mlimi/pages/product_request/homepage.dart';
 import 'package:mlimi/pages/profile/profile.dart';
 import 'package:mlimi/pages/views/categoryCard/category_card.dart';
 import 'package:mlimi/pages/views/my_current_location.dart';
 import 'package:mlimi/pages/views/signup/loginscreen.dart';
+import 'package:mlimi/pages/views/signup/registration_tab_view.dart';
 import 'package:mlimi/pages/views/slider_screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:mlimi/pages/weather/current_weather_screen.dart';
-import 'package:quickalert/quickalert.dart';
 import 'package:mlimi/pages/views/recently/recently_cell.dart';
+import 'package:mlimi/pages/views/quick_actions/quick_actions_overview.dart';
 import 'package:mlimi/provider/location_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -221,8 +221,8 @@ class _FeaturedScreenState extends State<FeaturedScreen> {
                   leading: Icon(Icons.language, color: Colors.white),
                   title: Text(
                     selectedLanguage == 'en'
-                        ? 'Change to Chichewa'
-                        : 'Pitani ku Chizungu',
+                        ? 'Sinthani chiyankhulo KuChichewa'
+                        : 'Change to English ',
                     style: TextStyle(color: Colors.white, fontSize: 18),
                   ),
                   onTap: () {
@@ -245,6 +245,8 @@ class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final selectedLanguage = GetStorage().read('language') ?? 'en';
+    final allCategories = getCategoryList(selectedLanguage);
+    final visibleCategories = allCategories.take(6).toList();
     return Container(
       color: Bgreen,
       child: Column(
@@ -264,7 +266,7 @@ class Body extends StatelessWidget {
                   onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => AllAdvisory(),
+                      builder: (context) => const QuickActionsOverviewPage(),
                     ),
                   ),
                   child: Text(
@@ -293,21 +295,21 @@ class Body extends StatelessWidget {
             ),
             itemBuilder: (context, index) {
               return CategoryCard(
-                category: categoryList[index],
+                category: visibleCategories[index],
               );
             },
-            itemCount: categoryList.length,
+            itemCount: visibleCategories.length,
           ),
           //Add a tabview here
           const SizedBox(
             height: 20,
           ),
-      
+
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 14),
             child: Row(children: [
               Text(
-                selectedLanguage == 'en' ? "Advisory :" : "Malangizo :",
+                selectedLanguage == 'en' ? "Advisory :" : "Ulangizi :",
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
               )
             ]),
@@ -315,8 +317,7 @@ class Body extends StatelessWidget {
           SizedBox(
             height: MediaQuery.of(context).size.width * 0.8,
             child: ListView.builder(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 15, horizontal: 2),
+              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 2),
               scrollDirection: Axis.horizontal,
               itemCount: sectors.length + 2, // JSON items + 2 custom tiles
               itemBuilder: (context, index) {
@@ -326,7 +327,7 @@ class Body extends StatelessWidget {
                   return RecentlyCell(
                       sector: sector); // Render Sector-based tiles
                 }
-      
+
                 // Handle custom ListTiles for the last two indices
                 if (index == sectors.length) {
                   // First custom tile
@@ -360,10 +361,10 @@ class Body extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(10),
                                 child: Image.asset(
                                   'assets/images/weathercover.jpg',
-                                  width: MediaQuery.of(context).size.width *
-                                      0.32,
-                                  height: MediaQuery.of(context).size.width *
-                                      0.45,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.32,
+                                  height:
+                                      MediaQuery.of(context).size.width * 0.45,
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -417,10 +418,10 @@ class Body extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(10),
                                 child: Image.asset(
                                   'assets/images/financial_literacy.jpg',
-                                  width: MediaQuery.of(context).size.width *
-                                      0.32,
-                                  height: MediaQuery.of(context).size.width *
-                                      0.45,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.32,
+                                  height:
+                                      MediaQuery.of(context).size.width * 0.45,
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -429,7 +430,9 @@ class Body extends StatelessWidget {
                               height: 15,
                             ),
                             Text(
-                              "Financial Literacy",
+                              selectedLanguage == 'en'
+                                  ? "Financial Literacy "
+                                  : "Maphudzilo a Zachuma",
                               maxLines: 3,
                               textAlign: TextAlign.left,
                               style: TextStyle(
@@ -441,7 +444,7 @@ class Body extends StatelessWidget {
                         )),
                   );
                 }
-      
+
                 return Container(); // Fallback (should never reach here)
               },
             ),
@@ -450,20 +453,6 @@ class Body extends StatelessWidget {
       ),
     );
   }
-}
-
-final Map<String, IconData> iconMap = {
-  'sell': Icons.monetization_on_outlined,
-  'buy': Icons.shopping_cart_checkout,
-  'wallet': Icons.account_balance_wallet_rounded,
-  'location': Icons.location_on_outlined,
-  'calculate': Icons.calculate,
-  'search': Icons.search,
-  // Add more icons as needed
-};
-
-IconData? getIconDataFromString(String iconName) {
-  return iconMap[iconName];
 }
 
 class CustomAppBar extends StatelessWidget {
@@ -557,9 +546,8 @@ class CustomAppBar extends StatelessWidget {
                             onPressed: () => Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>
-                                    const SimpleRegisterScreen(),
-                              ),
+                              builder: (_) => const RegistrationTabView(),
+                            ),
                             ),
                             child: Text(
                               selectedLanguage == 'en' ? "Sign Up" : "Lembetsa",

@@ -13,20 +13,47 @@ import 'package:mlimi/pages/views/signup/loginscreen.dart';
 import 'package:mlimi/pages/wallet/wallet.dart';
 import 'package:mlimi/provider/http_provider.dart';
 
-List<Map<String, dynamic>> cardOperations = [
-  {"title": "Apply Mlimi Wallet", "page": const Wallet(), "icon": Icons.wallet},
-  {
-    "title": "Product Sale Offs",
-    "page": const SalePage(),
-    "icon": Icons.shopping_cart
-  },
-  {
-    "title": "Potential Customers",
-    "page": const PotentialCustomers(),
-    "icon": Icons.people
-  },
-  {"title": "Potential Suppliers", "page": Sample(), "icon": Icons.business}
-];
+List<Map<String, dynamic>> getCardOperations(String language) {
+  if (language == 'ny') {
+    return [
+      {
+        "title": "Lembelani Pa mlimi Waleti",
+        "page": const Wallet(),
+        "icon": Icons.wallet
+      },
+      {
+        "title": "Malonda Mukugulitsa",
+        "page": const SalePage(),
+        "icon": Icons.shopping_cart
+      },
+      {
+        "title": "Ofuna Kugula",
+        "page": const PotentialCustomers(),
+        "icon": Icons.people
+      },
+      {"title": "Othekela Kukugulisani Mukufuna", "page": Sample(), "icon": Icons.business}
+    ];
+  } else {
+    return [
+      {
+        "title": "Apply Mlimi Wallet",
+        "page": const Wallet(),
+        "icon": Icons.wallet
+      },
+      {
+        "title": "Product Sale Offs",
+        "page": const SalePage(),
+        "icon": Icons.shopping_cart
+      },
+      {
+        "title": "Potential Customers",
+        "page": const PotentialCustomers(),
+        "icon": Icons.people
+      },
+      {"title": "Potential Suppliers", "page": Sample(), "icon": Icons.business}
+    ];
+  }
+}
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -96,15 +123,20 @@ class _ProductRequest extends State<Homepage> {
   }
 
   void _showLoginDialog() {
+    final selectedLanguage = GetStorage().read('language') ?? 'en';
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Login Required'),
-          content: const Text('Your session has expired. Please log in again.'),
+          title: Text(selectedLanguage == 'en'
+              ? 'Login Required'
+              : 'Lowani kaye kuti mugwiritse ntchito'),
+          content: Text(selectedLanguage == 'en'
+              ? 'Your session has expired. Please log in again.'
+              : 'Nthawi yanu yatha. Chonde lowaninso.'),
           actions: <Widget>[
             TextButton(
-              child: const Text('Login'),
+              child: Text(selectedLanguage == 'en' ? 'Login' : 'Lowani'),
               onPressed: () {
                 Navigator.pushReplacement(
                   context,
@@ -138,8 +170,10 @@ class _ProductRequest extends State<Homepage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          'Failed to load data. Please try again.',
+                        Text(selectedLanguage == 'en'
+                           ?'Failed to load data. Please try again.'
+                           : 'Failed to load data. Chonde yesani kachikena .',
+                          
                           style: TextStyle(color: Colors.red, fontSize: 18),
                         ),
                         TextButton(
@@ -153,7 +187,7 @@ class _ProductRequest extends State<Homepage> {
                             text: TextSpan(
                               text: selectedLanguage == 'en'
                                   ? 'or your security token has expired,'
-                                  : 'Ndine wogwiritsa ntchito watsopano',
+                                  : 'Ndinu wogwiritsa ntchito watsopano',
                               style: TextStyle(color: Colors.black),
                               children: [
                                 TextSpan(
@@ -217,7 +251,8 @@ class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final members = user['client']['members'];
-    final commodities = user['commodities'];
+    final selectedLanguage = GetStorage().read('language') ?? 'en';
+    final operations = getCardOperations(selectedLanguage);
     return Container(
       width: double.infinity,
       decoration: const BoxDecoration(
@@ -253,10 +288,10 @@ class Body extends StatelessWidget {
                             border: Border(
                                 bottom: BorderSide(
                                     color: kPrimaryColor, width: 3.5))),
-                        child: const Center(
+                        child: Center(
                           child: Text(
-                            "Operations",
-                            style: TextStyle(
+                            selectedLanguage == 'en' ? "Operations" : "Zichitochito",
+                            style: const TextStyle(
                                 fontSize: 15,
                                 color: kPrimaryColor,
                                 fontWeight: FontWeight.w600),
@@ -268,7 +303,7 @@ class Body extends StatelessWidget {
                 ),
               ),
               Column(
-                children: List.generate(cardOperations.length, (index) {
+                children: List.generate(operations.length, (index) {
                   return Padding(
                     padding:
                         const EdgeInsets.only(left: 20, right: 20, bottom: 20),
@@ -277,7 +312,7 @@ class Body extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => cardOperations[index]['page'],
+                            builder: (context) => operations[index]['page'],
                           ),
                         );
                       },
@@ -307,7 +342,7 @@ class Body extends StatelessWidget {
                                   ),
                                   child: Center(
                                     child: Icon(
-                                      cardOperations[index]['icon'],
+                                      operations[index]['icon'],
                                       color: kPrimaryColor,
                                       size: 20,
                                     ),
@@ -318,7 +353,7 @@ class Body extends StatelessWidget {
                                 ),
                                 Expanded(
                                   child: Text(
-                                    "${cardOperations[index]['title']}: ${_getCardValue(index)}",
+                                    "${operations[index]['title']}: ${_getCardValue(index)}",
                                     style: const TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w600,
@@ -373,49 +408,6 @@ class Body extends StatelessWidget {
     }
   }
 
-  Widget _buildHeader(Map<String, dynamic> client) {
-    return Card(
-      elevation: 4,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                CircleAvatar(
-                  backgroundColor: Colors.green[100],
-                  child: Icon(Icons.group, color: Colors.green[800]),
-                ),
-                const Spacer(),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(client['name'],
-                        style: const TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold)),
-                    const SizedBox(height: 4),
-                    Text(client['phone']),
-                  ],
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _infoTile('District', client['district'] ?? 'N/A'),
-                _infoTile('Joined', client['joined'] ?? 'N/A'),
-                _infoTile('Status', client['active'] ? 'Active' : 'Inactive'),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   Widget _buildMembers(List<dynamic> members) {
     return Card(
       elevation: 4,
@@ -447,64 +439,6 @@ class Body extends StatelessWidget {
       ),
     );
   }
-
-  Widget _infoTile(String title, String value) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(title,
-            style: const TextStyle(
-                fontSize: 12, fontWeight: FontWeight.bold, color: Colors.grey)),
-        Text(value, style: const TextStyle(fontSize: 14)),
-      ],
-    );
-  }
-
-  Widget _buildCommodities(List<dynamic> commodities) {
-    return Column(
-      children: commodities.map<Widget>((item) {
-        return Card(
-          elevation: 4,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          margin: const EdgeInsets.symmetric(vertical: 8),
-          child: ExpansionTile(
-            leading: ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: Image.network(
-                item['image'],
-                width: 50,
-                height: 50,
-                fit: BoxFit.cover,
-              ),
-            ),
-            title: Text(
-              item['name'],
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
-            subtitle: Text("${item['price']} / ${item['measure']}"),
-            childrenPadding: const EdgeInsets.all(12),
-            children: [
-              Text("Location: ${item['location']}"),
-              const SizedBox(height: 4),
-              Text("Description: ${item['description']}"),
-              const SizedBox(height: 4),
-              Text("Views: ${item['views']}"),
-              const SizedBox(height: 8),
-              const Text("Contributions",
-                  style: TextStyle(fontWeight: FontWeight.bold)),
-              const SizedBox(height: 4),
-              ...item['contributions'].map<Widget>((c) => Padding(
-                    padding: const EdgeInsets.only(left: 8.0, top: 2),
-                    child: Text(
-                        "${c['member']}: ${c['quantity']} ${item['measure']}"),
-                  )),
-            ],
-          ),
-        );
-      }).toList(),
-    );
-  }
 }
 
 class CustomeAppBar extends StatelessWidget {
@@ -523,6 +457,7 @@ class CustomeAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final selectedLanguage = GetStorage().read('language') ?? 'en';
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.only(top: 15, left: 15, bottom: 15, right: 15),
@@ -548,8 +483,11 @@ class CustomeAppBar extends StatelessWidget {
                 TextButton.icon(
                   onPressed: () => Navigator.pop(context),
                   icon: Icon(Icons.arrow_back, color: Colors.white),
-                  label:
-                      Text("Back Home", style: TextStyle(color: Colors.white)),
+                  label: Text(
+                      selectedLanguage == 'en'
+                          ? "Back Home"
+                          : "Bwelerani Samba loyamba",
+                      style: TextStyle(color: Colors.white)),
                 ),
                 TextButton(
                   onPressed: () => Navigator.push(
@@ -561,7 +499,9 @@ class CustomeAppBar extends StatelessWidget {
                   child: Row(
                     children: [
                       Text(
-                        'Notification ($notifications)',
+                        selectedLanguage == 'en'
+                            ? 'Notification ($notifications)'
+                            : 'Uthenga ($notifications)',
                         style: Theme.of(context)
                             .textTheme
                             .bodyMedium
@@ -578,9 +518,9 @@ class CustomeAppBar extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
-                  'Welcome :',
-                  style: TextStyle(
+                Text(
+                  selectedLanguage == 'en' ? 'Welcome :' : 'Takulandirani :',
+                  style: const TextStyle(
                     fontWeight: FontWeight.w500,
                     fontSize: 16,
                     color: Color.fromARGB(255, 224, 223, 223),

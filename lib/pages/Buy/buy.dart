@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mlimi/pages/Buy/markert.dart';
 import 'package:mlimi/pages/Buy/markert_app_bar.dart';
-import 'package:mlimi/pages/Buy/market_tabview.dart';
 
 class Buy extends StatelessWidget {
   const Buy({super.key});

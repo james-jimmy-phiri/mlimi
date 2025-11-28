@@ -513,7 +513,7 @@ class _SupplyPageState extends State<SupplyPage>
                           child: ListView(
                             children: [
                               DropdownButtonFormField<String>(
-                                value: _selectedProduct,
+                                initialValue: _selectedProduct,
                                 items: _products
                                     .map((product) => DropdownMenuItem<String>(
                                           value: product['id'].toString(),
@@ -546,7 +546,7 @@ class _SupplyPageState extends State<SupplyPage>
                               ),
                               const SizedBox(height: 16.0),
                               DropdownButtonFormField<String>(
-                                value: _selectedUnit,
+                                initialValue: _selectedUnit,
                                 onChanged: (String? newValue) {
                                   setState(() {
                                     _selectedUnit = newValue;
@@ -578,7 +578,7 @@ class _SupplyPageState extends State<SupplyPage>
                               ),
                               const SizedBox(height: 16.0),
                               DropdownButtonFormField<String>(
-                                value: district,
+                                initialValue: district,
                                 onChanged: (String? newValue) {
                                   setState(() {
                                     district = newValue!;

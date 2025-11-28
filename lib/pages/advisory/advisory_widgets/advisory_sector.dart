@@ -3,22 +3,43 @@ import 'package:mlimi/constants/color.dart';
 import 'package:mlimi/models/advisory_model.dart';
 import 'package:mlimi/pages/advisory/advisory_widgets/advisory_category.dart';
 import 'package:mlimi/pages/advisory/components/discount_card.dart';
-
 import 'package:mlimi/pages/advisory/finacial_literancy/themes_pages.dart';
 import 'package:mlimi/pages/weather/current_weather_screen.dart';
+import 'package:get_storage/get_storage.dart';
 
-class AdvisorySector extends StatelessWidget {
+class AdvisorySector extends StatefulWidget {
   final List<Sector> sectors;
 
-  const AdvisorySector({super.key, required this.sectors});
+  const AdvisorySector({
+    super.key,
+    required this.sectors,
+  });
+
+  @override
+  State<AdvisorySector> createState() => _AdvisorySectorState();
+}
+
+class _AdvisorySectorState extends State<AdvisorySector> {
+  late String _language;
+  final storage = GetStorage();
+
+  @override
+  void initState() {
+    super.initState();
+    // Retrieve language preference from GetStorage
+    _language = storage.read<String>('language') ?? 'en';
+  }
+
+  // Method to get localized text based on language preference
+  String _localizedText(String enText, String nyText) {
+    return _language == 'ny' ? nyText : enText;
+  }
 
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
-
-    // Total items = sectors + custom tiles
-    const int customTileCount = 2; // Number of custom ListTiles
-    final int totalItemCount = sectors.length + customTileCount;
+    const int customTileCount = 2;
+    final int totalItemCount = widget.sectors.length + customTileCount;
 
     return Column(
       children: [
@@ -28,18 +49,19 @@ class AdvisorySector extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: ListView.builder(
               shrinkWrap: true,
-              itemCount: totalItemCount, // Adjusted to include custom tiles
+              itemCount: totalItemCount,
               itemBuilder: (context, index) {
-                // JSON-based ListTiles first
-                if (index < sectors.length) {
-                  final sector = sectors[index];
+                if (index < widget.sectors.length) {
+                  final sector = widget.sectors[index];
                   return InkWell(
                     onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>
-                              AdvisoryCategory(sector: sector),
+                          builder: (context) => AdvisoryCategory(
+                            sector: sector,
+                            selectedLanguage: _language,
+                          ),
                         ),
                       );
                     },
@@ -66,7 +88,9 @@ class AdvisorySector extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Text(
-                                  sector.name,
+                                  _language == 'en'
+                                      ? sector.name
+                                      : (sector.nameNy ?? sector.name),
                                   style: TextStyle(
                                       color: TColor.text,
                                       fontSize: 28,
@@ -74,7 +98,8 @@ class AdvisorySector extends StatelessWidget {
                                 ),
                                 const SizedBox(height: 8),
                                 Text(
-                                  "View more >",
+                                  _localizedText(
+                                      'View more >', 'Onani zambiri >'),
                                   maxLines: 2,
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
@@ -103,8 +128,7 @@ class AdvisorySector extends StatelessWidget {
                   );
                 }
 
-                // Custom ListTiles after JSON-based list
-                final customIndex = index - sectors.length;
+                final customIndex = index - widget.sectors.length;
                 if (customIndex == 0) {
                   return InkWell(
                     onTap: () {
@@ -138,7 +162,7 @@ class AdvisorySector extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Weather",
+                                  _localizedText('Weather', 'Zanyengo'),
                                   style: TextStyle(
                                       color: TColor.text,
                                       fontSize: 28,
@@ -146,7 +170,8 @@ class AdvisorySector extends StatelessWidget {
                                 ),
                                 const SizedBox(height: 8),
                                 Text(
-                                  "View more >",
+                                  _localizedText(
+                                      'View more >', 'Onani zambiri >'),
                                   maxLines: 2,
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
@@ -206,7 +231,8 @@ class AdvisorySector extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Financial Literacy",
+                                  _localizedText('Financial Literacy',
+                                      'Maphudzilo Adzachuma'),
                                   style: TextStyle(
                                       color: TColor.text,
                                       fontSize: 28,
@@ -214,7 +240,8 @@ class AdvisorySector extends StatelessWidget {
                                 ),
                                 const SizedBox(height: 8),
                                 Text(
-                                  "View more >",
+                                  _localizedText(
+                                      'View more >', 'Onani zambiri >'),
                                   maxLines: 2,
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
@@ -242,8 +269,7 @@ class AdvisorySector extends StatelessWidget {
                     ),
                   );
                 }
-
-                return const SizedBox.shrink(); // Fallback (shouldn't be hit)
+                return const SizedBox.shrink();
               },
             ),
           ),
@@ -253,23 +279,45 @@ class AdvisorySector extends StatelessWidget {
   }
 }
 
-class CustomPage1 extends StatelessWidget {
+// Update CustomPage1 and CustomPage2 to use GetStorage as well
+class CustomPage1 extends StatefulWidget {
+  const CustomPage1({Key? key}) : super(key: key);
+
+  @override
+  State<CustomPage1> createState() => _CustomPage1State();
+}
+
+class _CustomPage1State extends State<CustomPage1> {
+  late String _language;
+  final storage = GetStorage();
+
+  @override
+  void initState() {
+    super.initState();
+    _language = storage.read<String>('language') ?? 'en';
+  }
+
+  String _localizedText(String enText, String nyText) {
+    return _language == 'ny' ? nyText : enText;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Custom Page 1")),
+      appBar: AppBar(title: Text(_localizedText('Weather', 'Nyengo'))),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Failed to load Wealther data. Please try again.',
+              _localizedText('Failed to load Weather data. Please try again.',
+                  'Palakwika potsitsa data ya nyengo. Chonde yesesni.'),
               style: TextStyle(color: Colors.red, fontSize: 18),
             ),
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {},
-              child: const Text('Try Again'),
+              child: Text(_localizedText('Try Again', 'Yesaninso')),
             ),
           ],
         ),
@@ -278,23 +326,46 @@ class CustomPage1 extends StatelessWidget {
   }
 }
 
-class CustomPage2 extends StatelessWidget {
+class CustomPage2 extends StatefulWidget {
+  const CustomPage2({Key? key}) : super(key: key);
+
+  @override
+  State<CustomPage2> createState() => _CustomPage2State();
+}
+
+class _CustomPage2State extends State<CustomPage2> {
+  late String _language;
+  final storage = GetStorage();
+
+  @override
+  void initState() {
+    super.initState();
+    _language = storage.read<String>('language') ?? 'en';
+  }
+
+  String _localizedText(String enText, String nyText) {
+    return _language == 'ny' ? nyText : enText;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Custom Page 2")),
+      appBar: AppBar(
+          title: Text(
+              _localizedText('Financial Literacy', 'Ndalama ndi Bizinesi'))),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Failed to load Finacial Literance information.',
+              _localizedText('Failed to load Financial Literacy information.',
+                  'Palakwika potsitsa data ya ndalama.'),
               style: TextStyle(color: Colors.red, fontSize: 18),
             ),
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {},
-              child: const Text('Try Again'),
+              child: Text(_localizedText('Try Again', 'Yesaninso')),
             ),
           ],
         ),

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mlimi/constants/color.dart';
-import 'package:mlimi/pages/region/region_components/favourite.dart';
 import 'package:mlimi/pages/region/region_components/region_location.dart';
 import 'package:mlimi/pages/region/region_components/special_for_region.dart';
-import 'package:mlimi/pages/views/slider_screen.dart';
 
 class RegionBody extends StatelessWidget {
   const RegionBody({super.key});

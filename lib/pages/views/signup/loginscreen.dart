@@ -15,7 +15,8 @@ import 'package:mlimi/constants/url.dart';
 import 'package:mlimi/pages/product_request/homepage.dart';
 import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
-import 'package:mlimi/pages/views/signup/group_registration.dart';
+
+import 'package:mlimi/pages/views/signup/registration_tab_view.dart';
 
 class SimpleLoginScreen extends StatefulWidget {
   /// Callback for when this form is submitted successfully. Parameters are (name, pin)
@@ -280,7 +281,7 @@ class _SimpleLoginScreenState extends State<SimpleLoginScreen> {
               onPressed: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => const SimpleRegisterScreen(),
+                  builder: (_) => const RegistrationTabView(),
                 ),
               ),
               child: RichText(
@@ -311,8 +312,9 @@ class _SimpleLoginScreenState extends State<SimpleLoginScreen> {
 class SimpleRegisterScreen extends StatefulWidget {
   /// Callback for when this form is submitted successfully. Parameters are (name, pin)
   final Function(String? name, String? pin)? onSubmitted;
+  final bool embedded;
 
-  const SimpleRegisterScreen({this.onSubmitted, super.key});
+  const SimpleRegisterScreen({this.onSubmitted, this.embedded = false, super.key});
 
   @override
   State<SimpleRegisterScreen> createState() => _SimpleRegisterScreenState();
@@ -517,60 +519,42 @@ class _SimpleRegisterScreenState extends State<SimpleRegisterScreen> {
     double screenHeight = MediaQuery.of(context).size.height;
     final selectedLanguage = GetStorage().read('language') ?? 'en';
 
-    if (isFetchingDistricts) {
-      return Scaffold(
-          backgroundColor: Bgreen,
-          body: Center(
-            child: Lottie.asset(
-              'assets/icons/loading1.json', // Replace with your Lottie file path
-              width: 100,
-              height: 100,
-            ),
-          ));
-    }
-
-    return Scaffold(
-      backgroundColor: Bgreen,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: ListView(
+    final formContent = Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      child: ListView(
           children: [
-            SizedBox(height: screenHeight * .06),
-            Text(
-              selectedLanguage == 'en' ? 'Create Account' : 'Pangani Akaunti',
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
+            SizedBox(height: 8),
+            Card(
+              elevation: 2,
+              color: Colors.white,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      selectedLanguage == 'en' ? 'Create Account' : 'Pangani Akaunti',
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      selectedLanguage == 'en'
+                          ? 'Sign up to get started!'
+                          : 'Lembetsani kuti muyambe!',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.black.withOpacity(.6),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-            SizedBox(height: screenHeight * .01),
-            Text(
-              selectedLanguage == 'en'
-                  ? 'Sign up to get started!'
-                  : 'Lembetsani kuti muyambe!',
-              style: TextStyle(
-                fontSize: 18,
-                color: Colors.black.withOpacity(.6),
-              ),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (_) => const GroupRegisterScreen()),
-                );
-              },
-              child: Text(
-                'Register as a Group',
-                style:
-                    TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
-              ),
-            ),
-            Center(
-              child: Lottie.asset('assets/icons/signup.json', width: 120),
-            ),
-            SizedBox(height: screenHeight * .001),
+            const SizedBox(height: 16),
             InputField(
               controller: _fullnameController,
               onChanged: (value) {
@@ -602,7 +586,7 @@ class _SimpleRegisterScreenState extends State<SimpleRegisterScreen> {
             ),
             SizedBox(height: screenHeight * .025),
             DropdownButtonFormField<String>(
-              value: selectedDistrictId,
+              initialValue: selectedDistrictId,
               onChanged: (value) {
                 setState(() {
                   selectedDistrictId = value;
@@ -669,34 +653,82 @@ class _SimpleRegisterScreenState extends State<SimpleRegisterScreen> {
                     text: selectedLanguage == 'en' ? 'Sign Up' : 'Lembetsani',
                     onPressed: submit,
                   ),
-            TextButton(
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const SimpleLoginScreen(),
+            if (!widget.embedded)
+              TextButton(
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const SimpleLoginScreen(),
+                  ),
+                ),
+                child: RichText(
+                  text: TextSpan(
+                    text: selectedLanguage == 'en'
+                        ? 'I am already a member'
+                        : ' Ndine membala kale',
+                    style: TextStyle(color: Colors.black),
+                    children: [
+                      TextSpan(
+                        text: selectedLanguage == 'en' ? 'Sign In' : ' Lowani',
+                        style: TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              child: RichText(
-                text: TextSpan(
-                  text: selectedLanguage == 'en'
-                      ? 'I am already a member'
-                      : ' Ndine membala kale',
-                  style: TextStyle(color: Colors.black),
-                  children: [
-                    TextSpan(
-                      text: selectedLanguage == 'en' ? 'Sign In' : ' Lowani',
-                      style: TextStyle(
-                        color: Colors.blue,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
+            if (!widget.embedded)
+              TextButton(
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const RegistrationTabView(),
+                  ),
                 ),
+                child: Text(
+                  selectedLanguage == 'en' 
+                      ? 'Direct Group Registration'
+                      : 'Lembetsani Gulu Mwachindunji',
+                  style: TextStyle(
+                    color: Colors.green,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            SizedBox(height: screenHeight * .05),
+          ],
+      ),
+    );
+
+    if (isFetchingDistricts) {
+      return widget.embedded
+          ? Center(
+              child: Lottie.asset(
+                'assets/icons/loading1.json',
+                width: 100,
+                height: 100,
               ),
             )
-          ],
-        ),
-      ),
+          : Scaffold(
+              backgroundColor: Bgreen,
+              body: Center(
+                child: Lottie.asset(
+                  'assets/icons/loading1.json',
+                  width: 100,
+                  height: 100,
+                ),
+              ));
+    }
+
+    if (widget.embedded) {
+      return formContent;
+    }
+
+    return Scaffold(
+      backgroundColor: Bgreen,
+      body: formContent,
     );
   }
 }

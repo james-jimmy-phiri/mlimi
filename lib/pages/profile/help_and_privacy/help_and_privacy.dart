@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:mlimi/constants/color.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:flutter/cupertino.dart';
 
 class HelpSupportPage extends StatefulWidget {
   const HelpSupportPage({super.key});

@@ -8,7 +8,6 @@ import 'package:http_parser/http_parser.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mlimi/pages/Buy/buy.dart';
-import 'package:mlimi/pages/product_request/homepage.dart';
 import 'package:mlimi/constants/url.dart';
 import 'package:flutter/foundation.dart';
 import 'package:mlimi/pages/sale/groupSale.dart';
@@ -486,7 +485,7 @@ class _SalePageState extends State<SalePage> {
                                           color: decocolor,
                                         ),
                                       ),
-                                      value: _selectedProduct,
+                                      initialValue: _selectedProduct,
                                       onChanged: (newValue) {
                                         setState(() {
                                           _selectedProduct = newValue;
@@ -535,7 +534,7 @@ class _SalePageState extends State<SalePage> {
                                           color: decocolor,
                                         ),
                                       ),
-                                      value: _selectedUnit,
+                                      initialValue: _selectedUnit,
                                       onChanged: (newValue) {
                                         setState(() {
                                           _selectedUnit = newValue;
@@ -584,7 +583,7 @@ class _SalePageState extends State<SalePage> {
                                           color: decocolor,
                                         ),
                                       ),
-                                      value: selectedDistrictId,
+                                      initialValue: selectedDistrictId,
                                       onChanged: (value) {
                                         setState(() {
                                           selectedDistrictId = value;

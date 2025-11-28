@@ -14,7 +14,7 @@ class RecentlyCell extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => AdvisoryCategory(sector: sector)));
+                builder: (context) => AdvisoryCategory(sector: sector, selectedLanguage: 'en')));
       },
       child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 15),

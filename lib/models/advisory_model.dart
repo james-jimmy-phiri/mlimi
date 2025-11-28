@@ -2,6 +2,7 @@
 class Sector {
   final int id;
   final String name;
+  final String? nameNy; // Chichewa name
   final String image;
   final String sectorimage;
   final List<Category> categories;
@@ -9,6 +10,7 @@ class Sector {
   Sector({
     required this.id,
     required this.name,
+    this.nameNy,
     required this.image,
     required this.categories,
     required this.sectorimage,
@@ -18,9 +20,11 @@ class Sector {
     var list = json['categories'] as List;
     List<Category> categoriesList =
         list.map((i) => Category.fromJson(i)).toList();
+
     return Sector(
       id: json['id'],
       name: json['name'],
+      nameNy: json['nameNy'], // Add this line
       image: json['image'],
       sectorimage: json['sectorimage'],
       categories: categoriesList,

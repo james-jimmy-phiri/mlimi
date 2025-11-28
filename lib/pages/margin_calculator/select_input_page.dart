@@ -152,7 +152,7 @@ class _SectionInputPageState extends State<SectionInputPage> {
               const SizedBox(width: 16),
               Expanded(
                 child: DropdownButtonFormField<String>(
-                  value: _selectedUnitType,
+                  initialValue: _selectedUnitType,
                   items: ['Hectares', 'Acres'].map((String unitType) {
                     return DropdownMenuItem<String>(
                       value: unitType,

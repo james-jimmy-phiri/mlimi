@@ -5,11 +5,16 @@ import 'package:mlimi/pages/advisory/advisory_widgets/advisory_product.dart';
 
 class AdvisoryCategory extends StatefulWidget {
   final Sector sector;
+  final String selectedLanguage;
 
-  const AdvisoryCategory({required this.sector});
+  const AdvisoryCategory({
+    Key? key,
+    required this.sector,
+    required this.selectedLanguage,
+  }) : super(key: key);
 
   @override
-  _AdvisoryCategoryState createState() => _AdvisoryCategoryState();
+  State<AdvisoryCategory> createState() => _AdvisoryCategoryState();
 }
 
 class _AdvisoryCategoryState extends State<AdvisoryCategory> {
@@ -55,7 +60,8 @@ class _AdvisoryCategoryState extends State<AdvisoryCategory> {
               height: 300,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage('assets/images/${widget.sector.sectorimage}.jpg'),
+                  image: AssetImage(
+                      'assets/images/${widget.sector.sectorimage}.jpg'),
                   fit: BoxFit.cover,
                 ),
                 gradient: LinearGradient(
@@ -120,13 +126,15 @@ class _AdvisoryCategoryState extends State<AdvisoryCategory> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => AdvisoryProduct(category: category),
+                          builder: (context) =>
+                              AdvisoryProduct(category: category),
                         ),
                       );
                     },
                     child: Container(
                       margin: const EdgeInsets.only(bottom: 16.0),
-                      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 15, horizontal: 15),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(15),
@@ -160,7 +168,8 @@ class _AdvisoryCategoryState extends State<AdvisoryCategory> {
                                   maxLines: 2,
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
-                                    color: const Color(0xff212121).withOpacity(0.3),
+                                    color: const Color(0xff212121)
+                                        .withOpacity(0.3),
                                     fontSize: 13,
                                   ),
                                 ),
@@ -170,7 +179,8 @@ class _AdvisoryCategoryState extends State<AdvisoryCategory> {
                                   maxLines: 2,
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
-                                    color: const Color(0xff212121).withOpacity(0.3),
+                                    color: const Color(0xff212121)
+                                        .withOpacity(0.3),
                                     fontSize: 13,
                                   ),
                                 ),

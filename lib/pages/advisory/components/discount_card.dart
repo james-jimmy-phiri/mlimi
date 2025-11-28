@@ -1,11 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mlimi/constants/color.dart';
+import 'package:get_storage/get_storage.dart';
 
-class DiscountCard extends StatelessWidget {
+class DiscountCard extends StatefulWidget {
   const DiscountCard({
     super.key,
   });
+
+  @override
+  State<DiscountCard> createState() => _DiscountCardState();
+}
+
+class _DiscountCardState extends State<DiscountCard> {
+  late String _language;
+  final storage = GetStorage();
+
+  @override
+  void initState() {
+    super.initState();
+    // Retrieve language preference from GetStorage
+    _language = storage.read<String>('language') ?? 'en';
+  }
+
+  String _localizedText(String enText, String nyText) {
+    return _language == 'ny' ? nyText : enText;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,23 +60,29 @@ class DiscountCard extends StatelessWidget {
                   children: <Widget>[
                     Expanded(
                       child: RichText(
-                        text: const TextSpan(
-                          style: TextStyle(color: Colors.white),
+                        text: TextSpan(
+                          style: const TextStyle(color: Colors.white),
                           children: [
                             TextSpan(
-                              text: "A Farmer with Knowledge is \n",
-                              style: TextStyle(fontSize: 16),
+                              text: _localizedText(
+                                "A Farmer with Knowledge is \n",
+                                "Mlimi wodziwa komanso wodzisata \n",
+                              ),
+                              style: const TextStyle(fontSize: 16),
                             ),
-                            TextSpan(
-                              text: "90% \n",
+                            const TextSpan(
+                              text: "Ndiye chiyambi \n",
                               style: TextStyle(
                                 fontSize: 43,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                             TextSpan(
-                              text: "Good torwards Good harvest",
-                              style: TextStyle(fontSize: 15),
+                              text: _localizedText(
+                                "Good towards Good harvest",
+                                "Chazokolola zabwino komanso zochuluka",
+                              ),
+                              style: const TextStyle(fontSize: 15),
                             ),
                           ],
                         ),

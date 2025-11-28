@@ -3,7 +3,6 @@ import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:mlimi/constants/color.dart';
 import 'package:mlimi/constants/url.dart';
-import 'package:mlimi/pages/product_request/operationpages/single_potential_customer_page.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mlimi/pages/product_request/operationpages/singlesample.dart';
 import 'dart:convert';

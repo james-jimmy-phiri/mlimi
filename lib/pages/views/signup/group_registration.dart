@@ -5,7 +5,6 @@
 */
 
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,20 +14,22 @@ import 'package:mlimi/constants/url.dart';
 import 'package:mlimi/pages/product_request/homepage.dart';
 import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
-import 'package:mlimi/pages/views/signup/group_registration.dart';
 import 'package:mlimi/pages/views/signup/loginscreen.dart';
+import 'package:mlimi/pages/views/signup/registration_tab_view.dart';
 
 class GroupRegisterScreen extends StatefulWidget {
   /// Callback for when this form is submitted successfully. Parameters are (name, pin)
   final Function(String? name, String? pin)? onSubmitted;
+  final bool embedded;
 
-  const GroupRegisterScreen({this.onSubmitted, super.key});
+  const GroupRegisterScreen({this.onSubmitted, this.embedded = false, super.key});
 
   @override
   State<GroupRegisterScreen> createState() => _GroupRegisterScreenState();
 }
 
-class _GroupRegisterScreenState extends State<GroupRegisterScreen> {
+class _GroupRegisterScreenState extends State<GroupRegisterScreen> with TickerProviderStateMixin {
+  
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _pinController = TextEditingController();
@@ -323,24 +324,30 @@ class _GroupRegisterScreenState extends State<GroupRegisterScreen> {
     final selectedLanguage = GetStorage().read('language') ?? 'en';
 
     if (isFetchingDistricts) {
-      return Scaffold(
-          body: Center(
-        child: Lottie.asset(
-          'assets/icons/loading1.json', // Replace with your Lottie file path
-          width: 100,
-          height: 100,
-        ),
-      ));
+      return widget.embedded
+          ? Center(
+              child: Lottie.asset(
+                'assets/icons/loading1.json',
+                width: 100,
+                height: 100,
+              ),
+            )
+          : Scaffold(
+              body: Center(
+              child: Lottie.asset(
+                'assets/icons/loading1.json', // Replace with your Lottie file path
+                width: 100,
+                height: 100,
+              ),
+            ));
     }
 
-    return Scaffold(
-      backgroundColor: Bgreen,
-      body: CustomScrollView(
+    final pageContent = CustomScrollView(
         slivers: [
-          SliverPersistentHeader(
-            delegate: CustomSilverHeader(),
-            pinned: true,
-          ),
+          // SliverPersistentHeader(
+          //   delegate: CustomSilverHeader(),
+          //   pinned: true,
+          // ),
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -350,7 +357,7 @@ class _GroupRegisterScreenState extends State<GroupRegisterScreen> {
                   SizedBox(height: screenHeight * .01),
                   Text(
                     selectedLanguage == 'en'
-                        ? 'Create Account'
+                        ? 'Create Your Group Account'
                         : 'Pangani Akaunti',
                     style: TextStyle(
                       fontSize: 28,
@@ -360,27 +367,28 @@ class _GroupRegisterScreenState extends State<GroupRegisterScreen> {
                   SizedBox(height: screenHeight * .005),
                   Text(
                     selectedLanguage == 'en'
-                        ? 'Sign up to get started!'
-                        : 'Lembetsani kuti muyambe!',
+                        ? 'Sign up as a Group, Cooparative or association to get started!'
+                        : 'Lembetsani ngat Gulu, cooporative Kapena Association kuti muyambe!',
                     style: TextStyle(
                       fontSize: 18,
                       color: Colors.black.withOpacity(.6),
                     ),
                   ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => const SimpleRegisterScreen()),
-                      );
-                    },
-                    child: Text(
-                      'Register as an Individual',
-                      style: TextStyle(
-                          color: Colors.green, fontWeight: FontWeight.bold),
+                  if (!widget.embedded)
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => const RegistrationTabView()),
+                        );
+                      },
+                      child: Text(
+                        'Registration (Tabs)',
+                        style: TextStyle(
+                            color: Colors.green, fontWeight: FontWeight.bold),
+                      ),
                     ),
-                  ),
                   SizedBox(height: screenHeight * .05),
                   InputField(
                     controller: _nameController,
@@ -410,7 +418,7 @@ class _GroupRegisterScreenState extends State<GroupRegisterScreen> {
                   ),
                   SizedBox(height: screenHeight * .025),
                   DropdownButtonFormField<String>(
-                    value: selectedDistrictId,
+                    initialValue: selectedDistrictId,
                     onChanged: (value) {
                       setState(() {
                         selectedDistrictId = value;
@@ -539,39 +547,48 @@ class _GroupRegisterScreenState extends State<GroupRegisterScreen> {
                               : 'Lembetsani',
                           onPressed: submit,
                         ),
-                  TextButton(
-                    onPressed: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const SimpleLoginScreen(),
+                  if (!widget.embedded)
+                    TextButton(
+                      onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const SimpleLoginScreen(),
+                        ),
                       ),
-                    ),
-                    child: RichText(
-                      text: TextSpan(
-                        text: selectedLanguage == 'en'
-                            ? 'I am already a member'
-                            : ' Ndine membala kale',
-                        style: TextStyle(color: Colors.black),
-                        children: [
-                          TextSpan(
-                            text: selectedLanguage == 'en'
-                                ? 'Sign In'
-                                : ' Lowani',
-                            style: TextStyle(
-                              color: Colors.blue,
-                              fontWeight: FontWeight.bold,
+                      child: RichText(
+                        text: TextSpan(
+                          text: selectedLanguage == 'en'
+                              ? 'I am already a member'
+                              : ' Ndine membala kale',
+                          style: TextStyle(color: Colors.black),
+                          children: [
+                            TextSpan(
+                              text: selectedLanguage == 'en'
+                                  ? 'Sign In'
+                                  : ' Lowani',
+                              style: TextStyle(
+                                color: Colors.blue,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  )
+                    )
                 ],
               ),
             ),
           )
         ],
-      ),
+      );
+
+    if (widget.embedded) {
+      return pageContent;
+    }
+
+    return Scaffold(
+      backgroundColor: Bgreen,
+      body: pageContent,
     );
   }
 }
@@ -653,42 +670,42 @@ class InputField extends StatelessWidget {
   }
 }
 
-class CustomSilverHeader extends SliverPersistentHeaderDelegate {
-  @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return ClipPath(
-      clipper: AsymmetricClipper(),
-      child: Container(
-        height: maxExtent,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/group.jpg'),
-            fit: BoxFit.cover,
-          ),
-          color: Colors.green[300],
-        ),
-        alignment: Alignment.centerLeft,
-        padding: EdgeInsets.only(left: 30),
-        child: Text(
-          'Group Registration',
-          style: TextStyle(
-            fontSize: 28,
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-    );
-  }
+// class CustomSilverHeader extends SliverPersistentHeaderDelegate {
+//   @override
+//   Widget build(
+//       BuildContext context, double shrinkOffset, bool overlapsContent) {
+//     return ClipPath(
+//       clipper: AsymmetricClipper(),
+//       child: Container(
+//         height: maxExtent,
+//         decoration: BoxDecoration(
+//           image: DecorationImage(
+//             image: AssetImage('assets/images/group.jpg'),
+//             fit: BoxFit.cover,
+//           ),
+//           color: Colors.green[300],
+//         ),
+//         alignment: Alignment.centerLeft,
+//         padding: EdgeInsets.only(left: 30),
+//         child: Text(
+//           'Group Registration',
+//           style: TextStyle(
+//             fontSize: 28,
+//             color: Colors.white,
+//             fontWeight: FontWeight.bold,
+//           ),
+//         ),
+//       ),
+//     );
+//   }
 
-  @override
-  double get maxExtent => 250;
-  @override
-  double get minExtent => 80;
-  @override
-  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) => false;
-}
+//   @override
+//   double get maxExtent => 250;
+//   @override
+//   double get minExtent => 80;
+//   @override
+//   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) => false;
+// }
 
 class AsymmetricClipper extends CustomClipper<Path> {
   @override

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mlimi/constants/color.dart';
-import 'package:mlimi/pages/advisory/components/advisor_list.dart';
 
 class AboutUsView extends StatefulWidget {
   const AboutUsView({super.key});

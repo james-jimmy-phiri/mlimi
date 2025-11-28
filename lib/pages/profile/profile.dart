@@ -110,7 +110,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               child: Center(
                 child: Text(
-                  _localizedText('My Account', 'Akaunti Yanga'),
+                  _localizedText('My Account', 'Akaunti Yanu'),
                   style: kButtonTextStyle,
                 ),
               ),
@@ -141,7 +141,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               children: <Widget>[
                 ProfileListItem(
                   icon: LineAwesomeIcons.user_shield_solid,
-                  text: _localizedText('Privacy', 'Zinsinsi'),
+                  text: _localizedText('Privacy', 'Zachinsinsi'),
                   onTap: () {
                     Navigator.push(
                       context,
@@ -153,7 +153,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ProfileListItem(
                   icon: LineAwesomeIcons.history_solid,
                   text: _localizedText(
-                      'Add a New Account', 'Onjezani Akaunti Yatsopano'),
+                      'Add a New Account', 'lowani Akaunti Yatsopano'),
                   onTap: () {
                     Navigator.push(
                       context,
@@ -176,7 +176,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 ProfileListItem(
                   icon: LineAwesomeIcons.user_plus_solid,
-                  text: _localizedText('Invite a Friend', 'Itanani Bwenzi'),
+                  text: _localizedText('Invite a Friend', 'Dziwisani a Bwenzi'),
                   onTap: () {
                     const applink =
                         'https://play.google.com/store/apps/details?id=com.frtholdingsmw.mlimi&pcampaignid=web_share';
@@ -187,7 +187,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 ProfileListItem(
                   icon: LineAwesomeIcons.cog_solid,
-                  text: _localizedText('Settings', 'Zikhazikiko'),
+                  text: _localizedText('Settings', 'Zikhazikiso'),
                   onTap: () {
                     Navigator.push(
                       context,
@@ -247,7 +247,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(_localizedText('Failed to log out: $e',
-                              'Kutuluka kwalephera: $e')),
+                              'mwakanika Kutuluka: $e')),
                           backgroundColor: Colors.red,
                         ),
                       );

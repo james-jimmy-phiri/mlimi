@@ -82,13 +82,12 @@
 // flutter {
 //     source = "../.."
 // }
-
 import java.util.Properties
 import java.io.FileInputStream
 
 plugins {
     id "com.android.application"
-    id "kotlin-android"
+    id "org.jetbrains.kotlin.android"
     id "dev.flutter.flutter-gradle-plugin"
 }
 
@@ -98,45 +97,51 @@ if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
 
-
-def flutterVersionCode = keystoreProperties.getProperty("flutter.versionCode", "4").toInteger()
-def flutterVersionName = keystoreProperties.getProperty("flutter.versionName", "1.0.3")
-
+// Fallback version info (these usually come from pubspec.yaml, but just in case)
+def flutterVersionCode = 8
+def flutterVersionName = "1.0.7"
 
 android {
-    namespace = "com.frtholdingsmw.mlimi"
-    compileSdk 34
-    ndkVersion = flutter.ndkVersion
+    namespace "com.frtholdingsmw.mlimi"   // ✅ Required for AGP 8+
+    compileSdk 36
+    ndkVersion flutter.ndkVersion
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        // ✅ Use Java 17 for Gradle 8+ and AGP 8+ (Java 8 can cause warnings now)
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '17'
     }
-
 
     defaultConfig {
-        applicationId = "com.frtholdingsmw.mlimi"
-        minSdk = 24
-        targetSdk = 34
-        versionCode = flutterVersionCode
-        versionName = flutterVersionName
+        applicationId "com.frtholdingsmw.mlimi"   // ✅ Must match Play Store package
+        minSdkVersion flutter.minSdkVersion
+        targetSdk 36p
+        versionCode flutterVersionCode
+        versionName flutterVersionName
     }
+
     signingConfigs {
-        create("release") {
-            keyAlias = keystoreProperties["keyAlias"] as String
-            keyPassword = keystoreProperties["keyPassword"] as String
-            storeFile = keystoreProperties["storeFile"] ? file(keystoreProperties["storeFile"]) : null
-            storePassword = keystoreProperties["storePassword"] as String
+        release {
+            keyAlias keystoreProperties["keyAlias"]
+            keyPassword keystoreProperties["keyPassword"]
+            storeFile keystoreProperties["storeFile"] ? file(keystoreProperties["storeFile"]) : null
+            storePassword keystoreProperties["storePassword"]
         }
     }
 
     buildTypes {
         release {
-            signingConfig = signingConfigs.getByName("release")
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            shrinkResources true
+            // ✅ Keep this false unless you add ProGuard rules
+        }
+        debug {
+            signingConfig signingConfigs.release
         }
     }
 }

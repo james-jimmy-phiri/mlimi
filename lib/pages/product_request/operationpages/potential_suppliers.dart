@@ -1,33 +1,38 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:dropdown_search/dropdown_search.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PotentialSuppliers extends StatefulWidget {
+  const PotentialSuppliers({super.key});
+
   @override
-  _PotentialSuppliers createState() => _PotentialSuppliers();
+  _PotentialSuppliersState createState() => _PotentialSuppliersState();
 }
 
-class _PotentialSuppliers extends State<PotentialSuppliers> {
+class _PotentialSuppliersState extends State<PotentialSuppliers> {
   List<dynamic> suppliers = [];
-  String selectedCrop = "maize";
+  String? selectedCrop = "maize";
+  final List<String> crops = ["maize", "groundnuts", "cassava", "soya", "rice"];
 
   Future<void> fetchSuppliers(String crop) async {
-    final response = await http.get(Uri.parse('assets/data/suppliers.json'));
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
+    try {
+      final String response = await DefaultAssetBundle.of(context)
+          .loadString('assets/data/suppliers.json');
+      final data = json.decode(response);
       setState(() {
-        suppliers = data[crop];
+        suppliers = data[crop] ?? [];
       });
-    } else {
-      throw Exception('Failed to load suppliers');
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to load suppliers: $e')),
+      );
     }
   }
 
   @override
   void initState() {
     super.initState();
-    fetchSuppliers(selectedCrop);
+    fetchSuppliers(selectedCrop!);
   }
 
   @override
@@ -40,73 +45,110 @@ class _PotentialSuppliers extends State<PotentialSuppliers> {
         children: [
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: DropdownSearch<String>(
-              items: ["maize", "groundnuts", "cassava", "soya", "rice"],
-              selectedItem: selectedCrop,
-              onChanged: (value) {
-                setState(() {
-                  selectedCrop = value!;
-                });
-                fetchSuppliers(selectedCrop);
+            child: DropdownButtonFormField<String>(
+              initialValue: selectedCrop,
+              decoration: const InputDecoration(
+                labelText: 'Select Crop',
+                border: OutlineInputBorder(),
+              ),
+              items: crops.map((String crop) {
+                return DropdownMenuItem<String>(
+                  value: crop,
+                  child: Text(crop),
+                );
+              }).toList(),
+              onChanged: (String? value) {
+                if (value != null) {
+                  setState(() {
+                    selectedCrop = value;
+                  });
+                  fetchSuppliers(value);
+                }
               },
             ),
           ),
           Expanded(
-            child: ListView.builder(
-              itemCount: suppliers.length,
-              itemBuilder: (context, index) {
-                final supplier = suppliers[index];
-                return Card(
-                  margin: EdgeInsets.all(10),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Image.asset(
-                              'assets/images/product1.jpg',
-                              fit: BoxFit.cover,
-                              width: 100,
-                              height: 100,
-                            ),
-                            SizedBox(width: 10),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  supplier['customer_name'],
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
+            child: suppliers.isEmpty
+                ? const Center(child: Text('No suppliers found'))
+                : ListView.builder(
+                    itemCount: suppliers.length,
+                    itemBuilder: (context, index) {
+                      final supplier = suppliers[index];
+                      return Card(
+                        margin: const EdgeInsets.all(10),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Image.asset(
+                                    'assets/images/product1.jpg',
+                                    fit: BoxFit.cover,
+                                    width: 100,
+                                    height: 100,
+                                    errorBuilder:
+                                        (context, error, stackTrace) =>
+                                            const Icon(Icons.error, size: 100),
                                   ),
+                                  const SizedBox(width: 10),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          supplier['customer_name'] ??
+                                              'Unknown',
+                                          style: const TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        Text(supplier['contact_number'] ??
+                                            'No contact'),
+                                        Text(supplier['location_name'] ??
+                                            'No location'),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 10),
+                              Text(
+                                  'Quantities: ${supplier['quantities'] ?? 'N/A'}'),
+                              Text(
+                                  'Preferred Selling Price: ${supplier['preferred_selling_price'] ?? 'N/A'}'),
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: ElevatedButton(
+                                  onPressed: () async {
+                                    final phone =
+                                        supplier['contact_number'] ?? '';
+                                    if (phone.isNotEmpty) {
+                                      final url = Uri.parse('tel:$phone');
+                                      if (await canLaunchUrl(url)) {
+                                        await launchUrl(url);
+                                      } else {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                              content: Text(
+                                                  'Cannot launch phone dialer')),
+                                        );
+                                      }
+                                    }
+                                  },
+                                  child: const Text('Call'),
                                 ),
-                                Text(supplier['contact_number']),
-                                Text(supplier['location_name']),
-                              ],
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 10),
-                        Text('Quantities: ${supplier['quantities']}'),
-                        Text(
-                            'Preferred Selling Price: ${supplier['preferred_selling_price']}'),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              // Implement call action
-                            },
-                            child: Text('Call'),
+                              ),
+                            ],
                           ),
                         ),
-                      ],
-                    ),
+                      );
+                    },
                   ),
-                );
-              },
-            ),
           ),
         ],
       ),

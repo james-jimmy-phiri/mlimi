@@ -7,7 +7,6 @@ import 'dart:convert';
 import 'package:get_storage/get_storage.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mlimi/pages/Buy/buy.dart';
-import 'package:mlimi/pages/product_request/homepage.dart';
 import 'package:http_parser/http_parser.dart'; // make sure it's imported
 
 import 'package:mlimi/constants/url.dart';
@@ -520,7 +519,7 @@ class _GroupSalePageState extends State<GroupSalePage> {
                                           color: decocolor,
                                         ),
                                       ),
-                                      value: _selectedProduct,
+                                      initialValue: _selectedProduct,
                                       onChanged: (newValue) {
                                         setState(() {
                                           _selectedProduct = newValue;
@@ -569,7 +568,7 @@ class _GroupSalePageState extends State<GroupSalePage> {
                                           color: decocolor,
                                         ),
                                       ),
-                                      value: _selectedUnit,
+                                      initialValue: _selectedUnit,
                                       onChanged: (newValue) {
                                         setState(() {
                                           _selectedUnit = newValue;
@@ -618,7 +617,7 @@ class _GroupSalePageState extends State<GroupSalePage> {
                                           color: decocolor,
                                         ),
                                       ),
-                                      value: selectedDistrictId,
+                                      initialValue: selectedDistrictId,
                                       onChanged: (value) {
                                         setState(() {
                                           selectedDistrictId = value;
@@ -687,7 +686,7 @@ class _GroupSalePageState extends State<GroupSalePage> {
                                                     String>(
                                                   decoration: InputDecoration(
                                                       labelText: 'Member'),
-                                                  value: input['member_id'],
+                                                  initialValue: input['member_id'],
                                                   onChanged: (newValue) {
                                                     setState(() {
                                                       input['member_id'] =

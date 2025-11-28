@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mlimi/constants/color.dart';
-import 'package:mlimi/pages/advisory/components/discount_card.dart';
 import 'package:vertical_card_pager/vertical_card_pager.dart';
 
-import 'constant/constant.dart';
 import 'model/champion.dart';
 import 'page/detail_view.dart';
 

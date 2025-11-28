@@ -5,7 +5,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:mlimi/constants/color.dart';
 import 'package:mlimi/constants/url.dart';
 import 'package:mlimi/models/category.dart';
-import 'package:mlimi/pages/views/featured_screen.dart';
+import 'package:mlimi/models/category_icons.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:http/http.dart' as http;
@@ -86,7 +86,7 @@ class _CategoryCardState extends State<CategoryCard> {
         ],
       ),
       onConfirmBtnTap: () async {
-        String phone = isPhoneValid ? storedPhone! : _phoneController.text;
+        String phone = isPhoneValid ? storedPhone : _phoneController.text;
         bool success = await _login(context, phone, _pinController.text);
         if (success) {
           Navigator.pop(context);

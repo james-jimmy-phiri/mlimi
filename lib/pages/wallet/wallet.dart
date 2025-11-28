@@ -6,8 +6,6 @@ import 'package:get_storage/get_storage.dart';
 import 'package:mlimi/constants/color.dart';
 import 'package:mlimi/constants/url.dart';
 import 'package:lottie/lottie.dart';
-import 'package:mlimi/pages/views/base_screen.dart';
-import 'package:quickalert/quickalert.dart';
 import 'package:http/http.dart' as http;
 
 class Wallet extends StatefulWidget {

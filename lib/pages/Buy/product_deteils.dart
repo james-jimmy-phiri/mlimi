@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mlimi/constants/url.dart';
 import 'package:mlimi/models/products_model.dart';
 
 class ProductDetailPage extends StatelessWidget {

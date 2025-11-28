@@ -3,7 +3,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:mlimi/constants/color.dart';
 import 'package:mlimi/pages/advisory/advivory_all.dart';
 
-import 'package:mlimi/pages/advisory/components/body.dart';
 
 class DetailsScreen extends StatelessWidget {
   const DetailsScreen({super.key});
