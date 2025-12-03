@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
@@ -314,12 +315,16 @@ class _MarkertState extends State<Markert> {
                         : ListView.builder(
                             itemCount: filteredProducts.length,
                             itemBuilder: (context, index) {
-                              return ProductCard(
-                                product: filteredProducts[index],
-                                onPoke: pokeSeller,
-                                onViewSeller: showSellerDetails,
-                                onDelete: deleteProduct,
-                                onEdit: editProduct,
+                              return FadeInUp(
+                                duration: const Duration(milliseconds: 500),
+                                delay: Duration(milliseconds: 100 * (index % 5)),
+                                child: ProductCard(
+                                  product: filteredProducts[index],
+                                  onPoke: pokeSeller,
+                                  onViewSeller: showSellerDetails,
+                                  onDelete: deleteProduct,
+                                  onEdit: editProduct,
+                                ),
                               );
                             },
                           ),

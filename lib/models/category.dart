@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mlimi/pages/Buy/buy.dart';
-import 'package:mlimi/pages/advisory/geo_specific_advisory_page.dart';
+import 'package:mlimi/pages/Buy/buy.dart';
+import 'package:mlimi/pages/advisory/advisory_method_selection_page.dart';
 import 'package:mlimi/pages/business_profile/business_profiles_page.dart';
 import 'package:mlimi/pages/margin_calculator/margin_calculator.dart';
 import 'package:mlimi/pages/region/region.dart';
@@ -61,7 +62,7 @@ List<Category_featured> getCategoryList(String language) {
       Category_featured(
         name: 'Ulangizi wa Dera',
         thumbnail: 'geo',
-        targetPage: const GeoSpecificAdvisoryPage(),
+        targetPage: const AdvisoryMethodSelectionPage(),
       ),
     ];
   } else {
@@ -104,7 +105,7 @@ List<Category_featured> getCategoryList(String language) {
       Category_featured(
         name: 'Geo-specific Advisory',
         thumbnail: 'geo',
-        targetPage: const GeoSpecificAdvisoryPage(),
+        targetPage: const AdvisoryMethodSelectionPage(),
       ),
     ];
   }

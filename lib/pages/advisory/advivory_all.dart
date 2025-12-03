@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:animate_do/animate_do.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mlimi/pages/advisory/advisory_widgets/advisory_sector.dart';
 import 'package:mlimi/pages/advisory/components/app_bar.dart';
@@ -31,9 +32,11 @@ class AllAdvisory extends StatelessWidget {
         } else if (snapshot.hasError) {
           bodyContent = Center(child: Text('Error loading data'));
         } else if (snapshot.hasData) {
-          bodyContent = AdvisorySector(
-            sectors: snapshot.data!,
-            
+          bodyContent = FadeInUp(
+            duration: const Duration(milliseconds: 600),
+            child: AdvisorySector(
+              sectors: snapshot.data!,
+            ),
           );
         } else {
           bodyContent = Center(child: Text('No data found'));

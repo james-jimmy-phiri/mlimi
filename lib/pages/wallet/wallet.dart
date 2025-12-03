@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:animate_do/animate_do.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -264,15 +265,17 @@ class _SalePageState extends State<Wallet> {
           SliverList(
             delegate: SliverChildListDelegate(
               [
-                Container(
-                  margin: const EdgeInsets.only(top: 0.0),
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(30.0),
-                      topRight: Radius.circular(30.0),
+                FadeInUp(
+                  duration: const Duration(milliseconds: 600),
+                  child: Container(
+                    margin: const EdgeInsets.only(top: 0.0),
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(30.0),
+                        topRight: Radius.circular(30.0),
+                      ),
                     ),
-                  ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Column(
@@ -394,6 +397,7 @@ class _SalePageState extends State<Wallet> {
                     ),
                   ),
                 ),
+              ),
               ],
             ),
           ),

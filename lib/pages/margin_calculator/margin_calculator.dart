@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:lottie/lottie.dart';
@@ -50,7 +51,10 @@ class _MarginCalculatorState extends State<MarginCalculator> {
       return const LoadingDisplay();
     }
 
-    return CropSelectionPage(crops: crops);
+    return FadeInUp(
+      duration: const Duration(milliseconds: 600),
+      child: CropSelectionPage(crops: crops),
+    );
   }
 }
 

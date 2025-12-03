@@ -119,7 +119,7 @@ android {
     defaultConfig {
         applicationId "com.frtholdingsmw.mlimi"   // ✅ Must match Play Store package
         minSdkVersion flutter.minSdkVersion
-        targetSdk 36p
+        targetSdk 36
         versionCode flutterVersionCode
         versionName flutterVersionName
     }
