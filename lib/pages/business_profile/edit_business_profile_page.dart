@@ -8,41 +8,39 @@ import 'package:mlimi/models/business_profile.dart';
 import 'package:mlimi/services/business_profile_service.dart';
 import 'package:geolocator/geolocator.dart';
 
-class CreateBusinessProfilePage extends StatefulWidget {
-  const CreateBusinessProfilePage({super.key});
+class EditBusinessProfilePage extends StatefulWidget {
+  final BusinessProfile profile;
+
+  const EditBusinessProfilePage({super.key, required this.profile});
 
   @override
-  State<CreateBusinessProfilePage> createState() =>
-      _CreateBusinessProfilePageState();
+  State<EditBusinessProfilePage> createState() =>
+      _EditBusinessProfilePageState();
 }
 
-class _CreateBusinessProfilePageState extends State<CreateBusinessProfilePage> {
+class _EditBusinessProfilePageState extends State<EditBusinessProfilePage> {
   final _formKey = GlobalKey<FormState>();
   final _businessProfileService = BusinessProfileService();
   final _language = GetStorage().read('language') ?? 'en';
 
   // Controllers
-  final _nameController = TextEditingController();
-  final _descriptionController = TextEditingController();
-  final _locationController = TextEditingController();
-  final _emailController = TextEditingController();
-  final _phoneController = TextEditingController();
-  final _websiteController = TextEditingController();
-  final _licenseController = TextEditingController();
-  final _addressLineController = TextEditingController();
-  final _townCityController = TextEditingController();
-  final _gpsLatController = TextEditingController();
-  final _gpsLngController = TextEditingController();
-  
-  // Social Media Controllers
-  final _facebookController = TextEditingController();
-  final _instagramController = TextEditingController();
-  final _twitterController = TextEditingController();
-  final _linkedinController = TextEditingController();
+  late final TextEditingController _nameController;
+  late final TextEditingController _descriptionController;
+  late final TextEditingController _locationController;
+  late final TextEditingController _emailController;
+  late final TextEditingController _phoneController;
+  late final TextEditingController _websiteController;
+  late final TextEditingController _licenseController;
+  late final TextEditingController _addressLineController;
+  late final TextEditingController _townCityController;
+  late final TextEditingController _gpsLatController;
+  late final TextEditingController _gpsLngController;
+  late final TextEditingController _facebookController;
+  late final TextEditingController _instagramController;
+  late final TextEditingController _twitterController;
+  late final TextEditingController _linkedinController;
 
-  File? _logoImage;
-  List<File> _galleryImages = [];
-  List<File> _galleryVideos = [];
+  File? _newLogoImage;
   
   List<BusinessSector> _sectors = [];
   List<BusinessCategory> _categories = [];
@@ -60,7 +58,39 @@ class _CreateBusinessProfilePageState extends State<CreateBusinessProfilePage> {
   @override
   void initState() {
     super.initState();
+    _initializeControllers();
     _loadInitialData();
+  }
+
+  void _initializeControllers() {
+    _nameController = TextEditingController(text: widget.profile.businessName);
+    _descriptionController = TextEditingController(text: widget.profile.description);
+    _locationController = TextEditingController(text: widget.profile.location);
+    _emailController = TextEditingController(text: widget.profile.contactInfo?.email);
+    _phoneController = TextEditingController(text: widget.profile.contactInfo?.phone);
+    _websiteController = TextEditingController(text: widget.profile.contactInfo?.website);
+    _licenseController = TextEditingController(text: widget.profile.businessLicenseNumber);
+    _addressLineController = TextEditingController(text: widget.profile.addressLine);
+    _townCityController = TextEditingController(text: widget.profile.townCity);
+    _gpsLatController = TextEditingController(text: widget.profile.gpsLat);
+    _gpsLngController = TextEditingController(text: widget.profile.gpsLng);
+    _facebookController = TextEditingController(text: widget.profile.contactInfo?.socialMedia?.facebook);
+    _instagramController = TextEditingController(text: widget.profile.contactInfo?.socialMedia?.instagram);
+    _twitterController = TextEditingController(text: widget.profile.contactInfo?.socialMedia?.twitter);
+    _linkedinController = TextEditingController(text: widget.profile.contactInfo?.socialMedia?.linkedin);
+    
+    _selectedCategoryIds = widget.profile.categories?.map((c) => c.id!).toList() ?? [];
+    _offerings = widget.profile.offerings?.map((o) => {
+      'id': o.id,
+      'type': o.type,
+      'name': o.name,
+      'description': o.description,
+      'price': o.price,
+      'currency': o.currency,
+      'unit': o.unit,
+      'image': null,
+      'is_active': o.isActive,
+    }).toList() ?? [];
   }
 
   @override
@@ -95,18 +125,25 @@ class _CreateBusinessProfilePageState extends State<CreateBusinessProfilePage> {
         _sectors = results[0] as List<BusinessSector>;
         _categories = results[1] as List<BusinessCategory>;
         _districts = results[2] as List<BusinessDistrict>;
+        
+        _selectedSector = widget.profile.sector != null
+            ? _sectors.firstWhere(
+                (s) => s.id == widget.profile.sector!.id,
+                orElse: () => _sectors.first,
+              )
+            : null;
+        
+        _selectedDistrict = widget.profile.district != null
+            ? _districts.firstWhere(
+                (d) => d.id == widget.profile.district!.id,
+                orElse: () => _districts.first,
+              )
+            : null;
+        
         _isLoadingData = false;
       });
     } catch (e) {
       setState(() => _isLoadingData = false);
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Failed to load data: $e'),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
     }
   }
 
@@ -114,25 +151,7 @@ class _CreateBusinessProfilePageState extends State<CreateBusinessProfilePage> {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
-      setState(() => _logoImage = File(pickedFile.path));
-    }
-  }
-
-  Future<void> _pickGalleryImages() async {
-    final picker = ImagePicker();
-    final pickedFiles = await picker.pickMultiImage();
-    if (pickedFiles.isNotEmpty) {
-      setState(() {
-        _galleryImages.addAll(pickedFiles.map((f) => File(f.path)));
-      });
-    }
-  }
-
-  Future<void> _pickGalleryVideo() async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickVideo(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      setState(() => _galleryVideos.add(File(pickedFile.path)));
+      setState(() => _newLogoImage = File(pickedFile.path));
     }
   }
 
@@ -167,6 +186,7 @@ class _CreateBusinessProfilePageState extends State<CreateBusinessProfilePage> {
         'currency': 'MWK',
         'unit': '',
         'image': null,
+        'is_active': true,
       });
     });
   }
@@ -181,7 +201,8 @@ class _CreateBusinessProfilePageState extends State<CreateBusinessProfilePage> {
     setState(() => _isLoading = true);
 
     try {
-      await _businessProfileService.createProfile(
+      await _businessProfileService.updateProfile(
+        id: widget.profile.id!,
         businessName: _nameController.text,
         description: _descriptionController.text,
         location: _locationController.text,
@@ -194,7 +215,7 @@ class _CreateBusinessProfilePageState extends State<CreateBusinessProfilePage> {
           'twitter': _twitterController.text,
           'linkedin': _linkedinController.text,
         },
-        logo: _logoImage,
+        logo: _newLogoImage,
         businessLicenseNumber: _licenseController.text.isNotEmpty ? _licenseController.text : null,
         sectorId: _selectedSector?.id,
         categoryIds: _selectedCategoryIds,
@@ -204,16 +225,14 @@ class _CreateBusinessProfilePageState extends State<CreateBusinessProfilePage> {
         gpsLat: _gpsLatController.text.isNotEmpty ? _gpsLatController.text : null,
         gpsLng: _gpsLngController.text.isNotEmpty ? _gpsLngController.text : null,
         offerings: _offerings.isNotEmpty ? _offerings : null,
-        galleryImages: _galleryImages.isNotEmpty ? _galleryImages : null,
-        galleryVideos: _galleryVideos.isNotEmpty ? _galleryVideos : null,
       );
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(_language == 'en'
-                ? 'Profile created successfully!'
-                : 'Mbiri yapangidwa bwino!'),
+                ? 'Profile updated successfully!'
+                : 'Mbiri yasinthidwa bwino!'),
             backgroundColor: Colors.green,
           ),
         );
@@ -223,7 +242,7 @@ class _CreateBusinessProfilePageState extends State<CreateBusinessProfilePage> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Failed to create profile: $e'),
+            content: Text('Failed to update profile: $e'),
             backgroundColor: Colors.red,
           ),
         );
@@ -239,7 +258,7 @@ class _CreateBusinessProfilePageState extends State<CreateBusinessProfilePage> {
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
         title: Text(
-          _language == 'en' ? 'Create Business Profile' : 'Pangani Mbiri',
+          _language == 'en' ? 'Edit Business Profile' : 'Sinthani Mbiri',
           style: GoogleFonts.poppins(color: Colors.black87),
         ),
         backgroundColor: Colors.white,
@@ -266,8 +285,6 @@ class _CreateBusinessProfilePageState extends State<CreateBusinessProfilePage> {
                     _buildSocialMediaSection(),
                     const SizedBox(height: 24),
                     _buildOfferingsSection(),
-                    const SizedBox(height: 24),
-                    _buildGallerySection(),
                     const SizedBox(height: 32),
                     _buildSubmitButton(),
                     const SizedBox(height: 32),
@@ -300,14 +317,19 @@ class _CreateBusinessProfilePageState extends State<CreateBusinessProfilePage> {
                 decoration: BoxDecoration(
                   color: Colors.grey[200],
                   borderRadius: BorderRadius.circular(12),
-                  image: _logoImage != null
+                  image: _newLogoImage != null
                       ? DecorationImage(
-                          image: FileImage(_logoImage!),
+                          image: FileImage(_newLogoImage!),
                           fit: BoxFit.cover,
                         )
-                      : null,
+                      : widget.profile.logoUrl != null
+                          ? DecorationImage(
+                              image: NetworkImage(widget.profile.logoUrl!),
+                              fit: BoxFit.cover,
+                            )
+                          : null,
                 ),
-                child: _logoImage == null
+                child: _newLogoImage == null && widget.profile.logoUrl == null
                     ? Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -323,6 +345,11 @@ class _CreateBusinessProfilePageState extends State<CreateBusinessProfilePage> {
                     : null,
               ),
             ),
+            if (_newLogoImage != null || widget.profile.logoUrl != null)
+              TextButton(
+                onPressed: _pickLogo,
+                child: Text(_language == 'en' ? 'Change Logo' : 'Sinthani Logo'),
+              ),
           ],
         ),
       ),
@@ -676,6 +703,7 @@ class _CreateBusinessProfilePageState extends State<CreateBusinessProfilePage> {
           ),
           const SizedBox(height: 8),
           TextFormField(
+            initialValue: _offerings[index]['name'],
             decoration: const InputDecoration(
               labelText: 'Name',
               border: OutlineInputBorder(),
@@ -687,6 +715,7 @@ class _CreateBusinessProfilePageState extends State<CreateBusinessProfilePage> {
           ),
           const SizedBox(height: 8),
           TextFormField(
+            initialValue: _offerings[index]['description'],
             decoration: const InputDecoration(
               labelText: 'Description',
               border: OutlineInputBorder(),
@@ -702,6 +731,7 @@ class _CreateBusinessProfilePageState extends State<CreateBusinessProfilePage> {
               Expanded(
                 flex: 2,
                 child: TextFormField(
+                  initialValue: _offerings[index]['price']?.toString() ?? '',
                   decoration: const InputDecoration(
                     labelText: 'Price (MWK)',
                     border: OutlineInputBorder(),
@@ -716,6 +746,7 @@ class _CreateBusinessProfilePageState extends State<CreateBusinessProfilePage> {
               const SizedBox(width: 8),
               Expanded(
                 child: TextFormField(
+                  initialValue: _offerings[index]['unit'],
                   decoration: const InputDecoration(
                     labelText: 'Unit',
                     border: OutlineInputBorder(),
@@ -729,65 +760,6 @@ class _CreateBusinessProfilePageState extends State<CreateBusinessProfilePage> {
             ],
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildGallerySection() {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              _language == 'en' ? 'Gallery' : 'Zithunzi',
-              style: GoogleFonts.poppins(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton.icon(
-              onPressed: _pickGalleryImages,
-              icon: const Icon(Icons.image),
-              label: Text(_language == 'en'
-                  ? 'Add Images (${_galleryImages.length})'
-                  : 'Onjezani Zithunzi (${_galleryImages.length})'),
-            ),
-            const SizedBox(height: 8),
-            ElevatedButton.icon(
-              onPressed: _pickGalleryVideo,
-              icon: const Icon(Icons.video_library),
-              label: Text(_language == 'en'
-                  ? 'Add Videos (${_galleryVideos.length})'
-                  : 'Onjezani Makanema (${_galleryVideos.length})'),
-            ),
-            if (_galleryImages.isNotEmpty) ...[
-              const SizedBox(height: 16),
-              SizedBox(
-                height: 100,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: _galleryImages.length,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      margin: const EdgeInsets.only(right: 8),
-                      width: 100,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        image: DecorationImage(
-                          image: FileImage(_galleryImages[index]),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ],
-          ],
-        ),
       ),
     );
   }
@@ -806,7 +778,7 @@ class _CreateBusinessProfilePageState extends State<CreateBusinessProfilePage> {
         child: _isLoading
             ? const CircularProgressIndicator(color: Colors.white)
             : Text(
-                _language == 'en' ? 'Create Profile' : 'Pangani Mbiri',
+                _language == 'en' ? 'Update Profile' : 'Sinthani Mbiri',
                 style: GoogleFonts.poppins(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,

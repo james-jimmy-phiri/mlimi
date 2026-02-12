@@ -1,6 +1,6 @@
 class NutrientRecommendationRequest {
   final String hhid;
-  final String phone;
+  final String? phone;
   final String? newLongitude;
   final String? newLatitude;
   final String? gender;
@@ -11,7 +11,7 @@ class NutrientRecommendationRequest {
 
   NutrientRecommendationRequest({
     required this.hhid,
-    required this.phone,
+    this.phone,
     required this.language,
     required this.landUnit,
     required this.landValue,
@@ -24,7 +24,7 @@ class NutrientRecommendationRequest {
   Map<String, dynamic> toJson() {
     return {
       'hhid': hhid,
-      'phone': phone,
+      if (phone != null && phone!.isNotEmpty) 'phone': phone,
       if (newLongitude?.isNotEmpty ?? false) 'new_long': newLongitude,
       if (newLatitude?.isNotEmpty ?? false) 'new_lat': newLatitude,
       if (gender != null && gender!.isNotEmpty) 'gender': gender,
@@ -56,6 +56,30 @@ class NutrientRecommendationResult {
       sms: NutrientSmsBundle.fromJson(smsPayload),
       recommendationId: data['recommendation_id'] as int?,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'data': {
+        'table': table,
+        'sms': sms.toJson(),
+        'recommendation_id': recommendationId,
+      }
+    };
+  }
+
+  String get uniqueKey {
+    // A combination of HHID, District, Area, and coordinates should be unique
+    final hhid = table['barcode_household'] ?? '';
+    final district = table['District'] ?? '';
+    final area = table['Area_ha'] ?? '';
+    final longitude = table['Longitude'] ?? '';
+    final latitude = table['Latitude'] ?? '';
+    // Use HHID if available, otherwise use coordinates + area
+    if (hhid.isNotEmpty) {
+      return '$hhid-$district-$area';
+    }
+    return '$longitude-$latitude-$district-$area';
   }
 
   String? stringField(String key) {
@@ -104,6 +128,15 @@ class NutrientSmsBundle {
     this.smsShortEn,
     this.smsShortNy,
   });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'en': smsEn,
+      'ny': smsNy,
+      'short_en': smsShortEn,
+      'short_ny': smsShortNy,
+    };
+  }
 
   factory NutrientSmsBundle.fromJson(Map<String, dynamic> json) {
     return NutrientSmsBundle(

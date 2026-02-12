@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -10,8 +9,12 @@ import 'package:intl/intl.dart';
 import 'package:mlimi/constants/color.dart';
 import 'package:mlimi/models/nutrient_models.dart';
 import 'package:mlimi/services/nutrient/nutrient_service.dart';
+import 'package:mlimi/services/nutrient_storage_service.dart';
+import 'package:mlimi/pages/advisory/widgets/nutrient_widgets.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:mlimi/services/farmer/farmer_service.dart';
 
 class GeoSpecificAdvisoryPage extends StatefulWidget {
   const GeoSpecificAdvisoryPage({
@@ -39,6 +42,8 @@ class _GeoSpecificAdvisoryPageState extends State<GeoSpecificAdvisoryPage> {
   final _landSizeController = TextEditingController(text: '1');
 
   final _service = NutrientService();
+  final _farmerService = FarmerService();
+  final _storageService = NutrientStorageService();
   final _storage = GetStorage();
 
   String _gender = '';
@@ -63,6 +68,8 @@ class _GeoSpecificAdvisoryPageState extends State<GeoSpecificAdvisoryPage> {
     _language = _storage.read('language') ?? 'en';
     _phoneController.text = _storage.read('phone') ?? '';
     
+    _farmerService.loadFarmers();
+
     // Pre-fill from initial params
     if (widget.initialLatitude != null) {
       _latitudeController.text = widget.initialLatitude!;
@@ -95,7 +102,7 @@ class _GeoSpecificAdvisoryPageState extends State<GeoSpecificAdvisoryPage> {
           _buildSliverAppBar(context),
           SliverToBoxAdapter(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -115,6 +122,8 @@ class _GeoSpecificAdvisoryPageState extends State<GeoSpecificAdvisoryPage> {
                       onSendSms: () => _sendMessage('sms'),
                       onSendWhatsApp: () => _sendMessage('whatsapp'),
                       onDownload: _downloadCsv,
+                      onSave: _saveRecord,
+                    language: _language,
                     ),
                   ),
                   const SizedBox(height: 24),
@@ -127,19 +136,19 @@ class _GeoSpecificAdvisoryPageState extends State<GeoSpecificAdvisoryPage> {
                   if (_result != null) ...[
                     FadeInUp(
                       duration: const Duration(milliseconds: 600),
-                      child: _RecommendationSummary(result: _result!),
+                      child: NutrientRecommendationSummary(result: _result!),
                     ),
                     const SizedBox(height: 24),
                     FadeInUp(
                       delay: const Duration(milliseconds: 200),
                       duration: const Duration(milliseconds: 600),
-                      child: _SmsPreview(bundle: _result!.sms),
+                      child: NutrientSmsPreview(bundle: _result!.sms),
                     ),
                     const SizedBox(height: 24),
                     FadeInUp(
                       delay: const Duration(milliseconds: 400),
                       duration: const Duration(milliseconds: 600),
-                      child: _DataTableCard(result: _result!),
+                      child: NutrientDataTableCard(result: _result!),
                     ),
                     const SizedBox(height: 40),
                   ],
@@ -238,7 +247,7 @@ class _GeoSpecificAdvisoryPageState extends State<GeoSpecificAdvisoryPage> {
           ),
         ],
       ),
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.all(12),
       child: Form(
         key: _formKey,
         child: Column(
@@ -253,18 +262,23 @@ class _GeoSpecificAdvisoryPageState extends State<GeoSpecificAdvisoryPage> {
               controller: _hhidController,
               label: 'Household ID',
               icon: FontAwesomeIcons.qrcode,
-              validator: (value) => value == null || value.trim().isEmpty
-                  ? 'Required'
-                  : null,
+              validator: (value) {
+                if ((value == null || value.trim().isEmpty) &&
+                    (_latitudeController.text.isEmpty ||
+                        _longitudeController.text.isEmpty)) {
+                  return 'Required if location is missing';
+                }
+                return null;
+              },
             ),
             const SizedBox(height: 16),
             _ModernTextField(
               controller: _phoneController,
-              label: 'Phone Number',
+              label: 'Phone Number (Optional)',
               icon: FontAwesomeIcons.phone,
               keyboardType: TextInputType.phone,
               validator: (value) {
-                if (value == null || value.trim().isEmpty) return 'Required';
+                if (value == null || value.trim().isEmpty) return null;
                 if (!RegExp(r'^\+?[0-9]{8,15}$').hasMatch(value.trim())) {
                   return 'Invalid number';
                 }
@@ -272,9 +286,25 @@ class _GeoSpecificAdvisoryPageState extends State<GeoSpecificAdvisoryPage> {
               },
             ),
             const SizedBox(height: 24),
-            _FormSectionTitle(
-              title: _language == 'en' ? 'Location Data' : 'Malo',
-              icon: FontAwesomeIcons.locationDot,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _FormSectionTitle(
+                  title: _language == 'en' ? 'Location Data' : 'Malo',
+                  icon: FontAwesomeIcons.locationDot,
+                ),
+                TextButton.icon(
+                  onPressed: _useGpsLocation,
+                  icon: const Icon(Icons.my_location, size: 18),
+                  label: Text(
+                    'Use GPS',
+                    style: GoogleFonts.poppins(fontWeight: FontWeight.w600),
+                  ),
+                  style: TextButton.styleFrom(
+                    foregroundColor: kPrimaryColor,
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 20),
             Row(
@@ -405,9 +435,30 @@ class _GeoSpecificAdvisoryPageState extends State<GeoSpecificAdvisoryPage> {
     });
 
     try {
+      String hhid = _hhidController.text.trim();
+      
+      // If HHID is empty, try to find farmer by location
+      if (hhid.isEmpty) {
+        final lat = double.tryParse(_latitudeController.text.trim());
+        final long = double.tryParse(_longitudeController.text.trim());
+        
+        if (lat != null && long != null) {
+          setState(() => _statusMessage = 'Looking up farmer...');
+          final farmer = _farmerService.findNearestFarmer(lat, long);
+          if (farmer != null) {
+            hhid = farmer.householdId;
+            _showSnack('Identified farmer: ${farmer.farmerName}');
+          } else {
+            throw NutrientException('No farmer found at this location. Please enter Household ID.');
+          }
+        } else {
+           throw NutrientException('Location or Household ID required.');
+        }
+      }
+
       final request = NutrientRecommendationRequest(
-        hhid: _hhidController.text.trim(),
-        phone: _phoneController.text.trim(),
+        hhid: hhid,
+        phone: _phoneController.text.trim().isEmpty ? null : _phoneController.text.trim(),
         language: _language,
         landUnit: _landUnit,
         landValue:
@@ -471,6 +522,58 @@ class _GeoSpecificAdvisoryPageState extends State<GeoSpecificAdvisoryPage> {
     }
   }
 
+  Future<void> _useGpsLocation() async {
+    setState(() => _statusMessage = 'Getting GPS location...');
+    try {
+      bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+      if (!serviceEnabled) {
+        _showSnack('Location services are disabled.', isError: true);
+        setState(() => _statusMessage = 'Location services disabled.');
+        return;
+      }
+
+      LocationPermission permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          _showSnack('Location permissions are denied.', isError: true);
+          setState(() => _statusMessage = 'Location permissions denied.');
+          return;
+        }
+      }
+
+      if (permission == LocationPermission.deniedForever) {
+        _showSnack('Location permissions are permanently denied.', isError: true);
+        setState(() => _statusMessage = 'Location permissions permanently denied.');
+        return;
+      }
+
+      final position = await Geolocator.getCurrentPosition();
+      _latitudeController.text = position.latitude.toString();
+      _longitudeController.text = position.longitude.toString();
+
+      setState(() => _statusMessage = 'Finding nearest farmer...');
+      final nearestFarmer = _farmerService.findNearestFarmer(
+          position.latitude, position.longitude);
+
+      if (nearestFarmer != null) {
+        _hhidController.text = nearestFarmer.householdId;
+        if (_genders.contains(nearestFarmer.gender)) {
+          setState(() => _gender = nearestFarmer.gender);
+        }
+        _showSnack('Found nearest farmer: ${nearestFarmer.farmerName}');
+        setState(() => _statusMessage =
+            'Found nearest farmer: ${nearestFarmer.farmerName}');
+      } else {
+        _showSnack('No nearby farmer found in database.');
+        setState(() => _statusMessage = 'No nearby farmer found.');
+      }
+    } catch (e) {
+      _showSnack('Error getting location: $e', isError: true);
+      setState(() => _statusMessage = 'Error getting location.');
+    }
+  }
+
   Future<void> _downloadCsv() async {
     if (_result?.table.isEmpty ?? true) {
       _showSnack('No data to download yet.');
@@ -493,6 +596,24 @@ class _GeoSpecificAdvisoryPageState extends State<GeoSpecificAdvisoryPage> {
     } catch (error) {
       _showSnack('Failed to export CSV.');
       setState(() => _statusMessage = 'Failed to export CSV.');
+    }
+  }
+
+  Future<void> _saveRecord() async {
+    if (_result == null) return;
+
+    final success = await _storageService.saveRecord(_result!);
+    if (success) {
+      _showSnack(_language == 'en'
+          ? 'Recommendation saved successfully!'
+          : 'Ulangizi wasungidwa bwino!');
+    } else {
+      _showSnack(
+        _language == 'en'
+            ? 'This recommendation is already saved.'
+            : 'Ulangizi uwu wasungidwa kale.',
+        isError: true,
+      );
     }
   }
 
@@ -561,7 +682,7 @@ class _ModernTextField extends StatelessWidget {
       controller: controller,
       keyboardType: keyboardType,
       validator: validator,
-      style: GoogleFonts.poppins(fontSize: 14),
+      style: GoogleFonts.poppins(fontSize: 12),
       decoration: InputDecoration(
         labelText: label,
         labelStyle: GoogleFonts.poppins(color: Colors.grey[600]),
@@ -650,6 +771,8 @@ class _ActionButtons extends StatelessWidget {
     required this.onSendSms,
     required this.onSendWhatsApp,
     required this.onDownload,
+    required this.onSave,
+    required this.language,
   });
 
   final bool isGenerating;
@@ -659,6 +782,8 @@ class _ActionButtons extends StatelessWidget {
   final VoidCallback onSendSms;
   final VoidCallback onSendWhatsApp;
   final VoidCallback onDownload;
+  final VoidCallback onSave;
+  final String language;
 
   @override
   Widget build(BuildContext context) {
@@ -740,6 +865,27 @@ class _ActionButtons extends StatelessWidget {
               ),
             ),
           ),
+          const SizedBox(height: 12),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton.icon(
+              onPressed: onSave,
+              icon: const Icon(FontAwesomeIcons.floppyDisk),
+              label: Text(
+                language == 'en' ? 'Save Record' : 'Sungani Cholemba',
+                style: GoogleFonts.poppins(fontWeight: FontWeight.w600),
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: kPrimaryColor.withOpacity(0.1),
+                foregroundColor: kPrimaryColor,
+                elevation: 0,
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+              ),
+            ),
+          ),
         ],
       ],
     );
@@ -809,384 +955,6 @@ class _StatusPanel extends StatelessWidget {
               style: GoogleFonts.poppins(
                 fontSize: 14,
                 color: Colors.blue[900],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _RecommendationSummary extends StatelessWidget {
-  const _RecommendationSummary({required this.result});
-  final NutrientRecommendationResult result;
-
-  @override
-  Widget build(BuildContext context) {
-    final district = result.stringField('District') ?? '(unknown)';
-    final area = result.stringField('Area_ha') ?? '-';
-    final yieldLow = result.stringField('Rainfed_Yield_Target_Low_t_ha') ?? '-';
-    final yieldHigh =
-        result.stringField('Rainfed_Yield_Target_High_t_ha') ?? '-';
-    final predicted = result.stringField('Predicted_Yield_t_ha') ?? '-';
-    final optionCost =
-        result.stringField('Option1_Est_Cost_USD_per_area') ?? '-';
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Analysis Results',
-          style: GoogleFonts.poppins(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            color: Colors.grey[800],
-          ),
-        ),
-        const SizedBox(height: 16),
-        GridView.count(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          crossAxisCount: 2,
-          crossAxisSpacing: 12,
-          mainAxisSpacing: 12,
-          childAspectRatio: 1.5,
-          children: [
-            _ResultCard(
-              title: 'District',
-              value: district,
-              icon: FontAwesomeIcons.map,
-              color: Colors.purple,
-            ),
-            _ResultCard(
-              title: 'Area (ha)',
-              value: area,
-              icon: FontAwesomeIcons.rulerCombined,
-              color: Colors.orange,
-            ),
-            _ResultCard(
-              title: 'Target Yield',
-              value: '$yieldLow - $yieldHigh',
-              unit: 't/ha',
-              icon: FontAwesomeIcons.bullseye,
-              color: Colors.blue,
-            ),
-            _ResultCard(
-              title: 'Predicted',
-              value: predicted,
-              unit: 't/ha',
-              icon: FontAwesomeIcons.chartLine,
-              color: Colors.green,
-            ),
-          ],
-        ),
-        const SizedBox(height: 12),
-        Container(
-          width: double.infinity,
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Colors.green[600]!, Colors.green[800]!],
-            ),
-            borderRadius: BorderRadius.circular(20),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.green.withOpacity(0.3),
-                blurRadius: 12,
-                offset: const Offset(0, 6),
-              ),
-            ],
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  const Icon(FontAwesomeIcons.wallet, color: Colors.white70),
-                  const SizedBox(width: 8),
-                  Text(
-                    'Estimated Cost',
-                    style: GoogleFonts.poppins(
-                      color: Colors.white70,
-                      fontSize: 14,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 4),
-              Text(
-                '\$$optionCost',
-                style: GoogleFonts.poppins(
-                  color: Colors.white,
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Text(
-                'Option 1 (USD)',
-                style: GoogleFonts.poppins(
-                  color: Colors.white54,
-                  fontSize: 12,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _ResultCard extends StatelessWidget {
-  const _ResultCard({
-    required this.title,
-    required this.value,
-    this.unit,
-    required this.icon,
-    required this.color,
-  });
-
-  final String title;
-  final String value;
-  final String? unit;
-  final IconData icon;
-  final Color color;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: color.withOpacity(0.1),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(icon, color: color, size: 18),
-          ),
-          const Spacer(),
-          Text(
-            title,
-            style: GoogleFonts.poppins(
-              fontSize: 12,
-              color: Colors.grey[600],
-            ),
-          ),
-          const SizedBox(height: 4),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Flexible(
-                child: Text(
-                  value,
-                  style: GoogleFonts.poppins(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.grey[900],
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              if (unit != null) ...[
-                const SizedBox(width: 4),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 2),
-                  child: Text(
-                    unit!,
-                    style: GoogleFonts.poppins(
-                      fontSize: 10,
-                      color: Colors.grey[500],
-                    ),
-                  ),
-                ),
-              ],
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _SmsPreview extends StatelessWidget {
-  const _SmsPreview({required this.bundle});
-  final NutrientSmsBundle bundle;
-
-  @override
-  Widget build(BuildContext context) {
-    final previews = [
-      if (bundle.smsEn != null)
-        _SmsBubble(title: 'English (Full)', body: bundle.smsEn!, isOut: true),
-      if (bundle.smsShortEn != null)
-        _SmsBubble(title: 'English (Short)', body: bundle.smsShortEn!, isOut: true),
-      if (bundle.smsNy != null)
-        _SmsBubble(title: 'Chichewa (Full)', body: bundle.smsNy!, isOut: true),
-      if (bundle.smsShortNy != null)
-        _SmsBubble(title: 'Chichewa (Short)', body: bundle.smsShortNy!, isOut: true),
-    ];
-
-    if (previews.isEmpty) return const SizedBox.shrink();
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Message Previews',
-          style: GoogleFonts.poppins(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            color: Colors.grey[800],
-          ),
-        ),
-        const SizedBox(height: 16),
-        Container(
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            color: const Color(0xFFE5E5EA), // iOS message bg color style
-            borderRadius: BorderRadius.circular(24),
-          ),
-          child: Column(
-            children: previews,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _SmsBubble extends StatelessWidget {
-  const _SmsBubble({required this.title, required this.body, required this.isOut});
-  final String title;
-  final String body;
-  final bool isOut;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
-      child: Column(
-        crossAxisAlignment: isOut ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: GoogleFonts.poppins(
-              fontSize: 10,
-              color: Colors.grey[600],
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: isOut ? Colors.blue : Colors.white,
-              borderRadius: BorderRadius.only(
-                topLeft: const Radius.circular(16),
-                topRight: const Radius.circular(16),
-                bottomLeft: Radius.circular(isOut ? 16 : 4),
-                bottomRight: Radius.circular(isOut ? 4 : 16),
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
-                  blurRadius: 4,
-                  offset: const Offset(0, 2),
-                ),
-              ],
-            ),
-            child: Text(
-              body,
-              style: GoogleFonts.poppins(
-                color: isOut ? Colors.white : Colors.black87,
-                fontSize: 13,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _DataTableCard extends StatelessWidget {
-  const _DataTableCard({required this.result});
-  final NutrientRecommendationResult result;
-
-  @override
-  Widget build(BuildContext context) {
-    final rows = result.toDisplayRows();
-    if (rows.isEmpty) return const SizedBox.shrink();
-
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(24),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            blurRadius: 20,
-            offset: const Offset(0, 10),
-          ),
-        ],
-      ),
-      padding: const EdgeInsets.all(24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Detailed Prescription',
-            style: GoogleFonts.poppins(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Colors.grey[800],
-            ),
-          ),
-          const SizedBox(height: 16),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Theme(
-              data: Theme.of(context).copyWith(
-                dividerColor: Colors.grey[200],
-              ),
-              child: DataTable(
-                headingTextStyle: GoogleFonts.poppins(
-                  fontWeight: FontWeight.bold,
-                  color: kPrimaryColor,
-                ),
-                dataTextStyle: GoogleFonts.poppins(
-                  color: Colors.grey[800],
-                ),
-                columns: const [
-                  DataColumn(label: Text('Metric')),
-                  DataColumn(label: Text('Value')),
-                ],
-                rows: rows
-                    .map(
-                      (entry) => DataRow(
-                        cells: [
-                          DataCell(Text(entry.key)),
-                          DataCell(Text(entry.value)),
-                        ],
-                      ),
-                    )
-                    .toList(),
               ),
             ),
           ),

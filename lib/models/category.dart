@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mlimi/pages/Buy/buy.dart';
-import 'package:mlimi/pages/Buy/buy.dart';
 import 'package:mlimi/pages/advisory/advisory_method_selection_page.dart';
 import 'package:mlimi/pages/business_profile/business_profiles_page.dart';
 import 'package:mlimi/pages/margin_calculator/margin_calculator.dart';
@@ -35,14 +34,14 @@ List<Category_featured> getCategoryList(String language) {
         targetPage: const Buy(),
       ),
       Category_featured(
-        name: 'Mlimi Waleti',
-        thumbnail: 'wallet',
-        targetPage: const Wallet(),
+        name: 'Mabizinesi',
+        thumbnail: 'business',
+        targetPage: const BusinessProfilesPage(),
       ),
       Category_featured(
-        name: 'Dera Langa',
-        thumbnail: 'location',
-        targetPage: const Region(),
+        name: 'Ulangizi wa Dera',
+        thumbnail: 'geo',
+        targetPage: const AdvisoryMethodSelectionPage(),
       ),
       Category_featured(
         name: 'Kuwerengela Phindu',
@@ -55,14 +54,14 @@ List<Category_featured> getCategoryList(String language) {
         targetPage: const SupplyPage(),
       ),
       Category_featured(
-        name: 'Mabizinesi',
-        thumbnail: 'business',
-        targetPage: const BusinessProfilesPage(),
+        name: 'Mlimi Waleti',
+        thumbnail: 'wallet',
+        targetPage: const Wallet(),
       ),
       Category_featured(
-        name: 'Ulangizi wa Dera',
-        thumbnail: 'geo',
-        targetPage: const AdvisoryMethodSelectionPage(),
+        name: 'Dera Langa',
+        thumbnail: 'location',
+        targetPage: const Region(),
       ),
     ];
   } else {
@@ -78,14 +77,14 @@ List<Category_featured> getCategoryList(String language) {
         targetPage: const Buy(),
       ),
       Category_featured(
-        name: 'Mlimi Wallet',
-        thumbnail: 'wallet',
-        targetPage: const Wallet(),
+        name: 'Business Profiles',
+        thumbnail: 'business',
+        targetPage: const BusinessProfilesPage(),
       ),
       Category_featured(
-        name: 'My Region',
-        thumbnail: 'location',
-        targetPage: const Region(),
+        name: 'Geo-specific Advisory',
+        thumbnail: 'geo',
+        targetPage: const AdvisoryMethodSelectionPage(),
       ),
       Category_featured(
         name: 'Gross Margin Calculator',
@@ -98,14 +97,14 @@ List<Category_featured> getCategoryList(String language) {
         targetPage: const SupplyPage(),
       ),
       Category_featured(
-        name: 'Business Profiles',
-        thumbnail: 'business',
-        targetPage: const BusinessProfilesPage(),
+        name: 'Mlimi Wallet',
+        thumbnail: 'wallet',
+        targetPage: const Wallet(),
       ),
       Category_featured(
-        name: 'Geo-specific Advisory',
-        thumbnail: 'geo',
-        targetPage: const AdvisoryMethodSelectionPage(),
+        name: 'My Region',
+        thumbnail: 'location',
+        targetPage: const Region(),
       ),
     ];
   }

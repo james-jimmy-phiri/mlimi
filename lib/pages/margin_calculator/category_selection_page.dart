@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mlimi/constants/color.dart';
 import 'package:mlimi/models/gross_margin_model.dart';
 import 'package:mlimi/pages/margin_calculator/select_input_page.dart';
+import 'package:mlimi/utils/app_translations.dart';
 
 class CategorySelectionPage extends StatelessWidget {
   final Crop crop;
@@ -35,9 +36,9 @@ class CategorySelectionPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
                   Text(
-                    "Category of ${crop.name} variety based on maturity period",
+                    "${AppTranslations.getString('category_of')} ${crop.name} ${AppTranslations.getString('variety_maturity')}",
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -52,18 +53,18 @@ class CategorySelectionPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(50),
                       color: Colors.white,
                     ),
-                    child: const TextField(
+                    child: TextField(
                       decoration: InputDecoration(
                         border: InputBorder.none,
-                        prefixIcon: Icon(
+                        prefixIcon: const Icon(
                           Icons.search,
                           color: Colors.grey,
                         ),
-                        hintStyle: TextStyle(
+                        hintStyle: const TextStyle(
                           color: Colors.grey,
                           fontSize: 15,
                         ),
-                        hintText: "Search for categories...",
+                        hintText: AppTranslations.getString('search_categories'),
                       ),
                     ),
                   ),
@@ -112,7 +113,7 @@ class CategorySelectionPage extends StatelessWidget {
                           child: makeItem(
                             image: 'assets/images/seedco.jpg',
                             title:
-                                'Average Yield:\n${category.averageYield} per Hec',
+                                '${AppTranslations.getString('average_yield')}:\n${category.averageYield} ${AppTranslations.getString('per_hec')}',
                           ),
                         ),
                         Padding(

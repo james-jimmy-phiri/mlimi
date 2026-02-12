@@ -177,7 +177,7 @@ class _SectionInputPageState extends State<SectionInputPage> {
             labelText: 'Selling Price',
             controller: _sellingPriceController,
             prefix: 'MWK ',
-            suffix: '/kGs',
+            suffix: '/kG',
             errorText: _sellingPriceError,
             keyboardType: TextInputType.number, // Set keyboard type to number
           ),

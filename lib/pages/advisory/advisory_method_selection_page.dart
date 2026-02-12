@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mlimi/constants/color.dart';
 import 'package:mlimi/pages/advisory/advisory_location_picker_page.dart';
 import 'package:mlimi/pages/advisory/geo_specific_advisory_page.dart';
+import 'package:mlimi/pages/advisory/saved_nutrient_records_page.dart';
 
 class AdvisoryMethodSelectionPage extends StatelessWidget {
   const AdvisoryMethodSelectionPage({super.key});
@@ -112,6 +113,27 @@ class AdvisoryMethodSelectionPage extends StatelessWidget {
                         icon: FontAwesomeIcons.satelliteDish,
                         color: Colors.green,
                         onTap: () => _handleGpsLocation(context, language),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    FadeInUp(
+                      delay: const Duration(milliseconds: 600),
+                      duration: const Duration(milliseconds: 500),
+                      child: _MethodCard(
+                        title: language == 'en' ? 'Saved Records' : 'Zolemba Zosungidwa',
+                        description: language == 'en'
+                            ? 'View previously saved nutrient recommendations.'
+                            : 'Onani malangizo a fetereza omwe munasunga kale.',
+                        icon: FontAwesomeIcons.floppyDisk,
+                        color: Colors.purple,
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const SavedNutrientRecordsPage(),
+                            ),
+                          );
+                        },
                       ),
                     ),
                   ],

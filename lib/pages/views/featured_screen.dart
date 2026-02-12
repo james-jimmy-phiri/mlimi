@@ -60,7 +60,7 @@ class _FeaturedScreenState extends State<FeaturedScreen> {
         headers: {
           'Accept': 'application/json',
         },
-      );
+      ).timeout(const Duration(seconds: 5));
       print('Response status: ${response.statusCode}');
       print('Response body: ${response.body}');
 
@@ -103,7 +103,7 @@ class _FeaturedScreenState extends State<FeaturedScreen> {
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('No Internet connection. Please try again.')),
+        SnackBar(content: Text('No  connection. failed to fetch the trending Data')),
       );
       setState(() {
         isLoading = false;
