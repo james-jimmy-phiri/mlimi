@@ -48,6 +48,7 @@ class _GeoSpecificAdvisoryPageState extends State<GeoSpecificAdvisoryPage> {
 
   String _gender = '';
   String _language = 'en';
+  String _farmerName = 'Farmer';
   String _landUnit = 'ha';
   bool _shortSms = true;
   bool _isGenerating = false;
@@ -136,20 +137,36 @@ class _GeoSpecificAdvisoryPageState extends State<GeoSpecificAdvisoryPage> {
                   if (_result != null) ...[
                     FadeInUp(
                       duration: const Duration(milliseconds: 600),
-                      child: NutrientRecommendationSummary(result: _result!),
+                      child: NutrientRecommendationSummary(
+                        result: _result!,
+                        farmerName: _farmerName,
+                      ),
                     ),
                     const SizedBox(height: 24),
                     FadeInUp(
                       delay: const Duration(milliseconds: 200),
                       duration: const Duration(milliseconds: 600),
-                      child: NutrientSmsPreview(bundle: _result!.sms),
+                      child: VisualNutrientAdvisory(
+                        result: _result!,
+                        language: _language,
+                        farmerName: _farmerName,
+                      ),
                     ),
                     const SizedBox(height: 24),
                     FadeInUp(
                       delay: const Duration(milliseconds: 400),
                       duration: const Duration(milliseconds: 600),
-                      child: NutrientDataTableCard(result: _result!),
+                      child: NutrientSmsPreview(
+                        bundle: _result!.sms,
+                        language: _language,
+                      ),
                     ),
+                    const SizedBox(height: 24),
+                    // FadeInUp(
+                    //   delay: const Duration(milliseconds: 400),
+                    //   duration: const Duration(milliseconds: 600),
+                    //   child: NutrientDataTableCard(result: _result!),
+                    // ),
                     const SizedBox(height: 40),
                   ],
                 ],
@@ -453,6 +470,16 @@ class _GeoSpecificAdvisoryPageState extends State<GeoSpecificAdvisoryPage> {
           }
         } else {
            throw NutrientException('Location or Household ID required.');
+        }
+      }
+
+      // Lookup farmer name if we have an HHID
+      if (hhid.isNotEmpty) {
+        final farmer = _farmerService.findFarmerByHhid(hhid);
+        if (farmer != null) {
+          setState(() => _farmerName = farmer.farmerName);
+        } else {
+          setState(() => _farmerName = 'Farmer');
         }
       }
 

@@ -107,6 +107,7 @@ flutter:
   assets:
     - assets/logo/
     - assets/images/
+    - assets/images/soil_sample/
     - assets/icons/
     - assets/images/products/
     - assets/images/origin/

@@ -51,6 +51,25 @@ class FarmerService {
     return nearestFarmer;
   }
 
+  Farmer? findFarmerByHhid(String hhid) {
+    if (_farmerData == null) return null;
+
+    for (var region in _farmerData!.regions) {
+      for (var district in region.districts) {
+        for (var epa in district.epas) {
+          for (var village in epa.villages) {
+            for (var farmer in village.farmers) {
+              if (farmer.householdId.trim() == hhid.trim()) {
+                return farmer;
+              }
+            }
+          }
+        }
+      }
+    }
+    return null;
+  }
+
   // Haversine formula to calculate distance in kilometers
   double _calculateDistance(double lat1, double lon1, double lat2, double lon2) {
     var p = 0.017453292519943295; // Math.PI / 180

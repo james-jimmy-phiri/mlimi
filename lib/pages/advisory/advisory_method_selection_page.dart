@@ -147,7 +147,7 @@ class AdvisoryMethodSelectionPage extends StatelessWidget {
               right: 0,
               bottom: 0,
               child: Container(
-                padding: const EdgeInsets.only(top: 10),
+                padding: const EdgeInsets.symmetric(vertical: 20),
                 color: const Color(0xFFF5F7FA), // Match background color
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -160,13 +160,19 @@ class AdvisoryMethodSelectionPage extends StatelessWidget {
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 12),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        _SponsoredLogo(assetPath: 'assets/icons/flutter.jpg'),
-                        const SizedBox(width: 20),
-                        _SponsoredLogo(assetPath: 'assets/icons/react.jpg'),
+                        _SponsoredLogo(assetPath: 'assets/logo/empower.png'),
+                        const SizedBox(width: 15),
+                        _SponsoredLogo(assetPath: 'assets/logo/iita.png'),
+                        const SizedBox(width: 15),
+                        _SponsoredLogo(assetPath: 'assets/logo/nasfam.png'),
+                        const SizedBox(width: 15),
+                        _SponsoredLogo(assetPath: 'assets/logo/taighde.png'),
+                        const SizedBox(width: 15),
+                        _SponsoredLogo(assetPath: 'assets/logo/ucd.png'),
                       ],
                     ),
                   ],
@@ -378,21 +384,21 @@ class _SponsoredLogo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 40,
-      width: 40,
+      height: 50,
+      width: 50,
       decoration: BoxDecoration(
         color: Colors.white,
         shape: BoxShape.circle,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
+            blurRadius: 5,
             offset: const Offset(0, 2),
           ),
         ],
         image: DecorationImage(
           image: AssetImage(assetPath),
-          fit: BoxFit.cover,
+          fit: BoxFit.contain,
         ),
       ),
     );
