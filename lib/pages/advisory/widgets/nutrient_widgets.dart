@@ -572,7 +572,7 @@ class VisualNutrientAdvisory extends StatelessWidget {
           'Option 2',
           'NPK + Superphosphate',
           isEnglish
-              ? 'Apply NPK 23:21:0+4S at 7/8 bag (43 kg) AND Single Superphosphate at 2 and 1/8 bags (103 kg).'
+              ? 'Apply NPK 23:21:0+4S at 43 kg AND Single Superphosphate at 2 and 1/8 bags (103 kg).'
               : 'Thirani NPK 23:21:0+4S matumba 7/8 (43 kg) NDI Single Superphosphate matumba 2 ndi 1/8 (103 kg).',
           Colors.green,
         ),
@@ -581,8 +581,8 @@ class VisualNutrientAdvisory extends StatelessWidget {
           'Option 3',
           'Urea + Superphosphate',
           isEnglish
-              ? 'Apply Urea at 3/8 bag (22 kg) AND Single Superphosphate at 2 and 1/2 bags (125 kg).'
-              : 'Thirani Urea matumba 3/8 (22 kg) NDI Single Superphosphate matumba 2 ndi 1/2 (125 kg).',
+              ? 'Apply Urea at 22 kg AND Single Superphosphate at 2 and 125 kg.'
+              : 'Thirani Urea matumba 22 kg NDI Single Superphosphate matumba 2 ndi 1/2 (125 kg).',
           Colors.purple,
         ),
         const SizedBox(height: 32),
