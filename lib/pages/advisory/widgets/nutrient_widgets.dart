@@ -581,7 +581,7 @@ class VisualNutrientAdvisory extends StatelessWidget {
           'Option 3',
           'Urea + Superphosphate',
           isEnglish
-              ? 'Apply Urea at 22 kg AND Single Superphosphate at 2 and 125 kg.'
+              ? 'Apply Urea at 22 kg AND Single Superphosphate at 2 and 125 kg.  '
               : 'Thirani Urea matumba 22 kg NDI Single Superphosphate matumba 2 ndi 1/2 (125 kg).',
           Colors.purple,
         ),
@@ -592,6 +592,7 @@ class VisualNutrientAdvisory extends StatelessWidget {
           isEnglish ? '3. Application Advice' : '3. Kagwiritsidwe Ntchito',
           FontAwesomeIcons.handHoldingDroplet,
         ),
+        
         const SizedBox(height: 16),
         _buildApplicationAdviceTimeline(isEnglish),
         const SizedBox(height: 32),
