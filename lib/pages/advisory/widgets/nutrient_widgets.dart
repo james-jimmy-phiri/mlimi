@@ -592,7 +592,7 @@ class VisualNutrientAdvisory extends StatelessWidget {
           isEnglish ? '3. Application Advice' : '3. Kagwiritsidwe Ntchito',
           FontAwesomeIcons.handHoldingDroplet,
         ),
-        
+         
         const SizedBox(height: 16),
         _buildApplicationAdviceTimeline(isEnglish),
         const SizedBox(height: 32),

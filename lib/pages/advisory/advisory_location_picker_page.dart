@@ -77,7 +77,7 @@ class _AdvisoryLocationPickerPageState
                 children: [
                   FadeInDown(
                     child: _SelectionStep<Region>(
-                      title: 'Region',
+                       title: 'Region',
                       value: _selectedRegion,
                       items: _regions,
                       itemLabel: (item) => item.region,
