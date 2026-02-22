@@ -515,7 +515,6 @@ class VisualNutrientAdvisory extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 24),
-
         // // 1. Soil Requirements Section
         // _buildSectionHeader(
         //   isEnglish ? '1. Soil Requirements' : "1. Zosowa m'nthaka",
