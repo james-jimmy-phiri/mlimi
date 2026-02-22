@@ -480,7 +480,7 @@ class VisualNutrientAdvisory extends StatelessWidget {
     final sulphate = result.stringField('S_kg_ha') ?? 
                      result.stringField('Sulphate_kg_ha') ?? 
                      result.stringField('S_kg_ha') ?? '0';
-    final varieties = result.stringField('Varieties') ?? '';
+    final varieties = result.stringField('Varieties_Suggested') ?? result.stringField('Varieties') ?? '';
 
     final isEnglish = language == 'en';
 
@@ -516,35 +516,35 @@ class VisualNutrientAdvisory extends StatelessWidget {
         ),
         const SizedBox(height: 24),
 
-        // 1. Soil Requirements Section
-        _buildSectionHeader(
-          isEnglish ? '1. Soil Requirements' : "1. Zosowa m'nthaka",
-          FontAwesomeIcons.flask,
-        ),
-        const SizedBox(height: 8),
-        Text(
-          isEnglish
-              ? 'To reach your target yield, your soil needs these specific nutrients.'
-              : 'Kuti mukolole zomwe mukufuna, nthaka yanu ikufunika izi.',
-          style: GoogleFonts.poppins(color: Colors.grey[600], fontSize: 13),
-        ),
-        const SizedBox(height: 16),
-        const SizedBox(height: 16),
-        GridView.count(
-          crossAxisCount: 2,
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          mainAxisSpacing: 12,
-          crossAxisSpacing: 12,
-          childAspectRatio: 1.3,
-          children: [
-            _buildNutrientCard('Nitrogen', nitrogen, Colors.blue, 'Nitrogen'),
-            _buildNutrientCard('Phosphorus', phosphorus, Colors.orange, 'Phosphorus'),
-            _buildNutrientCard('Potassium', potassium, Colors.red, 'Potassium'),
-            _buildNutrientCard('Sulphate', sulphate, Colors.amber, 'Sulphate'),
-          ],
-        ),
-        const SizedBox(height: 32),
+        // // 1. Soil Requirements Section
+        // _buildSectionHeader(
+        //   isEnglish ? '1. Soil Requirements' : "1. Zosowa m'nthaka",
+        //   FontAwesomeIcons.flask,
+        // ),
+        // const SizedBox(height: 8),
+        // Text(
+        //   isEnglish
+        //       ? 'To reach your target yield, your soil needs these specific nutrients.'
+        //       : 'Kuti mukolole zomwe mukufuna, nthaka yanu ikufunika izi.',
+        //   style: GoogleFonts.poppins(color: Colors.grey[600], fontSize: 13),
+        // ),
+        // const SizedBox(height: 16),
+        // const SizedBox(height: 16),
+        // GridView.count(
+        //   crossAxisCount: 2,
+        //   shrinkWrap: true,
+        //   physics: const NeverScrollableScrollPhysics(),
+        //   mainAxisSpacing: 12,
+        //   crossAxisSpacing: 12,
+        //   childAspectRatio: 1.3,
+        //   children: [
+        //     _buildNutrientCard('Nitrogen', nitrogen, Colors.blue, 'Nitrogen'),
+        //     _buildNutrientCard('Phosphorus', phosphorus, Colors.orange, 'Phosphorus'),
+        //     _buildNutrientCard('Potassium', potassium, Colors.red, 'Potassium'),
+        //     _buildNutrientCard('Sulphate', sulphate, Colors.amber, 'Sulphate'),
+        //   ],
+        // ),
+        // const SizedBox(height: 32),
 
         // 2. Fertilizer Options Section
         _buildSectionHeader(
@@ -559,33 +559,75 @@ class VisualNutrientAdvisory extends StatelessWidget {
           style: GoogleFonts.poppins(color: Colors.grey[600], fontSize: 13),
         ),
         const SizedBox(height: 16),
-        _buildFertilizerOption(
-          'Option 1',
-          isEnglish ? 'Urea Only' : 'Urea Yokha',
-          isEnglish
-              ? 'Apply Urea at 3/8 of a 50kg bag (22 kg).'
-              : 'Thirani Urea matumba 3/8 a 50kg (22 kg).',
-          Colors.blue,
+        Builder(
+          builder: (context) {
+            final options = List.generate(3, (index) {
+              final optNum = index + 1;
+              final products = result.stringField('Option${optNum}_Products_for_Area');
+              final cost = result.stringField('Option${optNum}_Est_Cost_USD_per_area');
+              
+              if (products == null || products.isEmpty || products == '0') return const SizedBox.shrink();
+              
+              String optionTitle = 'Option $optNum';
+              final prodLower = products.toLowerCase();
+              if (prodLower.contains('urea') && prodLower.contains('superphosphate')) {
+                optionTitle = 'Urea + Superphosphate';
+              } else if (prodLower.contains('npk') && prodLower.contains('superphosphate')) {
+                optionTitle = 'NPK + Superphosphate';
+              } else if (prodLower.contains('urea')) {
+                 optionTitle = isEnglish ? 'Urea Only' : 'Urea Yokha';
+              } else if (prodLower.contains('npk')) {
+                 optionTitle = 'NPK';
+              }
+
+              final colors = [Colors.blue, Colors.green, Colors.purple];
+              final color = colors[index % colors.length];
+
+              String desc = products;
+              if (cost != null && cost.isNotEmpty && cost != '0' && cost != '0.0') {
+                 desc += '\nEstimated Cost: \$$cost';
+              }
+
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: _buildFertilizerOption(
+                  'Option $optNum',
+                  optionTitle,
+                  desc,
+                  color,
+                ),
+              );
+            }).whereType<Padding>().toList();
+
+            if (options.isNotEmpty) {
+              return Column(children: options);
+            } else {
+              // Fallback
+              return Column(
+                children: [
+                  _buildFertilizerOption(
+                    'Option 1',
+                    isEnglish ? 'Urea Only' : 'Urea Yokha',
+                    isEnglish
+                        ? 'Apply Urea at 3/8 of a 50kg bag (22 kg).'
+                        : 'Thirani Urea matumba 3/8 a 50kg (22 kg).',
+                    Colors.blue,
+                  ),
+                  const SizedBox(height: 12),
+                  _buildFertilizerOption(
+                    'Option 2',
+                    'NPK + Superphosphate',
+                    isEnglish
+                        ? 'Apply NPK 23:21:0+4S at 43 kg AND Single Superphosphate at 2 and 1/8 bags (103 kg).'
+                        : 'Thirani NPK 23:21:0+4S matumba 7/8 (43 kg) NDI Single Superphosphate matumba 2 ndi 1/8 (103 kg).',
+                    Colors.green,
+                  ),
+                ],
+              );
+            }
+          },
         ),
-        const SizedBox(height: 12),
-        _buildFertilizerOption(
-          'Option 2',
-          'NPK + Superphosphate',
-          isEnglish
-              ? 'Apply NPK 23:21:0+4S at 43 kg AND Single Superphosphate at 2 and 1/8 bags (103 kg).'
-              : 'Thirani NPK 23:21:0+4S matumba 7/8 (43 kg) NDI Single Superphosphate matumba 2 ndi 1/8 (103 kg).',
-          Colors.green,
-        ),
-        const SizedBox(height: 12),
-        _buildFertilizerOption(
-          'Option 3',
-          'Urea + Superphosphate',
-          isEnglish
-              ? 'Apply Urea at 22 kg AND Single Superphosphate at 2 and 125 kg.  '
-              : 'Thirani Urea matumba 22 kg NDI Single Superphosphate matumba 2 ndi 1/2 (125 kg).',
-          Colors.purple,
-        ),
-        const SizedBox(height: 32),
+        const SizedBox(height: 20),
 
         // 3. Application Advice Section
         _buildSectionHeader(
@@ -594,16 +636,18 @@ class VisualNutrientAdvisory extends StatelessWidget {
         ),
          
         const SizedBox(height: 16),
-        _buildApplicationAdviceTimeline(isEnglish),
+        _buildApplicationAdviceDynamic(result, isEnglish),
         const SizedBox(height: 32),
 
         // 4. Variety Section
-        _buildSectionHeader(
-          isEnglish ? '4. Recommended Varieties' : '4. Mitundu ya Mbewu',
-          FontAwesomeIcons.seedling,
-        ),
-        const SizedBox(height: 16),
-        _buildVarietyCard(varieties, isEnglish),
+        if (varieties.isNotEmpty && varieties != '0') ...[
+          _buildSectionHeader(
+            isEnglish ? '4. Recommended Varieties' : '4. Mitundu ya Mbewu',
+            FontAwesomeIcons.seedling,
+          ),
+          const SizedBox(height: 16),
+          _buildVarietyCardDynamic(varieties, isEnglish),
+        ],
       ],
     );
   }
@@ -811,7 +855,55 @@ class VisualNutrientAdvisory extends StatelessWidget {
     );
   }
 
-  Widget _buildApplicationAdviceTimeline(bool isEnglish) {
+  Widget _buildApplicationAdviceDynamic(NutrientRecommendationResult result, bool isEnglish) {
+    final splitTiming = result.stringField('Split_Timing');
+    final rhizobia = result.stringField('Rhizobia_Inoculant');
+    final limeNote = result.stringField('Lime_Note');
+
+    final bool hasSplitTiming = splitTiming != null && splitTiming.isNotEmpty && splitTiming != '0';
+    final bool hasRhizobia = rhizobia != null && rhizobia.isNotEmpty && rhizobia != '0';
+    final bool hasLimeNote = limeNote != null && limeNote.isNotEmpty && limeNote != '0';
+
+    if (!hasSplitTiming && !hasRhizobia && !hasLimeNote) {
+      // Fallback
+      return Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(color: Colors.grey.withOpacity(0.1)),
+           boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 15,
+              offset: const Offset(0, 5),
+            ),
+          ],
+        ),
+        child: Column(
+          children: [
+            ClipRRect(
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+              child: Image.asset(
+                'assets/images/soil_sample/fertilizer_application_1.jpg',
+                height: 140,
+                width: double.infinity,
+                fit: BoxFit.cover,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: _buildAdviceRow(
+                isEnglish ? '2-4 Weeks Before' : 'Masabata 2-4 Musanadzale',
+                isEnglish ? 'Apply lime before planting' : 'Thirani Laimu Musanadzale ',
+                Icons.calendar_today,
+                Colors.orange,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -838,28 +930,37 @@ class VisualNutrientAdvisory extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.all(20),
-             child: Row(
-               children: [
-                 Expanded(
-                   child: _buildTimelineItem(
-                     isEnglish ? '2-4 Weeks Before' : 'Masabata 2-4 Musanadzale',
-                     isEnglish ? 'Apply lime before planting' : 'Thirani Laimu Musanadzale ',
-                     Icons.calendar_today,
-                     Colors.orange,
-                     isFirst: true,
-                   ),
-                 ),
-                 const SizedBox(width: 16),
-                 Expanded(
-                   child: _buildTimelineItem(
-                     isEnglish ? 'At Planting' : 'Pa Nthawi Yodzala',
-                     isEnglish ? 'Use Inoculant & Apply Fertilizers' : 'Gwiritsani Ntchito Inoculant & Thirani Manyowa',
-                     FontAwesomeIcons.seedling,
-                     Colors.green,
-                     isLast: true,
-                   ),
-                 ),
-               ],
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                if (hasLimeNote)
+                  _buildAdviceRow(
+                    isEnglish ? 'Lime Preparation' : 'Kukonzekera Laimu',
+                    limeNote!,
+                    Icons.science,
+                    Colors.orange,
+                  ),
+                if (hasSplitTiming)
+                  Padding(
+                    padding: EdgeInsets.only(top: hasLimeNote ? 16.0 : 0.0),
+                    child: _buildAdviceRow(
+                      isEnglish ? 'Application Timing' : 'Nthawi Yothira',
+                      splitTiming!,
+                      Icons.calendar_today,
+                      Colors.blue,
+                    ),
+                  ),
+                if (hasRhizobia)
+                   Padding(
+                    padding: EdgeInsets.only(top: (hasLimeNote || hasSplitTiming) ? 16.0 : 0.0),
+                    child: _buildAdviceRow(
+                      isEnglish ? 'Seed Treatment' : 'Kusamalira Mbewu',
+                      rhizobia!,
+                      FontAwesomeIcons.seedling,
+                      Colors.green,
+                    ),
+                  ),
+              ],
             ),
           ),
         ],
@@ -867,42 +968,48 @@ class VisualNutrientAdvisory extends StatelessWidget {
     );
   }
 
-  Widget _buildTimelineItem(String time, String action, IconData icon, Color color, {bool isFirst = false, bool isLast = false}) {
-    return Column(
+  Widget _buildAdviceRow(String title, String description, IconData icon, Color color) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          padding: const EdgeInsets.all(12),
+          padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
             color: color.withOpacity(0.1),
             shape: BoxShape.circle,
           ),
-          child: Icon(icon, color: color, size: 20),
+          child: Icon(icon, color: color, size: 18),
         ),
-        const SizedBox(height: 8),
-        Text(
-          time,
-          textAlign: TextAlign.center,
-          style: GoogleFonts.poppins(
-            fontSize: 10,
-            fontWeight: FontWeight.bold,
-            color: Colors.grey[500],
-          ),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          action,
-           textAlign: TextAlign.center,
-          style: GoogleFonts.poppins(
-            fontSize: 12,
-            fontWeight: FontWeight.w600,
-            color: Colors.black87,
+        const SizedBox(width: 16),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: GoogleFonts.poppins(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                  color: Colors.black87,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                description,
+                style: GoogleFonts.poppins(
+                  fontSize: 13,
+                  color: Colors.grey[700],
+                  height: 1.4,
+                ),
+              ),
+            ],
           ),
         ),
       ],
     );
   }
 
-  Widget _buildVarietyCard(String varieties, bool isEnglish) {
+  Widget _buildVarietyCardDynamic(String varietiesSuggested, bool isEnglish) {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -935,30 +1042,14 @@ class VisualNutrientAdvisory extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  isEnglish ? 'Select a High-Yield Variety' : 'Sankhani Mtundu Wabwino',
+                  isEnglish ? 'Recommended Variety' : 'Mtundu Wovomerezeka',
                   style: GoogleFonts.poppins(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
                   ),
                 ),
                 const SizedBox(height: 16),
-                _buildVarietyItem(
-                  'Chitedze 4',
-                  isEnglish ? 'Medium variety' : 'Mtundu wapakatikati',
-                  'assets/images/soil_sample/variety_Chitedze 4.jpg',
-                ),
-                const Divider(),
-                _buildVarietyItem(
-                  'Nasoko',
-                   isEnglish ? 'Early variety' : 'Mtundu wam\'mawa',
-                   null,
-                ),
-                const Divider(),
-                 _buildVarietyItem(
-                  'Tikolore',
-                   isEnglish ? 'Medium variety' : 'Mtundu wapakatikati',
-                   null,
-                ),
+                _buildVarietyItemDynamic(varietiesSuggested),
               ],
             ),
           ),
@@ -967,51 +1058,31 @@ class VisualNutrientAdvisory extends StatelessWidget {
     );
   }
 
-  Widget _buildVarietyItem(String name, String type, String? imagePath) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Row(
-        children: [
-          Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              color: Colors.green[50],
-              borderRadius: BorderRadius.circular(8),
-              image: imagePath != null
-                  ? DecorationImage(
-                      image: AssetImage(imagePath),
-                      fit: BoxFit.cover,
-                    )
-                  : null,
+  Widget _buildVarietyItemDynamic(String description) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          width: 40,
+          height: 40,
+          decoration: BoxDecoration(
+            color: Colors.green[50],
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Icon(Icons.grass, color: Colors.green[700], size: 20),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Text(
+            description,
+            style: GoogleFonts.poppins(
+              fontSize: 14,
+              color: Colors.grey[700],
+              height: 1.4,
             ),
-            child: imagePath == null
-                ? Icon(Icons.grass, color: Colors.green[700], size: 20)
-                : null,
           ),
-          const SizedBox(width: 12),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                name,
-                style: GoogleFonts.poppins(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
-                  color: Colors.black87,
-                ),
-              ),
-              Text(
-                type,
-                style: GoogleFonts.poppins(
-                  fontSize: 12,
-                  color: Colors.grey[600],
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
