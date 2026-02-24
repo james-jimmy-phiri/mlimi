@@ -5,6 +5,7 @@ import 'package:mlimi/pages/business_profile/business_profiles_page.dart';
 import 'package:mlimi/pages/margin_calculator/margin_calculator.dart';
 import 'package:mlimi/pages/region/region.dart';
 import 'package:mlimi/pages/sale/sale.dart';
+import 'package:mlimi/pages/views/farming_profile/farming_seasons_page.dart';
 import 'package:mlimi/pages/sale/supply.dart';
 import 'package:mlimi/pages/wallet/wallet.dart';
 
@@ -54,6 +55,11 @@ List<Category_featured> getCategoryList(String language) {
         targetPage: const SupplyPage(),
       ),
       Category_featured(
+        name: 'Chikwatu Cha Mlimi',
+        thumbnail: 'farming_profile',
+        targetPage: const FarmingSeasonsPage(),
+      ),
+      Category_featured(
         name: 'Mlimi Waleti',
         thumbnail: 'wallet',
         targetPage: const Wallet(),
@@ -95,6 +101,11 @@ List<Category_featured> getCategoryList(String language) {
         name: 'Product Request',
         thumbnail: 'search',
         targetPage: const SupplyPage(),
+      ),
+      Category_featured(
+        name: 'Farming Profile',
+        thumbnail: 'farming_profile',
+        targetPage: const FarmingSeasonsPage(),
       ),
       Category_featured(
         name: 'Mlimi Wallet',

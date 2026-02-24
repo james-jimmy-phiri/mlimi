@@ -25,15 +25,39 @@ class _MarkertState extends State<Markert> {
   List<Product> filteredProducts = [];
   bool hasError = false;
   String searchQuery = '';
+  
+  int _currentPage = 1;
+  bool _isFetchingMore = false;
+  bool _hasMoreData = true;
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     fetchProducts();
+    _scrollController.addListener(_scrollListener);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _scrollListener() {
+    if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+      if (!_isFetchingMore && _hasMoreData) {
+        setState(() {
+          _currentPage++;
+          _isFetchingMore = true;
+        });
+        fetchProducts();
+      }
+    }
   }
 
   Future<void> fetchProducts() async {
-    final url = Uri.parse('${apiurl}v1/commodities/for-sale');
+    final url = Uri.parse('${apiurl}v1/commodities/for-sale?page=$_currentPage');
 
     try {
       final response = await http.get(
@@ -54,7 +78,7 @@ class _MarkertState extends State<Markert> {
             phone: clientData['phone'],
           );
 
-          fetchedProducts.add(Product(
+          var product = Product(
             id: item['id'],
             name: item['name'],
             imageUrl: item['image'] ?? '',
@@ -68,24 +92,55 @@ class _MarkertState extends State<Markert> {
             views: item['views'],
             created: item['created'],
             client: client,
-          ));
+          );
+
+          fetchedProducts.add(product);
         }
 
-        setState(() {
+      setState(() {
+        if (_currentPage == 1) {
           products = fetchedProducts;
           filteredProducts = fetchedProducts;
-          hasError = false; // Reset error state
-        });
-      } else {
-        throw Exception('Failed to load products');
-      }
-    } catch (e) {
-      setState(() {
-        hasError = true;
+        } else {
+          products.addAll(fetchedProducts);
+          // Re-apply filter if there's an active search query
+          if (searchQuery.isNotEmpty) {
+            filteredProducts.addAll(fetchedProducts.where((p) =>
+                p.name.toLowerCase().contains(searchQuery.toLowerCase()) ||
+                p.description.toLowerCase().contains(searchQuery.toLowerCase()) ||
+                p.location.toLowerCase().contains(searchQuery.toLowerCase())));
+          } else {
+            filteredProducts = List.from(products);
+          }
+        }
+        
+        // If we fetched less than 5 items, we've reached the end
+        if (jsonData['commodities'].length < 5) {
+          _hasMoreData = false;
+        }
+        
+        _isFetchingMore = false;
+        hasError = false; 
       });
-      print('Error fetching products: $e');
+    } else {
+      throw Exception('Failed to load products');
     }
+  } catch (e) {
+    setState(() {
+      hasError = true;
+      _isFetchingMore = false;
+    });
+    print('Error fetching products: $e');
   }
+}
+
+Future<void> _refreshProducts() async {
+  setState(() {
+    _currentPage = 1;
+    _hasMoreData = true;
+  });
+  await fetchProducts();
+}
 
   void filterProducts(String query) {
     setState(() {
@@ -312,21 +367,31 @@ class _MarkertState extends State<Markert> {
                       ))
                     : filteredProducts.isEmpty
                         ? Center(child: Text('No products found'))
-                        : ListView.builder(
-                            itemCount: filteredProducts.length,
-                            itemBuilder: (context, index) {
-                              return FadeInUp(
-                                duration: const Duration(milliseconds: 500),
-                                delay: Duration(milliseconds: 100 * (index % 5)),
-                                child: ProductCard(
-                                  product: filteredProducts[index],
-                                  onPoke: pokeSeller,
-                                  onViewSeller: showSellerDetails,
-                                  onDelete: deleteProduct,
-                                  onEdit: editProduct,
-                                ),
-                              );
-                            },
+                        : RefreshIndicator(
+                            onRefresh: _refreshProducts,
+                            child: ListView.builder(
+                              controller: _scrollController,
+                              itemCount: filteredProducts.length + (_isFetchingMore ? 1 : 0),
+                              itemBuilder: (context, index) {
+                                if (index == filteredProducts.length) {
+                                  return const Padding(
+                                    padding: EdgeInsets.symmetric(vertical: 20.0),
+                                    child: Center(child: CircularProgressIndicator()),
+                                  );
+                                }
+                                return FadeInUp(
+                                  duration: const Duration(milliseconds: 500),
+                                  delay: Duration(milliseconds: 100 * (index % 5)),
+                                  child: ProductCard(
+                                    product: filteredProducts[index],
+                                    onPoke: pokeSeller,
+                                    onViewSeller: showSellerDetails,
+                                    onDelete: deleteProduct,
+                                    onEdit: editProduct,
+                                  ),
+                                );
+                              },
+                            ),
                           ),
           ),
         ],
