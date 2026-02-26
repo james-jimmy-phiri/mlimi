@@ -5,6 +5,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:mlimi/pages/views/base_screen.dart';
 import 'package:mlimi/provider/location_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:upgrader/upgrader.dart';
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -31,34 +32,36 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => LocationProvider()),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Mlimi App',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          fontFamily: 'Poppins',
-          textTheme: const TextTheme(
-            titleLarge: TextStyle(
-              fontSize: 20,
-              color: Colors.white,
-              fontWeight: FontWeight.w500,
-            ),
-            bodyLarge: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w500,
-            ),
-            bodyMedium: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-            ),
-            displayMedium: TextStyle(
-              fontWeight: FontWeight.w700,
-              fontSize: 18,
-              color: Colors.black,
+      child: UpgradeAlert(
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Mlimi App',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+            fontFamily: 'Poppins',
+            textTheme: const TextTheme(
+              titleLarge: TextStyle(
+                fontSize: 20,
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+              ),
+              bodyLarge: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w500,
+              ),
+              bodyMedium: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
+              displayMedium: TextStyle(
+                fontWeight: FontWeight.w700,
+                fontSize: 18,
+                color: Colors.black,
+              ),
             ),
           ),
+          home: const BaseScreen(),
         ),
-        home: const BaseScreen(),
       ),
     );
   }

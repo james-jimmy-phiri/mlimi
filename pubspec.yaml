@@ -35,6 +35,7 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.6
+  upgrader: ^12.5.0
   flutter_native_splash: ^2.4.0
   intl: ^0.20.2
   weather_icons: ^3.0.0
