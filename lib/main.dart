@@ -11,7 +11,7 @@ void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await Future.delayed(const Duration(seconds: 2));
-  // whenever your initialization is completed, remove the splash screen:
+  // remove the splash screen  whenever your initialization is completed,:
   FlutterNativeSplash.remove();
   await GetStorage.init();
 
