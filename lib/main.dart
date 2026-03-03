@@ -21,7 +21,9 @@ void main() async {
     runApp(ChangeNotifierProvider(
         create: (context) => LocationProvider(), child: const MyApp()));
   }); // Initialize GetStorage
+
 }
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
