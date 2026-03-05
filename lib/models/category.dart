@@ -55,7 +55,7 @@ List<Category_featured> getCategoryList(String language) {
         targetPage: const SupplyPage(),
       ),
       Category_featured(
-        name: 'Chikwatu Cha Mlimi',
+        name: 'Mbiri Ya Mlimi',
         thumbnail: 'farming_profile',
         targetPage: const FarmingSeasonsPage(),
       ),
