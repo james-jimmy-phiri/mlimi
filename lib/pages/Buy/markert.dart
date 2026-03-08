@@ -679,7 +679,7 @@ class _PostStats extends StatelessWidget {
                         size: 20.0,
                       ),
                       const SizedBox(width: 4.0),
-                      const Text('Poke '),
+                      const Text('Poke Seller'),
                     ],
                   ),
                 ),
