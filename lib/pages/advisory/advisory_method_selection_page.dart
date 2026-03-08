@@ -175,6 +175,7 @@ class AdvisoryMethodSelectionPage extends StatelessWidget {
                         _SponsoredLogo(assetPath: 'assets/logo/ucd.png'),
                       ],
                     ),
+                    
                   ],
                 ),
               ),
