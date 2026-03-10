@@ -1,12 +1,19 @@
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:get_storage/get_storage.dart';
 import 'package:mlimi/models/advisory_model.dart';
 import 'package:mlimi/models/finacial_literacy_model.dart';
 
 class DataService {
   Future<List<Sector>> loadSectorsFromJson() async {
-    final String response =
-        await rootBundle.loadString('assets/data/mlimi_english.json');
+    final storage = GetStorage();
+    final String currentLang = storage.read('language') ?? 'en';
+    
+    final String jsonPath = currentLang == 'ny' 
+        ? 'assets/data/mlimi_chichewa.json' 
+        : 'assets/data/mlimi_english.json';
+        
+    final String response = await rootBundle.loadString(jsonPath);
     final data = json.decode(response);
     return (data['sectors'] as List).map((i) => Sector.fromJson(i)).toList();
   }
