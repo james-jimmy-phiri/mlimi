@@ -3,7 +3,7 @@
     {
       "id": 1,
       "name": "Mbewu",
-      "image": "crops",
+      "image": "crops_advisory",
       "categories": [
         {
           "id": 1,
@@ -17,7 +17,7 @@
               "section": [
                 {
                   "id": 1,
-                  "image": "maize_section",
+                  "image": "maize_variety",
                   "title": "Kasankhidwe ka Mtundu wa Mbewu Koyenera",
                   "audio": "chimanga_01",
                   "content": [
@@ -27,7 +27,7 @@
                 },
                 {
                   "id": 2,
-                  "image": "maize_section",
+                  "image": "maize_seed",
                   "title": "Komwe mungapeze mbewu Yoyenera",
                   "audio": "chimanga_02",
                   "content": [
@@ -43,7 +43,7 @@
                 },
                 {
                   "id": 3,
-                  "image": "maize_section",
+                  "image": "maize_site_selection",
                   "title": "Malo Oyenera Kulima Chimanga",
                   "audio": "chimanga_03",
                   "content": [
@@ -57,7 +57,7 @@
                 },
                 {
                   "id": 4,
-                  "image": "maize_section",
+                  "image": "maize_land_section",
                   "title": "Kukonza Mmunda wa Chimanga",
                   "audio": "chimanga_04",
                   "content": [
@@ -68,7 +68,7 @@
                 },
                 {
                   "id": 5,
-                  "image": "maize_section",
+                  "image": "maize_planting_pattern",
                   "title": "Kabzyalidwe Koyenela",
                   "audio": "chimanga_05",
                   "content": [
@@ -82,7 +82,7 @@
                 },
                 {
                   "id": 6,
-                  "image": "maize_section",
+                  "image": "maize_fertilizer",
                   "title": "Kathilidwe ka Feteleza",
                   "audio": "chimanga_06",
                   "content": [
@@ -96,7 +96,7 @@
                 },
                 {
                   "id": 7,
-                  "image": "maize_section",
+                  "image": "maize_Weeding",
                   "title": "Kuchotsa Udzu Mmunda mwa Chimanga",
                   "audio": "chimanga_07",
                   "content": [
@@ -109,7 +109,7 @@
                 },
                 {
                   "id": 8,
-                  "image": "maize_section",
+                  "image": "maize_desease",
                   "title": "Kuteteza Chimanga ku matenda komanso tizilombo",
                   "audio": "chimanga_08",
                   "content": [
@@ -119,7 +119,7 @@
                 },
                 {
                   "id": 9,
-                  "image": "maize_section",
+                  "image": "maize_harvesting",
                   "title": "Kukolora Chimanga",
                   "audio": "chimanga_09",
                   "content": [
@@ -130,7 +130,7 @@
                 },
                 {
                   "id": 10,
-                  "image": "maize_section",
+                  "image": "maize_storage",
                   "title": "Kusunga Chimanga",
                   "audio": "chimanga_10",
                   "content": [
@@ -143,7 +143,8 @@
                 }
               ]
             }
-          ]
+          ],
+          "description": "Cereals crops advisories such as Maize, rice, sorghum, and millet."
         },
         {
           "id": 2,
@@ -157,7 +158,7 @@
               "section": [
                 {
                   "id": 1,
-                  "image": "groundnuts_section",
+                  "image": "groundseed",
                   "title": "Kasankhidwe ka Mtundu wa Mbewu",
                   "audio": "mtedza_01",
                   "content": [
@@ -170,7 +171,7 @@
                 },
                 {
                   "id": 2,
-                  "image": "groundnuts_section",
+                  "image": "groundnuts_seed",
                   "title": "Komwe mungapeze mbewu yanu",
                   "audio": "mtedza_02",
                   "content": [
@@ -181,7 +182,7 @@
                 },
                 {
                   "id": 3,
-                  "image": "groundnuts_section",
+                  "image": "groundnuts_site",
                   "title": "Malo Oyenera Kulima Mtedza",
                   "audio": "mtedza_03",
                   "content": [
@@ -190,7 +191,7 @@
                 },
                 {
                   "id": 4,
-                  "image": "groundnuts_section",
+                  "image": "groundnuts_land",
                   "title": "Kukonza Mmunda wa Mtedza",
                   "audio": "mtedza_04",
                   "content": [
@@ -200,7 +201,7 @@
                 },
                 {
                   "id": 5,
-                  "image": "groundnuts_section",
+                  "image": "groundnuts_dressing",
                   "title": "Kusakaniza mbewu ya mtedza ndi Feteleza wa Chilengedwe wa  inokulanti ndi makhwala ena musanabzyale.",
                   "audio": "mtedza_05",
                   "content": [
@@ -210,7 +211,7 @@
                 },
                 {
                   "id": 6,
-                  "image": "groundnuts_section",
+                  "image": "groundnuts_space",
                   "title": "Kabzyalidwe Koyenela",
                   "audio": "mtedza_06",
                   "content": [
@@ -222,7 +223,7 @@
                 },
                 {
                   "id": 7,
-                  "image": "groundnuts_section",
+                  "image": "gro_lizer",
                   "title": "Kathilidwe ka Feteleza",
                   "audio": "mtedza_07",
                   "content": [
@@ -234,7 +235,7 @@
                 },
                 {
                   "id": 8,
-                  "image": "groundnuts_section",
+                  "image": "groundnuts_weeding",
                   "title": "Kuchotsa Udzu Mmunda wa Mtedza",
                   "audio": "mtedza_08",
                   "content": [
@@ -246,7 +247,7 @@
                 },
                 {
                   "id": 9,
-                  "image": "groundnuts_section",
+                  "image": "groundnuts_pest",
                   "title": "Kuteteza Mtedza ku matenda komanso tizilombo",
                   "audio": "mtedza_09",
                   "content": [
@@ -256,7 +257,7 @@
                 },
                 {
                   "id": 10,
-                  "image": "groundnuts_section",
+                  "image": "grou_vest",
                   "title": "Kukolora Mtedza",
                   "audio": "mtedza_10",
                   "content": [
@@ -269,7 +270,7 @@
                 },
                 {
                   "id": 11,
-                  "image": "groundnuts_section",
+                  "image": "groundnuts_storage",
                   "title": "Kusunga Mtedza",
                   "audio": "mtedza_11",
                   "content": [
@@ -280,7 +281,7 @@
                 },
                 {
                   "id": 12,
-                  "image": "groundnuts_section",
+                  "image": "groundnuts_shelling",
                   "title": "Kuswa/Kusenda Mtedza",
                   "audio": "mtedza_12",
                   "content": [
@@ -293,12 +294,12 @@
             },
             {
               "id": 2,
-              "image": "soybean",
+              "image": "soy_bean",
               "name": "Soya",
               "section": [
                 {
                   "id": 1,
-                  "image": "soybean_section",
+                  "image": "soybean_choice",
                   "title": "Kasankhidwe ka Mtundu wa Mbewu",
                   "audio": "soya_01",
                   "content": [
@@ -311,7 +312,7 @@
                 },
                 {
                   "id": 2,
-                  "image": "soybean_section",
+                  "image": "soybean_seed",
                   "title": "Komwe mungapeze mbewu yanu",
                   "audio": "soya_02",
                   "content": [
@@ -322,7 +323,7 @@
                 },
                 {
                   "id": 3,
-                  "image": "soybean_section",
+                  "image": "soybean_site",
                   "title": "Malo omwe mungalime Soya",
                   "audio": "soya_03",
                   "content": [
@@ -335,7 +336,7 @@
                 },
                 {
                   "id": 4,
-                  "image": "soybean_section",
+                  "image": "soybean_land",
                   "title": "Kukonza Mmunda",
                   "audio": "soya_04",
                   "content": [
@@ -345,7 +346,7 @@
                 },
                 {
                   "id": 5,
-                  "image": "soybean_section",
+                  "image": "soybean_innoculant",
                   "title": "Kusakaniza mbewu ya Soya ndi inokulanti ndi makhwala ena musanabzyale.",
                   "audio": "soya_05",
                   "content": [
@@ -355,7 +356,7 @@
                 },
                 {
                   "id": 6,
-                  "image": "soybean_section",
+                  "image": "soybean_pattern",
                   "title": "Kabzyalidwe Koyenela ka Soya",
                   "audio": "soya_06",
                   "content": [
@@ -371,7 +372,7 @@
                 },
                 {
                   "id": 7,
-                  "image": "soybean_section",
+                  "image": "soybean_fertilizer",
                   "title": "Kathilidwe ka Feteleza:",
                   "audio": "soya_07",
                   "content": [
@@ -381,7 +382,7 @@
                 },
                 {
                   "id": 8,
-                  "image": "soybean_section",
+                  "image": "soybean_weeding",
                   "title": "Kuchotsa udzu mmunda wa Soya",
                   "audio": "soya_08",
                   "content": [
@@ -392,7 +393,7 @@
                 },
                 {
                   "id": 9,
-                  "image": "soybean_section",
+                  "image": "soybean_pest",
                   "title": "Kuteteza Soya ku matenda komanso tizilombo",
                   "audio": "soya_09",
                   "content": [
@@ -404,7 +405,7 @@
                 },
                 {
                   "id": 10,
-                  "image": "soybean_section",
+                  "image": "soybean_harvest",
                   "title": "Kukolora ndi Kupuntha Soya",
                   "audio": "soya_10",
                   "content": [
@@ -415,7 +416,7 @@
                 },
                 {
                   "id": 11,
-                  "image": "soybean_section",
+                  "image": "soybean_clean",
                   "title": "Kukonza komanso Kusankha Soya",
                   "audio": "soya_11",
                   "content": [
@@ -424,7 +425,7 @@
                 },
                 {
                   "id": 12,
-                  "image": "soybean_section",
+                  "image": "soybean_storage",
                   "title": "Kusunga kholora la Soya",
                   "audio": "soya_12",
                   "content": [
@@ -435,7 +436,8 @@
                 }
               ]
             }
-          ]
+          ],
+          "description": "legumes crops advisories  like groundnuts, soybeans, and pigeon peas"
         },
         {
           "id": 3,
@@ -449,7 +451,7 @@
               "section": [
                 {
                   "id": 1,
-                  "image": "sunflower_section",
+                  "image": "sunflower_choice",
                   "title": "Kasankhidwe ka Mtundu wa Mbewu ya Mpendadzuwa",
                   "audio": "mpendadzuwa_01",
                   "content": [
@@ -462,7 +464,7 @@
                 },
                 {
                   "id": 2,
-                  "image": "sunflower_section",
+                  "image": "sunflower_seed",
                   "title": "Komwe mungapeze mbewu yanu",
                   "audio": "mpendadzuwa_02",
                   "content": [
@@ -474,7 +476,7 @@
                 },
                 {
                   "id": 3,
-                  "image": "sunflower_section",
+                  "image": "sunflower_site",
                   "title": "Malo omwe mungalime Mpendadzuwa",
                   "audio": "mpendadzuwa_03",
                   "content": [
@@ -486,7 +488,7 @@
                 },
                 {
                   "id": 4,
-                  "image": "sunflower_section",
+                  "image": "sunflower_land",
                   "title": "Kukonza Mmunda wa Mpendadzuwa",
                   "audio": "mpendadzuwa_04",
                   "content": [
@@ -498,7 +500,7 @@
                 },
                 {
                   "id": 5,
-                  "image": "sunflower_section",
+                  "image": "sunflower_dressing",
                   "title": "Kusakaniza mbewu ya Mpendadzuwa ndi makhwala musanabzyale.",
                   "audio": "mpendadzuwa_05",
                   "content": [
@@ -508,7 +510,7 @@
                 },
                 {
                   "id": 6,
-                  "image": "sunflower_section",
+                  "image": "sunflower_planting",
                   "title": "Kabzyalidwe Koyenela ka Mpendadzuwa",
                   "audio": "mpendadzuwa_06",
                   "content": [
@@ -522,7 +524,7 @@
                 },
                 {
                   "id": 7,
-                  "image": "sunflower_section",
+                  "image": "sunflower_fertilizer",
                   "title": "Kathilidwe ka Feteleza",
                   "audio": "mpendadzuwa_07",
                   "content": [
@@ -536,7 +538,7 @@
                 },
                 {
                   "id": 8,
-                  "image": "sunflower_section",
+                  "image": "sunflower_weeding",
                   "title": "Kuchotsa udzu mmunda wa Mpendadzuwa",
                   "audio": "mpendadzuwa_08",
                   "content": [
@@ -548,7 +550,7 @@
                 },
                 {
                   "id": 9,
-                  "image": "sunflower_section",
+                  "image": "sunflower_pest",
                   "title": "Kuteteza Mpendadzuwa ku matenda komanso tizilombo:",
                   "audio": "mpendadzuwa_09",
                   "content": [
@@ -559,7 +561,7 @@
                 },
                 {
                   "id": 10,
-                  "image": "sunflower_section",
+                  "image": "sunflower_harvest",
                   "title": "Kukhwima Komanso Kukolora Mpendadzuwa",
                   "audio": "mpendadzuwa_10",
                   "content": [
@@ -573,7 +575,7 @@
                 },
                 {
                   "id": 11,
-                  "image": "sunflower_section",
+                  "image": "sunflower_threshing",
                   "title": "Kupuntha ndi Kusankha Mpendadzuwa",
                   "audio": "mpendadzuwa_11",
                   "content": [
@@ -584,7 +586,7 @@
                 },
                 {
                   "id": 12,
-                  "image": "sunflower_section",
+                  "image": "sunflower_Storage",
                   "title": "Kusunga Mpendadzuwa",
                   "audio": "mpendadzuwa_12",
                   "content": [
@@ -596,29 +598,30 @@
                 }
               ]
             }
-          ]
+          ],
+          "description": "Oil and Seeds crops advisories such us sun flower "
         }
-      ]
+      ],
+      "sectorimage": "maize1"
     },
-
     {
       "id": 2,
-      "image": "livestock",
+      "image": "animal_advisory",
       "name": "Ziweto",
       "categories": [
         {
           "id": 1,
-          "image": "livestock",
+          "image": "cattle",
           "name": "Ulimi wa ng'ombe",
           "products": [
             {
               "id": 1,
-              "image": "beefcattle",
+              "image": "beef",
               "name": "Ulimi wa Ng'ombe zanyama",
               "section": [
                 {
                   "id": 1,
-                  "image": "beefcattle",
+                  "image": "livestock",
                   "title": "Kamangidwe ka khola",
                   "audio": "beef_01",
                   "content": [
@@ -629,7 +632,7 @@
                 },
                 {
                   "id": 2,
-                  "image": "livestock",
+                  "image": "beef_breed",
                   "title": "Mitundu ya ng'ombe za nyama yovomerezeka",
                   "audio": "Beef_02",
                   "content": [
@@ -638,7 +641,7 @@
                 },
                 {
                   "id": 3,
-                  "image": "livestock",
+                  "image": "beef_breeding",
                   "title": "Mitundu ya kawetedwe ka ng'ombe za nyama",
                   "audio": "Beef_03",
                   "content": [
@@ -649,7 +652,7 @@
                 },
                 {
                   "id": 4,
-                  "image": "livestock",
+                  "image": "beef_feed",
                   "title": "Kadyetsedwe ka ng’ombe za nyama",
                   "audio": "Beef_04",
                   "content": [
@@ -675,7 +678,7 @@
                 },
                 {
                   "id": 6,
-                  "image": "livestock",
+                  "image": "beef_birth",
                   "title": "Kusamalira ng'ombe pobereka",
                   "audio": "Beef_06",
                   "content": [
@@ -686,7 +689,7 @@
                 },
                 {
                   "id": 7,
-                  "image": "livestock",
+                  "image": "beef_f",
                   "title": "Kusamalira ana a ng'ombe",
                   "audio": "Beef_07",
                   "content": [
@@ -700,7 +703,7 @@
                 },
                 {
                   "id": 8,
-                  "image": "livestock",
+                  "image": "beef_diseases",
                   "title": "Kuthana ndi matenda a ng'ombe za nyama",
                   "audio": "Beef_08",
                   "content": [
@@ -712,7 +715,7 @@
                 },
                 {
                   "id": 9,
-                  "image": "livestock",
+                  "image": "beef_parasite",
                   "title": "Tizilombo toyambitsa matenda(Nthanta)",
                   "audio": "Beef_09",
                   "content": [
@@ -722,7 +725,7 @@
                 },
                 {
                   "id": 10,
-                  "image": "livestock",
+                  "image": "beef_pinter",
                   "title": "Tizilombo toyambitsa matenda(Njoka za mmimba)",
                   "audio": "Beef_10",
                   "content": [
@@ -733,7 +736,7 @@
                 },
                 {
                   "id": 11,
-                  "image": "livestock",
+                  "image": "beef_market",
                   "title": "Kagulitsidwe ka ng'ombe za nyama",
                   "audio": "Beef_11",
                   "content": [
@@ -745,7 +748,7 @@
                 },
                 {
                   "id": 12,
-                  "image": "livestock",
+                  "image": "beef_record",
                   "title": "Zoyenera posunga kaundula wa zochitika pa famu ya ng’ombe za mkaka",
                   "audio": "Beef_12",
                   "content": [
@@ -763,7 +766,7 @@
               "section": [
                 {
                   "id": 1,
-                  "image": "dairyproduction",
+                  "image": "dairy_house",
                   "title": "Kamangidwe ka khola",
                   "audio": "Dairy_1",
                   "content": [
@@ -774,7 +777,7 @@
                 },
                 {
                   "id": 2,
-                  "image": "dairyproduction",
+                  "image": "dairy_breed",
                   "title": "Muitundu ya ng'ombe za mkaka",
                   "audio": "Dairy_02",
                   "content": [
@@ -783,7 +786,7 @@
                 },
                 {
                   "id": 3,
-                  "image": "dairyproduction",
+                  "image": "dairy_feed",
                   "title": "Kadyetsedwe ka ng’ombe za mkaka",
                   "audio": "Dairy_03",
                   "content": [
@@ -808,11 +811,10 @@
                 },
                 {
                   "id": 5,
-                  "image": "dairyproduction",
+                  "image": "dairy_period",
                   "title": "Zizindikilo za Ng’ombe yofuna kukweredwa",
                   "audio": "Dairy_05",
                   "content": [
-
                     "Ng'ombe imasonyeza zizindikiro zotsatirazi: imakwera ng’ombe zinzake kapena ikamakweredwa ndi zinzake siimathawa, imangoyenda yenda, chikazi chimatuluka kumaliseche kwake, ngati ili yokamidwa imapereka mkaka ochepa, imangoliralira komanso maliseche ake amaoneka otupa ndi ofiira.",
                     "Chilakolako chimatha maola 6 mpakana kufika pa maola 30 ngati sinatenge bele chilakolakochi chimayambiranso pakatha masiku 21.",
                     "Kweretsani ng’ombe pakadutsa maola 6 kuyambira pamene yaonetsa zizindikiro zoyambirira zofuna mphongo.",
@@ -822,7 +824,7 @@
                 },
                 {
                   "id": 6,
-                  "image": "dairyproduction",
+                  "image": "dairy_birth",
                   "title": "Kusamalira ng'ombe pobereka",
                   "audio": "Dairy_06",
                   "content": [
@@ -852,7 +854,7 @@
                 },
                 {
                   "id": 8,
-                  "image": "dairyproduction",
+                  "image": "dairy_improve",
                   "title": "Ukhondo wa kasamalidwe ndi kasungidwe ka mkaka",
                   "audio": "Dairy_08",
                   "content": [
@@ -880,7 +882,7 @@
                 },
                 {
                   "id": 10,
-                  "image": "dairyproduction",
+                  "image": "dairy_diseases",
                   "title": "Tizilombo toyambitsa matenda(Njoka za mmimba)",
                   "audio": "Dairy_10",
                   "content": [
@@ -902,23 +904,22 @@
                 }
               ]
             }
-          ]
+          ],
+          "description": "Cattle Production advisories"
         },
-
-
         {
           "id": 2,
-          "image": "chickens",
+          "image": "chicken_pro",
           "name": "Ulimi wa Nkunku",
           "products": [
             {
               "id": 1,
-              "image": "localchickens",
+              "image": "local_chicken",
               "name": "Ulimi wa Nkunu za Chikuda",
               "section": [
                 {
                   "id": 1,
-                  "image": "localchickens",
+                  "image": "chicken_house",
                   "title": "Kamangidwe ka khola",
                   "audio": "local_1",
                   "content": [
@@ -930,7 +931,7 @@
                 },
                 {
                   "id": 2,
-                  "image": "localchickens",
+                  "image": "chicken_manage",
                   "title": "Kasamalidwe ka khola",
                   "audio": "local_2",
                   "content": [
@@ -941,7 +942,7 @@
                 },
                 {
                   "id": 3,
-                  "image": "localchickens",
+                  "image": "chicken_breed",
                   "title": "Kusankha ndi kupititsa patsogolo mtundu",
                   "audio": "local_3",
                   "content": [
@@ -952,7 +953,7 @@
                 },
                 {
                   "id": 4,
-                  "image": "localchickens",
+                  "image": "chicken_eggs",
                   "title": "Kasamalidwe ka mazila",
                   "audio": "local_4",
                   "content": [
@@ -963,7 +964,7 @@
                 },
                 {
                   "id": 5,
-                  "image": "localchickens",
+                  "image": "chicken_feed",
                   "title": "Zakudya ndi kadyetsedwe",
                   "audio": "local_5",
                   "content": [
@@ -976,60 +977,52 @@
                 },
                 {
                   "id": 6,
-                  "image": "localchickens",
+                  "image": "chicken_make_feed",
                   "title": "Kapangidwe ka chakudya ka nkhuku za lokolo",
                   "audio": "local_6",
                   "content": [
-
                     "Tengani magawo awiri amgaiwa kapena madeya a chimanga",
                     "Phatikizani ku gawo limodzi la ufa wa Soya wokazinga",
                     "Wazani kamchere pang’ono kuchakudya chanu"
-
                   ]
                 },
-
                 {
                   "id": 7,
-                  "image": "localchickens",
+                  "image": "chicken_parasites",
                   "title": "Tizilombo toyambitsa matenda",
                   "audio": "local_6",
                   "content": [
                     "Wazani nkhuku komanso khola mankhwala othana ndi nthata ngati Actellic kapena Akheri ",
                     "Mwetsani  mankwala opha njoka za m'mimba pakatha masabata 18, kenako 21, kanako masabata 41 ndipo kenako miyezi 6 iliyonse."
-
                   ]
                 },
                 {
                   "id": 8,
-                  "image": "localchickens",
+                  "image": "chicken_diseases",
                   "title": "Chipumphu cha misoti ndi khuku zazing'ono",
                   "audio": "local_8",
                   "content": [
-
                     "Kafalidwe: kukhudzana ndi nkhuku yodwala kapena malo pomwe pali kachilombo koyambitsa matendawa. Mumpweya,fumbi, kuyenda ndi nkhuku zodwala kapena nyama ya nkhuku yodwala, zitosi ndi  ziwiya.",
                     "Kachilombo koyambitsa: Kosawoneka ndi maso kotchedwa Virus pa chizungu",
                     "Zizindikiro: Nkhuku zimakhumata, sizifuna kudya, , zimamwa madzi ambiri, zimakhazikika ndichipsyepsye, kutsekula mmimba zitosi za yelo, zimafa masiku ochepa.",
                     "Kupewa  kwake: Ukhondo wa zakudya ndi mkhola, kupopera 4% Fomalini nkhuku zikagulitsidwa pasabwere zina, perekani katemerawa Gumboro  tsiku la 10  ndi tsiku la 21 la moyo wake.osasakaniza nkhuku zazingono kapena zatsopano  ndi zazikulu za kale, osagula kapena kukawona nhkuku zodwala.",
                     "Kuchiza kwake: Palibe mankhwala."
-
                   ]
                 },
                 {
                   "id": 9,
-                  "image": "localchickens",
+                  "image": "chicken_gene",
                   "title": "Chitopa",
                   "audio": "local_9",
                   "content": [
                     "Choyambitsa:Imayamba ndi kachilombo ka Vayilasi.",
                     "Zizindikiro: Nkhuku zimachepetsa papena kusiyilatu kuyikila, kuyenda motsimphina, kupindapinda khosi, kukanika kuyima kuyimilira, mmimba mwa zitosi zobiliwira, kufa zambiri, kutsokomola, madzi mmapapo, chakudya kusagwira bwino ntchito mthupi ",
                     "Kupewa  kwake: Ukhondo wa zakudya ndi mkhola, kupopera 4% Fomalini nkhuku zikagulitsidwa pasabwere zina, perekani katemera wa Chitopa  tsiku la 16,tsiku la 28  kenako miyezi itatu iliyonse. osasakaniza nkhuku zazingono kapena zatsopano  ndi zazikulu za kale, osagula kapena kukawona nhkuku zodwala."
-
                   ]
                 },
-
                 {
                   "id": 10,
-                  "image": "localchickens",
+                  "image": "chicken_market",
                   "title": "Matenda mmimba a nkhuku",
                   "audio": "local_10",
                   "content": [
@@ -1037,10 +1030,8 @@
                     "Zizindikiro: nkhuku zimawonda, kuchepa magazi, Blood in droppings, diarrhoea and ruffled feathers.",
                     "Kupewa: mKhola mukhale mowuma nthawi zonse, ikani mankhwala amatendawa mzakudya, nkhuku zisakhale zosiyana kakulidwe khola limodzi.",
                     "Kuchiza kwake: zimwetseni nkhuku mankhwala otchedwa Ampuloriyamu. "
-
                   ]
                 },
-
                 {
                   "id": 11,
                   "image": "localchickens",
@@ -1053,7 +1044,6 @@
                     "Kuchiza kwake: Mwetsani mankhwala monga streptomycin."
                   ]
                 },
-
                 {
                   "id": 12,
                   "image": "localchickens",
@@ -1066,29 +1056,25 @@
                     "Kuchiza kwake: Mwetsani mankhwala monga Triple Sulfer."
                   ]
                 },
-
                 {
                   "id": 13,
                   "image": "localchickens",
                   "title": "Nthomba za nkhuku",
                   "audio": "local_13",
                   "content": [
-
                     "Choyambitsa: Imayamba ndi kachilombo kosawoneka ndi maso  kotchedwa virus. ",
                     "Zizindikiro:  zimayamba ngati timatuza toyera timene timkhala tofiilira(brown)  pakapita nthawi ndipo masabata awiri pena atatu zimawuma.. Nkhuku siziyikila.",
                     "Kupewa: Temerani ndi poxine komso poperani mankhwala monga Actellic mkhola ndi nkhuku. ",
                     "Kuchiza kwake: Palibe mankhwala koma dziwitsani alangizi."
                   ]
                 },
-
                 {
                   "id": 14,
                   "image": "localchickens",
                   "title": "Kasamalidwe ka nkhuku",
                   "audio": "local_14",
                   "content": [
-
-                   "Samalirani ndi kudyetsera bwino nkhuku zanu",
+                    "Samalirani ndi kudyetsera bwino nkhuku zanu",
                     "Zipatseni katemera wa Lasota pa miyezi itatu iri yonse   kapena I - 2 pa miyezi inayi iriyonse  kuti muteteze nkhuku kumatenda a chitopa.",
                     "Musapereke katemera kunkhuku zomwe zikudwala kale chifuka sizichira.",
                     "Zimwetseni mankhwala wopha njoka za m’mimba makamaka miyezi yapakati pa Disembala ndi Malichi pamene mvula ikugwa kuti nkhuku zikule ndi thanzi.",
@@ -1096,31 +1082,23 @@
                     "Onetsetsani zizindikiro zili zonse za matenda ku nkhuku ndipo pitani kwa alangizi a ziweto kudera kwanu kuti akupatseni mankhwala oyenera"
                   ]
                 },
-
                 {
                   "id": 15,
                   "image": "localchickens",
                   "title": "Misika ndi kagulitsidwe ka nkhuku",
                   "audio": "local_15",
                   "content": [
-
                     "Nkhuku zalokolo zingathe kugulitsidwa ngati anapiye, pamene zafika poikira mzaira, ngakhalenso zitakula mokwanira",
                     "Nkhuku za lokolo zimagulitsidwa kwa mavenda ngakhale pali mwayi operekera makamaka mazira kumayiko ena ngati ku south africa ndi Burundi"
-
-
                   ]
                 }
-
-
               ]
             },
-
             {
               "id": 2,
               "image": "broilerchickens",
               "name": "Ulimi wa Nkunu za Nyama",
               "section": [
-
                 {
                   "id": 1,
                   "image": "broilerchickens",
@@ -1133,10 +1111,8 @@
                     "Onetsetsani kuti nkhuku zanu ndizopatsa kaso komanso zovomerezeka pamsika kuti ulimi wanu upite chitsogolo",
                     "Onetsetsani kuti nkhuku zanu zili pa mpata okwanira",
                     "Onetsetsani kuti nkhuku zanu zakhala motakasuka kuti muchepetse kupanikizana kwa nkhuku zanu pamene mukusamalira mukhola mwanu"
-
                   ]
                 },
-
                 {
                   "id": 2,
                   "image": "broilerchickens",
@@ -1147,11 +1123,8 @@
                     "1. Coob 500",
                     "2. Ross",
                     "3. Abor Acres"
-
-
                   ]
                 },
-
                 {
                   "id": 3,
                   "image": "broilerchickens",
@@ -1159,10 +1132,8 @@
                   "audio": "broiler_3",
                   "content": [
                     "Gulani anapiye ongobadwa kumene pamene atha tsiku limodzi kapena nkhuku zomwe zafika poikira zomwe zatha masabata 18 kukula kwake ku Kampani ya Central Poultry ndi Proto Feeds mmashopu awo. "
-
                   ]
                 },
-
                 {
                   "id": 4,
                   "image": "broilerchickens",
@@ -1177,11 +1148,8 @@
                     "5. Pansi pa mkholamo yalanimo utuchi wa matabwa, udzu oduladula, kapenanso mankhusu a mphunga ochuluka mlingo wa 15cm kuchokera pansi kuti mkhola muzikhala mowuma.",
                     "6.Denga likhale lopitilirako khoma ndi 0.8m kapena 1m kuti mkhola musamalowe mphepo, mvula ya mpemera kapena dzuwa la mbiri",
                     "7. Khola likhalenso ndi mazenera okwanila kuti mudzilowa mpweya ndi kuwala kokwanila"
-
-
                   ]
                 },
-
                 {
                   "id": 5,
                   "image": "broilerchickens",
@@ -1194,12 +1162,8 @@
                     "Anapiye 400 amafunika malo okula 8000 sikweya sentimita komanso kutalika kwa mzere wapakati 3.3m",
                     "Anapiye ayenera asungidwe mofundila koma osati motentha kwambiri.",
                     "Kutentha kwambiri kumasowetsa anapiye mtendere, kapena kuzizira kumapangitsa anapiye kuunjikana malo amodzi ndipo ena amafa komanso anapiye akazizidwa samamwa madzi okwanila ndipo sakula msanga"
-
-
-
                   ]
                 },
-
                 {
                   "id": 6,
                   "image": "broilerchickens",
@@ -1210,7 +1174,6 @@
                     "Kuika mbaula/babu momwazikana- nkhuku zimamva kutentha kuchokera ku mbali zosiyanasiyana za chipindacho",
                     "Kuphatikiza mitundu iwiwi- mbaula imaikidwa pakati  ndi mmbali mwa chipinda chankhuku",
                     "Kutenthetsa mbali imodzi- njirayi imagwiritsa ntchito mbaula /babu mophatikiza ndi makatani a pulasitiki omwe amaikidwa ku mbali imodzi ya chipindacho. Nkhuku zimakhala mchipindachi kwa masiku pakati pa 10 kulekeza 21"
-
                   ]
                 },
                 {
@@ -1224,10 +1187,8 @@
                     "Tingadziwe kuti mchipindamo mwauma ngati anapiye aunjikana pangodya za chipinda chathu ndipo ayang'ana mbali imodzi",
                     "Tingadziwe kuti mchipindamo mwazizira kwambiri ngati anapiye aunjikira mbaula kapena kukhala mounjikana pafupi ndi babu",
                     "Tingadziwe kuti mchipindamo muli bwino ngati anapiye amwazikana komanso akudya ndi kumwa mosavutikira"
-
                   ]
                 },
-
                 {
                   "id": 8,
                   "image": "broilerchickens",
@@ -1236,10 +1197,8 @@
                   "content": [
                     "Anapiye oyambira masabata anayi mpaka asanu ndi atatu ayenera kusungidwa mukhola laokha",
                     "Sungani anapiye okulirapo 10-12 pa sikweya imodzi"
-
                   ]
                 },
-
                 {
                   "id": 9,
                   "image": "broilerchickens",
@@ -1250,7 +1209,6 @@
                     "Kawetedweka kamathandiza kuchepetsa matenda ngakhale nthawi zambiri sizipindulitsa ngati nkhuku zowetedwazo zinali zochepa"
                   ]
                 },
-
                 {
                   "id": 10,
                   "image": "broilerchickens",
@@ -1260,10 +1218,8 @@
                     "Kuweta anapiye osiyana misinkhu ndipo amasamutsiridwa ku makola a nkhuku zazikulu motsogozana",
                     "Kawetedweka kamabweretsa mavuto a chitetezo ku nkhuku zathu",
                     "Ngakhale zili choncho, kawetedweka kamapereka phindu lochuluka chifukwa alimi amakhala akugulitsa nthawi zonse"
-
                   ]
                 },
-
                 {
                   "id": 11,
                   "image": "broilerchickens",
@@ -1276,42 +1232,34 @@
                     "Gulani zomwela madzi, zodyera, utuchi, mbaula, makala, chakudya (chakudya choyambilira cha nkhuku za nyama), madzi aukhondo, michere yofunikira, mankhwala, ndi muuni otchedwa halikeni"
                   ]
                 },
-
                 {
                   "id": 12,
                   "image": "broilerchickens",
                   "title": "Ndondomeko pamene tikuyembekezera anapiye",
                   "audio": "broiler_12",
                   "content": [
-
                     "Konzani chifundizi chanu maola 24 musanalandire anapiye",
                     "Ikani utuchi okwanira mozungulira chipinda choikamo anapiye",
                     "Tchingirani utuchi poika makatoni otchingira mmbali kuti nkhuku zisambweze kupitilira pomwe munalekezera kuika",
                     "Onetsetsani kuti utuci watsenderedwa bwino",
                     "Ikani zomwera madzi ndi zakudya",
                     "Ikani mbaula mchipindamu maola 12 anapiya asanaikidwemo kuti adzapeze mofundira"
-
-
                   ]
                 },
-
                 {
                   "id": 13,
                   "image": "broilerchickens",
                   "title": "Kuika anapiye mu chifundizi",
                   "audio": "broiler_13",
                   "content": [
-
                     "Onetsetsani kuti babu liyatsidwe usiku ndi usana kwa masiku atatu. Kuwala kumafunikira kwambiri kulekeza masiku khumi kuti anapiye adye kwambiri munthawiyi. Yatsani babu usiku kuti anapiye adzidyabe.",
                     "Onetsetsani kuti anapiye agulidwa kwa munthu mmodzi komanso akhale obadwa tsiku limodzi. Izi zimathandiza kuti pasakhale mpikisano pakai pa anapiyewa.",
                     "Tsiku loyamba lomwe anapiyewa afika, perekani madzi omwe asakanizidwa ndi michere yofunika kuti muchepetse kufa kwa anapiye chifukwa cha kuyenda mtunda wautali",
                     "Perekani chakudya choyambilira cha nkhuku zanyama",
                     "Onetsetsani kuti anapiye asanyowe kuti angazizidwe ndi kufa",
                     "Tikaika anapiye mchifundizi, tiwasiye kwa maola awiri tisanakawayendere kuti tione ngati akudya komanso kumwa madzi mokwanira komanso ngati adziwa pomwe paikidwa mbaula"
-
                   ]
                 },
-
                 {
                   "id": 14,
                   "image": "broilerchickens",
@@ -1324,7 +1272,6 @@
                     "3. Chakudya chomalizitsa cha nkhuku zamasiku pakati pa 43 ndi 56 za masabata 21 mpaka kupitilira."
                   ]
                 },
-
                 {
                   "id": 15,
                   "image": "broilerchickens",
@@ -1338,11 +1285,8 @@
                     "Perekani chakudya choyambilira cha nkhuku zanyama kuanapiye oyambira masiku 1-21 ",
                     "Perekani chakudya chokulitsa cha nkhuku zanyama kuanapiye oyambira masiku 21-42 ",
                     "Perekani chakudya choyambilira cha nkhuku zanyama kuanapiye oyambira masiku 42-56"
-
-
                   ]
                 },
-
                 {
                   "id": 16,
                   "image": "broilerchickens",
@@ -1355,30 +1299,25 @@
                     "Perekani madzi aukhondo andi okwanira nthawi zonse"
                   ]
                 },
-
                 {
                   "id": 17,
                   "image": "broilerchickens",
                   "title": "Kapangidwe ka zakudya",
                   "audio": "broiler_17",
                   "content": [
-
                     "Mulingo oyenera wa kapangidwe ka chakudya cha nkhuku zanyama uli motere",
                     "Chakudya choyambilira cha nkhuku za nyama chimayenera kukhala ndi 20-21% ya chakudya chomanga thupi komanso 2900Kcals/Kg ya chakudya cholimbitsa/ chopatsa mphamvu",
                     "Chakudya choyambilira cha nkhuku za nyama chimayenera kukhala ndi 18% ya chakudya chomanga thupi komanso 3000Kcals/Kg ya chakudya cholimbitsa/ chopatsa mphamvu",
                     "Chakudya choyambilira cha nkhuku za nyama chimayenera kukhala ndi 16% ya chakudya chomanga thupi komanso 3200Kcals/Kg ya chakudya cholimbitsa/ chopatsa mphamvu",
                     "Tiyenera kudziwa kuti chakudya chopangidwa mmakampane opanga chakudya cha nkhuku amaika zofunikira zonse kuchakudya."
-
                   ]
                 },
-
                 {
                   "id": 18,
                   "image": "broilerchickens",
                   "title": "Ndondomeko ya kaperekedwe ka katemera",
                   "audio": "broiler_18",
                   "content": [
-
                     "Katemera amaperekedwa ku nkhuku za nyama  kuti zitetezedwe ku chipumphu komanso chitopa",
                     "Ndondomek yoperekera katemera ku nkhuku za nyama ali motere",
                     "Perekani Bursine II wa chipumphu kwa anapiye a masiku 9 posungunula m'madzi ",
@@ -1386,10 +1325,8 @@
                     "Perekani Bursine II wa chipumphu kwa anapiye a masiku 21 posungunula m'madzi ",
                     "Perekani Lasota wa chitopa kwa anapiye a masiku 28 posungunula m'madzi kapena kudonthezera m'maso",
                     "Perekani madzi osungunulidwa ndi michere yofunikira masiku awiri musanapereke katemera komanso kwa masiku awiri mukamaliza kupereka katemera. Izi zimathandizira kuti katemera akhazikike mosavuta mthupi la nkhuku"
-
                   ]
                 },
-
                 {
                   "id": 18,
                   "image": "broilerchickens",
@@ -1406,11 +1343,8 @@
                     " Ukhondo wa zakudya ndi mkhola, kupopera 4% Fomalini nkhuku zikagulitsidwa pasabwere zina, perekani katemerawa Gumboro  tsiku la 10  ndi tsiku la 21 la moyo wake.osasakaniza nkhuku zazingono kapena zatsopano  ndi zazikulu za kale, osagula kapena kukawona nhkuku zodwala.",
                     "Kuchiza kwake: ",
                     "Palibe mankhwala."
-
-
                   ]
                 },
-
                 {
                   "id": 19,
                   "image": "broilerchickens",
@@ -1427,7 +1361,6 @@
                     "Matendawa ndi osachizika. Funsani upangiri kwa Alangizi a ziweto a dera lanu."
                   ]
                 },
-
                 {
                   "id": 19,
                   "image": "broilerchickens",
@@ -1443,7 +1376,6 @@
                     "7. Ikani zopondera zomwe zanyikidwa mu mankhwala oteteza matenda ndi tizilombo pakhomo pa khola"
                   ]
                 },
-
                 {
                   "id": 20,
                   "image": "broilerchickens",
@@ -1456,37 +1388,24 @@
                     "4. Nkhuku zitengedwe pamene kudakali mdima",
                     "5. Onetsetsani kuti mwapereka ukadaulo oyenera kwa anthu amene akukuthandizani kunyamula nkhuku kuti zisathyoke kapena kufa",
                     "6. Chotsani ziwiya zonse mukhola musanayambe kugwira nkhuku zanu"
-
                   ]
                 },
-
                 {
                   "id": 21,
                   "image": "broilerchickens",
                   "title": "Kasamalidwe ka nkhuku pamene mukufuna kugulitsa",
                   "audio": "broiler_21",
                   "content": [
-                   "Tingathe kugulitsa khuku za nyama kumisika yakwathu konkuno"
+                    "Tingathe kugulitsa khuku za nyama kumisika yakwathu konkuno"
                   ]
                 }
-
-
-
-
-
-
-
-
               ]
             },
-
-
             {
               "id": 3,
               "image": "layerchickens",
               "name": "Ulimi wa Nkunu za Mazira",
               "section": [
-
                 {
                   "id": 1,
                   "image": "layerschickens",
@@ -1506,10 +1425,8 @@
                     "Kuonjezera kuwala ndi maola anayi kapena asanu ndi limodzi mukhola kumaonjezera kuikira ndi 20%",
                     "4. Kusamalira mazira",
                     "Onetsetsani kuti mwaika malo oikira nkhuku okwanira potengera ndi kuchuluka kwa nkhuku zanu"
-
                   ]
                 },
-
                 {
                   "id": 2,
                   "image": "layerschickens",
@@ -1517,10 +1434,8 @@
                   "audio": "layers_2",
                   "content": [
                     "Gulani anapiye ongobadwa kumene pamene atha tsiku limodzi kapena nkhuku zomwe zafika poikira zomwe zatha masabata 18 kukula kwake ku Kampani ya Central Poultry ndi Proto Feeds mmashopu awo."
-
                   ]
                 },
-
                 {
                   "id": 3,
                   "image": "layerschickens",
@@ -1534,22 +1449,18 @@
                     "kutolera ndowe sikuvuta; kudyetsera nkhuku sikavuta; Zimatetezedwa ku ngozi za chilengedwe komaso mbala. Mazila sakhudzana ndi zitosi."
                   ]
                 },
-
                 {
                   "id": 4,
                   "image": "layerschickens",
                   "title": "Kamangidwe ka khola",
                   "audio": "layers_4",
                   "content": [
-
                     "Sankhani malo otetezedwa ku mbava ndi nyama zoononga nkhuku",
                     "Mangani khola molingana ndi kuchuluka kwa nkhuku zanu, mwachitsanzo nkhuku 10 mpaka 15 zimafunika khola lotalika mamita awiri mbali zonse.",
                     "Folerani denga la khola ndi udzu kapena malata kuti mkhola muzikhala mouma nthawi zonse",
                     "Gwiritsani ntchito zipangizo zomangira khola zopezeka mosavuta monga mitengo, njerwa, bango, mchenga, udzu ndi mazenera"
-
                   ]
                 },
-
                 {
                   "id": 5,
                   "image": "layerschickens",
@@ -1561,7 +1472,6 @@
                     "Nkhuku zoyikila (zamasabata kuyabira 18 ) zikhale 3 pa sikweya mitala imodzi"
                   ]
                 },
-
                 {
                   "id": 6,
                   "image": "layerschickens",
@@ -1573,7 +1483,6 @@
                     "Nkhuku imodzi yopitilira masabata 18 imafuna malo okula 10cm a chodyeramo chamakona anayi, kapena 4cm achodyeramo chozungulira"
                   ]
                 },
-
                 {
                   "id": 7,
                   "image": "layerschickens",
@@ -1583,7 +1492,6 @@
                     "Nkhuku imodzi yapakati pa masabata 0-6 imafuna malo omwera madzi okula 1cm",
                     "Nkhuku imodzi yapakati pa masabata 6-18 imafuna malo omwera madzi okula 2-2.5cm",
                     "Nkhuku imodzi yopitilira masabata 18 imafuna malo omwera madzi okula 3-5cm "
-
                   ]
                 },
                 {
@@ -1592,17 +1500,14 @@
                   "title": "Kasamalidwe ka khola munkhuku zamazira",
                   "audio": "layers_8",
                   "content": [
-
                     "Onetsetsani kuti mkhola mukudutsa mpweya wabwino nthawi zonse",
                     "Onetsetsani kuti makoma a khola lapansi ndiopangidwa pulasitala kuti muchepetse kuswana kwa tizilombo tomwe timakonda kukhala mmakoma. Ngati muli ndikuthekera, pakani utoto oyera kuti muzindikire tizilomboti nsanga.",
                     "Ikani utuchi mkhola kuti nkhuku zizigona pabwino ndipo mudzisintha pamene pafunikira kutero kuti mukhale mwaukhondo",
                     "Tsukani zomwera madzi tsiku lililonse bdipo onetsetsani kuti nkhuku zapatsidwa madzi abwino tsiku lililonse",
                     "Konzani malo abwino oyikira nkhuku kuti mazira asasweke komanso azikhala aukhondo",
                     "Onetsetsani kuti mkhola ndi mwaukhondo nthawi zonse kuti muchepetse matenda"
-
                   ]
                 },
-
                 {
                   "id": 9,
                   "image": "layerschickens",
@@ -1612,10 +1517,8 @@
                     "Sankhani nkhuku zimene zimakula msanga, zazikuluzikulu, zothetha, komanso zolera bwino anapiye.",
                     "Kwatitsani nkhuku zalokolo ndii tambala wa Mikologwekuti zikhale zokula mwamsanga, zoyikira mazira ambiri ndi kupereka nyama yochuluka.",
                     "Tambala mmodzi wamikolongwe mpatseni nkhuku zazikazi khumi ndipo mudzibweretsa wina pakatha zaka ziwiri zirizonse"
-
                   ]
                 },
-
                 {
                   "id": 10,
                   "image": "layerschickens",
@@ -1629,10 +1532,8 @@
                     "3. Chakudya choyikilitsa cha nkhuku za masabata 21 mpaka kupitilira.",
                     "Alimi angathe kudzipangira okha chakudya choyikilitsa pophatikiza madeya,   ufa wa soya, masamba a lukina, ufa wa somba,chiswe, mphutsi, donthi lapachulu, masamba obiliwira, udzu obiliwira, mgayiwa ndi mwala la layimu.",
                     "Zipatseni madzi abwino nkhuku nthawi zonse kuti zisatethedwe"
-
                   ]
                 },
-
                 {
                   "id": 11,
                   "image": "layerschickens",
@@ -1642,7 +1543,6 @@
                     "Nkhuku iliyonse ya msinkhu woyikila ipatsidwe magalamu 95-115 a chakudya pa tsiku.",
                     "Mwanapiye aliyense amafuna chakudya chokwana  mpaka magaramu 10 pa tsiku, kuchoka tsiku lobadwa mpaka masabata 8.",
                     "Nkhuku iliyonse kuchoka pa masabata 9 mpaka 20 akubadwa imafuna chakudya chokwana magalamu oyambira 10 kufika 90 pa tsiku."
-
                   ]
                 },
                 {
@@ -1651,14 +1551,11 @@
                   "title": "Kufunika kwa madzi ku mazira",
                   "audio": "layers_12",
                   "content": [
-
                     "Madzi ndiofunikira kwambiri pa ulimi wa nkhuku za mazira ndipo amakhudza mbali za kadyedwe ka chakudya komanso kaikiridwe ka mazira",
                     "Kumadera otentha, madzi ndiofunikira kuti nkhuku zisatenthedwe chifukwa kuchepa kwa madzi kumachepetsa kaikiridwe ka mazira ngakhalenso kufa kumene kunkhuku zathu",
                     "Kotero ndikofunikira kuti alimi apereke madzi okwanira kwa nkhuku komanso michere yofunikira monga libtum"
-
                   ]
                 },
-
                 {
                   "id": 13,
                   "image": "layerschickens",
@@ -1673,13 +1570,8 @@
                     "Ikani mazira mmadzi kuti muone ngati ali abwino. Mazira oola amayandama",
                     "Onetsetsani kuti mazira asungidwa mmalo omwe mulibe zinthu zafungo loipa chifukwa mazira amatengera fungolo",
                     "Onetsetsani kuti malo oikia nkhuku ndiokwanira"
-
-
-
-
                   ]
                 },
-
                 {
                   "id": 14,
                   "image": "layerschickens",
@@ -1694,10 +1586,8 @@
                     "Gulitsani mazira kawiri pasabata",
                     "Sungani mazila otsala mmalo ozizira kuti akhalitse nthawi asanaonongeke",
                     "Onetsetsani kuti mazira asungidwa mmalo omwe mulibe zinthu zafungo loipa"
-
                   ]
                 },
-
                 {
                   "id": 15,
                   "image": "layerschickens",
@@ -1712,7 +1602,6 @@
                     "Onetsetsani kuti mwaperekera kwa makasitomala panthawi yoyenera"
                   ]
                 },
-
                 {
                   "id": 16,
                   "image": "layerschickens",
@@ -1723,49 +1612,38 @@
                     "1. Akulu omwe amalemera magalamu 65 kapena kuposera apo",
                     "2. Apakatikati omwe amalemera magalamu 55 kulekezera 65",
                     "3. Aang'ono omwe amalemera magalamu 45 kulekezera 55"
-
                   ]
                 },
-
                 {
-
-                "id": 17,
-                "image": "layerschickens",
-                "title": "Ndondomeko ya kaperekedwe ka katemera",
-                "audio": "layers_17",
-                "content": [
-
-                  "Katemera amaperekedwa ku nkhuku za mazira kupewetsa matenda a chitopa, chipumphu ndi nthomba za nkhuku. Tsatirani ndondomeko zotsatirazi pamene mukupereka katemera ku nkhuku za mazira ",
-                  "Perekani Gumboro kwa anapiye a masiku 7 posungunula mmadzi",
-                  "Perekani Hitchner wa chitopa kwa anapiye a masiku 14 posungunula mmadzi kapena kudonthezera mmaso",
-                  "Perekani Gumboro kwa anapiye a masiku 21posungunula mmadzi",
-                  "Perekani Lasota wa chitopa kwa anapiye a masiku 28 posungunula mmadzi kapena ",
-                  "Perekani katemera wa matenda anthomba za nkhuku kwa anapiye a masabata asanu pobaya paphiko",
-                  "Perekani lasota wa chitopa kwa anapiye a masabata 16 posungunula mmadzi",
-                  "Perekani mankhwala a njoka za mmimba kwa nkhuku za masabata 19 posungunula mmadzi",
-                  "Perekani lasota wa chitopa pakatha miyezi itatu iliyonse podonthezera m'maso"
-
-                       ]
+                  "id": 17,
+                  "image": "layerschickens",
+                  "title": "Ndondomeko ya kaperekedwe ka katemera",
+                  "audio": "layers_17",
+                  "content": [
+                    "Katemera amaperekedwa ku nkhuku za mazira kupewetsa matenda a chitopa, chipumphu ndi nthomba za nkhuku. Tsatirani ndondomeko zotsatirazi pamene mukupereka katemera ku nkhuku za mazira ",
+                    "Perekani Gumboro kwa anapiye a masiku 7 posungunula mmadzi",
+                    "Perekani Hitchner wa chitopa kwa anapiye a masiku 14 posungunula mmadzi kapena kudonthezera mmaso",
+                    "Perekani Gumboro kwa anapiye a masiku 21posungunula mmadzi",
+                    "Perekani Lasota wa chitopa kwa anapiye a masiku 28 posungunula mmadzi kapena ",
+                    "Perekani katemera wa matenda anthomba za nkhuku kwa anapiye a masabata asanu pobaya paphiko",
+                    "Perekani lasota wa chitopa kwa anapiye a masabata 16 posungunula mmadzi",
+                    "Perekani mankhwala a njoka za mmimba kwa nkhuku za masabata 19 posungunula mmadzi",
+                    "Perekani lasota wa chitopa pakatha miyezi itatu iliyonse podonthezera m'maso"
+                  ]
                 },
-
                 {
-
                   "id": 18,
                   "image": "layerschickens",
                   "title": "Zokhudza kupatulira",
                   "audio": "layers_18",
                   "content": [
-
                     "Kupatulira nkhuku kumachitidwa poyang'ana ndi kuchotsa nkhuku zomwe sizikuikira kapena zatha mphamvu ndipo zikuikila mochepa",
                     "Kupatulira kumayenera kuchitidwa usiku kuti nkhuku zisaope kwambiri",
                     "Nkhuku zimne zapatulidwa ziyenera kusamaliridwa bwino ",
                     "Onetsetsani kuti tisapatulire ngati pali matenda mpakana nkhuku zitachila."
-
                   ]
                 },
-
                 {
-
                   "id": 19,
                   "image": "layerschickens",
                   "title": "Mitundu ya kupatulira",
@@ -1775,12 +1653,9 @@
                     "Nkhuku zimapatulidwa panthawi imene zikuikidwa mukhola pochotsa zazing'ono, zosakula bwino, zooneka zofooka, zolumala komanso zamatenda.",
                     "2. Kupatulira potengera kaikilidwe kankhuku",
                     "Nkhuku zimapatulidwa potengera kaikilidwe kake kapena mmene imaikilia m'mbuyo. Izi zimachitidwa nkhuku zikafika masabata asanu ndi atatu kapena khumi chiikireni mkhola."
-
                   ]
                 },
-
                 {
-
                   "id": 21,
                   "image": "layerschickens",
                   "title": "Tizilombo toyambitsa matenda",
@@ -1790,18 +1665,14 @@
                     "Wazani nkhuku komanso khola mankhwala othana ndi nthata ngati Actellic kapena Akheri",
                     "2. Njoka za mmimba ",
                     "Mwetsani  mankwala opha njoka za m'mimba pakatha masabata 18, kenako 21, kanako masabata 41 ndipo kenako miyezi 6 iliyonse."
-
                   ]
                 },
-
                 {
-
                   "id": 22,
                   "image": "layerschickens",
                   "title": "Chipumphu cha misoti ndi khuku zazing'ono",
                   "audio": "layers_22",
                   "content": [
-
                     "Kafalidwe: ",
                     " kukhudzana ndi nkhuku yodwala kapena malo pomwe pali kachilombo koyambitsa matendawa. Mumpweya,fumbi, kuyenda ndi nkhuku zodwala kapena nyama ya nkhuku yodwala, zitosi ndi  ziwiya.",
                     "Kachilombo koyambitsa: ",
@@ -1812,20 +1683,14 @@
                     "Ukhondo wa zakudya ndi mkhola, kupopera 4% Fomalini nkhuku zikagulitsidwa pasabwere zina, perekani katemerawa Gumboro  tsiku la 10  ndi tsiku la 21 la moyo wake.osasakaniza nkhuku zazingono kapena zatsopano  ndi zazikulu za kale, osagula kapena kukawona nhkuku zodwala.",
                     "Kuchiza kwake: ",
                     "Palibe mankhwala."
-
-
-
                   ]
                 },
-
                 {
-
                   "id": 23,
                   "image": "layerschickens",
                   "title": "Chipumphu cha misoti ndi khuku zazing'ono",
                   "audio": "layers_23",
                   "content": [
-
                     "Choyambita: ",
                     "Imayamba ndi kachilombo ka Vayilasi. ",
                     "Zizindikilo: ",
@@ -1834,12 +1699,9 @@
                     " Ukhondo wa zakudya ndi mkhola, kupopera 4% Fomalini nkhuku zikagulitsidwa pasabwere zina, perekani katemera wa Chitopa  tsiku la 16,tsiku la 28  kenako miyezi itatu iliyonse. osasakaniza nkhuku zazingono kapena zatsopano  ndi zazikulu za kale, osagula kapena kukawona nhkuku zodwala.",
                     "Kuchiza kwake: ",
                     "Matendawa ndi osachizika. Funsani upangiri kwa Alangizi a ziweto a dera lanu."
-
                   ]
                 },
-
                 {
-
                   "id": 24,
                   "image": "layerschickens",
                   "title": "Nthomba za nkhuku",
@@ -1855,58 +1717,46 @@
                     "Palibe mankhwala koma dziwitsani alangizi."
                   ]
                 },
-
                 {
-
                   "id": 25,
                   "image": "layerschickens",
                   "title": "Mavuto a ulimi wa Nkhunku za mazira ",
                   "audio": "layers_25",
                   "content": [
-
                     "1. Kufungatira",
                     "Nkhuku zimaonetsa kufuna kukhalira mazira kuti ziswe ana",
                     "Chotsani nkhuku zofuna kufungatira kndikuziika malo opita mphepo kwambiri kuti ziiwale ndikuyambanso kuikira",
                     "Onetsetsani kuti nkhuku zikudya mokwanira komanso onjezerani kuwala kuti zidye kwanthawi yaitali",
-
                     "2. Kuthothoka nthenga",
                     "Kuthothoka/Kusosoka kwa nthenga pakutha pa kuikira kumapangitsa nkhuku kuchepetsa kuikira pamene nkhuku yayamba kuthothoka nthenga kumene motsogozana ndi kusiiratu kuikira pakatha masiku khumi",
                     "Onetsetsani kuti nkhuku zikudya mokwanira komanso kumwa madzi okwanira. Onjezerani kutalika kuti zidye kwanthawi yaitali",
-
                     "3 Kudya mopyola muyeso",
                     "Perekani chakudya chazofunikira zonse mokwanira",
                     "Onetsetsani kuti zoikamo zakudya ndizabwino",
                     "Yezani chakudya ndi sikelo yolondola",
-
                     "4. Kuchedwa kuyamba kuyikira",
                     "Perekani chisamaliro chokwanira",
                     "Onetsetsani kuti mukupereka chakudya chokwanira ndipo nkhuku zikudya mokwanira",
                     "Tetezani nkhuku ku matenda popereka mankhwala oyenera",
                     "Onjezerani kutalika kwa tsiku",
-
                     "5. Mazila ochepa chikoka mmaonekedwe",
                     "Perekani malo oikilira abwino",
                     "Perekani malo oikira okwanira",
                     "Perekani mchele wa kashiyamu okwanila",
                     "Onetsetsani kuti nkhuku ili pa msinkhu oyenera kuti uikire",
-
                     "6. Kujomphana",
                     "Onetsetsani kuti nkhuku zili pa mpata okwanira",
                     "Perekani chakudya choyenera",
                     "Perekani chakudya dni madzi nthawi zonse",
                     "Khola likhale ndi mawindo okwanira kuti muchepetse kutentha"
-
                   ]
                 },
-
                 {
-
                   "id": 26,
                   "image": "layerschickens",
                   "title": "zoyenera kusungidwa mukaundula",
                   "audio": "layers_26",
                   "content": [
-
                     "Kuchuluka kwa nkhuku zomwe zikuwetedwa",
                     "Mtundu wa nkhuku omwe ukugwiritsidwa ntchito",
                     "Kuchuluka kwa chakudya chimene chikugwiritsidwa ntchito pa tsiku",
@@ -1914,61 +1764,51 @@
                     "Kuchuluka kwa nkhuku zokufa",
                     "Kuchuluka kwa nkhuku zomwe zagulitsidwa",
                     "Mankhwala ndi katemera yemwe waperekedwa"
-
                   ]
                 },
-
                 {
-
                   "id": 27,
                   "image": "layerschickens",
                   "title": "Ubwino osunga kaundula mu ulimi wa nkhuku za mazira",
                   "audio": "layers_27",
                   "content": [
-
                     "Ubwino wosunga kaundula pa ulimi wa nkhuku za mazira ndi monga izi:  ",
                     "1. Kufananiza kachitidwe ka nkhuku zomwe zasungidwa ndi zomwe zinalipo mmbuyo",
                     "2. Kufananiza ndalama zobwera ndi ndalama zomwe zagwiritsidwa ntchito",
                     "3. Kudziwa poyenera kusintha mu ulimi",
                     "4.Kudziwa pofunikira kusintha pa kasamalidwe",
                     "Kuonetsetsa kuti pali kukwera pa kuchita bwino muulimiwu"
-
                   ]
                 }
-
-
               ]
             }
-          ]
+          ],
+          "description": "Chicken advisories such us local chicken"
         },
-
         {
           "id": 3,
-          "image": "goats",
+          "image": "goats_pro",
           "name": "Ulimi wa Mbuzi",
           "products": [
             {
               "id": 1,
-              "image": "goats",
+              "image": "goat",
               "name": "Ulimi wa Mbuzi",
               "section": [
-
                 {
                   "id": 1,
-                  "image": "goats",
+                  "image": "goats_breed",
                   "title": "Mitundu ya Mbuzi",
                   "audio": "goats_1",
                   "content": [
-
                     "Mitundu ya mbuzi za nyama - Zamakolo ndi Boer",
                     "Mtundu ya mbuzi za mkaka - Saanen",
                     "Mtundu wa mbuzi za mkaka ndi nyama - Alpine"
                   ]
                 },
-
                 {
                   "id": 2,
-                  "image": "goats",
+                  "image": "goats_how_breed",
                   "title": "Kuswanitsa/Kuchulukitsa",
                   "audio": "goats_2",
                   "content": [
@@ -1976,13 +1816,11 @@
                     "Msoti umatha nsinkhu pa miyezi 5-6 koma uyenera kuchulukitsidwa pa msinkhu wa miyezi 10-12",
                     "Tonde amatha msinkhu miyezi 4-5 koma kuti ayambe kugwila ntchito afike miyezi 6-9.",
                     "Mbuzi yaikazi yomwe ikufuna tonde imaonetsa zizindikiro monga kuliralira, kukwera zinzake, kutuluka chikazi chonanda, kukodza pafupipafupi, kusakhala ndi chilakolako cha chakudya komanso kukwetezakweteza mchira."
-
                   ]
                 },
-
                 {
                   "id": 3,
-                  "image": "goats",
+                  "image": "goat_feed",
                   "title": "Kadyetsedwe ka mbuzi",
                   "audio": "goats_3",
                   "content": [
@@ -1992,14 +1830,11 @@
                     "3. Zakudya zochita kusakaniza monga madeya",
                     "Mbuzi zimakonda kudya za masamba poyelekeza ndi udzu, komanso mmasamba zimapezako mphamvu yamankhwala oteteza kumatenda",
                     "Mbuzi ziyenera kupatsidwa chakudya choonjezera kuti zikule ndi thanzi"
-
-
                   ]
                 },
-
                 {
                   "id": 4,
-                  "image": "goats",
+                  "image": "goat_feeding",
                   "title": "Njira zodyetsera mbuzi",
                   "audio": "goats_4",
                   "content": [
@@ -2009,33 +1844,28 @@
                     "3. Zomangiridwa pachingwe"
                   ]
                 },
-
                 {
                   "id": 5,
-                  "image": "goats",
+                  "image": "goat_parasite",
                   "title": "Kuthana ndi tizilombo tapathupi",
                   "audio": "goats_5",
                   "content": [
                     "Sambitsani mankhwala opha Nkhupakupa motsatira ndondomeko yoperekedwa ndi opanga makhwalawo."
-
                   ]
                 },
-
                 {
                   "id": 6,
-                  "image": "goats",
+                  "image": "goats_diseases",
                   "title": "Kuthana ndi njoka za mmimba",
                   "audio": "goats_6",
                   "content": [
                     "Mwetsani mbuzi mankwala opha njoka za m'mimba kumayambiliro ndi kumapeto a nyengo ya mvula.",
                     "Onetsetsani kasinthasintha wa malo odyetsera mbuzi."
-
                   ]
                 },
-
                 {
                   "id": 7,
-                  "image": "goats",
+                  "image": "goats_markert",
                   "title": "Kuthana ndi njoka za mmimba",
                   "audio": "goats_7",
                   "content": [
@@ -2045,29 +1875,25 @@
                     "Tsatani ndondomeko za kapewedwe ka matenda osiyanasiyana kuti mbuzi zanu zikhale za thanzi"
                   ]
                 },
-
                 {
                   "id": 8,
                   "image": "goats",
                   "title": "Kagulitsidwe ka mbuzi za nyama",
                   "audio": "goats_8",
                   "content": [
-
                     "Fufuzani misika yodalirika komwe mungagulitse mbuzi zanu pa mtengo wabwino",
                     "Gulitsani mbuzi zanu pagulu kuti mukhale ndi mphamvu potchula mtengo wa katundu wanu",
                     "Misika ikuluikulu imafunika kuperekera katundu mosalekeza,kotero kukhala mmagulu a ulimi wa ziweto kungathandizire kupeza misika yotereyi kuti katundu akhale ochuluka"
-
-
                   ]
                 }
               ]
             }
-          ]
+          ],
+          "description": "Goats Production advisories "
         },
-
         {
           "id": 4,
-          "image": "pigs",
+          "image": "pigs_pro",
           "name": "Ulimi wa Nkhumba",
           "products": [
             {
@@ -2075,38 +1901,32 @@
               "image": "pigs",
               "name": "Ulimi wa Nkhumba",
               "section": [
-
                 {
                   "id": 1,
-                  "image": "pigs",
+                  "image": "pigs_house",
                   "title": "Kamangidwe ka khola la nkhumba",
                   "audio": "pigs_1",
                   "content": [
-
                     "Khola lankhumba likhale ndi zipinda zogonamo ndi kudyera komanso malo owotherako dzuwa ndi mpanda wina ozungulira khola lonse. Khola likhale ndi pansi polimba pa konkiliti",
                     "Nkhumba imodzi yaikulu imafuna malo akulu 2m by 2m",
                     "Ana a nkhumba amafuna malo okula 1m mulitali ndi 0.5m mulifupi",
                     "Kukula kwa khola kutengera kuchuluka kwa nkhumba zanu"
-
                   ]
                 },
                 {
                   "id": 2,
-                  "image": "pigs",
+                  "image": "pigs_breed",
                   "title": "Mitundu ya nkhumba ",
                   "audio": "pigs_2",
                   "content": [
-
                     "1.Zamakolo",
                     "2. Large white- zazikulu matupi zooneka zoyera ndi makutu oyima",
                     "3. Landrace: Zazitali msana, zoyera ndi makutu akugwa"
-
                   ]
                 },
-
                 {
                   "id": 3,
-                  "image": "pigs",
+                  "image": "pigs_breeding",
                   "title": "Ziyang'aniro posankha nkhumba zoswanitsa",
                   "audio": "pigs_3",
                   "content": [
@@ -2114,35 +1934,29 @@
                     "2. ziwalo zobelekela zokwanila ndizooneka bwino",
                     "3. zobeleka ana okula msanga",
                     "4. zosankhika kuchokela kwa makolo osakwatitsidwa pachibaleZosankhidwa kuchokera kumakoro"
-
                   ]
                 },
-
                 {
                   "id": 4,
-                  "image": "pigs",
+                  "image": "pigs_feeding",
                   "title": "Ziyang'aniro posankha nkhumba zoswanitsa",
                   "audio": "pigs_5",
                   "content": [
                     "Nkhumba zikhoza kukweretsedwa nthawi ina ili yonse ya pa chaka chofunika kwambiri ndi choti alimi azizindikira nkhumba yayikazi yomwe ikufuna mphongo pa nthawi yake"
-
                   ]
                 },
-
                 {
                   "id": 5,
-                  "image": "pigs",
+                  "image": "pigs_parasite",
                   "title": "Kuswanitsa/ Kuchulukitsa",
                   "audio": "pigs_5",
                   "content": [
                     "Nkhumba zikhoza kukweretsedwa nthawi ina ili yonse ya pa chaka chofunika kwambiri ndi choti alimi azizindikira nkhumba yayikazi yomwe ikufuna mphongo pa nthawi yake"
-
                   ]
                 },
-
                 {
                   "id": 6,
-                  "image": "pigs",
+                  "image": "pigs_diseases",
                   "title": "Kuzindikira nkhumba yayikazi yomwe ikufuna mphongo",
                   "audio": "pigs_6",
                   "content": [
@@ -2152,10 +1966,9 @@
                     "3. nkhumbayo ikakanikizidwa pa msana pake imayima kukhala duu kuonetsa kubvomera kukweredwa"
                   ]
                 },
-
                 {
                   "id": 7,
-                  "image": "pigs",
+                  "image": "pigs_market",
                   "title": "Mitundu ya zakudya za nkhumba",
                   "audio": "pigs_7",
                   "content": [
@@ -2164,21 +1977,18 @@
                     "zotsala ku khitchini",
                     "zinthima ndi masamba a nthochi",
                     "masamba a gwafa ndi mango komanso chakudya chochita kusakaniza"
-
                   ]
                 },
-
                 {
                   "id": 8,
                   "image": "pigs",
                   "title": "Mitundu ya zakudya za nkhumba",
                   "audio": "pigs_8",
                   "content": [
-                   "Nkhumba zimafunika kudyetsera mukhola ndipo zidyetsedwe kosachepela katatu pa tsiku",
+                    "Nkhumba zimafunika kudyetsera mukhola ndipo zidyetsedwe kosachepela katatu pa tsiku",
                     "Perekani madzi okwanira nthawi zonse"
                   ]
                 },
-
                 {
                   "id": 9,
                   "image": "pigs",
@@ -2188,10 +1998,8 @@
                     "Tizilombo tapakhungu timanyerenyetsa ndi kuyamwa magazi mpaka nkhumba imatha magazi. tizilombotinso timafalitsa matenda monga zipere/mfundu/nkupe ndi chigodola.",
                     "Sambitsani nkhumba zanu ndi makhwala ophera tizilombo monga nkhupakupa ndi utitili kuti muchepeste kufala kwa tizilombo ta pakhungu ku ziweto zanu.",
                     "Tsukani mukhola ndi kuwazamo makhwala oteteza ndi kupha tizilombo monga nkhupakupa ndi utitili"
-
                   ]
                 },
-
                 {
                   "id": 10,
                   "image": "pigs",
@@ -2201,29 +2009,24 @@
                     "Tizilombo ta mmimba timalimbana ndi chiweto pa zakudya mchifu komanso  timayamwa magazi mpaka nkhumbayo imanyentchera ndi kutha magazi ",
                     "Mungateteze kufala kwa tizilombo ta m'mimba pomwetsa nkumba zanu ndi makhwala ophera njoka za mmimba miyezi itatu iliyonse.",
                     "Tsukani makola nthawi zonse pamene nkhumbazo za wonongera ndi ndowe zake kuthandiza kupewa kufala kwa njoka za mmimbazo ."
-
                   ]
                 },
-
-
                 {
-                "id": 11,
-                "image": "pigs",
-                "title": "Matenda a chigodola cha nkhumba",
-                "audio": "pigs_11",
-                "content": [
-                  "Zizindikiro za chigodola cha nkhumba:",
-                  "1. Kufowoka",
-                  "2. kuyenda dzandidzandi",
-                  "3. kufiila kwa khungu",
-                  "4. kutentha thupi",
-                  "5. khungu limawoneka la ntundu wa buluwu",
-                  "6. nkhumba zimafa patatha wola limodzi kapena tsiku limodzi",
-                  "7. kutsekula mmimba ndi kupoloza"
-
-                ]
+                  "id": 11,
+                  "image": "pigs",
+                  "title": "Matenda a chigodola cha nkhumba",
+                  "audio": "pigs_11",
+                  "content": [
+                    "Zizindikiro za chigodola cha nkhumba:",
+                    "1. Kufowoka",
+                    "2. kuyenda dzandidzandi",
+                    "3. kufiila kwa khungu",
+                    "4. kutentha thupi",
+                    "5. khungu limawoneka la ntundu wa buluwu",
+                    "6. nkhumba zimafa patatha wola limodzi kapena tsiku limodzi",
+                    "7. kutsekula mmimba ndi kupoloza"
+                  ]
                 },
-
                 {
                   "id": 12,
                   "image": "pigs",
@@ -2237,10 +2040,8 @@
                     "5. musalole anzanu kapena alendo kulowa mukhola la nkhumba",
                     "6. kwirirani nkhumba zonse zimene zafa ndi chigondolachi",
                     "7. Dziwani kuti chigodola cha nkhumba chilibe mankhwala"
-
                   ]
                 },
-
                 {
                   "id": 13,
                   "image": "pigs",
@@ -2250,10 +2051,8 @@
                     "Zizindikilo za matenda a mkupe/chipere - Nkhumba zimadzikanditsa ku khoma la khola, ubweya umakudzuka,  kulimba kwa khungu ndiposo khumbazo zimakhala ndi tizilonda.",
                     "Matenda a mkupe/chipere amatetezedwa poonetsetsa kuti mukhola ndi mwaukhondo nthawi zonse. Onetsetsani kuti mukuchotsamo nkhumba zimene zadwala ndikuziyika mukhola mwazokha. ",
                     "Kuti muchize matendawa, gwiritsani ntchito makhwala opaka pa chilonda ndipo funsani alangizi aziweto mudera lanu"
-
                   ]
                 },
-
                 {
                   "id": 14,
                   "image": "pigs",
@@ -2263,33 +2062,26 @@
                     "Limbikitsani alimi ankhumba kuti azikhala mmagulu. Ubwino wogulitsa nkhumba kudzera mmagulu ndiwoti alimi amakhala ndi mphamvu zambiri pamalondawa.",
                     "Pazikhala mgwilizano pakati Pa mlimi ndi ogula.",
                     "Pezani njira zina zopezera ndalama kusiyana ndikugulitsa nkhumba zanu motsika mtengo pamene mwakumana ndi vuto. Kotero khalani ndi njira zina zopezera ndalama monga kulima mbeu zosiyanasiyana komanso kuweta ziweto zosiyanasiyana"
-
-
-
-
                   ]
                 }
-
               ]
             }
-          ]
+          ],
+          "description": "Pigs Production advisories"
         },
-
         {
           "id": 5,
-          "image": "feed",
+          "image": "honey_bee",
           "name": "Zakudya za ziweto",
           "products": [
             {
               "id": 1,
-              "image": "feed",
+              "image": "honey",
               "name": "Zakudya za ziweto zosiyana siyana",
               "section": [
-
-
                 {
                   "id": 1,
-                  "image": "feed",
+                  "image": "bee_importance",
                   "title": "Mitundu ya chakudya cha ziweto",
                   "audio": "feed_1",
                   "content": [
@@ -2298,10 +2090,9 @@
                     "2. Za Udzu: zimakhala ndi chakudya chambiri chonenepetsa monga rhodes grass, napier grass, ntchisi panicum, branciaria ndi guatemala"
                   ]
                 },
-
                 {
                   "id": 2,
-                  "image": "feed",
+                  "image": "bee_husbandry",
                   "title": "Nthawi yopanga zakudya zowonjezera",
                   "audio": "feed_2",
                   "content": [
@@ -2309,12 +2100,11 @@
                     "Pofutsa chakudya cha ziweto kuchokera kuzotsalira za pokolola, tiyenera kufutsa tikangokolora",
                     "Ngati mukugwiritsa ntchito udzu, futsani pamene zangoyamba maluwa",
                     "Ngati mukugwiritsa ntchito za gulu la nyemba, futsani pamene zangoyamba maluwa kapena asanayambe kuthothola masamba"
-
                   ]
                 },
                 {
                   "id": 3,
-                  "image": "feed",
+                  "image": "bee_sitting",
                   "title": "Kufutsa sayileji",
                   "audio": "feed_3",
                   "content": [
@@ -2325,14 +2115,12 @@
                     "Sungani pa malo pabwino"
                   ]
                 },
-
                 {
                   "id": 4,
-                  "image": "feed",
+                  "image": "bee_colony",
                   "title": "Kufutsa heyi",
                   "audio": "feed_4",
                   "content": [
-
                     "Chakudya chopangidwa kuchokera ku udzu chikololedwe pamene maluwa ayamba kuoneka",
                     "Pamene ngati tikugwiritsa ntchito mbewu za mtundu wa nyemba, muyenera kudula pamene masamba akungoyamba kumene kugwa, kapena pamene zikuyamba maluwa.",
                     "Pokonza chakudyachi, dulani udzu ndi sikilo m'mawa kusanachetsetse",
@@ -2340,35 +2128,25 @@
                     "Zikanyala,sanjani ndi kusunga pamalo pabwino"
                   ]
                 },
-
                 {
                   "id": 5,
-                  "image": "feed",
+                  "image": "bee_feeding",
                   "title": "Kufutsa mapesi ndi masangwe",
                   "audio": "feed_5",
                   "content": [
-
                     "Gwiritsani ntchito mapesi a chimanga, mawere kapena mapira, zotsalira za mpunga ndiudzu ouma zomwe zimapezeka nthawi ya chilimwe.",
                     "Onetsestani kuti mwazimanga mmabandulo",
                     "Zisanjeni pa thandala pa mthunzi, potsatira ndondomeko yoyenera kuti chiswe chisaononge",
                     "Chakudya chiyenera kuphatikizidwa ndi  zina UREA kapena ma molasi chisanapatsidwe ku ziweto zanu motsatira ndondomeko kuopetsa kuchulutsa  UREA yemwe akachuluka angathe kukhala poizoni ku ziweto zathu."
-
                   ]
                 }
-
-
-
-
-
               ]
             }
-          ]
+          ],
+          "description": "Honey value chain and bee keeping practices"
         }
-
-
-      ]
+      ],
+      "sectorimage": "animal1"
     }
-
-    ]
-
+  ]
 }
