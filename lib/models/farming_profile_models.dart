@@ -153,6 +153,7 @@ class FarmingSeason {
   final int id;
   final int clientId;
   final String name;
+  final String type;
   final String startYear;
   final DateTime startDate;
   final DateTime? endDate;
@@ -166,6 +167,7 @@ class FarmingSeason {
     required this.id,
     required this.clientId,
     required this.name,
+    required this.type,
     required this.startYear,
     required this.startDate,
     this.endDate,
@@ -181,6 +183,7 @@ class FarmingSeason {
       id: json['id'],
       clientId: json['client_id'],
       name: json['name'],
+      type: json['type'] ?? 'Rain-fed',
       startYear: json['start_year']?.toString() ?? '',
       startDate: DateTime.parse(json['start_date']),
       endDate: json['end_date'] != null ? DateTime.parse(json['end_date']) : null,
@@ -195,6 +198,7 @@ class FarmingSeason {
   Map<String, dynamic> toJson() {
     return {
       'name': name,
+      'type': type,
       'start_year': startYear,
       'start_date': startDate.toIso8601String().split('T')[0],
       if (endDate != null) 'end_date': endDate!.toIso8601String().split('T')[0],

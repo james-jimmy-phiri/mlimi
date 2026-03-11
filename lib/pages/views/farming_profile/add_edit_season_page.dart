@@ -28,8 +28,10 @@ class _AddEditSeasonPageState extends State<AddEditSeasonPage> {
   DateTime _startDate = DateTime.now();
   DateTime? _endDate;
   String _status = 'Active';
+  String _type = 'Rain-fed';
 
   final List<String> _statuses = ['Active', 'Harvesting', 'Completed'];
+  final List<String> _types = ['Rain-fed', 'Irrigated'];
 
   @override
   void initState() {
@@ -41,6 +43,7 @@ class _AddEditSeasonPageState extends State<AddEditSeasonPage> {
       _startDate = widget.season!.startDate;
       _endDate = widget.season!.endDate;
       _status = widget.season!.status;
+      _type = widget.season!.type;
     }
   }
 
@@ -82,6 +85,7 @@ class _AddEditSeasonPageState extends State<AddEditSeasonPage> {
         // Create
         await _service.createSeason(
           name: _nameController.text.trim(),
+          type: _type,
           startYear: startYear,
           startDate: dateFormat.format(_startDate),
           endDate: _endDate != null ? dateFormat.format(_endDate!) : null,
@@ -93,6 +97,7 @@ class _AddEditSeasonPageState extends State<AddEditSeasonPage> {
         await _service.updateSeason(
           widget.season!.id,
           name: _nameController.text.trim(),
+          type: _type,
           startYear: startYear,
           startDate: dateFormat.format(_startDate),
           endDate: _endDate != null ? dateFormat.format(_endDate!) : null,
@@ -156,6 +161,19 @@ class _AddEditSeasonPageState extends State<AddEditSeasonPage> {
                         border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                       ),
                       validator: (value) => value == null || value.isEmpty ? 'Required' : null,
+                    ),
+                    const SizedBox(height: 20),
+
+                    DropdownButtonFormField<String>(
+                      value: _type,
+                      decoration: InputDecoration(
+                        labelText: _language == 'en' ? 'Season Type' : 'Mtundu Wa Nyengo',
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                      ),
+                      items: _types.map((t) => DropdownMenuItem(value: t, child: Text(t))).toList(),
+                      onChanged: (val) {
+                        if (val != null) setState(() => _type = val);
+                      },
                     ),
                     const SizedBox(height: 20),
                     

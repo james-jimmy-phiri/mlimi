@@ -7,6 +7,7 @@ import 'package:mlimi/models/farming_profile_models.dart';
 import 'package:mlimi/pages/views/farming_profile/season_detail_page.dart';
 import 'package:mlimi/pages/views/farming_profile/add_edit_season_page.dart';
 import 'package:mlimi/services/farming_profile_service.dart';
+import 'package:mlimi/pages/views/signup/loginscreen.dart';
 
 class FarmingSeasonsPage extends StatefulWidget {
   const FarmingSeasonsPage({Key? key}) : super(key: key);
@@ -113,25 +114,57 @@ class _FarmingSeasonsPageState extends State<FarmingSeasonsPage> {
     }
 
     if (_error != null) {
+      final isUnauthorized = _error!.contains('UNAUTHORIZED');
       return Center(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(Icons.error_outline, size: 48, color: Colors.red),
+              Icon(
+                isUnauthorized ? Icons.lock_outline : Icons.error_outline,
+                size: 48,
+                color: isUnauthorized ? kPrimaryColor : Colors.red,
+              ),
               const SizedBox(height: 16),
               Text(
-                _error!,
+                isUnauthorized
+                    ? (_language == 'en'
+                        ? 'Please login or signup to access your farming profile'
+                        : 'Chonde lowani kapena lembetsani kuti mupeze chikwatu chanu cha mlimi')
+                    : _error!,
                 textAlign: TextAlign.center,
-                style: GoogleFonts.poppins(color: Colors.red),
+                style: GoogleFonts.poppins(
+                  color: isUnauthorized ? Colors.black87 : Colors.red,
+                  fontSize: 16,
+                ),
               ),
-              const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: _loadSeasons,
-                style: ElevatedButton.styleFrom(backgroundColor: kPrimaryColor),
-                child: Text('Retry', style: GoogleFonts.poppins(color: Colors.white)),
-              ),
+              const SizedBox(height: 24),
+              isUnauthorized
+                  ? ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SimpleLoginScreen(),
+                          ),
+                        ).then((_) => _loadSeasons());
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: kPrimaryColor,
+                        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                      ),
+                      child: Text(
+                        _language == 'en' ? 'Login / Sign Up' : 'Lowani / Lembetsani',
+                        style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                    )
+                  : ElevatedButton(
+                      onPressed: _loadSeasons,
+                      style: ElevatedButton.styleFrom(backgroundColor: kPrimaryColor),
+                      child: Text('Retry', style: GoogleFonts.poppins(color: Colors.white)),
+                    ),
             ],
           ),
         ),

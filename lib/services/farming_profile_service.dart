@@ -26,6 +26,8 @@ class FarmingProfileService {
       final jsonResponse = json.decode(response.body);
       final List<dynamic> data = jsonResponse['data'] ?? [];
       return data.map((e) => e as Map<String, dynamic>).toList();
+    } else if (response.statusCode == 401) {
+      throw Exception('UNAUTHORIZED: Please login or signup to access your farming profile');
     } else {
       throw Exception('Failed to load value chains');
     }
@@ -43,6 +45,8 @@ class FarmingProfileService {
       final jsonResponse = json.decode(response.body);
       final List<dynamic> data = jsonResponse['data'] ?? [];
       return data.map((json) => FarmingSeason.fromJson(json)).toList();
+    } else if (response.statusCode == 401) {
+      throw Exception('UNAUTHORIZED: Please login or signup to access your farming profile');
     } else {
       throw Exception('Failed to load farming seasons');
     }
@@ -61,6 +65,8 @@ class FarmingProfileService {
         'summary': jsonResponse['season_sales_summary'] != null ? SeasonSalesSummary.fromJson(jsonResponse['season_sales_summary']) : null,
         'sales': (jsonResponse['season_sales'] as List<dynamic>?)?.map((s) => CommoditySale.fromJson(s)).toList() ?? [],
       };
+    } else if (response.statusCode == 401) {
+      throw Exception('UNAUTHORIZED: Please login or signup to access your farming profile');
     } else {
       throw Exception('Failed to load season details');
     }
@@ -68,6 +74,7 @@ class FarmingProfileService {
 
   Future<FarmingSeason> createSeason({
     required String name,
+    required String type,
     required String startYear,
     required String startDate,
     String? endDate,
@@ -76,6 +83,7 @@ class FarmingProfileService {
   }) async {
     final body = {
       'name': name,
+      'type': type,
       'start_year': startYear,
       'start_date': startDate,
       if (endDate != null && endDate.isNotEmpty) 'end_date': endDate,
@@ -100,6 +108,7 @@ class FarmingProfileService {
 
   Future<FarmingSeason> updateSeason(int id, {
     required String name,
+    required String type,
     required String startYear,
     required String startDate,
     String? endDate,
@@ -108,6 +117,7 @@ class FarmingProfileService {
   }) async {
     final body = {
       'name': name,
+      'type': type,
       'start_year': startYear,
       'start_date': startDate,
       if (endDate != null) 'end_date': endDate,
