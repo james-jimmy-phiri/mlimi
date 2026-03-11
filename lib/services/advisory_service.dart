@@ -46,10 +46,16 @@ static Future<List<FinancialTheme>> loadFinancialData() async {
     // Load sectors from JSON
     List<Sector> sectors = await loadSectorsFromJson();
 
-    // Find and return the sector matching the sectorType
+    // Find and return the sector matching the sectorType or its ID
     try {
+      final String typeLower = sectorType.toLowerCase();
+      if (typeLower == 'crops') {
+        return sectors.firstWhere((sector) => sector.id == 1);
+      } else if (typeLower == 'livestocks' || typeLower == 'livestock') {
+        return sectors.firstWhere((sector) => sector.id == 2);
+      }
       return sectors.firstWhere(
-        (sector) => sector.name.toLowerCase() == sectorType.toLowerCase(),
+        (sector) => sector.name.toLowerCase() == typeLower,
       );
     } catch (e) {
       // Handle the case where no sector is found
