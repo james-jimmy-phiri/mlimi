@@ -117,6 +117,8 @@ class CategorySelectionPage extends StatelessWidget {
                                 '${AppTranslations.getString('average_yield')}:\n${category.averageYield} ${AppTranslations.getString('per_hec')}',
                           ),
                         ),
+
+                        
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
