@@ -111,7 +111,8 @@ class CategorySelectionPage extends StatelessWidget {
                         Expanded(
                           // Use Expanded to make the image take up available space
                           child: makeItem(
-                            image: 'assets/images/seedco.jpg',
+                            image: 'assets/images/${category.image}.jpg',
+                            fallbackImage: 'assets/images/${crop.image}.jpg',
                             title:
                                 '${AppTranslations.getString('average_yield')}:\n${category.averageYield} ${AppTranslations.getString('per_hec')}',
                           ),
@@ -139,31 +140,48 @@ class CategorySelectionPage extends StatelessWidget {
     );
   }
 
-  Widget makeItem({required String image, required String title}) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        image: DecorationImage(image: AssetImage(image), fit: BoxFit.cover),
-      ),
-      child: Container(
-        padding: const EdgeInsets.only(top: 15, left: 10, right: 10, bottom: 2),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          gradient: LinearGradient(
-            begin: Alignment.bottomRight,
-            colors: [
-              Colors.black.withOpacity(.6),
-              Colors.black.withOpacity(.1),
-            ],
+  Widget makeItem(
+      {required String image,
+      required String fallbackImage,
+      required String title}) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(20),
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          Image.asset(
+            image,
+            fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) {
+              return Image.asset(
+                fallbackImage,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return Container(color: Colors.grey);
+                },
+              );
+            },
           ),
-        ),
-        child: Align(
-          alignment: Alignment.bottomLeft,
-          child: Text(
-            title,
-            style: const TextStyle(color: Colors.white, fontSize: 12),
+          Container(
+            padding: const EdgeInsets.only(top: 15, left: 10, right: 10, bottom: 2),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.bottomRight,
+                colors: [
+                  Colors.black.withOpacity(.6),
+                  Colors.black.withOpacity(.1),
+                ],
+              ),
+            ),
+            child: Align(
+              alignment: Alignment.bottomLeft,
+              child: Text(
+                title,
+                style: const TextStyle(color: Colors.white, fontSize: 12),
+              ),
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
