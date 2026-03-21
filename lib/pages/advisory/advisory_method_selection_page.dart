@@ -20,11 +20,12 @@ class AdvisoryMethodSelectionPage extends StatelessWidget {
       backgroundColor: const Color(0xFFF5F7FA),
       appBar: AppBar(
         title: Text(
-          language == 'en' ? 'Select Method' : 'Sankhani Njira',
+          language == 'en' ? 'Soil Nutrient Recommendation' : 'Malangizo a Fetereza',
           style: GoogleFonts.poppins(
             fontWeight: FontWeight.w600,
             color: Colors.black87,
           ),
+          
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
