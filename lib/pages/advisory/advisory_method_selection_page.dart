@@ -25,8 +25,9 @@ class AdvisoryMethodSelectionPage extends StatelessWidget {
             fontWeight: FontWeight.w600,
             color: Colors.black87,
           ),
-          
+
         ),
+        
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
