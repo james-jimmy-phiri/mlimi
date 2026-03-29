@@ -17,6 +17,17 @@ class BuyerDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final dynamic contactData = buyer['contact'];
+    List<String> contactNumbers = [];
+
+    if (contactData != null) {
+      if (contactData is String) {
+        contactNumbers.add(contactData);
+      } else if (contactData is List) {
+        contactNumbers.addAll(contactData.map((e) => e.toString()));
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -60,6 +71,15 @@ class BuyerDetail extends StatelessWidget {
                         'Recommended Starting Quantities',
                         buyer['recommended_starting_quantities']),
                     _buildDetailRow(Icons.map, 'District', buyer['district']),
+                    if (contactNumbers.isEmpty)
+                      _buildDetailRow(Icons.phone, 'Contact', 'N/A')
+                    else
+                      ...contactNumbers.map((num) => _buildDetailRow(
+                            Icons.phone,
+                            'Contact',
+                            num,
+                            onTap: () => _launchDial(num),
+                          )),
                   ],
                 ),
               ),
@@ -88,28 +108,34 @@ class BuyerDetail extends StatelessWidget {
     );
   }
 
-  Widget _buildDetailRow(IconData icon, String label, String value) {
+  Widget _buildDetailRow(IconData icon, String label, String value,
+      {VoidCallback? onTap}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Row(
-        children: [
-          Icon(icon, color: Colors.blue, size: 24),
-          const SizedBox(width: 12),
-          Expanded(
-            child: RichText(
-              text: TextSpan(
-                style: TextStyle(fontSize: 16, color: Colors.black),
-                children: [
-                  TextSpan(
-                    text: '$label: ',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  TextSpan(text: value),
-                ],
+      child: InkWell(
+        onTap: onTap,
+        child: Row(
+          children: [
+            Icon(icon, color: Colors.blue, size: 24),
+            const SizedBox(width: 12),
+            Expanded(
+              child: RichText(
+                text: TextSpan(
+                  style: TextStyle(fontSize: 16, color: Colors.black),
+                  children: [
+                    TextSpan(
+                      text: '$label: ',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    TextSpan(text: value),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+            if (onTap != null)
+              const Icon(Icons.phone_forwarded, color: Colors.green, size: 20),
+          ],
+        ),
       ),
     );
   }
