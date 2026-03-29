@@ -17,6 +17,7 @@ class MarketMenu extends StatelessWidget {
             child: ListView.builder(
               shrinkWrap: true,
               itemCount: 2, // Only 2 custom tiles
+              
               itemBuilder: (context, index) {
                 if (index == 0) {
                   return InkWell(
