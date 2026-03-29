@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mlimi/constants/color.dart';
 import 'package:mlimi/models/business_profile.dart';
 import 'package:mlimi/services/business_profile_service.dart';
+import 'package:mlimi/utils/error_utils.dart';
 import 'package:geolocator/geolocator.dart';
 
 class CreateBusinessProfilePage extends StatefulWidget {
@@ -102,7 +103,7 @@ class _CreateBusinessProfilePageState extends State<CreateBusinessProfilePage> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Failed to load data: $e'),
+            content: Text('${_language == 'en' ? 'Failed to load data' : 'Zaphwanya kutsegula deta'}: ${ErrorUtils.getFriendlyErrorMessage(e, _language)}'),
             backgroundColor: Colors.red,
           ),
         );
@@ -151,7 +152,7 @@ class _CreateBusinessProfilePageState extends State<CreateBusinessProfilePage> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to get location: $e')),
+          SnackBar(content: Text('${_language == 'en' ? 'Failed to get location' : 'Zaphwanya kuziwa komwe muli'}: ${ErrorUtils.getFriendlyErrorMessage(e, _language)}')),
         );
       }
     }
@@ -223,7 +224,7 @@ class _CreateBusinessProfilePageState extends State<CreateBusinessProfilePage> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Failed to create profile: $e'),
+            content: Text('${_language == 'en' ? 'Failed to create profile' : 'Zaphwanya kupanga mbiri'}: ${ErrorUtils.getFriendlyErrorMessage(e, _language)}'),
             backgroundColor: Colors.red,
           ),
         );

@@ -7,6 +7,7 @@ import 'package:mlimi/services/business_profile_service.dart';
 import 'package:mlimi/pages/business_profile/create_business_profile_page.dart';
 import 'package:mlimi/pages/business_profile/business_profile_detail_page.dart';
 import 'package:mlimi/pages/business_profile/edit_business_profile_page.dart';
+import 'package:mlimi/utils/error_utils.dart';
 
 class BusinessProfilesPage extends StatefulWidget {
   const BusinessProfilesPage({super.key});
@@ -69,7 +70,7 @@ class _BusinessProfilesPageState extends State<BusinessProfilesPage> {
       setState(() {
         _isLoading = false;
         _hasError = true;
-        _errorMessage = e.toString();
+        _errorMessage = ErrorUtils.getFriendlyErrorMessage(e, _language);
       });
     }
   }

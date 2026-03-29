@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mlimi/constants/color.dart';
 import 'package:mlimi/models/business_profile.dart';
 import 'package:mlimi/services/business_profile_service.dart';
+import 'package:mlimi/utils/error_utils.dart';
 import 'package:geolocator/geolocator.dart';
 
 class EditBusinessProfilePage extends StatefulWidget {
@@ -170,7 +171,7 @@ class _EditBusinessProfilePageState extends State<EditBusinessProfilePage> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to get location: $e')),
+          SnackBar(content: Text('${_language == 'en' ? 'Failed to get location' : 'Zaphwanya kuziwa komwe muli'}: ${ErrorUtils.getFriendlyErrorMessage(e, _language)}')),
         );
       }
     }
@@ -242,7 +243,7 @@ class _EditBusinessProfilePageState extends State<EditBusinessProfilePage> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Failed to update profile: $e'),
+            content: Text('${_language == 'en' ? 'Failed to update profile' : 'Zaphwanya kusintha mbiri'}: ${ErrorUtils.getFriendlyErrorMessage(e, _language)}'),
             backgroundColor: Colors.red,
           ),
         );

@@ -5,6 +5,7 @@ import 'package:mlimi/constants/color.dart';
 import 'package:mlimi/models/business_profile.dart';
 import 'package:mlimi/services/business_profile_service.dart';
 import 'package:mlimi/pages/business_profile/edit_business_profile_page.dart';
+import 'package:mlimi/utils/error_utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 
@@ -49,7 +50,7 @@ class _BusinessProfileDetailPageState extends State<BusinessProfileDetailPage> {
       setState(() {
         _isLoading = false;
         _hasError = true;
-        _errorMessage = e.toString();
+        _errorMessage = ErrorUtils.getFriendlyErrorMessage(e, _language);
       });
     }
   }
@@ -109,7 +110,7 @@ class _BusinessProfileDetailPageState extends State<BusinessProfileDetailPage> {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('Failed to delete: $e'),
+              content: Text('${_language == 'en' ? 'Failed to delete' : 'Zaphwanya kuchotsa'}: ${ErrorUtils.getFriendlyErrorMessage(e, _language)}'),
               backgroundColor: Colors.red,
             ),
           );
