@@ -98,8 +98,8 @@ if (keystorePropertiesFile.exists()) {
 }
 
 // Fallback version info (these usually come from pubspec.yaml, but just in case)
-def flutterVersionCode = 8
-def flutterVersionName = "1.0.7"
+def flutterVersionCode = 11
+def flutterVersionName = "1.0.10"
 
 android {
     namespace "com.frtholdingsmw.mlimi"   // ✅ Required for AGP 8+
@@ -148,4 +148,8 @@ android {
 
 flutter {
     source = "../.."
+}
+
+dependencies {
+    implementation "androidx.activity:activity-ktx:1.9.3"
 }

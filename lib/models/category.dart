@@ -21,7 +21,8 @@ class Category_featured {
   });
 }
 
-//quick menu
+//quick me
+
 List<Category_featured> getCategoryList(String language) {
   if (language == 'ny') {
     return [
