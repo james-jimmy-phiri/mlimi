@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mlimi/pages/Buy/buy.dart';
+import 'package:mlimi/features/buy_sell/views/buy_sell_home_page.dart';
 import 'package:mlimi/pages/Buy/markert.dart';
 import 'package:mlimi/pages/market/market_actor/market_actors.dart';
 import 'package:get_storage/get_storage.dart';
@@ -25,7 +25,7 @@ final championsMapEn = {
   "E_Marketplaces": Champion(
     name: "E-Market places",
     buttunText: "VISIT THE PAGE",
-    targetPage: const Buy(),
+    targetPage: const BuySellHomePage(),
     imageUrl: "e_markert",
     description:
         "Online platforms connecting farmers directly with buyers, providing real-time fair pricing, and reducing dependency on intermediaries.",
@@ -61,7 +61,7 @@ final championsMapNy = {
   "E_Marketplaces": Champion(
     name: "Pansika wapa Intaneti",
     buttunText: "PITANI KU TSAMBA",
-    targetPage: const Buy(),
+    targetPage: const BuySellHomePage(),
     imageUrl: "e_markert",
     description:
         "Pansika ndi Malo ogulitsira pa intaneti olumikizitsa alimi ndi ogula, opereka mitengo yoyenera komanso yovomeledzeka ndiboma, ndi kuchepetsa kudalira mavenda.",
