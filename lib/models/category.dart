@@ -23,9 +23,6 @@ class Category_featured {
 
 //quick menu
 
-
-
-
 List<Category_featured> getCategoryList(String language) {
   if (language == 'ny') {
     return [
