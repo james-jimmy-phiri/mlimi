@@ -21,8 +21,7 @@ class Category_featured {
   });
 }
 
-//quick menu
-
+//quick menu for the home  page 
 List<Category_featured> getCategoryList(String language) {
   if (language == 'ny') {
     return [
