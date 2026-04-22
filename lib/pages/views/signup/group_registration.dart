@@ -40,6 +40,9 @@ class _GroupRegisterScreenState extends State<GroupRegisterScreen> with TickerPr
   final TextEditingController _numMembersController = TextEditingController();
   final TextEditingController _chairPersonController = TextEditingController();
   final TextEditingController _mappingIdController = TextEditingController();
+  final TextEditingController _projectNameController = TextEditingController();
+  final TextEditingController _maleMembersController = TextEditingController();
+  final TextEditingController _femaleMembersController = TextEditingController();
   List<TextEditingController> memberControllers = [TextEditingController()];
 
   final token = ''.obs;
@@ -54,7 +57,9 @@ class _GroupRegisterScreenState extends State<GroupRegisterScreen> with TickerPr
       numMembers,
       chairPerson,
       mappingId,
-      members;
+      projectName,
+      maleMembers,
+      femaleMembers;
   String? nameError,
       phoneError,
       districtError,
@@ -65,6 +70,9 @@ class _GroupRegisterScreenState extends State<GroupRegisterScreen> with TickerPr
       numMembersError,
       chairPersonError,
       mappingIdError,
+      projectNameError,
+      maleMembersError,
+      femaleMembersError,
       membersError;
   bool isLoading = false;
   bool isFetchingDistricts = true;
@@ -87,7 +95,9 @@ class _GroupRegisterScreenState extends State<GroupRegisterScreen> with TickerPr
     numMembers = '';
     mappingId = '';
     chairPerson = '';
-    members = '';
+    projectName = '';
+    maleMembers = '';
+    femaleMembers = '';
 
     nameError = null;
     phoneError = null;
@@ -99,6 +109,9 @@ class _GroupRegisterScreenState extends State<GroupRegisterScreen> with TickerPr
     numMembersError = null;
     mappingIdError = null;
     chairPersonError = null;
+    projectNameError = null;
+    maleMembersError = null;
+    femaleMembersError = null;
     membersError = null;
 
     loadLanguagePreference();
@@ -149,6 +162,9 @@ class _GroupRegisterScreenState extends State<GroupRegisterScreen> with TickerPr
       numMembersError = null;
       mappingIdError = null;
       chairPersonError = null;
+      projectNameError = null;
+      maleMembersError = null;
+      femaleMembersError = null;
       membersError = null;
     });
   }
@@ -254,13 +270,16 @@ class _GroupRegisterScreenState extends State<GroupRegisterScreen> with TickerPr
       'district_id': selectedDistrictId,
       'phone': _phoneController.text.trim(),
       'type': 'group',
+      'project_name': _projectNameController.text.trim(),
       'epa': _epaController.text.trim(),
       't_a': _taController.text.trim(),
       'gvh': _gvhController.text.trim(),
       'number_of_members': int.tryParse(_numMembersController.text) ?? 0,
+      'male_group_members': int.tryParse(_maleMembersController.text) ?? 0,
+      'female_group_members': int.tryParse(_femaleMembersController.text) ?? 0,
       'chair_person': _chairPersonController.text.trim(),
       'mapping_id': _mappingIdController.text.trim(),
-      'members': members,
+      'members': members.map((m) => {'name': m}).toList(),
     };
 
     debugPrint("Submitting Payload: ${jsonEncode(payload)}");
@@ -442,6 +461,11 @@ class _GroupRegisterScreenState extends State<GroupRegisterScreen> with TickerPr
                   ),
                   SizedBox(height: screenHeight * .025),
                   InputField(
+                      labelText: 'Project Name',
+                      errorText: projectNameError,
+                      maxLength: 50,
+                      controller: _projectNameController),
+                  InputField(
                       labelText: 'EPA',
                       maxLength: 40,
                       errorText: epaError,
@@ -457,10 +481,22 @@ class _GroupRegisterScreenState extends State<GroupRegisterScreen> with TickerPr
                       errorText: gvhError,
                       controller: _gvhController),
                   InputField(
-                      labelText: 'Number of Members',
+                      labelText: 'Total Number of Members',
                       errorText: numMembersError,
-                      maxLength: 40,
+                      maxLength: 10,
                       controller: _numMembersController,
+                      keyboardType: TextInputType.number),
+                  InputField(
+                      labelText: 'Male Members',
+                      errorText: maleMembersError,
+                      maxLength: 10,
+                      controller: _maleMembersController,
+                      keyboardType: TextInputType.number),
+                  InputField(
+                      labelText: 'Female Members',
+                      errorText: femaleMembersError,
+                      maxLength: 10,
+                      controller: _femaleMembersController,
                       keyboardType: TextInputType.number),
                   InputField(
                       labelText: 'Chairperson',

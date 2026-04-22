@@ -325,11 +325,18 @@ class _SimpleRegisterScreenState extends State<SimpleRegisterScreen> {
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _pinController = TextEditingController();
   final TextEditingController _pinconfirmController = TextEditingController();
+  final TextEditingController _epaController = TextEditingController();
+
+  String? selectedGender;
+  String? selectedAgeRange;
+
+  final List<String> genders = ['male', 'female', 'other'];
+  final List<String> ageRanges = ['18-24', '25-34', '35-44', '45-54', '55+'];
 
   final token = ''.obs;
   final box = GetStorage();
   late String name, phone, pin, confrirmPin;
-  String? nameError, phoneError, districtError, pinError;
+  String? nameError, phoneError, districtError, pinError, epaError, genderError, ageRangeError;
   bool isLoading = false;
   bool isFetchingDistricts = true;
   List<dynamic> districts = [];
@@ -350,6 +357,9 @@ class _SimpleRegisterScreenState extends State<SimpleRegisterScreen> {
     phoneError = null;
     districtError = null;
     pinError = null;
+    epaError = null;
+    genderError = null;
+    ageRangeError = null;
     loadLanguagePreference();
     fetchDistricts();
   }
@@ -392,6 +402,9 @@ class _SimpleRegisterScreenState extends State<SimpleRegisterScreen> {
       phoneError = null;
       districtError = null;
       pinError = null;
+      epaError = null;
+      genderError = null;
+      ageRangeError = null;
     });
   }
 
@@ -459,6 +472,9 @@ class _SimpleRegisterScreenState extends State<SimpleRegisterScreen> {
             'district_id': selectedDistrictId,
             'pin': pin,
             'pin_confirmation': confrirmPin,
+            'gender': selectedGender,
+            'age_range': selectedAgeRange,
+            'epa': _epaController.text.trim(),
           }),
         );
 
@@ -607,6 +623,57 @@ class _SimpleRegisterScreenState extends State<SimpleRegisterScreen> {
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
+            ),
+            SizedBox(height: screenHeight * .025),
+            DropdownButtonFormField<String>(
+              value: selectedGender,
+              onChanged: (value) {
+                setState(() {
+                  selectedGender = value;
+                });
+              },
+              items: genders.map<DropdownMenuItem<String>>((gender) {
+                return DropdownMenuItem<String>(
+                  value: gender,
+                  child: Text(gender[0].toUpperCase() + gender.substring(1)),
+                );
+              }).toList(),
+              decoration: InputDecoration(
+                labelText: selectedLanguage == 'en' ? 'Gender' : 'Mwamuna/Mkazi',
+                errorText: genderError,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+            ),
+            SizedBox(height: screenHeight * .025),
+            DropdownButtonFormField<String>(
+              value: selectedAgeRange,
+              onChanged: (value) {
+                setState(() {
+                  selectedAgeRange = value;
+                });
+              },
+              items: ageRanges.map<DropdownMenuItem<String>>((range) {
+                return DropdownMenuItem<String>(
+                  value: range,
+                  child: Text(range),
+                );
+              }).toList(),
+              decoration: InputDecoration(
+                labelText: selectedLanguage == 'en' ? 'Age Range' : 'Mibadwo',
+                errorText: ageRangeError,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+            ),
+            SizedBox(height: screenHeight * .025),
+            InputField(
+              controller: _epaController,
+              labelText: 'EPA',
+              errorText: epaError,
+              maxLength: 50,
             ),
             SizedBox(height: screenHeight * .025),
             InputField(
