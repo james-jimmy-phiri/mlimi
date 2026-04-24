@@ -12,10 +12,14 @@ import 'package:mlimi/pages/sale/sale.dart';
 import 'package:mlimi/pages/views/signup/loginscreen.dart';
 import 'package:mlimi/pages/wallet/wallet.dart';
 import 'package:mlimi/provider/http_provider.dart';
+import 'package:mlimi/pages/profile/edit_profile.dart';
+import 'package:mlimi/pages/profile/manage_group_members.dart';
 
-List<Map<String, dynamic>> getCardOperations(String language) {
+List<Map<String, dynamic>> getCardOperations(String language, Map<String, dynamic>? user, VoidCallback onRefresh) {
+  List<Map<String, dynamic>> operations = [];
+
   if (language == 'ny') {
-    return [
+    operations = [
       {
         "title": "Lembelani Pa mlimi Waleti",
         "page": const Wallet(),
@@ -31,10 +35,19 @@ List<Map<String, dynamic>> getCardOperations(String language) {
         "page": const PotentialCustomers(),
         "icon": Icons.people
       },
-      {"title": "Othekela Kukugulisani Mukufuna", "page": Sample(), "icon": Icons.business}
+      {"title": "Othekela Kukugulisani Mukufuna", "page": Sample(), "icon": Icons.business},
+      {"title": "Sinthani Mbiri Yanu", "page": EditProfilePage(user: user, onUpdate: onRefresh), "icon": Icons.edit},
     ];
+
+    if (user != null && user['client'] != null && user['client']['type'] == 'group') {
+      operations.add({
+        "title": "Konzani Mamembala a Gulu",
+        "page": ManageGroupMembersPage(user: user, onUpdate: onRefresh),
+        "icon": Icons.group_add
+      });
+    }
   } else {
-    return [
+    operations = [
       {
         "title": "Apply Mlimi Wallet",
         "page": const Wallet(),
@@ -50,9 +63,19 @@ List<Map<String, dynamic>> getCardOperations(String language) {
         "page": const PotentialCustomers(),
         "icon": Icons.people
       },
-      {"title": "Potential Suppliers", "page": Sample(), "icon": Icons.business}
+      {"title": "Potential Suppliers", "page": Sample(), "icon": Icons.business},
+      {"title": "Edit Profile", "page": EditProfilePage(user: user, onUpdate: onRefresh), "icon": Icons.edit},
     ];
+
+    if (user != null && user['client'] != null && user['client']['type'] == 'group') {
+      operations.add({
+        "title": "Manage Group Members",
+        "page": ManageGroupMembersPage(user: user, onUpdate: onRefresh),
+        "icon": Icons.group_add
+      });
+    }
   }
+  return operations;
 }
 
 class Homepage extends StatefulWidget {
@@ -225,6 +248,7 @@ class _ProductRequest extends State<Homepage> {
                           productSaleOffs: productSaleOffs,
                           potentialSuppliers: potentialSuppliers,
                           user: user!,
+                          onRefresh: fetchUserDetails,
                         ),
                       ],
                     ),
@@ -239,6 +263,7 @@ class Body extends StatelessWidget {
   final int productSaleOffs;
   final int potentialSuppliers;
   final Map<String, dynamic> user;
+  final VoidCallback onRefresh;
 
   const Body({
     super.key,
@@ -246,13 +271,14 @@ class Body extends StatelessWidget {
     required this.productSaleOffs,
     required this.potentialSuppliers,
     required this.user,
+    required this.onRefresh,
   });
 
   @override
   Widget build(BuildContext context) {
     final members = user['client']['members'];
     final selectedLanguage = GetStorage().read('language') ?? 'en';
-    final operations = getCardOperations(selectedLanguage);
+    final operations = getCardOperations(selectedLanguage, user, onRefresh);
     return Container(
       width: double.infinity,
       decoration: const BoxDecoration(
@@ -551,8 +577,8 @@ class CustomeAppBar extends StatelessWidget {
           const SizedBox(
             height: 20,
           ),
-          const MlimiWalletBalance(),
-          const SizedBox(height: 25),
+          // const MlimiWalletBalance(),
+          // const SizedBox(height: 25),
         ],
       ),
     );
