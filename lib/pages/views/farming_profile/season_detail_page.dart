@@ -20,7 +20,6 @@ class SeasonDetailPage extends StatefulWidget {
 class _SeasonDetailPageState extends State<SeasonDetailPage> {
   final FarmingProfileService _service = FarmingProfileService();
   final String _language = GetStorage().read('language') ?? 'en';
-
   FarmingSeason? _season;
   SeasonSalesSummary? _summary;
   List<CommoditySale> _sales = [];
