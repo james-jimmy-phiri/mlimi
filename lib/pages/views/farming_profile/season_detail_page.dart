@@ -8,6 +8,7 @@ import 'package:mlimi/pages/views/farming_profile/add_edit_season_page.dart';
 import 'package:mlimi/pages/views/farming_profile/add_activity_page.dart';
 import 'package:mlimi/services/farming_profile_service.dart';
 
+
 class SeasonDetailPage extends StatefulWidget {
   final int seasonId;
 
