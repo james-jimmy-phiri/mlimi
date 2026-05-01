@@ -4,6 +4,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:mlimi/pages/views/base_screen.dart';
 import 'package:mlimi/provider/location_provider.dart';
+import 'package:mlimi/provider/aggregation_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:upgrader/upgrader.dart';
 
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => LocationProvider()),
+        ChangeNotifierProvider(create: (_) => AggregationProvider()),
       ],
       child: UpgradeAlert(
         child: MaterialApp(
