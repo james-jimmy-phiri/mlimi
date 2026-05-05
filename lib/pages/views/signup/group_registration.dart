@@ -1,11 +1,4 @@
-/*
-  Flutter UI
-  ----------
-  lib/screens/simple_login.dart
-*/
-
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -18,7 +11,6 @@ import 'package:mlimi/pages/views/signup/loginscreen.dart';
 import 'package:mlimi/pages/views/signup/registration_tab_view.dart';
 
 class GroupRegisterScreen extends StatefulWidget {
-  /// Callback for when this form is submitted successfully. Parameters are (name, pin)
   final Function(String? name, String? pin)? onSubmitted;
   final bool embedded;
 
@@ -43,7 +35,8 @@ class _GroupRegisterScreenState extends State<GroupRegisterScreen> with TickerPr
   final TextEditingController _projectNameController = TextEditingController();
   final TextEditingController _maleMembersController = TextEditingController();
   final TextEditingController _femaleMembersController = TextEditingController();
-  List<TextEditingController> memberControllers = [TextEditingController()];
+
+  List<Map<String, dynamic>> membersList = [];
 
   final token = ''.obs;
   final box = GetStorage();
@@ -75,9 +68,15 @@ class _GroupRegisterScreenState extends State<GroupRegisterScreen> with TickerPr
       femaleMembersError,
       membersError;
   bool isLoading = false;
+  
   bool isFetchingDistricts = true;
   List<dynamic> districts = [];
   String? selectedDistrictId;
+  
+  bool isFetchingValueChains = true;
+  List<dynamic> valueChains = [];
+  List<String> selectedGroupValueChains = [];
+  
   String selectedLanguage = 'en';
 
   Function(String? name, String? pin)? get onSubmitted => widget.onSubmitted;
@@ -116,6 +115,7 @@ class _GroupRegisterScreenState extends State<GroupRegisterScreen> with TickerPr
 
     loadLanguagePreference();
     fetchDistricts();
+    fetchValueChains();
   }
 
   Future<void> loadLanguagePreference() async {
@@ -131,7 +131,7 @@ class _GroupRegisterScreenState extends State<GroupRegisterScreen> with TickerPr
       var response = await http.get(url);
       if (response.statusCode == 200) {
         setState(() {
-          districts = jsonDecode(response.body)['districts'];
+          districts = jsonDecode(response.body)['districts'] ?? [];
           isFetchingDistricts = false;
         });
       } else {
@@ -141,6 +141,32 @@ class _GroupRegisterScreenState extends State<GroupRegisterScreen> with TickerPr
     } catch (e) {
       showSnackBar('An error occurred while fetching districts.');
       setState(() => isFetchingDistricts = false);
+    }
+  }
+
+  Future<void> fetchValueChains() async {
+    var url = Uri.parse('${apiurl}v1/value-chains');
+    try {
+      var response = await http.get(url);
+      if (response.statusCode == 200) {
+        if (mounted) {
+          setState(() {
+            var decoded = jsonDecode(response.body);
+            if (decoded is List) {
+              valueChains = decoded;
+            } else if (decoded is Map && decoded.containsKey('value_chains')) {
+              valueChains = decoded['value_chains'];
+            } else if (decoded is Map && decoded.containsKey('data')) {
+              valueChains = decoded['data'];
+            }
+            isFetchingValueChains = false;
+          });
+        }
+      } else {
+        if (mounted) setState(() => isFetchingValueChains = false);
+      }
+    } catch (e) {
+      if (mounted) setState(() => isFetchingValueChains = false);
     }
   }
 
@@ -169,10 +195,187 @@ class _GroupRegisterScreenState extends State<GroupRegisterScreen> with TickerPr
     });
   }
 
-  void addMemberField() {
-    setState(() {
-      memberControllers.add(TextEditingController());
-    });
+  void showAddMemberModal({int? editIndex}) {
+    String mName = editIndex != null ? membersList[editIndex]['name'] : '';
+    String? mGender = editIndex != null ? membersList[editIndex]['gender'] : null;
+    String? mAgeRange = editIndex != null ? membersList[editIndex]['age_range'] : null;
+    String mPhone = editIndex != null ? (membersList[editIndex]['phone'] ?? '') : '';
+    String? mPosition = editIndex != null ? membersList[editIndex]['position'] : 'Member';
+    bool mDisability = editIndex != null ? membersList[editIndex]['disability'] ?? false : false;
+    List<String> mValueChains = [];
+    if (editIndex != null && membersList[editIndex]['value_chains'] != null) {
+      if (membersList[editIndex]['value_chains'] is List) {
+        mValueChains = (membersList[editIndex]['value_chains'] as List)
+            .map((e) => e.toString())
+            .toList();
+      }
+    }
+        
+    final nameCtrl = TextEditingController(text: mName);
+    final phoneCtrl = TextEditingController(text: mPhone);
+    String errorMessage = '';
+
+    List<String> ageRanges = ['18-25', '26-35', '36-45', '46-55', '56-65', '65+'];
+    List<String> genders = ['male', 'female', 'other'];
+    List<String> positions = ['Chairman', 'Secretary', 'Treasurer', 'Member'];
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) {
+        return StatefulBuilder(builder: (context, setModalState) {
+          return Container(
+             decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.vertical(top: Radius.circular(20))
+             ),
+             padding: EdgeInsets.only(
+               bottom: MediaQuery.of(context).viewInsets.bottom,
+             ),
+             constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.9),
+             child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey.shade200))),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(editIndex != null ? 'Edit Member' : 'Add New Member', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                        IconButton(icon: const Icon(Icons.close), onPressed: () => Navigator.pop(context))
+                      ],
+                    ),
+                  ),
+                  Flexible(
+                    child: SingleChildScrollView(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                           if (errorMessage.isNotEmpty)
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 10),
+                                child: Text(errorMessage, style: const TextStyle(color: Colors.red)),
+                              ),
+                           TextField(
+                             controller: nameCtrl,
+                             decoration: const InputDecoration(labelText: 'Full Name *', border: OutlineInputBorder()),
+                           ),
+                           const SizedBox(height: 15),
+                           TextField(
+                             controller: phoneCtrl,
+                             keyboardType: TextInputType.phone,
+                             decoration: const InputDecoration(labelText: 'Phone Number', border: OutlineInputBorder()),
+                           ),
+                           const SizedBox(height: 15),
+                           DropdownButtonFormField<String>(
+                             value: mGender,
+                             decoration: const InputDecoration(labelText: 'Gender', border: OutlineInputBorder()),
+                             items: genders.map((g) => DropdownMenuItem(value: g, child: Text(g.capitalizeFirst!))).toList(),
+                             onChanged: (val) => setModalState(() => mGender = val),
+                           ),
+                           const SizedBox(height: 15),
+                           DropdownButtonFormField<String>(
+                             value: mAgeRange,
+                             decoration: const InputDecoration(labelText: 'Age Range', border: OutlineInputBorder()),
+                             items: ageRanges.map((a) => DropdownMenuItem(value: a, child: Text(a))).toList(),
+                             onChanged: (val) => setModalState(() => mAgeRange = val),
+                           ),
+                           const SizedBox(height: 15),
+                           DropdownButtonFormField<String>(
+                             value: mPosition,
+                             decoration: const InputDecoration(labelText: 'Position', border: OutlineInputBorder()),
+                             items: positions.map((p) => DropdownMenuItem(value: p, child: Text(p))).toList(),
+                             onChanged: (val) => setModalState(() => mPosition = val),
+                           ),
+                           const SizedBox(height: 10),
+                           CheckboxListTile(
+                             title: const Text('Has Disability?'),
+                             value: mDisability,
+                             onChanged: (val) => setModalState(() => mDisability = val ?? false),
+                             controlAffinity: ListTileControlAffinity.leading,
+                             contentPadding: EdgeInsets.zero,
+                           ),
+                           const SizedBox(height: 20),
+                           const Text('Member Specific Value Chains', style: TextStyle(fontWeight: FontWeight.bold)),
+                           const SizedBox(height: 10),
+                           if (valueChains.isNotEmpty)
+                             Wrap(
+                                spacing: 6.0,
+                                runSpacing: 4.0,
+                                children: valueChains.map((vc) {
+                                  String vcId = vc['id'].toString();
+                                  bool selected = mValueChains.contains(vcId);
+                                  return FilterChip(
+                                    label: Text(vc['name'], style: const TextStyle(fontSize: 13)),
+                                    selected: selected,
+                                    selectedColor: kPrimaryColor.withOpacity(0.2),
+                                    checkmarkColor: kPrimaryColor,
+                                    onSelected: (bool isSelected) {
+                                      setModalState(() {
+                                        if (isSelected) {
+                                          if (!mValueChains.contains(vcId)) {
+                                            mValueChains.add(vcId);
+                                          }
+                                        } else {
+                                          mValueChains.remove(vcId);
+                                        }
+                                      });
+                                    },
+                                  );
+                                }).toList(),
+                             )
+                           else 
+                             const Text("Loading value chains...", style: TextStyle(color: Colors.grey)),
+                           const SizedBox(height: 30),
+                           SizedBox(
+                             width: double.infinity,
+                             height: 50,
+                             child: ElevatedButton(
+                               style: ElevatedButton.styleFrom(
+                                 backgroundColor: kPrimaryColor,
+                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))
+                               ),
+                               child: Text(editIndex != null ? 'Save Changes' : 'Add To List', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16)),
+                               onPressed: () {
+                                 if (nameCtrl.text.trim().isEmpty) {
+                                   setModalState(() => errorMessage = 'Name is required');
+                                   return;
+                                 }
+                                 
+                                 Map<String, dynamic> newMember = {
+                                    'name': nameCtrl.text.trim(),
+                                    'phone': phoneCtrl.text.trim(),
+                                    'gender': mGender,
+                                    'age_range': mAgeRange,
+                                    'position': mPosition ?? 'Member',
+                                    'disability': mDisability,
+                                    'value_chains': mValueChains,
+                                 };
+                                 
+                                 setState(() {
+                                    if (editIndex != null) {
+                                      membersList[editIndex] = newMember;
+                                    } else {
+                                      membersList.add(newMember);
+                                    }
+                                 });
+                                 Navigator.pop(context);
+                               }
+                             )
+                           )
+                        ],
+                      )
+                    )
+                  )
+                ]
+             )
+          );
+        });
+      }
+    );
   }
 
   bool validate() {
@@ -184,10 +387,11 @@ class _GroupRegisterScreenState extends State<GroupRegisterScreen> with TickerPr
       nameError = selectedLanguage == 'en'
           ? 'Group Name is required and must be 3 to 64 characters.'
           : 'Dzina La Guru ndilofunika';
+      isValid = false;
     }
 
     final phone = _phoneController.text.trim();
-    if (phone.isEmpty || !RegExp(r'^(09|08)[0-9]{8}\$').hasMatch(phone)) {
+    if (phone.isEmpty || !RegExp(r'^(09|08)[0-9]{8}$').hasMatch(phone)) {
       phoneError = selectedLanguage == 'en'
           ? 'Phone Number is invalid, must start with 08 or 09 and be 10 digits.'
           : 'Nambala Ya Foni siyolondola';
@@ -236,16 +440,15 @@ class _GroupRegisterScreenState extends State<GroupRegisterScreen> with TickerPr
       isValid = false;
     }
 
-    final members = memberControllers
-        .map((c) => c.text.trim())
-        .where((m) => m.isNotEmpty)
-        .toList();
-    if (members.isEmpty) {
+    if (membersList.isEmpty) {
       membersError = 'At least one member required';
       isValid = false;
-    } else if (members.length != members.toSet().length) {
-      membersError = 'Member names must be unique';
-      isValid = false;
+    } else {
+      var names = membersList.map((m) => m['name'] as String).toList();
+      if (names.length != names.toSet().length) {
+        membersError = 'Member names must be unique';
+        isValid = false;
+      }
     }
 
     setState(() {});
@@ -253,15 +456,10 @@ class _GroupRegisterScreenState extends State<GroupRegisterScreen> with TickerPr
   }
 
   Future<void> submit() async {
-    if (validate()) {
+    if (!validate()) {
       showSnackBar('Please fill in all required fields correctly.');
       return;
     }
-
-    final members = memberControllers
-        .where((c) => c.text.trim().isNotEmpty)
-        .map((c) => c.text.trim())
-        .toList();
 
     final payload = {
       'name': _nameController.text.trim(),
@@ -274,12 +472,13 @@ class _GroupRegisterScreenState extends State<GroupRegisterScreen> with TickerPr
       'epa': _epaController.text.trim(),
       't_a': _taController.text.trim(),
       'gvh': _gvhController.text.trim(),
-      'number_of_members': int.tryParse(_numMembersController.text) ?? 0,
+      'number_of_members': int.tryParse(_numMembersController.text) ?? membersList.length,
       'male_group_members': int.tryParse(_maleMembersController.text) ?? 0,
       'female_group_members': int.tryParse(_femaleMembersController.text) ?? 0,
       'chair_person': _chairPersonController.text.trim(),
       'mapping_id': _mappingIdController.text.trim(),
-      'members': members.map((m) => {'name': m}).toList(),
+      'members': membersList,
+      'value_chains': selectedGroupValueChains,
     };
 
     debugPrint("Submitting Payload: ${jsonEncode(payload)}");
@@ -302,9 +501,11 @@ class _GroupRegisterScreenState extends State<GroupRegisterScreen> with TickerPr
         GetStorage().write('name', payload['name']);
         GetStorage().write('district', selectedDistrictId);
 
-                // ✅ Save members list
-        final members = data['client']['members'];
-        GetStorage().write('members', members);
+        // ✅ Save members list
+        if (data['client'] != null && data['client']['members'] != null) {
+          final members = data['client']['members'];
+          GetStorage().write('members', members);
+        }
 
         Navigator.pushReplacement(
           context,
@@ -315,12 +516,13 @@ class _GroupRegisterScreenState extends State<GroupRegisterScreen> with TickerPr
             jsonDecode(response.body)['message'] ?? 'Registration failed.';
         showSnackBar(error);
       }
+      
       if (response.statusCode == 422) {
         var responseBody = jsonDecode(response.body);
         String errorMessage =
-            responseBody['message'] ?? selectedLanguage == 'en'
+            responseBody['message'] ?? (selectedLanguage == 'en'
                 ? 'This phone has already been taken '
-                : 'Nambala iyi ya foni yapezeka kale';
+                : 'Nambala iyi ya foni yapezeka kale');
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(errorMessage)),
         );
@@ -354,7 +556,7 @@ class _GroupRegisterScreenState extends State<GroupRegisterScreen> with TickerPr
           : Scaffold(
               body: Center(
               child: Lottie.asset(
-                'assets/icons/loading1.json', // Replace with your Lottie file path
+                'assets/icons/loading1.json',
                 width: 100,
                 height: 100,
               ),
@@ -363,10 +565,6 @@ class _GroupRegisterScreenState extends State<GroupRegisterScreen> with TickerPr
 
     final pageContent = CustomScrollView(
         slivers: [
-          // SliverPersistentHeader(
-          //   delegate: CustomSilverHeader(),
-          //   pinned: true,
-          // ),
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -378,7 +576,7 @@ class _GroupRegisterScreenState extends State<GroupRegisterScreen> with TickerPr
                     selectedLanguage == 'en'
                         ? 'Create Your Group Account'
                         : 'Pangani Akaunti',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.bold,
                     ),
@@ -402,7 +600,7 @@ class _GroupRegisterScreenState extends State<GroupRegisterScreen> with TickerPr
                               builder: (_) => const RegistrationTabView()),
                         );
                       },
-                      child: Text(
+                      child: const Text(
                         'Registration (Tabs)',
                         style: TextStyle(
                             color: Colors.green, fontWeight: FontWeight.bold),
@@ -515,7 +713,7 @@ class _GroupRegisterScreenState extends State<GroupRegisterScreen> with TickerPr
                         pin = value;
                       });
                     },
-                    labelText: selectedLanguage == 'en' ? 'Pin' : 'Pin',
+                    labelText: selectedLanguage == 'en' ? 'Pin (4 Digits)' : 'Pin (Ziwerengero 4)',
                     errorText: pinError,
                     obscureText: true,
                     maxLength: 4,
@@ -529,7 +727,6 @@ class _GroupRegisterScreenState extends State<GroupRegisterScreen> with TickerPr
                         confrirmPin = value;
                       });
                     },
-                    onSubmitted: (value) => submit(),
                     labelText: selectedLanguage == 'en'
                         ? 'Confirm Pin'
                         : 'Vomelezani Pin',
@@ -538,49 +735,199 @@ class _GroupRegisterScreenState extends State<GroupRegisterScreen> with TickerPr
                     maxLength: 4,
                     textInputAction: TextInputAction.done,
                   ),
-                  SizedBox(
-                    height: screenHeight * .050,
+                  
+                  // VALUE CHAINS SECTION
+                  SizedBox(height: screenHeight * .025),
+                  Text(
+                    selectedLanguage == 'en' ? 'Group Practicing Value Chains' : 'Mankhwala A Gulu',
+                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                   ),
+                  const SizedBox(height: 10),
+                  isFetchingValueChains
+                      ? const Center(child: CircularProgressIndicator())
+                      : valueChains.isNotEmpty ? Wrap(
+                          spacing: 8.0,
+                          runSpacing: 8.0,
+                          children: valueChains.map((vc) {
+                            String vcId = vc['id'].toString();
+                            bool selected = selectedGroupValueChains.contains(vcId);
+                            return FilterChip(
+                              label: Text(vc['name']),
+                              selected: selected,
+                              selectedColor: kPrimaryColor.withOpacity(0.2),
+                              checkmarkColor: kPrimaryColor,
+                              onSelected: (bool isSelected) {
+                                setState(() {
+                                  if (isSelected) {
+                                    if (!selectedGroupValueChains.contains(vcId)) {
+                                      selectedGroupValueChains.add(vcId);
+                                    }
+                                  } else {
+                                    selectedGroupValueChains.remove(vcId);
+                                  }
+                                });
+                              },
+                            );
+                          }).toList(),
+                        ) : const Text('No value chains available.'),
+
+                  // MEMBERS SECTION
+                  SizedBox(height: screenHeight * .04),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text('Members'),
-                      TextButton(
-                        onPressed: addMemberField,
-                        child: const Text('Add Member'),
+                      Text(
+                        selectedLanguage == 'en' ? 'Group Members (${membersList.length})' : 'Mamembala Okhala (${membersList.length})',
+                        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                       ),
+                      if (membersList.isNotEmpty)
+                        TextButton.icon(
+                          onPressed: () => showAddMemberModal(),
+                          icon: const Icon(Icons.add),
+                          label: Text(selectedLanguage == 'en' ? 'Add' : 'Onjezerani'),
+                        )
                     ],
                   ),
-                  ...memberControllers
-                      .asMap()
-                      .entries
-                      .map((entry) => Padding(
-                            padding: const EdgeInsets.only(bottom: 10),
-                            child: InputField(
-                              labelText: 'Member ${entry.key + 1}',
-                              maxLength: 40,
-                              controller: entry.value,
+                  const SizedBox(height: 10),
+                  
+                  if (membersList.isEmpty)
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade50,
+                        border: Border.all(color: Colors.grey.shade300),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Column(
+                        children: [
+                           Icon(Icons.group_off_rounded, color: Colors.grey.shade400, size: 50),
+                           const SizedBox(height: 12),
+                           const Text('No members added yet', style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w600)),
+                           const SizedBox(height: 16),
+                           ElevatedButton.icon(
+                             onPressed: () => showAddMemberModal(),
+                             icon: const Icon(Icons.person_add),
+                             label: const Text('Add Member'),
+                             style: ElevatedButton.styleFrom(
+                               backgroundColor: kPrimaryColor,
+                               foregroundColor: Colors.white,
+                               elevation: 0,
+                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))
+                             )
+                           )
+                        ]
+                      )
+                    )
+                  else
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: membersList.length,
+                      itemBuilder: (context, index) {
+                        final member = membersList[index];
+                        return Card(
+                          elevation: 0,
+                          color: Colors.white,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10), side: BorderSide(color: Colors.grey.shade200)),
+                          margin: const EdgeInsets.only(bottom: 12),
+                          child: Padding(
+                            padding: const EdgeInsets.all(12),
+                            child: Row(
+                              children: [
+                                CircleAvatar(
+                                  backgroundColor: kPrimaryColor.withOpacity(0.1),
+                                  child: Icon(Icons.person, color: kPrimaryColor),
+                                ),
+                                const SizedBox(width: 12),
+                                Expanded(
+                                  child: Column(
+                                     crossAxisAlignment: CrossAxisAlignment.start,
+                                     children: [
+                                        Text(member['name'], style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                                        const SizedBox(height: 4),
+                                        Wrap(
+                                          spacing: 6,
+                                          runSpacing: 4,
+                                          children: [
+                                            if (member['position'] != null)
+                                              Container(
+                                                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                                decoration: BoxDecoration(color: Colors.blue.shade50, borderRadius: BorderRadius.circular(4)),
+                                                child: Text(member['position'], style: TextStyle(fontSize: 11, color: Colors.blue.shade700, fontWeight: FontWeight.w600)),
+                                              ),
+                                            if (member['phone'] != null && member['phone'].toString().isNotEmpty)
+                                              Text(member['phone'], style: TextStyle(fontSize: 12, color: Colors.grey.shade600)),
+                                          ],
+                                        ),
+                                        if (member['value_chains'] != null && member['value_chains'].isNotEmpty)
+                                          Padding(
+                                            padding: const EdgeInsets.only(top: 6),
+                                            child: Text("${member['value_chains'].length} Value Chain(s) selected", style: const TextStyle(color: Colors.green, fontSize: 12, fontWeight: FontWeight.w500)),
+                                          )
+                                     ]
+                                  ),
+                                ),
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    IconButton(
+                                      icon: Icon(Icons.edit_outlined, color: Colors.blue.shade400, size: 22),
+                                      onPressed: () => showAddMemberModal(editIndex: index),
+                                    ),
+                                    IconButton(
+                                      icon: Icon(Icons.delete_outline, color: Colors.red.shade400, size: 22),
+                                      onPressed: () {
+                                        setState(() {
+                                          membersList.removeAt(index);
+                                        });
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
-                          ))
-                      .toList(),
+                          ),
+                        );
+                      },
+                    ),
+                    
+                  if (membersList.isNotEmpty)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10, bottom: 20),
+                      child: Center(
+                        child: OutlinedButton.icon(
+                           onPressed: () => showAddMemberModal(),
+                           icon: const Icon(Icons.add),
+                           label: const Text("Add Another Member"),
+                           style: OutlinedButton.styleFrom(
+                             foregroundColor: kPrimaryColor,
+                             side: BorderSide(color: kPrimaryColor),
+                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))
+                           ),
+                        ),
+                      )
+                    ),
+                    
                   if (membersError != null)
                     Padding(
-                        padding: const EdgeInsets.only(top: 8),
+                        padding: const EdgeInsets.only(bottom: 10),
                         child: Text(membersError!,
-                            style: TextStyle(color: Colors.red))),
+                            style: const TextStyle(color: Colors.red))),
+
                   const SizedBox(height: 20),
                   isLoading
                       ? Center(
                           child: Lottie.asset(
-                            'assets/icons/loading1.json', // Replace with your Lottie file path
+                            'assets/icons/loading1.json',
                             width: 80,
                             height: 80,
                           ),
                         )
                       : FormButton(
                           text: selectedLanguage == 'en'
-                              ? 'Sign Up'
-                              : 'Lembetsani',
+                              ? 'Sign Up Group'
+                              : 'Lembetsani Gulu',
                           onPressed: submit,
                         ),
                   if (!widget.embedded)
@@ -591,26 +938,29 @@ class _GroupRegisterScreenState extends State<GroupRegisterScreen> with TickerPr
                           builder: (_) => const SimpleLoginScreen(),
                         ),
                       ),
-                      child: RichText(
-                        text: TextSpan(
-                          text: selectedLanguage == 'en'
-                              ? 'I am already a member'
-                              : ' Ndine membala kale',
-                          style: TextStyle(color: Colors.black),
-                          children: [
-                            TextSpan(
-                              text: selectedLanguage == 'en'
-                                  ? 'Sign In'
-                                  : ' Lowani',
-                              style: TextStyle(
-                                color: Colors.blue,
-                                fontWeight: FontWeight.bold,
+                      child: Center(
+                        child: RichText(
+                          text: TextSpan(
+                            text: selectedLanguage == 'en'
+                                ? 'I am already a member '
+                                : ' Ndine membala kale ',
+                            style: const TextStyle(color: Colors.black),
+                            children: [
+                              TextSpan(
+                                text: selectedLanguage == 'en'
+                                    ? 'Sign In'
+                                    : 'Lowani',
+                                style: const TextStyle(
+                                  color: Colors.blue,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                    )
+                    ),
+                  const SizedBox(height: 40),
                 ],
               ),
             ),
@@ -638,21 +988,24 @@ class FormButton extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
 
-    return ElevatedButton(
-      onPressed: onPressed as void Function()?,
-      style: ElevatedButton.styleFrom(
-        backgroundColor: kPrimaryColor,
-        padding: EdgeInsets.symmetric(vertical: screenHeight * .02),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton(
+        onPressed: onPressed as void Function()?,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: kPrimaryColor,
+          padding: EdgeInsets.symmetric(vertical: screenHeight * .02),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
         ),
-      ),
-      child: Text(
-        text,
-        style: const TextStyle(
-          color: Colors.white70,
-          fontWeight: FontWeight.bold,
-          fontSize: 16,
+        child: Text(
+          text,
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 16,
+          ),
         ),
       ),
     );
@@ -706,50 +1059,13 @@ class InputField extends StatelessWidget {
   }
 }
 
-// class CustomSilverHeader extends SliverPersistentHeaderDelegate {
-//   @override
-//   Widget build(
-//       BuildContext context, double shrinkOffset, bool overlapsContent) {
-//     return ClipPath(
-//       clipper: AsymmetricClipper(),
-//       child: Container(
-//         height: maxExtent,
-//         decoration: BoxDecoration(
-//           image: DecorationImage(
-//             image: AssetImage('assets/images/group.jpg'),
-//             fit: BoxFit.cover,
-//           ),
-//           color: Colors.green[300],
-//         ),
-//         alignment: Alignment.centerLeft,
-//         padding: EdgeInsets.only(left: 30),
-//         child: Text(
-//           'Group Registration',
-//           style: TextStyle(
-//             fontSize: 28,
-//             color: Colors.white,
-//             fontWeight: FontWeight.bold,
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-
-//   @override
-//   double get maxExtent => 250;
-//   @override
-//   double get minExtent => 80;
-//   @override
-//   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) => false;
-// }
-
 class AsymmetricClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     final path = Path();
-    path.lineTo(0, size.height); // bottom left
-    path.lineTo(size.width, size.height * 0.8); // lower on right
-    path.lineTo(size.width, 0); // top right
+    path.lineTo(0, size.height);
+    path.lineTo(size.width, size.height * 0.8);
+    path.lineTo(size.width, 0);
     path.close();
     return path;
   }

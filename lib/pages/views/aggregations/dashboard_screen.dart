@@ -5,6 +5,7 @@ import 'package:mlimi/provider/aggregation_provider.dart';
 import 'package:provider/provider.dart';
 import 'start_aggregation_screen.dart';
 import 'aggregation_details_screen.dart';
+import 'group_insights_screen.dart';
 
 class AggregationsDashboardScreen extends StatefulWidget {
   const AggregationsDashboardScreen({Key? key}) : super(key: key);
@@ -275,7 +276,30 @@ class _AggregationsDashboardScreenState extends State<AggregationsDashboardScree
                     ],
                   ),
                 ),
-                const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.black26),
+                const SizedBox(width: 8),
+                Column(
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.bar_chart, color: Colors.blueAccent),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => GroupInsightsScreen(
+                              groupId: aggregation.groupId!,
+                              groupName: aggregation.group?.name ?? 'Group',
+                            ),
+                          ),
+                        ).then((_) {
+                           // Refresh dash stats when coming back
+                           provider.fetchDashboardStats();
+                        });
+                      },
+                      tooltip: 'Group Insights',
+                    ),
+                    const Icon(Icons.arrow_forward_ios, size: 14, color: Colors.black26),
+                  ],
+                ),
               ],
             ),
           ),

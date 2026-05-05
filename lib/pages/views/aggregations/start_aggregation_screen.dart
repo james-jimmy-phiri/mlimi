@@ -13,13 +13,20 @@ class StartAggregationScreen extends StatefulWidget {
 class _StartAggregationScreenState extends State<StartAggregationScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  String? _groupId;
-  String? _commodityId;
-  String? _valueChainId;
-  String? _measureId;
+  int? _selectedGroupId;
+  int? _selectedValueChainId;
+  int? _selectedMeasureId = 1; // Default to Kg
+  int? _commodityId;
 
-  // Assuming you will hook these up to a real endpoints for dropdowns. 
-  // Currently using text fields for numeric IDs to satisfy the backend DB until dropdowns are wired.
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final provider = Provider.of<AggregationProvider>(context, listen: false);
+      provider.fetchGroups();
+      provider.fetchValueChains();
+    });
+  }
 
   void _submit() async {
     if (_formKey.currentState!.validate()) {
@@ -27,13 +34,11 @@ class _StartAggregationScreenState extends State<StartAggregationScreen> {
 
       final provider = Provider.of<AggregationProvider>(context, listen: false);
       
-      // We pass commodity_id to satisfy Controller validation, 
-      // and measure_id + value_chain_id to satisfy Service logic.
       Map<String, dynamic> payload = {
-        'group_id': int.parse(_groupId!),
-        'commodity_id': int.parse(_commodityId ?? '1'), // Fallback if user doesn't know
-        'value_chain_id': int.parse(_valueChainId!),
-        'measure_id': int.parse(_measureId!),
+        'group_id': _selectedGroupId,
+        'value_chain_id': _selectedValueChainId,
+        'measure_id': _selectedMeasureId,
+        'commodity_id': _commodityId ?? 1, // Fallback
       };
 
       bool success = await provider.createAggregation(payload);
@@ -56,9 +61,9 @@ class _StartAggregationScreenState extends State<StartAggregationScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Start Aggregation', style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold)),
+        title: const Text('Start Pool', style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold)),
         backgroundColor: Colors.white,
-        elevation: 1,
+        elevation: 0,
         iconTheme: const IconThemeData(color: Colors.black87),
       ),
       body: Consumer<AggregationProvider>(
@@ -72,49 +77,48 @@ class _StartAggregationScreenState extends State<StartAggregationScreen> {
                 children: [
                   const Text(
                     'Initialize a new pool',
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, letterSpacing: -0.5),
                   ),
                   const SizedBox(height: 8),
                   const Text(
-                    'Provide the required identifiers to setup the aggregation ledger.',
-                    style: TextStyle(color: Colors.black54),
+                    'Define which group and commodity this aggregation is for.',
+                    style: TextStyle(color: Colors.blueGrey, fontSize: 15),
                   ),
                   const SizedBox(height: 32),
                   
-                  // Group ID text field (can later be transformed to Dropdown calling getGroups())
-                  _buildTextField(
-                    label: 'Group ID (Client ID)',
-                    icon: Icons.group,
-                    keyboardType: TextInputType.number,
-                    onSaved: (value) => _groupId = value,
-                  ),
-                  const SizedBox(height: 16),
+                  if (provider.isLoadingGroups) 
+                    const LinearProgressIndicator()
+                  else
+                    DropdownButtonFormField<int>(
+                      decoration: _inputDecoration('Select Group', Icons.group),
+                      value: _selectedGroupId,
+                      items: provider.groups.map((g) => DropdownMenuItem(value: g['id'] as int, child: Text(g['name']))).toList(),
+                      onChanged: (val) => setState(() => _selectedGroupId = val),
+                      validator: (val) => val == null ? 'Required' : null,
+                    ),
+                  const SizedBox(height: 20),
                   
-                  // Value Chain ID mapping for creating the commodity market pool
-                  _buildTextField(
-                    label: 'Value Chain ID',
-                    icon: Icons.eco,
-                    keyboardType: TextInputType.number,
-                    onSaved: (value) => _valueChainId = value,
-                  ),
-                  const SizedBox(height: 16),
+                  if (provider.isLoadingValueChains)
+                    const LinearProgressIndicator()
+                  else
+                    DropdownButtonFormField<int>(
+                      decoration: _inputDecoration('Select Commodity (Value Chain)', Icons.eco),
+                      value: _selectedValueChainId,
+                      items: provider.valueChains.map((v) => DropdownMenuItem(value: v['id'] as int, child: Text(v['name']))).toList(),
+                      onChanged: (val) => setState(() => _selectedValueChainId = val),
+                      validator: (val) => val == null ? 'Required' : null,
+                    ),
+                  const SizedBox(height: 20),
                   
-                  // Measure ID for determining the scale (Kgs, Tonnes etc)
-                  _buildTextField(
-                    label: 'Measure ID (e.g. 1 for Kg)',
-                    icon: Icons.scale,
-                    keyboardType: TextInputType.number,
-                    onSaved: (value) => _measureId = value,
-                  ),
-                  const SizedBox(height: 16),
-                  
-                  // The commodity validation bypass fix for backend controller
-                  _buildTextField(
-                    label: 'Linked Commodity ID (If existing)',
-                    icon: Icons.link,
-                    keyboardType: TextInputType.number,
-                    onSaved: (value) => _commodityId = value,
-                    isOptional: true, // we can default to 1 if needed
+                  DropdownButtonFormField<int>(
+                    decoration: _inputDecoration('Measurement Unit', Icons.scale),
+                    value: _selectedMeasureId,
+                    items: const [
+                      DropdownMenuItem(value: 1, child: Text('Kilograms (Kg)')),
+                      DropdownMenuItem(value: 2, child: Text('Tonnes (T)')),
+                      DropdownMenuItem(value: 3, child: Text('Bags')),
+                    ],
+                    onChanged: (val) => setState(() => _selectedMeasureId = val),
                   ),
                   
                   const SizedBox(height: 48),
@@ -122,12 +126,13 @@ class _StartAggregationScreenState extends State<StartAggregationScreen> {
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: kPrimaryColor,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      padding: const EdgeInsets.symmetric(vertical: 18),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                      elevation: 0,
                     ),
                     onPressed: provider.isActionLoading ? null : _submit,
                     child: provider.isActionLoading
-                        ? const CircularProgressIndicator(color: Colors.white)
+                        ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
                         : const Text('Initialize Aggregation', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white)),
                   ),
                 ],
@@ -139,36 +144,20 @@ class _StartAggregationScreenState extends State<StartAggregationScreen> {
     );
   }
 
-  Widget _buildTextField({
-    required String label,
-    required IconData icon,
-    required TextInputType keyboardType,
-    required FormFieldSetter<String> onSaved,
-    bool isOptional = false,
-  }) {
-    return TextFormField(
-      keyboardType: keyboardType,
-      decoration: InputDecoration(
-        labelText: label,
-        prefixIcon: Icon(icon, color: Colors.black45),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Colors.grey.shade300),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Colors.grey.shade300),
-        ),
-        filled: true,
-        fillColor: Colors.grey.shade50,
+  InputDecoration _inputDecoration(String label, IconData icon) {
+    return InputDecoration(
+      labelText: label,
+      prefixIcon: Icon(icon, color: kPrimaryColor),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16),
+        borderSide: BorderSide(color: Colors.grey.shade200),
       ),
-      validator: (value) {
-        if (!isOptional && (value == null || value.isEmpty)) {
-          return 'This field is required';
-        }
-        return null;
-      },
-      onSaved: onSaved,
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16),
+        borderSide: BorderSide(color: Colors.grey.shade200),
+      ),
+      filled: true,
+      fillColor: Colors.grey.shade50,
     );
   }
 }

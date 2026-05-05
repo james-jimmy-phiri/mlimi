@@ -15,6 +15,7 @@ class Aggregation {
   final AggregationCreator? creator;
   final List<AggregationContribution> contributions;
   final List<AggregationSale> sales;
+  final List<MemberEarnings> memberEarningsBreakdown;
 
   Aggregation({
     this.id,
@@ -31,6 +32,7 @@ class Aggregation {
     this.creator,
     this.contributions = const [],
     this.sales = const [],
+    this.memberEarningsBreakdown = const [],
   });
 
   factory Aggregation.fromJson(Map<String, dynamic> json) {
@@ -53,6 +55,35 @@ class Aggregation {
       sales: json['sales'] != null
           ? (json['sales'] as List).map((i) => AggregationSale.fromJson(i)).toList()
           : [],
+      memberEarningsBreakdown: json['member_earnings_breakdown'] != null
+          ? (json['member_earnings_breakdown'] as List).map((i) => MemberEarnings.fromJson(i)).toList()
+          : [],
+    );
+  }
+}
+
+class MemberEarnings {
+  final int? memberId;
+  final String memberName;
+  final double contributionQuantity;
+  final double sharePercentage;
+  final double earnedAmount;
+
+  MemberEarnings({
+    required this.memberId,
+    required this.memberName,
+    required this.contributionQuantity,
+    required this.sharePercentage,
+    required this.earnedAmount,
+  });
+
+  factory MemberEarnings.fromJson(Map<String, dynamic> json) {
+    return MemberEarnings(
+      memberId: json['member_id'],
+      memberName: json['member_name'] ?? 'Unknown',
+      contributionQuantity: (json['contribution_quantity'] ?? 0.0).toDouble(),
+      sharePercentage: (json['share_percentage'] ?? 0.0).toDouble(),
+      earnedAmount: (json['earned_amount'] ?? 0.0).toDouble(),
     );
   }
 }

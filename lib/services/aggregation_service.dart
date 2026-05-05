@@ -106,12 +106,62 @@ class AggregationService {
     }
   }
 
-  Future<AggregationMetrics> getDashboardStats() async {
-    final response = await http.get(Uri.parse('$baseUrl/aggregations/dashboard/stats'), headers: _headers);
+  Future<AggregationMetrics> getDashboardStats({int? groupId}) async {
+    String url = '$baseUrl/aggregations/dashboard/stats';
+    if (groupId != null) url += '?group_id=$groupId';
+    
+    final response = await http.get(Uri.parse(url), headers: _headers);
     if (response.statusCode == 200) {
       return AggregationMetrics.fromJson(json.decode(response.body));
     } else {
       throw Exception('Failed to fetch dashboard metrics');
+    }
+  }
+
+  Future<List<AggregationGroupMember>> getGroupMembers(int groupId) async {
+    final response = await http.get(Uri.parse('$baseUrl/clients/$groupId/members'), headers: _headers);
+    if (response.statusCode == 200) {
+      final List<dynamic> data = json.decode(response.body);
+      return data.map((json) => AggregationGroupMember.fromJson(json)).toList();
+    } else {
+      throw Exception('Failed to fetch group members');
+    }
+  }
+
+  Future<List<AggregationBuyer>> getBuyers() async {
+    final response = await http.get(Uri.parse('$baseUrl/buyers'), headers: _headers);
+    if (response.statusCode == 200) {
+      final List<dynamic> data = json.decode(response.body);
+      return data.map((json) => AggregationBuyer.fromJson(json)).toList();
+    } else {
+      throw Exception('Failed to fetch buyers');
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getGroups() async {
+    final response = await http.get(Uri.parse('$baseUrl/clients'), headers: _headers);
+    if (response.statusCode == 200) {
+      final List<dynamic> data = json.decode(response.body);
+      return data.cast<Map<String, dynamic>>();
+    } else {
+      // Fallback to business profiles if clients endpoint is missing
+      final profilesResponse = await http.get(Uri.parse('$baseUrl/business-profiles'), headers: _headers);
+      if (profilesResponse.statusCode == 200) {
+        final data = json.decode(profilesResponse.body);
+        final List<dynamic> profiles = data['business_profiles'] ?? [];
+        return profiles.map((p) => {'id': p['id'], 'name': p['business_name']}).toList();
+      }
+      throw Exception('Failed to fetch groups');
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getValueChains() async {
+    final response = await http.get(Uri.parse('$baseUrl/value-chains'), headers: _headers);
+    if (response.statusCode == 200) {
+      final List<dynamic> data = json.decode(response.body);
+      return data.cast<Map<String, dynamic>>();
+    } else {
+      throw Exception('Failed to fetch value chains');
     }
   }
 }

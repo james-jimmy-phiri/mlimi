@@ -7,18 +7,36 @@ class AggregationProvider extends ChangeNotifier {
 
   List<Aggregation> _aggregations = [];
   AggregationMetrics? _metrics;
+  AggregationMetrics? _groupMetrics;
   Aggregation? _currentAggregation;
+  List<AggregationGroupMember> _groupMembers = [];
+  List<AggregationBuyer> _buyers = [];
+  List<Map<String, dynamic>> _groups = [];
+  List<Map<String, dynamic>> _valueChains = [];
 
   bool _isLoading = false;
   bool _isActionLoading = false;
+  bool _isLoadingMembers = false;
+  bool _isLoadingBuyers = false;
+  bool _isLoadingGroups = false;
+  bool _isLoadingValueChains = false;
   String? _errorMessage;
 
   List<Aggregation> get aggregations => _aggregations;
   AggregationMetrics? get metrics => _metrics;
+  AggregationMetrics? get groupMetrics => _groupMetrics;
   Aggregation? get currentAggregation => _currentAggregation;
+  List<AggregationGroupMember> get groupMembers => _groupMembers;
+  List<AggregationBuyer> get buyers => _buyers;
+  List<Map<String, dynamic>> get groups => _groups;
+  List<Map<String, dynamic>> get valueChains => _valueChains;
 
   bool get isLoading => _isLoading;
   bool get isActionLoading => _isActionLoading;
+  bool get isLoadingMembers => _isLoadingMembers;
+  bool get isLoadingBuyers => _isLoadingBuyers;
+  bool get isLoadingGroups => _isLoadingGroups;
+  bool get isLoadingValueChains => _isLoadingValueChains;
   String? get errorMessage => _errorMessage;
 
   void _setLoading(bool value) {
@@ -49,11 +67,17 @@ class AggregationProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> fetchDashboardStats() async {
+  Future<void> fetchDashboardStats({int? groupId}) async {
     _setLoading(true);
     _setError(null);
+    if (groupId != null) _groupMetrics = null; 
     try {
-      _metrics = await _service.getDashboardStats();
+      final metrics = await _service.getDashboardStats(groupId: groupId);
+      if (groupId != null) {
+        _groupMetrics = metrics;
+      } else {
+        _metrics = metrics;
+      }
     } catch (e) {
       _setError(e.toString());
     } finally {
@@ -131,6 +155,62 @@ class AggregationProvider extends ChangeNotifier {
       return false;
     } finally {
       _setActionLoading(false);
+    }
+  }
+
+  Future<void> fetchGroupMembers(int groupId) async {
+    _isLoadingMembers = true;
+    _setError(null);
+    notifyListeners();
+    try {
+      _groupMembers = await _service.getGroupMembers(groupId);
+    } catch (e) {
+      _setError(e.toString());
+    } finally {
+      _isLoadingMembers = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> fetchBuyers() async {
+    _isLoadingBuyers = true;
+    _setError(null);
+    notifyListeners();
+    try {
+      _buyers = await _service.getBuyers();
+    } catch (e) {
+      _setError(e.toString());
+    } finally {
+      _isLoadingBuyers = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> fetchGroups() async {
+    _isLoadingGroups = true;
+    _setError(null);
+    notifyListeners();
+    try {
+      _groups = await _service.getGroups();
+    } catch (e) {
+      _setError(e.toString());
+    } finally {
+      _isLoadingGroups = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> fetchValueChains() async {
+    _isLoadingValueChains = true;
+    _setError(null);
+    notifyListeners();
+    try {
+      _valueChains = await _service.getValueChains();
+    } catch (e) {
+      _setError(e.toString());
+    } finally {
+      _isLoadingValueChains = false;
+      notifyListeners();
     }
   }
 }

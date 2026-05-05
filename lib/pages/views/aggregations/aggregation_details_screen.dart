@@ -235,28 +235,55 @@ class _AggregationDetailsScreenState extends State<AggregationDetailsScreen> wit
   }
 
   Widget _buildEarningsTab(agg, double totalRevenue) {
-    if (agg.contributions.isEmpty) {
-      return const Center(child: Text('No earnings data available.', style: TextStyle(color: Colors.grey)));
-    }
-    return ListView.separated(
-      padding: const EdgeInsets.only(bottom: 120),
-      itemCount: agg.contributions.length,
-      separatorBuilder: (c, i) => const Divider(height: 1),
-      itemBuilder: (context, index) {
-        final contrib = agg.contributions[index];
-        
-        // Frontend proportional calculation 
-        double share = agg.totalQuantity > 0 ? (contrib.quantity / agg.totalQuantity) : 0.0;
-        double earned = share * totalRevenue;
-
-        return ListTile(
-          leading: CircleAvatar(
-            backgroundColor: Colors.orange.withOpacity(0.2),
-            child: const Icon(Icons.account_balance_wallet, color: Colors.orange),
+    if (agg.memberEarningsBreakdown.isEmpty) {
+      if (agg.sales.isEmpty) {
+        return const Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.monetization_on_outlined, size: 64, color: Colors.grey),
+              SizedBox(height: 16),
+              Text('No revenue generated yet.', style: TextStyle(color: Colors.grey, fontSize: 16)),
+              Text('Record a sale to see earnings.', style: TextStyle(color: Colors.grey, fontSize: 14)),
+            ],
           ),
-          title: Text(contrib.groupMember?.name ?? 'Unknown Member', style: const TextStyle(fontWeight: FontWeight.w600)),
-          subtitle: Text('Contribution share: ${(share * 100).toStringAsFixed(1)}%'),
-          trailing: Text('MWK ${earned.toStringAsFixed(2)}', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.orange)),
+        );
+      }
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    return ListView.builder(
+      padding: const EdgeInsets.only(bottom: 120, top: 8),
+      itemCount: agg.memberEarningsBreakdown.length,
+      itemBuilder: (context, index) {
+        final earnings = agg.memberEarningsBreakdown[index];
+        return Container(
+          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.03), blurRadius: 4, offset: const Offset(0, 2))],
+          ),
+          child: ListTile(
+            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            leading: CircleAvatar(
+              backgroundColor: Colors.green.withOpacity(0.1),
+              child: const Icon(Icons.account_balance_wallet, color: Colors.green, size: 20),
+            ),
+            title: Text(earnings.memberName, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 4),
+                Text('Contributed: ${earnings.contributionQuantity} kg (${earnings.sharePercentage.toStringAsFixed(1)}%)', 
+                     style: TextStyle(fontSize: 12, color: Colors.grey[600])),
+              ],
+            ),
+            trailing: Text(
+              'MWK ${earnings.earnedAmount.toStringAsFixed(2)}',
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.green),
+            ),
+          ),
         );
       },
     );

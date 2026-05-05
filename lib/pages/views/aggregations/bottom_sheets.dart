@@ -33,10 +33,21 @@ class _RecordSaleSheet extends StatefulWidget {
 
 class _RecordSaleSheetState extends State<_RecordSaleSheet> {
   final _formKey = GlobalKey<FormState>();
+  bool _isNewBuyer = false;
+  int? _selectedBuyerId;
   String? _buyerName;
   String? _buyerPhone;
+  String? _buyerLocation;
   String? _quantitySold;
   String? _pricePerUnit;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<AggregationProvider>(context, listen: false).fetchBuyers();
+    });
+  }
 
   void _submit() async {
     if (_formKey.currentState!.validate()) {
@@ -44,11 +55,17 @@ class _RecordSaleSheetState extends State<_RecordSaleSheet> {
       final provider = Provider.of<AggregationProvider>(context, listen: false);
       
       Map<String, dynamic> payload = {
-        'buyer_name': _buyerName,
-        'buyer_phone': _buyerPhone,
         'quantity_sold': double.parse(_quantitySold!),
         'price_per_unit': double.parse(_pricePerUnit!),
       };
+
+      if (_isNewBuyer) {
+        payload['buyer_name'] = _buyerName;
+        payload['buyer_phone'] = _buyerPhone;
+        payload['buyer_location'] = _buyerLocation;
+      } else {
+        payload['buyer_id'] = _selectedBuyerId;
+      }
 
       bool success = await provider.recordSale(widget.aggregation.id!, payload);
       if (success && mounted) {
@@ -78,51 +95,133 @@ class _RecordSaleSheetState extends State<_RecordSaleSheet> {
             children: [
               const Text('Record Sale', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
               const SizedBox(height: 8),
-              Text('Available Stock: ${widget.aggregation.remainingQuantity} kg', style: const TextStyle(color: Colors.orange, fontWeight: FontWeight.w600)),
-              const SizedBox(height: 24),
+              Text('Available Stock: ${widget.aggregation.remainingQuantity} kg', 
+                   style: const TextStyle(color: Colors.orange, fontWeight: FontWeight.w600)),
+              const SizedBox(height: 20),
               
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Buyer Name', border: OutlineInputBorder(borderRadius: BorderRadius.circular(12))),
-                validator: (val) => val == null || val.isEmpty ? 'Required' : null,
-                onSaved: (val) => _buyerName = val,
-              ),
-              const SizedBox(height: 16),
-              
-              TextFormField(
-                keyboardType: TextInputType.phone,
-                decoration: InputDecoration(labelText: 'Buyer Phone (Optional)', border: OutlineInputBorder(borderRadius: BorderRadius.circular(12))),
-                onSaved: (val) => _buyerPhone = val,
-              ),
-              const SizedBox(height: 16),
-              
-              TextFormField(
-                keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                decoration: InputDecoration(labelText: 'Quantity Sold (kg)', border: OutlineInputBorder(borderRadius: BorderRadius.circular(12))),
-                validator: (val) {
-                  if (val == null || val.isEmpty) return 'Required';
-                  double? parsed = double.tryParse(val);
-                  if (parsed == null) return 'Invalid number';
-                  if (parsed > widget.aggregation.remainingQuantity) return 'Cannot sell more than available';
-                  return null;
-                },
-                onSaved: (val) => _quantitySold = val,
-              ),
-              const SizedBox(height: 16),
-              
-              TextFormField(
-                keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                decoration: InputDecoration(labelText: 'Price Per Unit (MWK)', border: OutlineInputBorder(borderRadius: BorderRadius.circular(12))),
-                validator: (val) => val == null || val.isEmpty ? 'Required' : null,
-                onSaved: (val) => _pricePerUnit = val,
+              Row(
+                children: [
+                  Expanded(
+                    child: ChoiceChip(
+                      label: const Center(child: Text('Existing Buyer')),
+                      selected: !_isNewBuyer,
+                      selectedColor: Colors.green.withOpacity(0.2),
+                      onSelected: (val) => setState(() => _isNewBuyer = false),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: ChoiceChip(
+                      label: const Center(child: Text('New Buyer')),
+                      selected: _isNewBuyer,
+                      selectedColor: Colors.green.withOpacity(0.2),
+                      onSelected: (val) => setState(() => _isNewBuyer = true),
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: 24),
+
+              if (!_isNewBuyer)
+                Consumer<AggregationProvider>(
+                  builder: (ctx, provider, child) {
+                    if (provider.isLoadingBuyers) return const LinearProgressIndicator();
+                    return DropdownButtonFormField<int>(
+                      decoration: InputDecoration(
+                        labelText: 'Select Buyer',
+                        prefixIcon: const Icon(Icons.person),
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                      ),
+                      value: _selectedBuyerId,
+                      items: provider.buyers.map((b) => DropdownMenuItem(value: b.id, child: Text(b.name))).toList(),
+                      onChanged: (val) => setState(() => _selectedBuyerId = val),
+                      validator: (val) => val == null ? 'Required' : null,
+                    );
+                  },
+                )
+              else ...[
+                TextFormField(
+                  decoration: InputDecoration(
+                    labelText: 'Buyer Name',
+                    prefixIcon: const Icon(Icons.person_add),
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                  ),
+                  validator: (val) => val == null || val.isEmpty ? 'Required' : null,
+                  onSaved: (val) => _buyerName = val,
+                ),
+                const SizedBox(height: 16),
+                TextFormField(
+                  keyboardType: TextInputType.phone,
+                  decoration: InputDecoration(
+                    labelText: 'Buyer Phone',
+                    prefixIcon: const Icon(Icons.phone),
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                  ),
+                  validator: (val) => val == null || val.isEmpty ? 'Required' : null,
+                  onSaved: (val) => _buyerPhone = val,
+                ),
+                const SizedBox(height: 16),
+                TextFormField(
+                  decoration: InputDecoration(
+                    labelText: 'Buyer Location',
+                    prefixIcon: const Icon(Icons.location_on),
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                  ),
+                  onSaved: (val) => _buyerLocation = val,
+                ),
+              ],
+              
+              const SizedBox(height: 24),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                      decoration: InputDecoration(
+                        labelText: 'Quantity (kg)',
+                        suffixText: 'kg',
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                      ),
+                      validator: (val) {
+                        if (val == null || val.isEmpty) return 'Required';
+                        double? parsed = double.tryParse(val);
+                        if (parsed == null) return 'Invalid';
+                        if (parsed > widget.aggregation.remainingQuantity) return 'Over limit';
+                        return null;
+                      },
+                      onSaved: (val) => _quantitySold = val,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: TextFormField(
+                      keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                      decoration: InputDecoration(
+                        labelText: 'Price/Unit',
+                        prefixText: 'MWK ',
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                      ),
+                      validator: (val) => val == null || val.isEmpty ? 'Required' : null,
+                      onSaved: (val) => _pricePerUnit = val,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 32),
 
               Consumer<AggregationProvider>(
                 builder: (ctx, provider, child) {
                   return ElevatedButton(
-                    style: ElevatedButton.styleFrom(backgroundColor: Colors.green, padding: const EdgeInsets.symmetric(vertical: 16), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                      padding: const EdgeInsets.symmetric(vertical: 18),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      elevation: 0,
+                    ),
                     onPressed: provider.isActionLoading ? null : _submit,
-                    child: provider.isActionLoading ? const CircularProgressIndicator(color: Colors.white) : const Text('Confirm Sale', style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
+                    child: provider.isActionLoading 
+                      ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2)) 
+                      : const Text('Confirm Sale', style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
                   );
                 }
               )
@@ -147,11 +246,22 @@ class _AddContributionSheetState extends State<_AddContributionSheet> {
   bool _isNewMember = false;
   final _formKey = GlobalKey<FormState>();
 
-  String? _memberId;
+  int? _selectedMemberId;
   String? _name;
   String? _gender;
   String? _ageRange;
+  String? _phone;
   String? _quantity;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (widget.aggregation.groupId != null) {
+        Provider.of<AggregationProvider>(context, listen: false).fetchGroupMembers(widget.aggregation.groupId!);
+      }
+    });
+  }
 
   void _submit() async {
     if (_formKey.currentState!.validate()) {
@@ -164,13 +274,14 @@ class _AddContributionSheetState extends State<_AddContributionSheet> {
           'name': _name,
           'gender': _gender,
           'age_range': _ageRange,
+          'phone': _phone,
           'quantity': double.parse(_quantity!),
-          'value_chains': [widget.aggregation.commodity?.valueChainId ?? 1] // Fallback
+          'value_chains': [widget.aggregation.commodity?.valueChainId ?? 1] // In a real app, this might be a multi-select
         };
         success = await provider.addNewMemberContribution(widget.aggregation.id!, payload);
       } else {
         Map<String, dynamic> payload = {
-          'group_member_id': int.parse(_memberId!),
+          'group_member_id': _selectedMemberId,
           'quantity': double.parse(_quantity!),
         };
         success = await provider.addContribution(widget.aggregation.id!, payload);
@@ -202,69 +313,120 @@ class _AddContributionSheetState extends State<_AddContributionSheet> {
               const SizedBox(height: 16),
               
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  ChoiceChip(
-                    label: const Text('Existing Member'),
-                    selectedColor: kPrimaryColor.withOpacity(0.2),
-                    selected: !_isNewMember,
-                    onSelected: (val) => setState(() => _isNewMember = false),
+                  Expanded(
+                    child: ChoiceChip(
+                      label: const Center(child: Text('Existing Member')),
+                      selectedColor: kPrimaryColor.withOpacity(0.2),
+                      selected: !_isNewMember,
+                      onSelected: (val) => setState(() => _isNewMember = false),
+                    ),
                   ),
-                  const SizedBox(width: 12),
-                  ChoiceChip(
-                    label: const Text('New Member'),
-                    selectedColor: kPrimaryColor.withOpacity(0.2),
-                    selected: _isNewMember,
-                    onSelected: (val) => setState(() => _isNewMember = true),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: ChoiceChip(
+                      label: const Center(child: Text('New Member')),
+                      selectedColor: kPrimaryColor.withOpacity(0.2),
+                      selected: _isNewMember,
+                      onSelected: (val) => setState(() => _isNewMember = true),
+                    ),
                   ),
                 ],
               ),
               const SizedBox(height: 24),
 
               if (!_isNewMember)
-                TextFormField(
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(labelText: 'Member ID', border: OutlineInputBorder(borderRadius: BorderRadius.circular(12))),
-                  validator: (val) => val == null || val.isEmpty ? 'Required' : null,
-                  onSaved: (val) => _memberId = val,
+                Consumer<AggregationProvider>(
+                  builder: (ctx, provider, child) {
+                    if (provider.isLoadingMembers) return const LinearProgressIndicator();
+                    if (provider.groupMembers.isEmpty) return const Text('No members found in this group.', style: TextStyle(color: Colors.red));
+                    return DropdownButtonFormField<int>(
+                      decoration: InputDecoration(
+                        labelText: 'Select Member',
+                        prefixIcon: const Icon(Icons.person),
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                      ),
+                      value: _selectedMemberId,
+                      items: provider.groupMembers.map((m) => DropdownMenuItem(value: m.id, child: Text(m.name))).toList(),
+                      onChanged: (val) => setState(() => _selectedMemberId = val),
+                      validator: (val) => val == null ? 'Required' : null,
+                    );
+                  }
                 )
               else ...[
                 TextFormField(
-                  decoration: InputDecoration(labelText: 'Full Name', border: OutlineInputBorder(borderRadius: BorderRadius.circular(12))),
+                  decoration: InputDecoration(
+                    labelText: 'Full Name',
+                    prefixIcon: const Icon(Icons.person_add),
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                  ),
                   validator: (val) => val == null || val.isEmpty ? 'Required' : null,
                   onSaved: (val) => _name = val,
                 ),
                 const SizedBox(height: 16),
-                DropdownButtonFormField<String>(
-                  decoration: InputDecoration(labelText: 'Gender', border: OutlineInputBorder(borderRadius: BorderRadius.circular(12))),
-                  items: ['Male', 'Female'].map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
-                  onChanged: (val) => _gender = val,
-                  validator: (val) => val == null ? 'Required' : null,
+                TextFormField(
+                  keyboardType: TextInputType.phone,
+                  decoration: InputDecoration(
+                    labelText: 'Phone Number',
+                    prefixIcon: const Icon(Icons.phone),
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                  ),
+                  onSaved: (val) => _phone = val,
                 ),
                 const SizedBox(height: 16),
-                DropdownButtonFormField<String>(
-                  decoration: InputDecoration(labelText: 'Age Range', border: OutlineInputBorder(borderRadius: BorderRadius.circular(12))),
-                  items: ['18-35', '36-50', '51+'].map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
-                  onChanged: (val) => _ageRange = val,
-                  validator: (val) => val == null ? 'Required' : null,
+                Row(
+                  children: [
+                    Expanded(
+                      child: DropdownButtonFormField<String>(
+                        decoration: InputDecoration(labelText: 'Gender', border: OutlineInputBorder(borderRadius: BorderRadius.circular(12))),
+                        items: ['Male', 'Female'].map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
+                        onChanged: (val) => _gender = val,
+                        validator: (val) => val == null ? 'Required' : null,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: DropdownButtonFormField<String>(
+                        decoration: InputDecoration(labelText: 'Age Range', border: OutlineInputBorder(borderRadius: BorderRadius.circular(12))),
+                        items: ['18-35', '36-50', '51+'].map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
+                        onChanged: (val) => _ageRange = val,
+                        validator: (val) => val == null ? 'Required' : null,
+                      ),
+                    ),
+                  ],
                 ),
               ],
               
-              const SizedBox(height: 16),
+              const SizedBox(height: 24),
               TextFormField(
                 keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                decoration: InputDecoration(labelText: 'Quantity Contributed (kg)', border: OutlineInputBorder(borderRadius: BorderRadius.circular(12))),
-                validator: (val) => val == null || val.isEmpty ? 'Required' : null,
+                decoration: InputDecoration(
+                  labelText: 'Quantity Contributed (kg)',
+                  suffixText: 'kg',
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                ),
+                validator: (val) {
+                  if (val == null || val.isEmpty) return 'Required';
+                  if (double.tryParse(val) == null) return 'Invalid';
+                  return null;
+                },
                 onSaved: (val) => _quantity = val,
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: 32),
 
               Consumer<AggregationProvider>(
                 builder: (ctx, provider, child) {
                   return ElevatedButton(
-                    style: ElevatedButton.styleFrom(backgroundColor: kPrimaryColor, padding: const EdgeInsets.symmetric(vertical: 16), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: kPrimaryColor,
+                      padding: const EdgeInsets.symmetric(vertical: 18),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      elevation: 0,
+                    ),
                     onPressed: provider.isActionLoading ? null : _submit,
-                    child: provider.isActionLoading ? const CircularProgressIndicator(color: Colors.white) : const Text('Submit Contribution', style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
+                    child: provider.isActionLoading 
+                      ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2)) 
+                      : const Text('Submit Contribution', style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
                   );
                 }
               )
