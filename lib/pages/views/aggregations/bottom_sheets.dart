@@ -22,6 +22,15 @@ void showAddContributionSheet(BuildContext context, Aggregation aggregation) {
   );
 }
 
+void showEditContributionSheet(BuildContext context, Aggregation aggregation, AggregationContribution contribution) {
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    backgroundColor: Colors.transparent,
+    builder: (ctx) => _EditContributionSheet(aggregation: aggregation, contribution: contribution),
+  );
+}
+
 class _RecordSaleSheet extends StatefulWidget {
   final Aggregation aggregation;
 
@@ -429,6 +438,124 @@ class _AddContributionSheetState extends State<_AddContributionSheet> {
                       : const Text('Submit Contribution', style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
                   );
                 }
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _EditContributionSheet extends StatefulWidget {
+  final Aggregation aggregation;
+  final AggregationContribution contribution;
+
+  const _EditContributionSheet({Key? key, required this.aggregation, required this.contribution}) : super(key: key);
+
+  @override
+  State<_EditContributionSheet> createState() => _EditContributionSheetState();
+}
+
+class _EditContributionSheetState extends State<_EditContributionSheet> {
+  final _formKey = GlobalKey<FormState>();
+  late String _quantity;
+
+  @override
+  void initState() {
+    super.initState();
+    _quantity = widget.contribution.quantity.toString();
+  }
+
+  void _submit() async {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      final provider = Provider.of<AggregationProvider>(context, listen: false);
+
+      Map<String, dynamic> payload = {
+        'quantity': double.parse(_quantity),
+        'group_member_id': widget.contribution.groupMemberId,
+      };
+
+      bool success = await provider.updateContribution(
+        widget.aggregation.id!,
+        widget.contribution.id!,
+        payload,
+      );
+
+      if (success && mounted) {
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Contribution updated successfully!'),
+          backgroundColor: Colors.green,
+        ));
+      } else if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(provider.errorMessage ?? 'Error updating contribution'),
+          backgroundColor: Colors.red,
+        ));
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final bottomInset = MediaQuery.of(context).viewInsets.bottom;
+    return Container(
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(24), topRight: Radius.circular(24)),
+      ),
+      padding: EdgeInsets.fromLTRB(24, 24, 24, bottomInset + 24),
+      child: SingleChildScrollView(
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const Text('Update Contribution', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 16),
+              Text(
+                'Member: ${widget.contribution.groupMember?.name ?? "Unknown"}',
+                style: const TextStyle(fontSize: 16, color: Colors.blueGrey),
+              ),
+              const SizedBox(height: 24),
+              TextFormField(
+                initialValue: _quantity,
+                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                decoration: InputDecoration(
+                  labelText: 'Quantity Contributed (kg)',
+                  suffixText: 'kg',
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                ),
+                validator: (val) {
+                  if (val == null || val.isEmpty) return 'Required';
+                  if (double.tryParse(val) == null) return 'Invalid number';
+                  return null;
+                },
+                onSaved: (val) => _quantity = val!,
+              ),
+              const SizedBox(height: 32),
+              Consumer<AggregationProvider>(
+                builder: (ctx, provider, child) {
+                  return ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: kPrimaryColor,
+                      padding: const EdgeInsets.symmetric(vertical: 18),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      elevation: 0,
+                    ),
+                    onPressed: provider.isActionLoading ? null : _submit,
+                    child: provider.isActionLoading
+                        ? const SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
+                        : const Text('Update Contribution',
+                            style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
+                  );
+                },
               )
             ],
           ),

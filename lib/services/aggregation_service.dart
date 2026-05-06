@@ -46,18 +46,65 @@ class AggregationService {
     }
   }
 
-  Future<Aggregation> createAggregation(Map<String, dynamic> data) async {
+  Future<Aggregation> createAggregation(Map<String, dynamic> data, {String? imagePath}) async {
+    if (imagePath != null) {
+      final request = http.MultipartRequest('POST', Uri.parse('$baseUrl/aggregations'));
+      request.headers.addAll(_headers);
+      
+      data.forEach((key, value) {
+        if (value != null) {
+          request.fields[key] = value.toString();
+        }
+      });
+      
+      request.files.add(await http.MultipartFile.fromPath('image', imagePath));
+      
+      final response = await request.send();
+      final responseBody = await response.stream.bytesToString();
+      
+      if (response.statusCode == 201 || response.statusCode == 200) {
+        final jsonResponse = json.decode(responseBody);
+        return Aggregation.fromJson(jsonResponse['data']);
+      } else {
+        final errorBody = json.decode(responseBody);
+        throw Exception(errorBody['message'] ?? 'Failed to create aggregation');
+      }
+    } else {
+      final response = await http.post(
+        Uri.parse('$baseUrl/aggregations'),
+        headers: _headers,
+        body: json.encode(data),
+      );
+      if (response.statusCode == 201 || response.statusCode == 200) {
+        final jsonResponse = json.decode(response.body);
+        return Aggregation.fromJson(jsonResponse['data']);
+      } else {
+        final errorBody = json.decode(response.body);
+        throw Exception(errorBody['message'] ?? 'Failed to create aggregation');
+      }
+    }
+  }
+
+  Future<void> deleteAggregation(int id) async {
+    final response = await http.delete(
+      Uri.parse('$baseUrl/aggregations/$id'),
+      headers: _headers,
+    );
+    if (response.statusCode != 200 && response.statusCode != 204) {
+      final errorBody = json.decode(response.body);
+      throw Exception(errorBody['message'] ?? 'Failed to delete aggregation');
+    }
+  }
+
+  Future<void> finalizeAndBroadcast(int id, Map<String, dynamic> data) async {
     final response = await http.post(
-      Uri.parse('$baseUrl/aggregations'),
+      Uri.parse('$baseUrl/aggregations/$id/finalize'),
       headers: _headers,
       body: json.encode(data),
     );
-    if (response.statusCode == 201 || response.statusCode == 200) {
-      final jsonResponse = json.decode(response.body);
-      return Aggregation.fromJson(jsonResponse['data']);
-    } else {
+    if (response.statusCode != 200 && response.statusCode != 201) {
       final errorBody = json.decode(response.body);
-      throw Exception(errorBody['message'] ?? 'Failed to create aggregation');
+      throw Exception(errorBody['message'] ?? 'Failed to finalize aggregation');
     }
   }
 
@@ -162,6 +209,21 @@ class AggregationService {
       return data.cast<Map<String, dynamic>>();
     } else {
       throw Exception('Failed to fetch value chains');
+    }
+  }
+
+  Future<AggregationContribution> updateContribution(int aggregationId, int contributionId, Map<String, dynamic> data) async {
+    final response = await http.put(
+      Uri.parse('$baseUrl/aggregations/$aggregationId/contributions/$contributionId'),
+      headers: _headers,
+      body: json.encode(data),
+    );
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      final jsonResponse = json.decode(response.body);
+      return AggregationContribution.fromJson(jsonResponse['data']);
+    } else {
+      final errorBody = json.decode(response.body);
+      throw Exception(errorBody['message'] ?? 'Failed to update contribution');
     }
   }
 }

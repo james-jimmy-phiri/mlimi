@@ -8,6 +8,7 @@ import 'package:mlimi/pages/sale/sale.dart';
 import 'package:mlimi/pages/views/farming_profile/farming_seasons_page.dart';
 import 'package:mlimi/pages/sale/supply.dart';
 import 'package:mlimi/pages/wallet/wallet.dart';
+import 'package:mlimi/pages/views/aggregations/dashboard_screen.dart';
 
 class Category_featured {
   String thumbnail;
@@ -34,6 +35,11 @@ List<Category_featured> getCategoryList(String language) {
         name: 'Gulani',
         thumbnail: 'buy',
         targetPage: const Buy(),
+      ),
+      Category_featured(
+        name: 'Aggregation',
+        thumbnail: 'aggregation',
+        targetPage: const AggregationsDashboardScreen(),
       ),
       Category_featured(
         name: 'Mabizinesi',
@@ -82,6 +88,11 @@ List<Category_featured> getCategoryList(String language) {
         name: 'Buy',
         thumbnail: 'buy',
         targetPage: const Buy(),
+      ),
+      Category_featured(
+        name: 'Aggregation',
+        thumbnail: 'aggregation',
+        targetPage: const AggregationsDashboardScreen(),
       ),
       Category_featured(
         name: 'Business Profiles',

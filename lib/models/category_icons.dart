@@ -11,7 +11,7 @@ const Map<String, IconData> _iconMap = {
   'wallet': Icons.account_balance_wallet_rounded,
   'location': Icons.location_on_outlined,
   'farming_profile': Icons.agriculture_rounded,
-
+  'aggregation': Icons.groups_rounded,
 };
 
 IconData? getIconDataFromString(String iconName) {

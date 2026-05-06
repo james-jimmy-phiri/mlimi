@@ -213,4 +213,35 @@ class AggregationProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  Future<bool> updateContribution(int aggregationId, int contributionId, Map<String, dynamic> data) async {
+    _setActionLoading(true);
+    _setError(null);
+    try {
+      await _service.updateContribution(aggregationId, contributionId, data);
+      await fetchAggregationDetails(aggregationId); // Refresh details
+      return true;
+    } catch (e) {
+      _setError(e.toString());
+      return false;
+    } finally {
+      _setActionLoading(false);
+    }
+  }
+
+  Future<bool> deleteAggregation(int id) async {
+    _setActionLoading(true);
+    _setError(null);
+    try {
+      await _service.deleteAggregation(id);
+      _aggregations.removeWhere((agg) => agg.id == id);
+      notifyListeners();
+      return true;
+    } catch (e) {
+      _setError(e.toString());
+      return false;
+    } finally {
+      _setActionLoading(false);
+    }
+  }
 }

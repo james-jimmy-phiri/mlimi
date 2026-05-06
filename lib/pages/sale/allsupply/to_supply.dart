@@ -65,6 +65,8 @@ class _SupplyState extends State<ToSupply> {
             views: item['views'],
             created: item['created'],
             client: client,
+            totalSold: item['total_sold']?.toString(),
+            quantityRemaining: item['quantity_remaining']?.toString(),
           ));
         }
 
@@ -275,7 +277,7 @@ class ProductCard extends StatelessWidget {
                     _PostHeader(product: product),
                     const SizedBox(height: 4.0),
                     Text(
-                      product.name,
+                      '${product.name} (${product.quantityRemaining ?? product.quantity} ${product.measure})',
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     Text(
@@ -413,10 +415,14 @@ class _PostStats extends StatelessWidget {
               size: 15.0,
               color: Colors.black,
             ),
-            Text(
-              '${product.location} ',
-              style: TextStyle(
-                color: Colors.grey[600],
+            Flexible(
+              child: Text(
+                '${product.location} ',
+                style: TextStyle(
+                  color: Colors.grey[600],
+                ),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
               ),
             ),
             const SizedBox(width: 8.0),
@@ -448,28 +454,7 @@ class _PostStats extends StatelessWidget {
                 ),
               ),
             ),
-            Material(
-              color: Colors.white,
-              child: InkWell(
-                onTap: () => print('Comment'),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                  height: 25.0,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        MdiIcons.share,
-                        color: Colors.grey[600],
-                        size: 20.0,
-                      ),
-                      const SizedBox(width: 4.0),
-                      const Text('Share'),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+
             Material(
               color: Colors.white,
               child: InkWell(

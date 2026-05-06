@@ -47,7 +47,43 @@ class _AggregationDetailsScreenState extends State<AggregationDetailsScreen> wit
             onPressed: () {
               Provider.of<AggregationProvider>(context, listen: false).fetchAggregationDetails(widget.aggregationId);
             },
-          )
+          ),
+          IconButton(
+            icon: const Icon(Icons.delete, color: Colors.red),
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Text('Delete Pool'),
+                  content: const Text('Are you sure you want to delete this pool? This action cannot be undone and will delete all associated data including sales and contributions.'),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text('Cancel'),
+                    ),
+                    TextButton(
+                      onPressed: () async {
+                        Navigator.pop(context); // Close dialog
+                        final provider = Provider.of<AggregationProvider>(context, listen: false);
+                        bool success = await provider.deleteAggregation(widget.aggregationId);
+                        if (success && mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Pool deleted successfully'), backgroundColor: Colors.green),
+                          );
+                          Navigator.pop(context); // Go back to previous screen
+                        } else if (mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text(provider.errorMessage ?? 'Failed to delete pool'), backgroundColor: Colors.red),
+                          );
+                        }
+                      },
+                      child: const Text('Delete', style: TextStyle(color: Colors.red)),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
         ],
       ),
       body: Consumer<AggregationProvider>(
@@ -205,7 +241,21 @@ class _AggregationDetailsScreenState extends State<AggregationDetailsScreen> wit
           ),
           title: Text(contrib.groupMember?.name ?? 'Unknown Member', style: const TextStyle(fontWeight: FontWeight.w600)),
           subtitle: Text(contrib.createdAt ?? 'Unknown date'),
-          trailing: Text('${contrib.quantity} kg', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text('${contrib.quantity} kg', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+              if (agg.status == 'open') ...[
+                const SizedBox(width: 8),
+                IconButton(
+                  icon: const Icon(Icons.edit, size: 20, color: Colors.blue),
+                  onPressed: () => showEditContributionSheet(context, agg, contrib),
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
+                ),
+              ],
+            ],
+          ),
         );
       },
     );

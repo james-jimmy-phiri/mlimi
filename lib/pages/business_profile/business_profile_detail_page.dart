@@ -130,29 +130,6 @@ class _BusinessProfileDetailPageState extends State<BusinessProfileDetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[50],
-      appBar: AppBar(
-        title: Text(
-          _profile?.businessName ?? (_language == 'en' ? 'Business Profile' : 'Mbiri'),
-          style: GoogleFonts.poppins(color: Colors.black87),
-        ),
-        backgroundColor: Colors.white,
-        elevation: 0,
-        iconTheme: const IconThemeData(color: Colors.black87),
-        actions: [
-          if (_profile != null) ...[
-            IconButton(
-              icon: const Icon(Icons.edit),
-              onPressed: _navigateToEdit,
-              tooltip: _language == 'en' ? 'Edit' : 'Sinthani',
-            ),
-            IconButton(
-              icon: const Icon(Icons.delete, color: Colors.red),
-              onPressed: _deleteProfile,
-              tooltip: _language == 'en' ? 'Delete' : 'Chotsani',
-            ),
-          ],
-        ],
-      ),
       body: _buildBody(),
     );
   }
@@ -167,226 +144,344 @@ class _BusinessProfileDetailPageState extends State<BusinessProfileDetailPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.error_outline, size: 64, color: Colors.red[300]),
-            const SizedBox(height: 16),
+            Icon(Icons.error_outline_rounded, size: 80, color: Colors.red[300]),
+            const SizedBox(height: 24),
             Text(
-              _language == 'en' ? 'Failed to load profile' : 'Talephera kutsegula',
-              style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.w600),
+              _language == 'en' ? 'Failed to Load' : 'Talephera kutsegula',
+              style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32),
-              child: Text(
-                _errorMessage ?? '',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.poppins(color: Colors.grey[600]),
-              ),
+            Text(
+              _errorMessage ?? '',
+              style: GoogleFonts.poppins(color: Colors.grey[600]),
             ),
-            const SizedBox(height: 16),
-            ElevatedButton.icon(
+            const SizedBox(height: 24),
+            ElevatedButton(
               onPressed: _loadProfile,
-              icon: const Icon(Icons.refresh),
-              label: Text(_language == 'en' ? 'Retry' : 'Yesani'),
               style: ElevatedButton.styleFrom(backgroundColor: kPrimaryColor),
+              child: Text(_language == 'en' ? 'Retry' : 'Yesani'),
             ),
           ],
         ),
       );
     }
 
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+    return CustomScrollView(
+      slivers: [
+        _buildSliverAppBar(),
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                _buildActionButtons(),
+                const SizedBox(height: 32),
+                
+                _buildSectionHeader(_language == 'en' ? 'About Business' : 'Zokhudza Bizinesi', Icons.info_outline_rounded),
+                _buildDescription(),
+                const SizedBox(height: 32),
+                
+                _buildSectionHeader(_language == 'en' ? 'Location' : 'Malo', Icons.location_on_outlined),
+                _buildLocationInfo(),
+                const SizedBox(height: 32),
+                
+                _buildSectionHeader(_language == 'en' ? 'Contact Details' : 'Mauthenga', Icons.contact_phone_outlined),
+                _buildContactInfo(),
+                
+                if (_profile!.contactInfo?.socialMedia != null) ...[
+                  const SizedBox(height: 32),
+                  _buildSectionHeader('Social Presence', Icons.public_rounded),
+                  _buildSocialMedia(),
+                ],
+                
+                if (_profile!.offerings != null && _profile!.offerings!.isNotEmpty) ...[
+                  const SizedBox(height: 32),
+                  _buildSectionHeader(
+                    _language == 'en' ? 'Products & Services' : 'Zogulitsa',
+                    Icons.shopping_bag_outlined,
+                  ),
+                  _buildOfferings(),
+                ],
+                
+                if (_profile!.galleryImages != null && _profile!.galleryImages!.isNotEmpty) ...[
+                  const SizedBox(height: 32),
+                  _buildSectionHeader(
+                    _language == 'en' ? 'Gallery' : 'Zithunzi',
+                    Icons.photo_library_outlined,
+                  ),
+                  _buildGalleryImages(),
+                ],
+                
+                if (_profile!.galleryVideos != null && _profile!.galleryVideos!.isNotEmpty) ...[
+                  const SizedBox(height: 32),
+                  _buildSectionHeader(
+                    _language == 'en' ? 'Makanema' : 'Videos',
+                    Icons.video_library_outlined,
+                  ),
+                  _buildGalleryVideos(),
+                ],
+                const SizedBox(height: 50),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSliverAppBar() {
+    return SliverAppBar(
+      expandedHeight: 250.0,
+      pinned: true,
+      backgroundColor: kPrimaryColor,
+      elevation: 0,
+      iconTheme: const IconThemeData(color: Colors.white),
+      flexibleSpace: FlexibleSpaceBar(
+        background: Stack(
+          fit: StackFit.expand,
+          children: [
+            // Background Pattern/Gradient
+            Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [kPrimaryColor, Color(0xFF1B5E20)],
+                ),
+              ),
+            ),
+            // Abstract background icon
+            Positioned(
+              right: -30,
+              bottom: -30,
+              child: Icon(
+                Icons.business_rounded,
+                size: 200,
+                color: Colors.white.withOpacity(0.1),
+              ),
+            ),
+            // Business Identity
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(height: 40),
+                Container(
+                  width: 100,
+                  height: 100,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        blurRadius: 20,
+                        offset: const Offset(0, 10),
+                      ),
+                    ],
+                    image: _profile!.logoUrl != null
+                        ? DecorationImage(
+                            image: NetworkImage(_profile!.logoUrl!),
+                            fit: BoxFit.cover,
+                          )
+                        : null,
+                  ),
+                  child: _profile!.logoUrl == null
+                      ? Icon(Icons.business_rounded, size: 50, color: kPrimaryColor.withOpacity(0.5))
+                      : null,
+                ),
+                const SizedBox(height: 16),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Text(
+                    _profile!.businessName,
+                    style: GoogleFonts.poppins(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                if (_profile!.sector != null)
+                  Container(
+                    margin: const EdgeInsets.only(top: 8),
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Text(
+                      _profile!.sector!.name,
+                      style: GoogleFonts.poppins(
+                        fontSize: 12,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ],
+        ),
+      ),
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.edit_rounded, color: Colors.white),
+          onPressed: _navigateToEdit,
+        ),
+        IconButton(
+          icon: const Icon(Icons.delete_outline_rounded, color: Colors.white),
+          onPressed: _deleteProfile,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSectionHeader(String title, IconData icon) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16, left: 4),
+      child: Row(
         children: [
-          _buildHeader(),
-          const SizedBox(height: 16),
-          _buildDescription(),
-          const SizedBox(height: 16),
-          _buildLocationInfo(),
-          const SizedBox(height: 16),
-          _buildContactInfo(),
-          if (_profile!.contactInfo?.socialMedia != null) ...[
-            const SizedBox(height: 16),
-            _buildSocialMedia(),
-          ],
-          if (_profile!.offerings != null && _profile!.offerings!.isNotEmpty) ...[
-            const SizedBox(height: 16),
-            _buildOfferings(),
-          ],
-          if (_profile!.galleryImages != null && _profile!.galleryImages!.isNotEmpty) ...[
-            const SizedBox(height: 16),
-            _buildGalleryImages(),
-          ],
-          if (_profile!.galleryVideos != null && _profile!.galleryVideos!.isNotEmpty) ...[
-            const SizedBox(height: 16),
-            _buildGalleryVideos(),
-          ],
-          const SizedBox(height: 32),
+          Icon(icon, color: kPrimaryColor, size: 20),
+          const SizedBox(width: 12),
+          Text(
+            title,
+            style: GoogleFonts.poppins(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.black87,
+            ),
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildHeader() {
-    return Container(
-      color: Colors.white,
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        children: [
-          // Logo
-          Container(
-            width: 100,
-            height: 100,
-            decoration: BoxDecoration(
-              color: Colors.grey[200],
-              borderRadius: BorderRadius.circular(12),
-              image: _profile!.logoUrl != null
-                  ? DecorationImage(
-                      image: NetworkImage(_profile!.logoUrl!),
-                      fit: BoxFit.cover,
-                    )
-                  : null,
-            ),
-            child: _profile!.logoUrl == null
-                ? Icon(Icons.business, size: 48, color: Colors.grey[400])
-                : null,
-          ),
-          const SizedBox(height: 16),
-          // Business Name
-          Text(
-            _profile!.businessName,
-            style: GoogleFonts.poppins(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: Colors.black87,
-            ),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 8),
-          // Verification Status
-          if (_profile!.isVerified)
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+  Widget _buildActionButtons() {
+    return Row(
+      children: [
+        if (_profile!.isVerified)
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: Colors.green[50],
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: Colors.green[100]!),
               ),
               child: Row(
-                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.verified, size: 16, color: Colors.green[700]),
-                  const SizedBox(width: 6),
+                  Icon(Icons.verified_rounded, color: Colors.green[700], size: 20),
+                  const SizedBox(width: 8),
                   Text(
-                    _language == 'en' ? 'Verified Business' : 'Bizinesi Yotsimikizidwa',
+                    _language == 'en' ? 'Verified' : 'Yotsimikizidwa',
                     style: GoogleFonts.poppins(
-                      fontSize: 12,
                       color: Colors.green[700],
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 13,
                     ),
                   ),
                 ],
               ),
             ),
-          const SizedBox(height: 12),
-          // Sector and Categories
-          Wrap(
-            alignment: WrapAlignment.center,
-            spacing: 8,
-            runSpacing: 8,
-            children: [
-              if (_profile!.sector != null)
-                _buildChip(_profile!.sector!.name, Colors.blue.shade700),
-              if (_profile!.categories != null)
-                ..._profile!.categories!.map((c) => _buildChip(c.name, Colors.purple.shade700)),
-            ],
           ),
-        ],
-      ),
+        if (_profile!.isVerified) const SizedBox(width: 12),
+        Expanded(
+          child: InkWell(
+            onTap: () {
+              if (_profile!.contactInfo?.phone != null) {
+                _launchUrl('tel:${_profile!.contactInfo!.phone}');
+              }
+            },
+            child: Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: kPrimaryColor.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: kPrimaryColor.withOpacity(0.2)),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.call_rounded, color: kPrimaryColor, size: 20),
+                  const SizedBox(width: 8),
+                  Text(
+                    _language == 'en' ? 'Contact' : 'Lumikizani',
+                    style: GoogleFonts.poppins(
+                      color: kPrimaryColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 13,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 
-  Widget _buildChip(String label, Color color) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Text(
-        label,
-        style: GoogleFonts.poppins(
-          fontSize: 11,
-          color: color,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-    );
-  }
+
 
   Widget _buildDescription() {
     if (_profile!.description == null) return const SizedBox.shrink();
 
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            _language == 'en' ? 'About' : 'Zambiri',
-            style: GoogleFonts.poppins(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            _profile!.description!,
-            style: GoogleFonts.poppins(
-              fontSize: 14,
-              color: Colors.grey[700],
-              height: 1.5,
-            ),
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.02),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
           ),
         ],
+      ),
+      child: Text(
+        _profile!.description!,
+        style: GoogleFonts.poppins(
+          fontSize: 14,
+          color: Colors.grey[700],
+          height: 1.6,
+        ),
       ),
     );
   }
 
   Widget _buildLocationInfo() {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.02),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            _language == 'en' ? 'Location' : 'Malo',
-            style: GoogleFonts.poppins(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          const SizedBox(height: 12),
-          _buildInfoRow(Icons.location_on, _profile!.location ?? 'N/A'),
+          _buildInfoRow(Icons.place_rounded, _profile!.location ?? 'N/A'),
           if (_profile!.district != null)
-            _buildInfoRow(Icons.map, _profile!.district!.name),
+            _buildInfoRow(Icons.map_rounded, _profile!.district!.name),
           if (_profile!.addressLine != null)
-            _buildInfoRow(Icons.home, _profile!.addressLine!),
+            _buildInfoRow(Icons.home_rounded, _profile!.addressLine!),
           if (_profile!.townCity != null)
-            _buildInfoRow(Icons.location_city, _profile!.townCity!),
+            _buildInfoRow(Icons.location_city_rounded, _profile!.townCity!),
           if (_profile!.gpsLat != null && _profile!.gpsLng != null)
             _buildInfoRow(
-              Icons.gps_fixed,
-              '${_profile!.gpsLat}, ${_profile!.gpsLng}',
+              Icons.explore_rounded,
+              'GPS: ${_profile!.gpsLat}, ${_profile!.gpsLng}',
             ),
         ],
       ),
@@ -395,39 +490,36 @@ class _BusinessProfileDetailPageState extends State<BusinessProfileDetailPage> {
 
   Widget _buildContactInfo() {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.02),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            _language == 'en' ? 'Contact' : 'Mauthenga',
-            style: GoogleFonts.poppins(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          const SizedBox(height: 12),
           if (_profile!.contactInfo?.phone != null)
-            _buildInfoRow(Icons.phone, _profile!.contactInfo!.phone!),
+            _buildInfoRow(Icons.phone_iphone_rounded, _profile!.contactInfo!.phone!),
           if (_profile!.contactInfo?.email != null)
-            _buildInfoRow(Icons.email, _profile!.contactInfo!.email!),
+            _buildInfoRow(Icons.alternate_email_rounded, _profile!.contactInfo!.email!),
           if (_profile!.contactInfo?.website != null)
             InkWell(
               onTap: () => _launchUrl(_profile!.contactInfo!.website!),
               child: _buildInfoRow(
-                Icons.language,
+                Icons.language_rounded,
                 _profile!.contactInfo!.website!,
                 isLink: true,
               ),
             ),
           if (_profile!.businessLicenseNumber != null)
             _buildInfoRow(
-              Icons.card_membership,
+              Icons.badge_rounded,
               _profile!.businessLicenseNumber!,
             ),
         ],
@@ -437,17 +529,25 @@ class _BusinessProfileDetailPageState extends State<BusinessProfileDetailPage> {
 
   Widget _buildInfoRow(IconData icon, String text, {bool isLink = false}) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.only(bottom: 16),
       child: Row(
         children: [
-          Icon(icon, size: 20, color: Colors.grey[600]),
-          const SizedBox(width: 12),
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: kPrimaryColor.withOpacity(0.05),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Icon(icon, size: 18, color: kPrimaryColor),
+          ),
+          const SizedBox(width: 16),
           Expanded(
             child: Text(
               text,
               style: GoogleFonts.poppins(
                 fontSize: 14,
-                color: isLink ? Colors.blue[700] : Colors.grey[700],
+                color: isLink ? kPrimaryColor : Colors.black87,
+                fontWeight: isLink ? FontWeight.w600 : FontWeight.w400,
                 decoration: isLink ? TextDecoration.underline : null,
               ),
             ),
@@ -460,39 +560,48 @@ class _BusinessProfileDetailPageState extends State<BusinessProfileDetailPage> {
   Widget _buildSocialMedia() {
     final socialMedia = _profile!.contactInfo!.socialMedia!;
 
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Social Media',
-            style: GoogleFonts.poppins(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
+    return Wrap(
+      spacing: 12,
+      runSpacing: 12,
+      children: [
+        if (socialMedia.facebook != null && socialMedia.facebook!.isNotEmpty)
+          _buildSocialCard('Facebook', Icons.facebook_rounded, const Color(0xFF1877F2), socialMedia.facebook!),
+        if (socialMedia.instagram != null && socialMedia.instagram!.isNotEmpty)
+          _buildSocialCard('Instagram', Icons.camera_alt_rounded, const Color(0xFFE4405F), socialMedia.instagram!),
+        if (socialMedia.twitter != null && socialMedia.twitter!.isNotEmpty)
+          _buildSocialCard('Twitter', Icons.chat_bubble_rounded, const Color(0xFF1DA1F2), socialMedia.twitter!),
+        if (socialMedia.linkedin != null && socialMedia.linkedin!.isNotEmpty)
+          _buildSocialCard('LinkedIn', Icons.business_center_rounded, const Color(0xFF0A66C2), socialMedia.linkedin!),
+      ],
+    );
+  }
+
+  Widget _buildSocialCard(String name, IconData icon, Color color, String url) {
+    return InkWell(
+      onTap: () => _launchUrl(url),
+      borderRadius: BorderRadius.circular(16),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        decoration: BoxDecoration(
+          color: color.withOpacity(0.08),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: color.withOpacity(0.1)),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, size: 20, color: color),
+            const SizedBox(width: 8),
+            Text(
+              name,
+              style: GoogleFonts.poppins(
+                fontSize: 13,
+                fontWeight: FontWeight.bold,
+                color: color,
+              ),
             ),
-          ),
-          const SizedBox(height: 12),
-          Wrap(
-            spacing: 12,
-            runSpacing: 12,
-            children: [
-              if (socialMedia.facebook != null && socialMedia.facebook!.isNotEmpty)
-                _buildSocialButton('Facebook', Icons.facebook, socialMedia.facebook!),
-              if (socialMedia.instagram != null && socialMedia.instagram!.isNotEmpty)
-                _buildSocialButton('Instagram', Icons.camera_alt, socialMedia.instagram!),
-              if (socialMedia.twitter != null && socialMedia.twitter!.isNotEmpty)
-                _buildSocialButton('Twitter', Icons.chat, socialMedia.twitter!),
-              if (socialMedia.linkedin != null && socialMedia.linkedin!.isNotEmpty)
-                _buildSocialButton('LinkedIn', Icons.business_center, socialMedia.linkedin!),
-            ],
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -511,47 +620,34 @@ class _BusinessProfileDetailPageState extends State<BusinessProfileDetailPage> {
   }
 
   Widget _buildOfferings() {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            _language == 'en' ? 'Products & Services' : 'Zogulitsa',
-            style: GoogleFonts.poppins(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          const SizedBox(height: 12),
-          ...(_profile!.offerings!.map((offering) => _buildOfferingCard(offering))),
-        ],
-      ),
+    return Column(
+      children: _profile!.offerings!.map((offering) => _buildOfferingCard(offering)).toList(),
     );
   }
 
   Widget _buildOfferingCard(BusinessOffering offering) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(12),
+      margin: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey[300]!),
-        borderRadius: BorderRadius.circular(8),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.02),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Row(
         children: [
-          // Image
           Container(
-            width: 60,
-            height: 60,
+            width: 80,
+            height: 80,
             decoration: BoxDecoration(
-              color: Colors.grey[200],
-              borderRadius: BorderRadius.circular(8),
+              color: Colors.grey[50],
+              borderRadius: BorderRadius.circular(16),
               image: offering.imageUrl != null
                   ? DecorationImage(
                       image: NetworkImage(offering.imageUrl!),
@@ -561,12 +657,13 @@ class _BusinessProfileDetailPageState extends State<BusinessProfileDetailPage> {
             ),
             child: offering.imageUrl == null
                 ? Icon(
-                    offering.type == 'service' ? Icons.work : Icons.shopping_bag,
-                    color: Colors.grey[400],
+                    offering.type == 'service' ? Icons.handyman_rounded : Icons.shopping_cart_rounded,
+                    color: kPrimaryColor.withOpacity(0.2),
+                    size: 30,
                   )
                 : null,
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: 16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -577,56 +674,46 @@ class _BusinessProfileDetailPageState extends State<BusinessProfileDetailPage> {
                       child: Text(
                         offering.name,
                         style: GoogleFonts.poppins(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black87,
                         ),
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 4,
-                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(
-                        color: offering.type == 'service'
-                            ? Colors.purple.shade50
-                            : Colors.orange.shade50,
+                        color: (offering.type == 'service' ? Colors.purple : Colors.orange).withOpacity(0.1),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Text(
-                        offering.type,
+                        offering.type.toUpperCase(),
                         style: GoogleFonts.poppins(
-                          fontSize: 10,
-                          color: offering.type == 'service'
-                              ? Colors.purple.shade700
-                              : Colors.orange.shade700,
-                          fontWeight: FontWeight.w600,
+                          fontSize: 9,
+                          color: offering.type == 'service' ? Colors.purple : Colors.orange,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
                   ],
                 ),
-                if (offering.description != null) ...[
-                  const SizedBox(height: 4),
+                const SizedBox(height: 4),
+                if (offering.description != null)
                   Text(
                     offering.description!,
-                    style: GoogleFonts.poppins(
-                      fontSize: 12,
-                      color: Colors.grey[600],
-                    ),
+                    style: GoogleFonts.poppins(fontSize: 12, color: Colors.grey[600]),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
-                ],
-                const SizedBox(height: 4),
+                const SizedBox(height: 8),
                 Text(
                   offering.price != null
-                      ? '${offering.currency} ${offering.price}${offering.unit != null ? ' / ${offering.unit}' : ''}'
-                      : 'Contact for price',
+                      ? 'MWK ${offering.price}${offering.unit != null ? ' / ${offering.unit}' : ''}'
+                      : 'Price on Request',
                   style: GoogleFonts.poppins(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.green.shade700,
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: kPrimaryColor,
                   ),
                 ),
               ],
@@ -638,150 +725,107 @@ class _BusinessProfileDetailPageState extends State<BusinessProfileDetailPage> {
   }
 
   Widget _buildGalleryImages() {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 12,
+        mainAxisSpacing: 12,
+        childAspectRatio: 1.2,
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            _language == 'en' ? 'Gallery Images' : 'Zithunzi',
-            style: GoogleFonts.poppins(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          const SizedBox(height: 12),
-          GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-              crossAxisSpacing: 8,
-              mainAxisSpacing: 8,
-            ),
-            itemCount: _profile!.galleryImages!.length,
-            itemBuilder: (context, index) {
-              final image = _profile!.galleryImages![index];
-              return InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ImageViewerPage(
-                        imageUrl: image.imageUrl!,
-                        caption: image.caption,
-                      ),
-                    ),
-                  );
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    image: DecorationImage(
-                      image: NetworkImage(image.imageUrl!),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+      itemCount: _profile!.galleryImages!.length,
+      itemBuilder: (context, index) {
+        final image = _profile!.galleryImages![index];
+        return InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ImageViewerPage(
+                  imageUrl: image.imageUrl!,
+                  caption: image.caption,
                 ),
-              );
-            },
+              ),
+            );
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.05),
+                  blurRadius: 8,
+                ),
+              ],
+              image: DecorationImage(
+                image: NetworkImage(image.imageUrl!),
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 
   Widget _buildGalleryVideos() {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            _language == 'en' ? 'Gallery Videos' : 'Makanema',
-            style: GoogleFonts.poppins(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          const SizedBox(height: 12),
-          ..._profile!.galleryVideos!.map((video) => _buildVideoCard(video)),
-        ],
-      ),
+    return Column(
+      children: _profile!.galleryVideos!.map((video) => _buildVideoCard(video)).toList(),
     );
   }
 
   Widget _buildVideoCard(BusinessGalleryVideo video) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(12),
+      margin: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey[300]!),
-        borderRadius: BorderRadius.circular(8),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.02),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Row(
         children: [
           Container(
-            width: 80,
-            height: 80,
+            width: 70,
+            height: 70,
             decoration: BoxDecoration(
-              color: Colors.purple.shade50,
-              borderRadius: BorderRadius.circular(8),
+              color: Colors.purple.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(16),
             ),
-            child: Icon(Icons.play_circle_fill, size: 40, color: Colors.purple.shade700),
+            child: const Icon(Icons.play_circle_filled_rounded, size: 40, color: Colors.purple),
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: 16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  video.caption ?? 'Video',
+                  video.caption ?? 'Business Presentation',
                   style: GoogleFonts.poppins(
                     fontSize: 14,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87,
                   ),
                 ),
-                if (video.fileSizeHuman != null) ...[
-                  const SizedBox(height: 4),
-                  Text(
-                    video.fileSizeHuman!,
-                    style: GoogleFonts.poppins(
-                      fontSize: 12,
-                      color: Colors.grey[600],
-                    ),
-                  ),
-                ],
-                if (video.durationHuman != null) ...[
-                  const SizedBox(height: 2),
+                if (video.durationHuman != null)
                   Text(
                     video.durationHuman!,
-                    style: GoogleFonts.poppins(
-                      fontSize: 12,
-                      color: Colors.grey[600],
-                    ),
+                    style: GoogleFonts.poppins(fontSize: 12, color: Colors.grey[600]),
                   ),
-                ],
               ],
             ),
           ),
           IconButton(
-            icon: const Icon(Icons.play_arrow),
+            icon: const Icon(Icons.arrow_forward_ios_rounded, size: 16, color: Colors.grey),
             onPressed: () {
-              // You can implement video playback here
-              if (video.videoUrl != null) {
-                _launchUrl(video.videoUrl!);
-              }
+              if (video.videoUrl != null) _launchUrl(video.videoUrl!);
             },
           ),
         ],

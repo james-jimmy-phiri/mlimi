@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:mlimi/features/buy_sell/models/commodity_models.dart';
 import 'package:mlimi/features/buy_sell/repositories/commodity_repository.dart';
 import 'package:mlimi/features/buy_sell/views/commodity_detail_screen.dart';
@@ -80,12 +81,53 @@ class _CommodityListScreenState extends State<CommodityListScreen> {
           else
             ..._commodities.map((c) => Card(
                   child: ListTile(
-                    leading: c.image == null
-                        ? const Icon(Icons.image_not_supported)
-                        : Image.network(c.image!, width: 48, fit: BoxFit.cover),
-                    title: Text(c.name),
+                    leading: SizedBox(
+                      width: 48,
+                      height: 48,
+                      child: Stack(
+                        children: [
+                          Positioned.fill(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(4),
+                              child: c.image == null
+                                  ? const Icon(Icons.image_not_supported)
+                                  : CachedNetworkImage(
+                                      imageUrl: c.image!,
+                                      fit: BoxFit.cover,
+                                      placeholder: (context, url) => const CircularProgressIndicator(strokeWidth: 2),
+                                      errorWidget: (context, url, error) => const Icon(Icons.error),
+                                    ),
+                            ),
+                          ),
+                          if (c.isAggregation)
+                            Positioned(
+                              top: 0,
+                              left: 0,
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                                decoration: const BoxDecoration(
+                                  color: Color(0xFF4F46E5), // Primary Indigo
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(4),
+                                    bottomRight: Radius.circular(4),
+                                  ),
+                                ),
+                                child: const Text('AGG', style: TextStyle(color: Colors.white, fontSize: 8, fontWeight: FontWeight.bold)),
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                     title: Text(
+                       '${c.name} (${c.quantityRemaining ?? c.quantity ?? '-'} ${c.measure ?? ''})',
+                       overflow: TextOverflow.ellipsis,
+                       maxLines: 1,
+                     ),
                     subtitle: Text(
-                        '${c.location ?? '-'} • ${c.quantityRemaining ?? c.quantity ?? '-'} ${c.measure ?? ''}'),
+                      '${c.location ?? '-'} • ${c.measure ?? ''}',
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
                     onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(

@@ -12,6 +12,9 @@ class Product {
   final int views;
   final String created;
   final Client client;
+  final bool isAggregation;
+  final String? totalSold;
+  final String? quantityRemaining;
 
   Product({
     required this.id,
@@ -27,6 +30,9 @@ class Product {
     required this.views,
     required this.created,
     required this.client,
+    this.isAggregation = false,
+    this.totalSold,
+    this.quantityRemaining,
   });
 }
 

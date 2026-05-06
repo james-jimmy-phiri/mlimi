@@ -143,9 +143,38 @@ class _CategoryCardState extends State<CategoryCard> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        if (['SalePage', 'Wallet', 'SupplyPage']
-            .contains(widget.category.targetPage.runtimeType.toString())) {
-          _showLoginDialog(context, widget.category.targetPage);
+        final targetType = widget.category.targetPage.runtimeType.toString();
+        
+        if (['SalePage', 'Wallet', 'SupplyPage', 'AggregationsDashboardScreen'].contains(targetType)) {
+          // Check if logged in
+          if (box.read('token') == null) {
+            _showLoginDialog(context, widget.category.targetPage);
+            return;
+          }
+
+          // Check for group restriction on Aggregation
+          if (targetType == 'AggregationsDashboardScreen') {
+            final clientType = box.read('client_type');
+            if (clientType != 'group') {
+              QuickAlert.show(
+                context: context,
+                type: QuickAlertType.warning,
+                title: getLocalizedText('Access Denied', 'Malo Woletsedwa'),
+                text: getLocalizedText(
+                  'Aggregation management is only available for Group accounts.',
+                  'Kasamalidwe ka aggregation kumasungidwira maakaunti a Gulu okha.'
+                ),
+                confirmBtnText: 'OK',
+                confirmBtnColor: kPrimaryColor,
+              );
+              return;
+            }
+          }
+          
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => widget.category.targetPage),
+          );
         } else {
           Navigator.push(
             context,

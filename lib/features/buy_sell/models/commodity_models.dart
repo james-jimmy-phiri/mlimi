@@ -19,6 +19,21 @@ class Commodity {
     this.commodityTypeId,
     this.districtId,
     this.measureId,
+    this.isAggregation = false,
+    this.aggregationId,
+    this.expectedSupplyDate,
+    this.views,
+    this.clientName,
+    this.clientPhone,
+    this.clientIsGroup = false,
+    this.customersCount,
+    this.suppliersCount,
+    this.totalMemberQuantity,
+    this.active = true,
+    this.date,
+    this.businessProfile,
+    this.totalSold,
+    this.poked = false,
   });
 
   final int id;
@@ -40,6 +55,21 @@ class Commodity {
   final int? commodityTypeId;
   final int? districtId;
   final int? measureId;
+  final bool isAggregation;
+  final int? aggregationId;
+  final String? expectedSupplyDate;
+  final int? views;
+  final String? clientName;
+  final String? clientPhone;
+  final bool clientIsGroup;
+  final int? customersCount;
+  final int? suppliersCount;
+  final double? totalMemberQuantity;
+  final bool active;
+  final String? date;
+  final Map<String, dynamic>? businessProfile;
+  final double? totalSold;
+  final bool poked;
 
   factory Commodity.fromJson(Map<String, dynamic> json) {
     return Commodity(
@@ -51,17 +81,32 @@ class Commodity {
       measure: json['measure']?.toString(),
       quantity: (json['quantity'] as num?)?.toDouble(),
       quantityRemaining: (json['quantity_remaining'] as num?)?.toDouble(),
+      totalSold: (json['total_sold'] as num?)?.toDouble(),
       availabilityStatus: json['availability_status']?.toString(),
       location: json['location']?.toString(),
       description: json['description']?.toString(),
       type: json['type']?.toString(),
       ownPost: json['own_post'] == true,
+      poked: json['poked'] == true,
       lowStockAlert: json['low_stock_alert'] == true,
       lowStockThreshold: (json['low_stock_threshold'] as num?)?.toDouble(),
       clientId: json['client_id'] as int?,
       commodityTypeId: json['commodity_type_id'] as int?,
       districtId: json['district_id'] as int?,
       measureId: json['measure_id'] as int?,
+      isAggregation: json['is_aggregation'] == true,
+      aggregationId: json['aggregation_id'] as int?,
+      expectedSupplyDate: json['expected_supply_date']?.toString(),
+      views: json['views'] as int?,
+      clientName: json['client']?['name']?.toString(),
+      clientPhone: json['client']?['phone']?.toString(),
+      clientIsGroup: json['client']?['group'] == true,
+      customersCount: json['customers_count'] as int?,
+      suppliersCount: json['suppliers_count'] as int?,
+      totalMemberQuantity: (json['total_member_quantity'] as num?)?.toDouble(),
+      active: json['active'] != false, // default to true if missing
+      date: json['date']?.toString() ?? json['created']?.toString(),
+      businessProfile: json['client']?['business_profile'] as Map<String, dynamic>?,
     );
   }
 }

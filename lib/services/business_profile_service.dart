@@ -379,18 +379,39 @@ class BusinessProfileService {
 
   /// Get sectors
   Future<List<BusinessSector>> getSectors() async {
-    final response = await http.get(
-      Uri.parse('$baseUrl/business-sectors'),
-      headers: _headers,
-    );
+    try {
+      final response = await http.get(
+        Uri.parse('$baseUrl/business-sectors'),
+        headers: _headers,
+      );
 
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      final List<dynamic> sectorsJson = data['data'] ?? data;
-      return sectorsJson.map((json) => BusinessSector.fromJson(json)).toList();
-    } else {
-      throw Exception('Failed to load sectors');
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        final List<dynamic> sectorsJson = data['data'] ?? data;
+        if (sectorsJson.isEmpty) return _getFallbackSectors();
+        return sectorsJson.map((json) => BusinessSector.fromJson(json)).toList();
+      } else {
+        return _getFallbackSectors();
+      }
+    } catch (e) {
+      return _getFallbackSectors();
     }
+  }
+
+  List<BusinessSector> _getFallbackSectors() {
+    final List<Map<String, dynamic>> fallback = [
+      {'id': 1, 'name': 'Agriculture', 'slug': 'agriculture'},
+      {'id': 2, 'name': 'Livestock', 'slug': 'livestock'},
+      {'id': 3, 'name': 'Fisheries', 'slug': 'fisheries'},
+      {'id': 4, 'name': 'Agro-processing', 'slug': 'agro-processing'},
+      {'id': 5, 'name': 'Input Supply', 'slug': 'input-supply'},
+      {'id': 6, 'name': 'Marketing & Trade', 'slug': 'marketing-trade'},
+      {'id': 7, 'name': 'Financial Services', 'slug': 'financial-services'},
+      {'id': 8, 'name': 'Transport & Logistics', 'slug': 'transport-logistics'},
+      {'id': 9, 'name': 'Extension Services', 'slug': 'extension-services'},
+      {'id': 10, 'name': 'Machinery & Equipment', 'slug': 'machinery-equipment'},
+    ];
+    return fallback.map((json) => BusinessSector.fromJson(json)).toList();
   }
 
   /// Get categories
@@ -418,7 +439,8 @@ class BusinessProfileService {
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
-      final List<dynamic> districtsJson = data['data'] ?? data;
+      // Backend returns {'districts': [...]}
+      final List<dynamic> districtsJson = data['districts'] ?? data['data'] ?? data;
       return districtsJson.map((json) => BusinessDistrict.fromJson(json)).toList();
     } else {
       throw Exception('Failed to load districts');

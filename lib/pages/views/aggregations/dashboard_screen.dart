@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'start_aggregation_screen.dart';
 import 'aggregation_details_screen.dart';
 import 'group_insights_screen.dart';
+import 'package:mlimi/models/aggregation_models.dart';
 
 class AggregationsDashboardScreen extends StatefulWidget {
   const AggregationsDashboardScreen({Key? key}) : super(key: key);
@@ -119,7 +120,7 @@ class _AggregationsDashboardScreenState extends State<AggregationsDashboardScree
                   delegate: SliverChildBuilderDelegate(
                     (context, index) {
                       final aggregation = provider.aggregations[index];
-                      return _buildAggregationCard(context, aggregation);
+                      return _buildAggregationCard(context, aggregation, provider);
                     },
                     childCount: provider.aggregations.length,
                   ),
@@ -204,7 +205,7 @@ class _AggregationsDashboardScreenState extends State<AggregationsDashboardScree
     );
   }
 
-  Widget _buildAggregationCard(BuildContext context, aggregation) {
+  Widget _buildAggregationCard(BuildContext context, Aggregation aggregation, AggregationProvider provider) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       decoration: BoxDecoration(

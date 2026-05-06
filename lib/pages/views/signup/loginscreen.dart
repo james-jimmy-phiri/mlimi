@@ -122,6 +122,7 @@ class _SimpleLoginScreenState extends State<SimpleLoginScreen> {
           GetStorage().write('phone', phone);
           GetStorage().write('name', client['name']);
           GetStorage().write('district', client['district']);
+          GetStorage().write('client_type', client['type'] ?? 'individual');
           print('Stored name: ${client['name']}');
           print('Stored district: ${client['district']}');
 
@@ -493,6 +494,7 @@ class _SimpleRegisterScreenState extends State<SimpleRegisterScreen> {
           GetStorage().write('phone', phone);
           GetStorage().write('name', client['name']);
           GetStorage().write('district', client['district']);
+          GetStorage().write('client_type', client['type'] ?? 'individual');
 
           if (onSubmitted != null) {
             onSubmitted!(name, pin);

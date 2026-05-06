@@ -8,8 +8,15 @@ class CommodityRepository {
 
   Future<List<Commodity>> getForSale() async {
     final data = await _client.get('/commodities/for-sale');
-    final list = (data['commodities']?['data'] ?? data['commodities'] ?? [])
-        as List<dynamic>;
+    final commoditiesData = data['commodities'];
+    List<dynamic> list = [];
+    
+    if (commoditiesData is Map && commoditiesData['data'] is List) {
+      list = commoditiesData['data'];
+    } else if (commoditiesData is List) {
+      list = commoditiesData;
+    }
+    
     return list
         .map((e) => Commodity.fromJson(e as Map<String, dynamic>))
         .toList();
@@ -24,8 +31,15 @@ class CommodityRepository {
 
   Future<List<Commodity>> getForSupply() async {
     final data = await _client.get('/commodities/for-supply');
-    final list = (data['commodities']?['data'] ?? data['commodities'] ?? [])
-        as List<dynamic>;
+    final commoditiesData = data['commodities'];
+    List<dynamic> list = [];
+
+    if (commoditiesData is Map && commoditiesData['data'] is List) {
+      list = commoditiesData['data'];
+    } else if (commoditiesData is List) {
+      list = commoditiesData;
+    }
+
     return list
         .map((e) => Commodity.fromJson(e as Map<String, dynamic>))
         .toList();
@@ -67,6 +81,10 @@ class CommodityRepository {
       '/commodities/$commodityId/toggle-status',
       body: {'availability_status': availabilityStatus},
     );
+  }
+
+  Future<void> pokeSeller(int commodityId, String role) async {
+    await _client.post('/commodities/$commodityId/potential-$role');
   }
 
   Future<Commodity> updateCommodity(

@@ -238,415 +238,612 @@ class _CreateBusinessProfilePageState extends State<CreateBusinessProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[50],
-      appBar: AppBar(
-        title: Text(
-          _language == 'en' ? 'Create Business Profile' : 'Pangani Mbiri',
-          style: GoogleFonts.poppins(color: Colors.black87),
-        ),
-        backgroundColor: Colors.white,
-        elevation: 0,
-        iconTheme: const IconThemeData(color: Colors.black87),
-      ),
       body: _isLoadingData
           ? const Center(child: CircularProgressIndicator())
-          : SingleChildScrollView(
-              padding: const EdgeInsets.all(16),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    _buildLogoSection(),
-                    const SizedBox(height: 24),
-                    _buildBusinessInfoSection(),
-                    const SizedBox(height: 24),
-                    _buildLocationSection(),
-                    const SizedBox(height: 24),
-                    _buildContactSection(),
-                    const SizedBox(height: 24),
-                    _buildSocialMediaSection(),
-                    const SizedBox(height: 24),
-                    _buildOfferingsSection(),
-                    const SizedBox(height: 24),
-                    _buildGallerySection(),
-                    const SizedBox(height: 32),
-                    _buildSubmitButton(),
-                    const SizedBox(height: 32),
+          : CustomScrollView(
+              slivers: [
+                _buildAppBar(),
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 24, 16, 100),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          _buildSectionHeader(
+                            _language == 'en' ? 'Brand Identity' : 'Chidziwitso cha Bizinesi',
+                            Icons.stars_rounded,
+                          ),
+                          _buildLogoSection(),
+                          const SizedBox(height: 32),
+                          
+                          _buildSectionHeader(
+                            _language == 'en' ? 'Core Information' : 'Zambiri zazikulu',
+                            Icons.business_center_rounded,
+                          ),
+                          _buildBusinessInfoSection(),
+                          const SizedBox(height: 32),
+                          
+                          _buildSectionHeader(
+                            _language == 'en' ? 'Location Details' : 'Zambiri za Malo',
+                            Icons.location_on_rounded,
+                          ),
+                          _buildLocationSection(),
+                          const SizedBox(height: 32),
+                          
+                          _buildSectionHeader(
+                            _language == 'en' ? 'Contact & Digital' : 'Zolumikizirana',
+                            Icons.contact_mail_rounded,
+                          ),
+                          _buildContactSection(),
+                          const SizedBox(height: 32),
+                          
+                          _buildSectionHeader(
+                            _language == 'en' ? 'Social Presence' : 'Social Media',
+                            Icons.public_rounded,
+                          ),
+                          _buildSocialMediaSection(),
+                          const SizedBox(height: 32),
+                          
+                          _buildSectionHeader(
+                            _language == 'en' ? 'Offerings (Products/Services)' : 'Zogulitsa ndi Ntchito',
+                            Icons.shopping_bag_rounded,
+                            action: TextButton.icon(
+                              onPressed: _addOffering,
+                              icon: const Icon(Icons.add_circle_outline, size: 20),
+                              label: Text(_language == 'en' ? 'Add Item' : 'Onjezani'),
+                              style: TextButton.styleFrom(foregroundColor: kPrimaryColor),
+                            ),
+                          ),
+                          _buildOfferingsSection(),
+                          const SizedBox(height: 32),
+                          
+                          _buildSectionHeader(
+                            _language == 'en' ? 'Media Gallery' : 'Zithunzi ndi Makanema',
+                            Icons.collections_rounded,
+                          ),
+                          _buildGallerySection(),
+                          const SizedBox(height: 40),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+      bottomSheet: _isLoadingData ? null : _buildSubmitBar(),
+    );
+  }
+
+  Widget _buildAppBar() {
+    return SliverAppBar(
+      expandedHeight: 180.0,
+      floating: false,
+      pinned: true,
+      elevation: 0,
+      backgroundColor: kPrimaryColor,
+      flexibleSpace: FlexibleSpaceBar(
+        centerTitle: true,
+        title: Text(
+          _language == 'en' ? 'Create Business Profile' : 'Pangani Mbiri',
+          style: GoogleFonts.poppins(
+            fontWeight: FontWeight.w600,
+            fontSize: 16,
+            color: Colors.white,
+          ),
+        ),
+        background: Stack(
+          fit: StackFit.expand,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    kPrimaryColor,
+                    kPrimaryColor.withOpacity(0.8),
                   ],
                 ),
               ),
             ),
-    );
-  }
-
-  Widget _buildLogoSection() {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            Text(
-              _language == 'en' ? 'Business Logo' : 'Logo ya Bizinesi',
-              style: GoogleFonts.poppins(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            const SizedBox(height: 16),
-            GestureDetector(
-              onTap: _pickLogo,
-              child: Container(
-                width: 120,
-                height: 120,
-                decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  borderRadius: BorderRadius.circular(12),
-                  image: _logoImage != null
-                      ? DecorationImage(
-                          image: FileImage(_logoImage!),
-                          fit: BoxFit.cover,
-                        )
-                      : null,
-                ),
-                child: _logoImage == null
-                    ? Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Icon(Icons.add_photo_alternate,
-                              size: 40, color: Colors.grey),
-                          const SizedBox(height: 8),
-                          Text(
-                            _language == 'en' ? 'Add Logo' : 'Ikani Logo',
-                            style: GoogleFonts.poppins(color: Colors.grey),
-                          ),
-                        ],
-                      )
-                    : null,
+            Positioned(
+              right: -50,
+              top: -50,
+              child: Icon(
+                Icons.business,
+                size: 250,
+                color: Colors.white.withOpacity(0.1),
               ),
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildSectionHeader(String title, IconData icon, {Widget? action}) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16, left: 4),
+      child: Row(
+        children: [
+          Icon(icon, color: kPrimaryColor, size: 22),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              title,
+              style: GoogleFonts.poppins(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.black87,
+              ),
+            ),
+          ),
+          if (action != null) action,
+        ],
+      ),
+    );
+  }
+
+  InputDecoration _getInputDecoration(String label, IconData icon) {
+    return InputDecoration(
+      labelText: label,
+      labelStyle: GoogleFonts.poppins(color: Colors.grey[600], fontSize: 14),
+      prefixIcon: Icon(icon, color: kPrimaryColor, size: 20),
+      filled: true,
+      fillColor: Colors.white,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide(color: Colors.grey[300]!),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide(color: Colors.grey[300]!),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: const BorderSide(color: kPrimaryColor, width: 2),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: const BorderSide(color: Colors.red, width: 1),
+      ),
+    );
+  }
+
+  Widget _buildSubmitBar() {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            offset: const Offset(0, -4),
+            blurRadius: 10,
+          ),
+        ],
+      ),
+      child: SafeArea(
+        child: SizedBox(
+          width: double.infinity,
+          height: 55,
+          child: ElevatedButton(
+            onPressed: _isLoading ? null : _submitProfile,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: kPrimaryColor,
+              foregroundColor: Colors.white,
+              elevation: 2,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+            ),
+            child: _isLoading
+                ? const SizedBox(
+                    height: 24,
+                    width: 24,
+                    child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
+                  )
+                : Text(
+                    _language == 'en' ? 'Launch Business Profile' : 'Tumizani Mbiri ya Bizinesi',
+                    style: GoogleFonts.poppins(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLogoSection() {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.03),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          Stack(
+            children: [
+              GestureDetector(
+                onTap: _pickLogo,
+                child: Container(
+                  width: 140,
+                  height: 140,
+                  decoration: BoxDecoration(
+                    color: Colors.grey[100],
+                    shape: BoxShape.circle,
+                    border: Border.all(color: Colors.grey[200]!, width: 4),
+                    image: _logoImage != null
+                        ? DecorationImage(
+                            image: FileImage(_logoImage!),
+                            fit: BoxFit.cover,
+                          )
+                        : null,
+                  ),
+                  child: _logoImage == null
+                      ? Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.add_a_photo_rounded, size: 40, color: kPrimaryColor.withOpacity(0.5)),
+                            const SizedBox(height: 8),
+                            Text(
+                              _language == 'en' ? 'Upload Logo' : 'Ikani Logo',
+                              style: GoogleFonts.poppins(color: Colors.grey[600], fontSize: 12),
+                            ),
+                          ],
+                        )
+                      : null,
+                ),
+              ),
+              if (_logoImage != null)
+                Positioned(
+                  right: 0,
+                  bottom: 0,
+                  child: GestureDetector(
+                    onTap: _pickLogo,
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: const BoxDecoration(
+                        color: kPrimaryColor,
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(Icons.edit, color: Colors.white, size: 20),
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        ],
       ),
     );
   }
 
   Widget _buildBusinessInfoSection() {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              _language == 'en' ? 'Business Information' : 'Zambiri za Bizinesi',
-              style: GoogleFonts.poppins(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.03),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          TextFormField(
+            controller: _nameController,
+            style: GoogleFonts.poppins(fontSize: 15),
+            decoration: _getInputDecoration(
+              _language == 'en' ? 'Business Name *' : 'Dzina la Bizinesi *',
+              Icons.business_rounded,
             ),
-            const SizedBox(height: 16),
-            TextFormField(
-              controller: _nameController,
-              decoration: InputDecoration(
-                labelText: _language == 'en' ? 'Business Name *' : 'Dzina la Bizinesi *',
-                border: const OutlineInputBorder(),
-                prefixIcon: const Icon(Icons.business),
-              ),
-              validator: (value) =>
-                  value?.isEmpty == true ? 'Required' : null,
+            validator: (value) => value?.isEmpty == true ? 'Required' : null,
+          ),
+          const SizedBox(height: 20),
+          DropdownButtonFormField<BusinessSector>(
+            style: GoogleFonts.poppins(fontSize: 15, color: Colors.black87),
+            decoration: _getInputDecoration(
+              _language == 'en' ? 'Industry Sector' : 'Gawo la Bizinesi',
+              Icons.category_rounded,
             ),
-            const SizedBox(height: 16),
-            DropdownButtonFormField<BusinessSector>(
-              decoration: InputDecoration(
-                labelText: _language == 'en' ? 'Sector' : 'Gawo',
-                border: const OutlineInputBorder(),
-                prefixIcon: const Icon(Icons.category),
-              ),
-              value: _selectedSector,
-              items: _sectors
-                  .map((s) => DropdownMenuItem(value: s, child: Text(s.name)))
-                  .toList(),
-              onChanged: (value) => setState(() => _selectedSector = value),
+            value: _selectedSector,
+            items: _sectors
+                .map((s) => DropdownMenuItem(value: s, child: Text(s.name)))
+                .toList(),
+            onChanged: (value) => setState(() => _selectedSector = value),
+          ),
+          const SizedBox(height: 20),
+          TextFormField(
+            controller: _descriptionController,
+            style: GoogleFonts.poppins(fontSize: 15),
+            decoration: _getInputDecoration(
+              _language == 'en' ? 'Business Description *' : 'Kufotokozera *',
+              Icons.description_rounded,
+            ).copyWith(alignLabelWithHint: true),
+            maxLines: 4,
+            validator: (value) => value?.isEmpty == true ? 'Required' : null,
+          ),
+          const SizedBox(height: 20),
+          TextFormField(
+            controller: _licenseController,
+            style: GoogleFonts.poppins(fontSize: 15),
+            decoration: _getInputDecoration(
+              _language == 'en' ? 'Business License No.' : 'Nambala ya Lazense',
+              Icons.badge_rounded,
             ),
-            const SizedBox(height: 16),
-            TextFormField(
-              controller: _descriptionController,
-              decoration: InputDecoration(
-                labelText: _language == 'en' ? 'Description *' : 'Kufotokozera *',
-                border: const OutlineInputBorder(),
-                prefixIcon: const Icon(Icons.description),
-              ),
-              maxLines: 3,
-              validator: (value) =>
-                  value?.isEmpty == true ? 'Required' : null,
-            ),
-            const SizedBox(height: 16),
-            TextFormField(
-              controller: _licenseController,
-              decoration: InputDecoration(
-                labelText: _language == 'en' ? 'Business License Number' : 'Nambala ya Lazense',
-                border: const OutlineInputBorder(),
-                prefixIcon: const Icon(Icons.card_membership),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 
   Widget _buildLocationSection() {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              _language == 'en' ? 'Location' : 'Malo',
-              style: GoogleFonts.poppins(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.03),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          TextFormField(
+            controller: _locationController,
+            style: GoogleFonts.poppins(fontSize: 15),
+            decoration: _getInputDecoration(
+              _language == 'en' ? 'Primary Location *' : 'Malo Akulu *',
+              Icons.place_rounded,
             ),
-            const SizedBox(height: 16),
-            TextFormField(
-              controller: _locationController,
-              decoration: InputDecoration(
-                labelText: _language == 'en' ? 'Location *' : 'Malo *',
-                border: const OutlineInputBorder(),
-                prefixIcon: const Icon(Icons.location_on),
-              ),
-              validator: (value) =>
-                  value?.isEmpty == true ? 'Required' : null,
+            validator: (value) => value?.isEmpty == true ? 'Required' : null,
+          ),
+          const SizedBox(height: 20),
+          DropdownButtonFormField<BusinessDistrict>(
+            style: GoogleFonts.poppins(fontSize: 15, color: Colors.black87),
+            decoration: _getInputDecoration(
+              _language == 'en' ? 'District' : 'Boma',
+              Icons.map_rounded,
             ),
-            const SizedBox(height: 16),
-            DropdownButtonFormField<BusinessDistrict>(
-              decoration: InputDecoration(
-                labelText: _language == 'en' ? 'District' : 'Boma',
-                border: const OutlineInputBorder(),
-                prefixIcon: const Icon(Icons.map),
-              ),
-              value: _selectedDistrict,
-              items: _districts
-                  .map((d) => DropdownMenuItem(value: d, child: Text(d.name)))
-                  .toList(),
-              onChanged: (value) => setState(() => _selectedDistrict = value),
+            value: _selectedDistrict,
+            items: _districts
+                .map((d) => DropdownMenuItem(value: d, child: Text(d.name)))
+                .toList(),
+            onChanged: (value) => setState(() => _selectedDistrict = value),
+          ),
+          const SizedBox(height: 20),
+          TextFormField(
+            controller: _addressLineController,
+            style: GoogleFonts.poppins(fontSize: 15),
+            decoration: _getInputDecoration(
+              _language == 'en' ? 'Physical Address' : 'Adiresi ya Malo',
+              Icons.home_rounded,
             ),
-            const SizedBox(height: 16),
-            TextFormField(
-              controller: _addressLineController,
-              decoration: InputDecoration(
-                labelText: _language == 'en' ? 'Address Line' : 'Adiresi',
-                border: const OutlineInputBorder(),
-              ),
+          ),
+          const SizedBox(height: 20),
+          TextFormField(
+            controller: _townCityController,
+            style: GoogleFonts.poppins(fontSize: 15),
+            decoration: _getInputDecoration(
+              _language == 'en' ? 'Town / City' : 'Tawuni / Mzinda',
+              Icons.location_city_rounded,
             ),
-            const SizedBox(height: 16),
-            TextFormField(
-              controller: _townCityController,
-              decoration: InputDecoration(
-                labelText: _language == 'en' ? 'Town/City' : 'Tawuni',
-                border: const OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 16),
-            Row(
-              children: [
-                Expanded(
-                  child: TextFormField(
-                    controller: _gpsLatController,
-                    decoration: const InputDecoration(
-                      labelText: 'GPS Latitude',
-                      border: OutlineInputBorder(),
-                    ),
-                    keyboardType: TextInputType.number,
-                  ),
+          ),
+          const SizedBox(height: 20),
+          Row(
+            children: [
+              Expanded(
+                child: TextFormField(
+                  controller: _gpsLatController,
+                  style: GoogleFonts.poppins(fontSize: 14),
+                  decoration: _getInputDecoration('Latitude', Icons.explore_rounded),
+                  keyboardType: TextInputType.number,
                 ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: TextFormField(
-                    controller: _gpsLngController,
-                    decoration: const InputDecoration(
-                      labelText: 'GPS Longitude',
-                      border: OutlineInputBorder(),
-                    ),
-                    keyboardType: TextInputType.number,
-                  ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: TextFormField(
+                  controller: _gpsLngController,
+                  style: GoogleFonts.poppins(fontSize: 14),
+                  decoration: _getInputDecoration('Longitude', Icons.explore_rounded),
+                  keyboardType: TextInputType.number,
                 ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            TextButton.icon(
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          SizedBox(
+            width: double.infinity,
+            child: TextButton.icon(
               onPressed: _getCurrentLocation,
-              icon: const Icon(Icons.my_location),
-              label: Text(_language == 'en' ? 'Use My Location' : 'Gwiritsani Ntchito Malo Anga'),
+              icon: const Icon(Icons.my_location_rounded, size: 20),
+              label: Text(
+                _language == 'en' ? 'Get GPS from Current Location' : 'Pezani GPS pamene muli',
+                style: GoogleFonts.poppins(fontWeight: FontWeight.w500),
+              ),
+              style: TextButton.styleFrom(
+                foregroundColor: kPrimaryColor,
+                padding: const EdgeInsets.symmetric(vertical: 12),
+              ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 
   Widget _buildContactSection() {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              _language == 'en' ? 'Contact Information' : 'Mauthenga',
-              style: GoogleFonts.poppins(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.03),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          TextFormField(
+            controller: _phoneController,
+            style: GoogleFonts.poppins(fontSize: 15),
+            decoration: _getInputDecoration(
+              _language == 'en' ? 'Business Phone *' : 'Lamya ya Bizinesi *',
+              Icons.phone_rounded,
             ),
-            const SizedBox(height: 16),
-            TextFormField(
-              controller: _phoneController,
-              decoration: InputDecoration(
-                labelText: _language == 'en' ? 'Phone *' : 'Lamya *',
-                border: const OutlineInputBorder(),
-                prefixIcon: const Icon(Icons.phone),
-              ),
-              keyboardType: TextInputType.phone,
-              validator: (value) =>
-                  value?.isEmpty == true ? 'Required' : null,
+            keyboardType: TextInputType.phone,
+            validator: (value) => value?.isEmpty == true ? 'Required' : null,
+          ),
+          const SizedBox(height: 20),
+          TextFormField(
+            controller: _emailController,
+            style: GoogleFonts.poppins(fontSize: 15),
+            decoration: _getInputDecoration(
+              'Business Email *',
+              Icons.email_rounded,
             ),
-            const SizedBox(height: 16),
-            TextFormField(
-              controller: _emailController,
-              decoration: const InputDecoration(
-                labelText: 'Email *',
-                border: OutlineInputBorder(),
-                prefixIcon: Icon(Icons.email),
-              ),
-              keyboardType: TextInputType.emailAddress,
-              validator: (value) =>
-                  value?.isEmpty == true ? 'Required' : null,
+            keyboardType: TextInputType.emailAddress,
+            validator: (value) => value?.isEmpty == true ? 'Required' : null,
+          ),
+          const SizedBox(height: 20),
+          TextFormField(
+            controller: _websiteController,
+            style: GoogleFonts.poppins(fontSize: 15),
+            decoration: _getInputDecoration(
+              _language == 'en' ? 'Website URL' : 'Webusaiti',
+              Icons.language_rounded,
             ),
-            const SizedBox(height: 16),
-            TextFormField(
-              controller: _websiteController,
-              decoration: InputDecoration(
-                labelText: _language == 'en' ? 'Website' : 'Webusaiti',
-                border: const OutlineInputBorder(),
-                prefixIcon: const Icon(Icons.language),
-              ),
-            ),
-          ],
-        ),
+            keyboardType: TextInputType.url,
+          ),
+        ],
       ),
     );
   }
 
   Widget _buildSocialMediaSection() {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              _language == 'en' ? 'Social Media' : 'Social Media',
-              style: GoogleFonts.poppins(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            const SizedBox(height: 16),
-            TextFormField(
-              controller: _facebookController,
-              decoration: const InputDecoration(
-                labelText: 'Facebook',
-                border: OutlineInputBorder(),
-                prefixIcon: Icon(Icons.facebook),
-              ),
-            ),
-            const SizedBox(height: 12),
-            TextFormField(
-              controller: _instagramController,
-              decoration: const InputDecoration(
-                labelText: 'Instagram',
-                border: OutlineInputBorder(),
-                prefixIcon: Icon(Icons.camera_alt),
-              ),
-            ),
-            const SizedBox(height: 12),
-            TextFormField(
-              controller: _twitterController,
-              decoration: const InputDecoration(
-                labelText: 'Twitter',
-                border: OutlineInputBorder(),
-                prefixIcon: Icon(Icons.chat),
-              ),
-            ),
-            const SizedBox(height: 12),
-            TextFormField(
-              controller: _linkedinController,
-              decoration: const InputDecoration(
-                labelText: 'LinkedIn',
-                border: OutlineInputBorder(),
-                prefixIcon: Icon(Icons.business_center),
-              ),
-            ),
-          ],
-        ),
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.03),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          TextFormField(
+            controller: _facebookController,
+            style: GoogleFonts.poppins(fontSize: 15),
+            decoration: _getInputDecoration('Facebook URL', Icons.facebook_rounded),
+          ),
+          const SizedBox(height: 16),
+          TextFormField(
+            controller: _instagramController,
+            style: GoogleFonts.poppins(fontSize: 15),
+            decoration: _getInputDecoration('Instagram URL', Icons.camera_alt_rounded),
+          ),
+          const SizedBox(height: 16),
+          TextFormField(
+            controller: _twitterController,
+            style: GoogleFonts.poppins(fontSize: 15),
+            decoration: _getInputDecoration('Twitter URL', Icons.alternate_email_rounded),
+          ),
+          const SizedBox(height: 16),
+          TextFormField(
+            controller: _linkedinController,
+            style: GoogleFonts.poppins(fontSize: 15),
+            decoration: _getInputDecoration('LinkedIn URL', Icons.work_rounded),
+          ),
+        ],
       ),
     );
   }
 
   Widget _buildOfferingsSection() {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
+    if (_offerings.isEmpty) {
+      return Container(
+        padding: const EdgeInsets.all(32),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: Colors.grey[200]!),
+        ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  _language == 'en' ? 'Products & Services' : 'Zogulitsa',
-                  style: GoogleFonts.poppins(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                TextButton.icon(
-                  onPressed: _addOffering,
-                  icon: const Icon(Icons.add),
-                  label: Text(_language == 'en' ? 'Add' : 'Onjezani'),
-                ),
-              ],
+            Icon(Icons.inventory_2_outlined, size: 48, color: Colors.grey[300]),
+            const SizedBox(height: 16),
+            Text(
+              _language == 'en' ? 'List your main products or services' : 'Lembetsani zogulitsa zanu',
+              textAlign: TextAlign.center,
+              style: GoogleFonts.poppins(color: Colors.grey[600], fontSize: 14),
             ),
-            if (_offerings.isEmpty)
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Text(
-                    _language == 'en' ? 'No offerings added' : 'Palibe zogulitsa',
-                    style: GoogleFonts.poppins(color: Colors.grey),
-                  ),
-                ),
-              )
-            else
-              ...List.generate(_offerings.length, (index) {
-                return _buildOfferingItem(index);
-              }),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: _addOffering,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: kPrimaryColor.withOpacity(0.1),
+                foregroundColor: kPrimaryColor,
+                elevation: 0,
+              ),
+              child: Text(_language == 'en' ? 'Add First Item' : 'Onjezani Choyamba'),
+            ),
           ],
         ),
-      ),
+      );
+    }
+    
+    return Column(
+      children: List.generate(_offerings.length, (index) {
+        return _buildOfferingItem(index);
+      }),
     );
   }
 
   Widget _buildOfferingItem(int index) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(12),
+      margin: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey[300]!),
-        borderRadius: BorderRadius.circular(8),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.03),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Column(
         children: [
@@ -655,10 +852,9 @@ class _CreateBusinessProfilePageState extends State<CreateBusinessProfilePage> {
               Expanded(
                 child: DropdownButtonFormField<String>(
                   value: _offerings[index]['type'],
-                  decoration: const InputDecoration(
-                    labelText: 'Type',
-                    border: OutlineInputBorder(),
-                    isDense: true,
+                  style: GoogleFonts.poppins(fontSize: 14, color: Colors.black87),
+                  decoration: _getInputDecoration('Type', Icons.layers_rounded).copyWith(
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   ),
                   items: const [
                     DropdownMenuItem(value: 'product', child: Text('Product')),
@@ -669,62 +865,52 @@ class _CreateBusinessProfilePageState extends State<CreateBusinessProfilePage> {
                   },
                 ),
               ),
+              const SizedBox(width: 8),
               IconButton(
-                icon: const Icon(Icons.delete, color: Colors.red),
+                icon: const Icon(Icons.remove_circle_outline, color: Colors.redAccent),
                 onPressed: () => _removeOffering(index),
               ),
             ],
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 16),
           TextFormField(
-            decoration: const InputDecoration(
-              labelText: 'Name',
-              border: OutlineInputBorder(),
-              isDense: true,
+            style: GoogleFonts.poppins(fontSize: 14),
+            decoration: _getInputDecoration('Name', Icons.label_rounded).copyWith(
+              contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             ),
-            onChanged: (value) {
-              _offerings[index]['name'] = value;
-            },
+            onChanged: (value) => _offerings[index]['name'] = value,
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 12),
           TextFormField(
-            decoration: const InputDecoration(
-              labelText: 'Description',
-              border: OutlineInputBorder(),
-              isDense: true,
+            style: GoogleFonts.poppins(fontSize: 14),
+            decoration: _getInputDecoration('Short Description', Icons.notes_rounded).copyWith(
+              contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             ),
-            onChanged: (value) {
-              _offerings[index]['description'] = value;
-            },
+            onChanged: (value) => _offerings[index]['description'] = value,
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 12),
           Row(
             children: [
               Expanded(
                 flex: 2,
                 child: TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'Price (MWK)',
-                    border: OutlineInputBorder(),
-                    isDense: true,
+                  style: GoogleFonts.poppins(fontSize: 14),
+                  decoration: _getInputDecoration('Price', Icons.payments_rounded).copyWith(
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    prefixText: 'MWK ',
                   ),
                   keyboardType: TextInputType.number,
-                  onChanged: (value) {
-                    _offerings[index]['price'] = double.tryParse(value);
-                  },
+                  onChanged: (value) => _offerings[index]['price'] = double.tryParse(value),
                 ),
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: 12),
               Expanded(
                 child: TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'Unit',
-                    border: OutlineInputBorder(),
-                    isDense: true,
+                  style: GoogleFonts.poppins(fontSize: 14),
+                  decoration: _getInputDecoration('Unit', Icons.scale_rounded).copyWith(
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   ),
-                  onChanged: (value) {
-                    _offerings[index]['unit'] = value;
-                  },
+                  onChanged: (value) => _offerings[index]['unit'] = value,
                 ),
               ),
             ],
@@ -735,58 +921,104 @@ class _CreateBusinessProfilePageState extends State<CreateBusinessProfilePage> {
   }
 
   Widget _buildGallerySection() {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              _language == 'en' ? 'Gallery' : 'Zithunzi',
-              style: GoogleFonts.poppins(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.03),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: _buildGalleryPicker(
+                  onTap: _pickGalleryImages,
+                  icon: Icons.add_photo_alternate_rounded,
+                  label: _language == 'en' ? 'Add Photos' : 'Zithunzi',
+                  count: _galleryImages.length,
+                ),
               ),
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton.icon(
-              onPressed: _pickGalleryImages,
-              icon: const Icon(Icons.image),
-              label: Text(_language == 'en'
-                  ? 'Add Images (${_galleryImages.length})'
-                  : 'Onjezani Zithunzi (${_galleryImages.length})'),
-            ),
-            const SizedBox(height: 8),
-            ElevatedButton.icon(
-              onPressed: _pickGalleryVideo,
-              icon: const Icon(Icons.video_library),
-              label: Text(_language == 'en'
-                  ? 'Add Videos (${_galleryVideos.length})'
-                  : 'Onjezani Makanema (${_galleryVideos.length})'),
-            ),
-            if (_galleryImages.isNotEmpty) ...[
-              const SizedBox(height: 16),
-              SizedBox(
-                height: 100,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: _galleryImages.length,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      margin: const EdgeInsets.only(right: 8),
-                      width: 100,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        image: DecorationImage(
-                          image: FileImage(_galleryImages[index]),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    );
-                  },
+              const SizedBox(width: 16),
+              Expanded(
+                child: _buildGalleryPicker(
+                  onTap: _pickGalleryVideo,
+                  icon: Icons.video_call_rounded,
+                  label: _language == 'en' ? 'Add Videos' : 'Makanema',
+                  count: _galleryVideos.length,
                 ),
               ),
             ],
+          ),
+          if (_galleryImages.isNotEmpty) ...[
+            const SizedBox(height: 20),
+            Text(
+              _language == 'en' ? 'Images Preview' : 'Zithunzi zanu',
+              style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.grey),
+            ),
+            const SizedBox(height: 8),
+            SizedBox(
+              height: 80,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: _galleryImages.length,
+                itemBuilder: (context, index) {
+                  return Container(
+                    margin: const EdgeInsets.only(right: 12),
+                    width: 80,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      image: DecorationImage(
+                        image: FileImage(_galleryImages[index]),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
+  Widget _buildGalleryPicker({required VoidCallback onTap, required IconData icon, required String label, required int count}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        decoration: BoxDecoration(
+          color: kPrimaryColor.withOpacity(0.05),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: kPrimaryColor.withOpacity(0.1)),
+        ),
+        child: Column(
+          children: [
+            Icon(icon, color: kPrimaryColor),
+            const SizedBox(height: 4),
+            Text(label, style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w500)),
+            if (count > 0)
+              Container(
+                margin: const EdgeInsets.only(top: 4),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                decoration: BoxDecoration(
+                  color: kPrimaryColor,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Text(
+                  count.toString(),
+                  style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
+                ),
+              ),
           ],
         ),
       ),

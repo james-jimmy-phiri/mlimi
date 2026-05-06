@@ -500,6 +500,7 @@ class _GroupRegisterScreenState extends State<GroupRegisterScreen> with TickerPr
         GetStorage().write('phone', payload['phone']);
         GetStorage().write('name', payload['name']);
         GetStorage().write('district', selectedDistrictId);
+        GetStorage().write('client_type', 'group');
 
         // ✅ Save members list
         if (data['client'] != null && data['client']['members'] != null) {

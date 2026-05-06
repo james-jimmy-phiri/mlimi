@@ -92,6 +92,9 @@ class _MarkertState extends State<Markert> {
             views: item['views'],
             created: item['created'],
             client: client,
+            isAggregation: item['is_aggregation'] == 1 || item['type'] == 'aggregation',
+            totalSold: item['total_sold']?.toString(),
+            quantityRemaining: item['quantity_remaining']?.toString(),
           );
 
           fetchedProducts.add(product);
@@ -447,9 +450,50 @@ class ProductCard extends StatelessWidget {
                       onEdit: onEdit,
                     ),
                     const SizedBox(height: 4.0),
-                    Text(
-                      product.name,
-                      style: Theme.of(context).textTheme.bodyMedium,
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            '${product.name} (${product.quantityRemaining ?? product.quantity} ${product.measure})',
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                        ),
+                        if (product.isAggregation)
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                            decoration: BoxDecoration(
+                              gradient: const LinearGradient(
+                                colors: [Colors.orange, Colors.deepOrange],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                              borderRadius: BorderRadius.circular(20),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.orange.withOpacity(0.3),
+                                  blurRadius: 4,
+                                  offset: const Offset(0, 2),
+                                )
+                              ],
+                            ),
+                            child: const Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(Icons.groups_rounded, color: Colors.white, size: 12),
+                                SizedBox(width: 4),
+                                Text(
+                                  'AGGREGATION',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 9,
+                                    fontWeight: FontWeight.bold,
+                                    letterSpacing: 0.5,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                      ],
                     ),
                     Text(
                       product.description,
@@ -606,10 +650,14 @@ class _PostStats extends StatelessWidget {
               size: 15.0,
               color: Colors.black,
             ),
-            Text(
-              '${product.location} ',
-              style: TextStyle(
-                color: Colors.grey[600],
+            Flexible(
+              child: Text(
+                '${product.location} ',
+                style: TextStyle(
+                  color: Colors.grey[600],
+                ),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
               ),
             ),
             const SizedBox(width: 8.0),
@@ -641,28 +689,7 @@ class _PostStats extends StatelessWidget {
                 ),
               ),
             ),
-            Material(
-              color: Colors.white,
-              child: InkWell(
-                onTap: () => print('Comment'),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                  height: 25.0,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        MdiIcons.share,
-                        color: Colors.grey[600],
-                        size: 20.0,
-                      ),
-                      const SizedBox(width: 4.0),
-                      const Text('Share'),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+
             Material(
               color: Colors.white,
               child: InkWell(

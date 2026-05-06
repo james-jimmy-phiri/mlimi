@@ -138,106 +138,168 @@ class _BusinessProfilesPageState extends State<BusinessProfilesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
-      appBar: AppBar(
+      backgroundColor: Colors.grey[50],
+      body: CustomScrollView(
+        controller: _scrollController,
+        slivers: [
+          _buildAppBar(),
+          SliverToBoxAdapter(
+            child: _isLoading ? _buildLoading() : (_hasError ? _buildError() : _buildContent()),
+          ),
+          if (_isLoadingMore)
+            const SliverToBoxAdapter(
+              child: Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Center(child: CircularProgressIndicator()),
+              ),
+            ),
+        ],
+      ),
+      floatingActionButton: _profiles.isNotEmpty ? FloatingActionButton.extended(
+        onPressed: _navigateToCreate,
+        backgroundColor: kPrimaryColor,
+        icon: const Icon(Icons.add_business_rounded, color: Colors.white),
+        label: Text(
+          _language == 'en' ? 'Register Business' : 'Lembetsani Bizinesi',
+          style: GoogleFonts.poppins(fontWeight: FontWeight.bold, color: Colors.white),
+        ),
+      ) : null,
+    );
+  }
+
+  Widget _buildAppBar() {
+    return SliverAppBar(
+      expandedHeight: 120.0,
+      floating: true,
+      pinned: true,
+      elevation: 0,
+      backgroundColor: kPrimaryColor,
+      flexibleSpace: FlexibleSpaceBar(
+        centerTitle: true,
         title: Text(
           _language == 'en' ? 'Business Profiles' : 'Mabizinesi',
           style: GoogleFonts.poppins(
-            color: Colors.black87,
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+            color: Colors.white,
           ),
         ),
-        backgroundColor: Colors.white,
-        elevation: 0,
-        iconTheme: const IconThemeData(color: Colors.black87),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
+        background: Stack(
+          fit: StackFit.expand,
+          children: [
+            Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [kPrimaryColor, Color(0xFF1B5E20)],
+                ),
+              ),
+            ),
+            Positioned(
+              right: -20,
+              top: -20,
+              child: Icon(
+                Icons.business_center_rounded,
+                size: 150,
+                color: Colors.white.withOpacity(0.1),
+              ),
+            ),
+          ],
+        ),
+      ),
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.refresh_rounded, color: Colors.white),
+          onPressed: _loadProfiles,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildLoading() {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.6,
+      child: const Center(child: CircularProgressIndicator()),
+    );
+  }
+
+  Widget _buildError() {
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.6,
+      padding: const EdgeInsets.all(32),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.error_outline_rounded, size: 80, color: Colors.red[300]),
+          const SizedBox(height: 24),
+          Text(
+            _language == 'en' ? 'Connection Error' : 'Vuto la Inthaneti',
+            style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            _errorMessage ?? '',
+            textAlign: TextAlign.center,
+            style: GoogleFonts.poppins(color: Colors.grey[600]),
+          ),
+          const SizedBox(height: 24),
+          ElevatedButton(
             onPressed: _loadProfiles,
-            tooltip: _language == 'en' ? 'Refresh' : 'Konzani',
+            style: ElevatedButton.styleFrom(
+              backgroundColor: kPrimaryColor,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+            ),
+            child: Text(_language == 'en' ? 'Retry' : 'Yesani'),
           ),
         ],
-      ),
-      body: _buildBody(),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: _navigateToCreate,
-        backgroundColor: kPrimaryColor,
-        icon: const Icon(Icons.add_business),
-        label: Text(
-          _language == 'en' ? 'Create Profile' : 'Pangani',
-          style: GoogleFonts.poppins(fontWeight: FontWeight.w600),
-        ),
       ),
     );
   }
 
-  Widget _buildBody() {
-    if (_isLoading) {
-      return const Center(child: CircularProgressIndicator());
-    }
-
-    if (_hasError) {
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.error_outline, size: 64, color: Colors.red[300]),
-            const SizedBox(height: 16),
-            Text(
-              _language == 'en' ? 'Failed to load profiles' : 'Talephera kutsegula',
-              style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.w600),
-            ),
-            const SizedBox(height: 8),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32),
-              child: Text(
-                _errorMessage ?? '',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.poppins(color: Colors.grey[600]),
-              ),
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton.icon(
-              onPressed: _loadProfiles,
-              icon: const Icon(Icons.refresh),
-              label: Text(_language == 'en' ? 'Retry' : 'Yesani'),
-              style: ElevatedButton.styleFrom(backgroundColor: kPrimaryColor),
-            ),
-          ],
-        ),
-      );
-    }
-
+  Widget _buildContent() {
     if (_profiles.isEmpty) {
-      return Center(
+      return Container(
+        height: MediaQuery.of(context).size.height * 0.6,
+        padding: const EdgeInsets.all(32),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.business_center, size: 80, color: Colors.grey[400]),
-            const SizedBox(height: 16),
-            Text(
-              _language == 'en' ? 'No Business Profiles' : 'Palibe Mabizinesi',
-              style: GoogleFonts.poppins(
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
-                color: Colors.grey[700],
+            Container(
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                color: kPrimaryColor.withOpacity(0.1),
+                shape: BoxShape.circle,
               ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              _language == 'en'
-                  ? 'Create your first business profile'
-                  : 'Pangani bizinesi yanu yoyamba',
-              style: GoogleFonts.poppins(color: Colors.grey[600]),
+              child: Icon(Icons.business_rounded, size: 80, color: kPrimaryColor.withOpacity(0.5)),
             ),
             const SizedBox(height: 24),
-            ElevatedButton.icon(
-              onPressed: _navigateToCreate,
-              icon: const Icon(Icons.add_business),
-              label: Text(_language == 'en' ? 'Create Profile' : 'Pangani'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: kPrimaryColor,
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+            Text(
+              _language == 'en' ? 'No Businesses Registered' : 'Palibe Mabizinesi',
+              style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black87),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              _language == 'en' 
+                ? 'Register your business to showcase your products and services to thousands of users.' 
+                : 'Lembetsani bizinesi yanu kuti anthu ambiri adziwe zomwe mumagulitsa.',
+              textAlign: TextAlign.center,
+              style: GoogleFonts.poppins(color: Colors.grey[600], fontSize: 14),
+            ),
+            const SizedBox(height: 32),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                onPressed: _navigateToCreate,
+                icon: const Icon(Icons.add_business_rounded),
+                label: Text(_language == 'en' ? 'Register Now' : 'Lembetsani Tsopano'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: kPrimaryColor,
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                ),
               ),
             ),
           ],
@@ -245,37 +307,31 @@ class _BusinessProfilesPageState extends State<BusinessProfilesPage> {
       );
     }
 
-    return RefreshIndicator(
-      onRefresh: _loadProfiles,
-      child: ListView.builder(
-        controller: _scrollController,
-        padding: const EdgeInsets.all(16),
-        itemCount: _profiles.length + (_isLoadingMore ? 1 : 0),
-        itemBuilder: (context, index) {
-          if (index == _profiles.length) {
-            return const Center(
-              child: Padding(
-                padding: EdgeInsets.all(16),
-                child: CircularProgressIndicator(),
-              ),
-            );
-          }
-
-          final profile = _profiles[index];
-          return _buildProfileCard(profile);
-        },
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+      child: Column(
+        children: _profiles.map((profile) => _buildProfileCard(profile)).toList(),
       ),
     );
   }
 
   Widget _buildProfileCard(BusinessProfile profile) {
-    return Card(
+    return Container(
       margin: const EdgeInsets.only(bottom: 16),
-      elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.04),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
       child: InkWell(
         onTap: () => _navigateToDetail(profile),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(20),
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
@@ -283,13 +339,13 @@ class _BusinessProfilesPageState extends State<BusinessProfilesPage> {
             children: [
               Row(
                 children: [
-                  // Logo
                   Container(
-                    width: 60,
-                    height: 60,
+                    width: 70,
+                    height: 70,
                     decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(8),
+                      color: Colors.grey[50],
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: Colors.grey[100]!),
                       image: profile.logoUrl != null
                           ? DecorationImage(
                               image: NetworkImage(profile.logoUrl!),
@@ -298,11 +354,10 @@ class _BusinessProfilesPageState extends State<BusinessProfilesPage> {
                           : null,
                     ),
                     child: profile.logoUrl == null
-                        ? Icon(Icons.business, size: 32, color: Colors.grey[400])
+                        ? Icon(Icons.business_rounded, size: 35, color: kPrimaryColor.withOpacity(0.3))
                         : null,
                   ),
-                  const SizedBox(width: 12),
-                  // Business Info
+                  const SizedBox(width: 16),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -313,8 +368,8 @@ class _BusinessProfilesPageState extends State<BusinessProfilesPage> {
                               child: Text(
                                 profile.businessName,
                                 style: GoogleFonts.poppins(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold,
                                   color: Colors.black87,
                                 ),
                                 maxLines: 1,
@@ -322,157 +377,97 @@ class _BusinessProfilesPageState extends State<BusinessProfilesPage> {
                               ),
                             ),
                             if (profile.isVerified)
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 8,
-                                  vertical: 4,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: Colors.green[50],
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Icon(Icons.verified, size: 14, color: Colors.green[700]),
-                                    const SizedBox(width: 4),
-                                    Text(
-                                      _language == 'en' ? 'Verified' : 'Yotsimikizidwa',
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 10,
-                                        color: Colors.green[700],
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                              Icon(Icons.verified_rounded, size: 20, color: kPrimaryColor),
                           ],
                         ),
                         const SizedBox(height: 4),
-                        if (profile.client != null)
+                        if (profile.sector != null)
                           Text(
-                            profile.client!.name,
+                            profile.sector!.name,
                             style: GoogleFonts.poppins(
-                              fontSize: 12,
-                              color: Colors.grey[600],
+                              fontSize: 13,
+                              color: kPrimaryColor,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
-                        if (profile.sector != null)
-                          Container(
-                            margin: const EdgeInsets.only(top: 4),
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8,
-                              vertical: 2,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.blue[50],
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Text(
-                              profile.sector!.name,
-                              style: GoogleFonts.poppins(
-                                fontSize: 10,
-                                color: Colors.blue[700],
-                                fontWeight: FontWeight.w500,
+                        const SizedBox(height: 2),
+                        Row(
+                          children: [
+                            Icon(Icons.location_on_rounded, size: 14, color: Colors.grey[400]),
+                            const SizedBox(width: 4),
+                            Expanded(
+                              child: Text(
+                                profile.location ?? 'No location',
+                                style: GoogleFonts.poppins(
+                                  fontSize: 12,
+                                  color: Colors.grey[600],
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
-                          ),
+                          ],
+                        ),
                       ],
                     ),
                   ),
                 ],
               ),
-              if (profile.description != null) ...[
-                const SizedBox(height: 12),
+              if (profile.description != null && profile.description!.isNotEmpty) ...[
+                const SizedBox(height: 16),
                 Text(
                   profile.description!,
                   style: GoogleFonts.poppins(
                     fontSize: 13,
                     color: Colors.grey[700],
-                    height: 1.4,
+                    height: 1.5,
                   ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
               ],
+              const SizedBox(height: 16),
+              const Divider(height: 1),
               const SizedBox(height: 12),
               Row(
                 children: [
-                  Icon(Icons.location_on, size: 14, color: Colors.grey[500]),
-                  const SizedBox(width: 4),
-                  Expanded(
-                    child: Text(
-                      profile.location ?? 'N/A',
-                      style: GoogleFonts.poppins(
-                        fontSize: 12,
-                        color: Colors.grey[600],
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+                  _buildMiniStat(Icons.shopping_bag_outlined, profile.offerings?.length ?? 0),
+                  const SizedBox(width: 16),
+                  _buildMiniStat(Icons.photo_library_outlined, profile.galleryImages?.length ?? 0),
+                  const Spacer(),
+                  Text(
+                    _language == 'en' ? 'View Details' : 'Onani Zambiri',
+                    style: GoogleFonts.poppins(
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold,
+                      color: kPrimaryColor,
                     ),
                   ),
-                ],
-              ),
-              // Categories
-              if (profile.categories != null && profile.categories!.isNotEmpty) ...[
-                const SizedBox(height: 8),
-                Wrap(
-                  spacing: 6,
-                  runSpacing: 6,
-                  children: profile.categories!.take(3).map((category) {
-                    return Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: Colors.purple[50],
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Text(
-                        category.name,
-                        style: GoogleFonts.poppins(
-                          fontSize: 10,
-                          color: Colors.purple[700],
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ],
-              const SizedBox(height: 12),
-              // Stats and Actions
-              Row(
-                children: [
-                  _buildStatItem(
-                    Icons.image,
-                    profile.galleryImages?.length ?? 0,
-                    Colors.blue,
-                  ),
-                  const SizedBox(width: 16),
-                  _buildStatItem(
-                    Icons.video_library,
-                    profile.galleryVideos?.length ?? 0,
-                    Colors.purple,
-                  ),
-                  const SizedBox(width: 16),
-                  _buildStatItem(
-                    Icons.shopping_bag,
-                    profile.offerings?.length ?? 0,
-                    Colors.orange,
-                  ),
-                  const Spacer(),
-                  IconButton(
-                    icon: const Icon(Icons.edit, size: 20),
-                    onPressed: () => _navigateToEdit(profile),
-                    color: Colors.blue[700],
-                    tooltip: _language == 'en' ? 'Edit' : 'Sinthani',
-                  ),
+                  const SizedBox(width: 4),
+                  const Icon(Icons.arrow_forward_ios_rounded, size: 12, color: kPrimaryColor),
                 ],
               ),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildMiniStat(IconData icon, int count) {
+    return Row(
+      children: [
+        Icon(icon, size: 16, color: Colors.grey[500]),
+        const SizedBox(width: 6),
+        Text(
+          count.toString(),
+          style: GoogleFonts.poppins(
+            fontSize: 13,
+            fontWeight: FontWeight.w600,
+            color: Colors.grey[700],
+          ),
+        ),
+      ],
     );
   }
 
