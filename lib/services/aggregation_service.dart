@@ -226,4 +226,13 @@ class AggregationService {
       throw Exception(errorBody['message'] ?? 'Failed to update contribution');
     }
   }
+
+  Future<Map<String, dynamic>> getBroadcastRecipients(int id) async {
+    final response = await http.get(Uri.parse('$baseUrl/aggregations/$id/broadcast-recipients'), headers: _headers);
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      throw Exception('Failed to fetch broadcast recipients');
+    }
+  }
 }

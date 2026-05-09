@@ -40,19 +40,36 @@ class _EditBusinessProfilePageState extends State<EditBusinessProfilePage> {
   late final TextEditingController _instagramController;
   late final TextEditingController _twitterController;
   late final TextEditingController _linkedinController;
+  late final TextEditingController _operatingHoursController;
+  late final TextEditingController _tagsController;
+  late final TextEditingController _yearFoundedController;
+  late final TextEditingController _employeesCountController;
 
   File? _newLogoImage;
-  
+
   List<BusinessSector> _sectors = [];
   List<BusinessCategory> _categories = [];
   List<BusinessDistrict> _districts = [];
-  
+  List<Map<String, dynamic>> _valueChains = [];
+
   BusinessSector? _selectedSector;
+  bool _showCustomSector = false;
+  final _customSectorController = TextEditingController();
   BusinessDistrict? _selectedDistrict;
   List<int> _selectedCategoryIds = [];
-  
+  List<String> _customCategories = [];
+  final _customCategoryController = TextEditingController();
+  List<int> _selectedValueChainIds = [];
+  List<String> _customValueChains = [];
+  final _customValueChainController = TextEditingController();
+  List<String> _selectedPaymentMethods = [];
+  List<String> _selectedDeliveryOptions = [];
+
+  final List<String> _paymentOptions = ['Cash', 'Mobile Money', 'Bank Transfer', 'Cheque'];
+  final List<String> _deliveryOptionsList = ['Pick-up', 'Delivery', 'Both'];
+
   List<Map<String, dynamic>> _offerings = [];
-  
+
   bool _isLoading = false;
   bool _isLoadingData = true;
 
@@ -79,8 +96,22 @@ class _EditBusinessProfilePageState extends State<EditBusinessProfilePage> {
     _instagramController = TextEditingController(text: widget.profile.contactInfo?.socialMedia?.instagram);
     _twitterController = TextEditingController(text: widget.profile.contactInfo?.socialMedia?.twitter);
     _linkedinController = TextEditingController(text: widget.profile.contactInfo?.socialMedia?.linkedin);
-    
+    _operatingHoursController = TextEditingController(
+      text: widget.profile.operatingHours?.toString() ?? '',
+    );
+    _yearFoundedController = TextEditingController(
+      text: widget.profile.yearFounded?.toString() ?? '',
+    );
+    _employeesCountController = TextEditingController(
+      text: widget.profile.employeesCount?.toString() ?? '',
+    );
+    _tagsController = TextEditingController(
+      text: widget.profile.tags?.join(', ') ?? '',
+    );
+
     _selectedCategoryIds = widget.profile.categories?.map((c) => c.id!).toList() ?? [];
+    _selectedPaymentMethods = widget.profile.paymentMethods?.toList() ?? [];
+    _selectedDeliveryOptions = widget.profile.deliveryOptions?.toList() ?? [];
     _offerings = widget.profile.offerings?.map((o) => {
       'id': o.id,
       'type': o.type,
@@ -111,6 +142,13 @@ class _EditBusinessProfilePageState extends State<EditBusinessProfilePage> {
     _instagramController.dispose();
     _twitterController.dispose();
     _linkedinController.dispose();
+    _operatingHoursController.dispose();
+    _tagsController.dispose();
+    _yearFoundedController.dispose();
+    _employeesCountController.dispose();
+    _customSectorController.dispose();
+    _customCategoryController.dispose();
+    _customValueChainController.dispose();
     super.dispose();
   }
 
@@ -120,27 +158,31 @@ class _EditBusinessProfilePageState extends State<EditBusinessProfilePage> {
         _businessProfileService.getSectors(),
         _businessProfileService.getCategories(),
         _businessProfileService.getDistricts(),
+        _businessProfileService.getValueChains(),
       ]);
 
       setState(() {
         _sectors = results[0] as List<BusinessSector>;
         _categories = results[1] as List<BusinessCategory>;
         _districts = results[2] as List<BusinessDistrict>;
-        
-        _selectedSector = widget.profile.sector != null
-            ? _sectors.firstWhere(
-                (s) => s.id == widget.profile.sector!.id,
-                orElse: () => _sectors.first,
-              )
+        _valueChains = results[3] as List<Map<String, dynamic>>;
+
+        // Pre-select value chains from profile
+        if (widget.profile.valueChains != null) {
+          _selectedValueChainIds = widget.profile.valueChains!
+              .map((vc) => (vc is Map ? vc['id'] : null) as int?)
+              .whereType<int>()
+              .toList();
+        }
+
+        _selectedSector = widget.profile.sector != null && _sectors.isNotEmpty
+            ? _sectors.where((s) => s.id == widget.profile.sector!.id).cast<BusinessSector?>().firstOrNull
             : null;
-        
-        _selectedDistrict = widget.profile.district != null
-            ? _districts.firstWhere(
-                (d) => d.id == widget.profile.district!.id,
-                orElse: () => _districts.first,
-              )
+
+        _selectedDistrict = widget.profile.district != null && _districts.isNotEmpty
+            ? _districts.where((d) => d.id == widget.profile.district!.id).cast<BusinessDistrict?>().firstOrNull
             : null;
-        
+
         _isLoadingData = false;
       });
     } catch (e) {
@@ -218,13 +260,23 @@ class _EditBusinessProfilePageState extends State<EditBusinessProfilePage> {
         },
         logo: _newLogoImage,
         businessLicenseNumber: _licenseController.text.isNotEmpty ? _licenseController.text : null,
-        sectorId: _selectedSector?.id,
-        categoryIds: _selectedCategoryIds,
+        sectorId: _showCustomSector ? null : _selectedSector?.id,
+        customSector: _showCustomSector ? _customSectorController.text.trim() : null,
+        categoryIds: _selectedCategoryIds.isNotEmpty ? _selectedCategoryIds : null,
+        customCategories: _customCategories.isNotEmpty ? _customCategories : null,
         districtId: _selectedDistrict?.id,
         addressLine: _addressLineController.text.isNotEmpty ? _addressLineController.text : null,
         townCity: _townCityController.text.isNotEmpty ? _townCityController.text : null,
         gpsLat: _gpsLatController.text.isNotEmpty ? _gpsLatController.text : null,
         gpsLng: _gpsLngController.text.isNotEmpty ? _gpsLngController.text : null,
+        operatingHours: _operatingHoursController.text.isNotEmpty ? _operatingHoursController.text : null,
+        paymentMethods: _selectedPaymentMethods.isNotEmpty ? _selectedPaymentMethods : null,
+        deliveryOptions: _selectedDeliveryOptions.isNotEmpty ? _selectedDeliveryOptions : null,
+        tags: _tagsController.text.isNotEmpty
+            ? _tagsController.text.split(',').map((t) => t.trim()).where((t) => t.isNotEmpty).toList()
+            : null,
+        valueChainIds: _selectedValueChainIds.isNotEmpty ? _selectedValueChainIds : null,
+        customValueChains: _customValueChains.isNotEmpty ? _customValueChains : null,
         offerings: _offerings.isNotEmpty ? _offerings : null,
       );
 
@@ -305,6 +357,22 @@ class _EditBusinessProfilePageState extends State<EditBusinessProfilePage> {
                           _buildSocialMediaSection(),
                           const SizedBox(height: 32),
                           
+                          _buildSectionHeader(
+                            _language == 'en' ? 'Operations & Tags' : 'Ntchito ndi Zizindikiro',
+                            Icons.settings_rounded,
+                          ),
+                          _buildOperationsSection(),
+                          const SizedBox(height: 32),
+
+                          if (_valueChains.isNotEmpty) ...[
+                            _buildSectionHeader(
+                              _language == 'en' ? 'Value Chains' : 'Nzere za Mtengo',
+                              Icons.link_rounded,
+                            ),
+                            _buildValueChainsSection(),
+                            const SizedBox(height: 32),
+                          ],
+
                           _buildSectionHeader(
                             _language == 'en' ? 'Offerings (Products/Services)' : 'Zogulitsa ndi Ntchito',
                             Icons.shopping_bag_rounded,
@@ -574,18 +642,136 @@ class _EditBusinessProfilePageState extends State<EditBusinessProfilePage> {
             validator: (value) => value?.isEmpty == true ? 'Required' : null,
           ),
           const SizedBox(height: 20),
-          DropdownButtonFormField<BusinessSector>(
+          DropdownButtonFormField<BusinessSector?>(
             style: GoogleFonts.poppins(fontSize: 15, color: Colors.black87),
             decoration: _getInputDecoration(
               _language == 'en' ? 'Industry Sector' : 'Gawo la Bizinesi',
               Icons.category_rounded,
             ),
-            value: _selectedSector,
-            items: _sectors
-                .map((s) => DropdownMenuItem(value: s, child: Text(s.name)))
-                .toList(),
-            onChanged: (value) => setState(() => _selectedSector = value),
+            value: _showCustomSector ? null : _selectedSector,
+            items: [
+              ..._sectors.map((s) => DropdownMenuItem<BusinessSector?>(value: s, child: Text(s.name))),
+              DropdownMenuItem<BusinessSector?>(
+                value: null,
+                child: Row(
+                  children: [
+                    Icon(Icons.add_circle_outline, size: 16, color: kPrimaryColor),
+                    const SizedBox(width: 8),
+                    Text(_language == 'en' ? 'Other (Add New)' : 'Zina (Onjeza Tsopano)',
+                        style: GoogleFonts.poppins(color: kPrimaryColor)),
+                  ],
+                ),
+              ),
+            ],
+            onChanged: (value) {
+              setState(() {
+                if (value == null && !_showCustomSector) {
+                  _showCustomSector = true;
+                  _selectedSector = null;
+                } else {
+                  _showCustomSector = false;
+                  _selectedSector = value;
+                }
+              });
+            },
           ),
+          if (_showCustomSector) ...
+            [
+              const SizedBox(height: 12),
+              TextFormField(
+                controller: _customSectorController,
+                style: GoogleFonts.poppins(fontSize: 15),
+                decoration: _getInputDecoration(
+                  _language == 'en' ? 'Enter Sector Name' : 'Lembani Gawo',
+                  Icons.edit_rounded,
+                ).copyWith(
+                  suffixIcon: IconButton(
+                    icon: const Icon(Icons.close, color: Colors.grey),
+                    onPressed: () => setState(() => _showCustomSector = false),
+                  ),
+                ),
+                validator: (v) => _showCustomSector && (v?.isEmpty ?? true) ? 'Required' : null,
+              ),
+            ],
+          const SizedBox(height: 20),
+          // ── Categories ──
+          if (_categories.isNotEmpty) ...[
+            Text(
+              _language == 'en' ? 'Business Categories' : 'Mitundu ya Bizinesi',
+              style: GoogleFonts.poppins(fontSize: 13, fontWeight: FontWeight.w600, color: Colors.grey[700]),
+            ),
+            const SizedBox(height: 8),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                ..._categories.map((cat) {
+                  final selected = _selectedCategoryIds.contains(cat.id);
+                  return FilterChip(
+                    label: Text(cat.name, style: GoogleFonts.poppins(fontSize: 12)),
+                    selected: selected,
+                    onSelected: (val) => setState(() {
+                      if (val) _selectedCategoryIds.add(cat.id);
+                      else _selectedCategoryIds.remove(cat.id);
+                    }),
+                    selectedColor: kPrimaryColor.withOpacity(0.15),
+                    checkmarkColor: kPrimaryColor,
+                    side: BorderSide(color: selected ? kPrimaryColor : Colors.grey[300]!),
+                  );
+                }),
+                ..._customCategories.map((name) {
+                  return Chip(
+                    label: Text(name, style: GoogleFonts.poppins(fontSize: 12)),
+                    backgroundColor: kPrimaryColor.withOpacity(0.1),
+                    deleteIcon: const Icon(Icons.close, size: 14),
+                    onDeleted: () => setState(() => _customCategories.remove(name)),
+                    side: BorderSide(color: kPrimaryColor.withOpacity(0.3)),
+                  );
+                }),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _customCategoryController,
+                    style: GoogleFonts.poppins(fontSize: 14),
+                    decoration: InputDecoration(
+                      hintText: _language == 'en' ? 'Add custom category...' : 'Onjezani mtundu wina...',
+                      hintStyle: GoogleFonts.poppins(color: Colors.grey[400], fontSize: 13),
+                      filled: true,
+                      fillColor: Colors.grey[50],
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: Colors.grey[300]!)),
+                      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: Colors.grey[300]!)),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                ElevatedButton(
+                  onPressed: () {
+                    final text = _customCategoryController.text.trim();
+                    if (text.isNotEmpty && !_customCategories.contains(text)) {
+                      setState(() {
+                        _customCategories.add(text);
+                        _customCategoryController.clear();
+                      });
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: kPrimaryColor,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                    elevation: 0,
+                  ),
+                  child: Text(_language == 'en' ? 'Add' : 'Onjezani', style: GoogleFonts.poppins(fontSize: 13)),
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
+          ],
           const SizedBox(height: 20),
           TextFormField(
             controller: _descriptionController,
@@ -800,6 +986,171 @@ class _EditBusinessProfilePageState extends State<EditBusinessProfilePage> {
             controller: _linkedinController,
             style: GoogleFonts.poppins(fontSize: 15),
             decoration: _getInputDecoration('LinkedIn URL', Icons.work_rounded),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildOperationsSection() {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.03), blurRadius: 10, offset: const Offset(0, 4))],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          TextFormField(
+            controller: _operatingHoursController,
+            style: GoogleFonts.poppins(fontSize: 14),
+            decoration: _getInputDecoration(
+              _language == 'en' ? 'Operating Hours (e.g. Mon-Fri 8am-5pm)' : 'Maola Ogwira Ntchito',
+              Icons.access_time_rounded,
+            ).copyWith(alignLabelWithHint: true),
+            maxLines: 2,
+          ),
+          const SizedBox(height: 20),
+          Text(_language == 'en' ? 'Payment Methods' : 'Njira za Kulipira',
+              style: GoogleFonts.poppins(fontSize: 13, fontWeight: FontWeight.w600, color: Colors.grey[700])),
+          const SizedBox(height: 8),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: _paymentOptions.map((opt) {
+              final selected = _selectedPaymentMethods.contains(opt);
+              return FilterChip(
+                label: Text(opt, style: GoogleFonts.poppins(fontSize: 12)),
+                selected: selected,
+                onSelected: (val) => setState(() {
+                  if (val) _selectedPaymentMethods.add(opt);
+                  else _selectedPaymentMethods.remove(opt);
+                }),
+                selectedColor: kPrimaryColor.withOpacity(0.15),
+                checkmarkColor: kPrimaryColor,
+                side: BorderSide(color: selected ? kPrimaryColor : Colors.grey[300]!),
+              );
+            }).toList(),
+          ),
+          const SizedBox(height: 20),
+          Text(_language == 'en' ? 'Delivery Options' : 'Njira za Kutumizia',
+              style: GoogleFonts.poppins(fontSize: 13, fontWeight: FontWeight.w600, color: Colors.grey[700])),
+          const SizedBox(height: 8),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: _deliveryOptionsList.map((opt) {
+              final selected = _selectedDeliveryOptions.contains(opt);
+              return FilterChip(
+                label: Text(opt, style: GoogleFonts.poppins(fontSize: 12)),
+                selected: selected,
+                onSelected: (val) => setState(() {
+                  if (val) _selectedDeliveryOptions.add(opt);
+                  else _selectedDeliveryOptions.remove(opt);
+                }),
+                selectedColor: kPrimaryColor.withOpacity(0.15),
+                checkmarkColor: kPrimaryColor,
+                side: BorderSide(color: selected ? kPrimaryColor : Colors.grey[300]!),
+              );
+            }).toList(),
+          ),
+          const SizedBox(height: 20),
+          TextFormField(
+            controller: _tagsController,
+            style: GoogleFonts.poppins(fontSize: 14),
+            decoration: _getInputDecoration(
+              _language == 'en' ? 'Tags (comma-separated)' : 'Zizindikiro (gawanikani ndi koma)',
+              Icons.label_outline_rounded,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildValueChainsSection() {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.03), blurRadius: 10, offset: const Offset(0, 4))],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              ..._valueChains.map((vc) {
+                final id = vc['id'] as int;
+                final name = vc['name'] as String? ?? '';
+                final selected = _selectedValueChainIds.contains(id);
+                return FilterChip(
+                  label: Text(name, style: GoogleFonts.poppins(fontSize: 12)),
+                  selected: selected,
+                  onSelected: (val) => setState(() {
+                    if (val) _selectedValueChainIds.add(id);
+                    else _selectedValueChainIds.remove(id);
+                  }),
+                  selectedColor: kPrimaryColor.withOpacity(0.15),
+                  checkmarkColor: kPrimaryColor,
+                  side: BorderSide(color: selected ? kPrimaryColor : Colors.grey[300]!),
+                );
+              }),
+              ..._customValueChains.map((name) {
+                return Chip(
+                  label: Text(name, style: GoogleFonts.poppins(fontSize: 12)),
+                  backgroundColor: kPrimaryColor.withOpacity(0.1),
+                  deleteIcon: const Icon(Icons.close, size: 14),
+                  onDeleted: () => setState(() => _customValueChains.remove(name)),
+                  side: BorderSide(color: kPrimaryColor.withOpacity(0.3)),
+                );
+              }),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: _customValueChainController,
+                  style: GoogleFonts.poppins(fontSize: 14),
+                  decoration: InputDecoration(
+                    hintText: _language == 'en' ? 'Add custom value chain...' : 'Onjezani nzere yina...',
+                    hintStyle: GoogleFonts.poppins(color: Colors.grey[400], fontSize: 13),
+                    filled: true,
+                    fillColor: Colors.grey[50],
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: Colors.grey[300]!)),
+                    enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: Colors.grey[300]!)),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8),
+              ElevatedButton(
+                onPressed: () {
+                  final text = _customValueChainController.text.trim();
+                  if (text.isNotEmpty && !_customValueChains.contains(text)) {
+                    setState(() {
+                      _customValueChains.add(text);
+                      _customValueChainController.clear();
+                    });
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: kPrimaryColor,
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  elevation: 0,
+                ),
+                child: Text(_language == 'en' ? 'Add' : 'Onjezani', style: GoogleFonts.poppins(fontSize: 13)),
+              ),
+            ],
           ),
         ],
       ),

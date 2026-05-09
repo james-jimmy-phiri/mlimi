@@ -35,6 +35,7 @@ class _GroupRegisterScreenState extends State<GroupRegisterScreen> with TickerPr
   final TextEditingController _projectNameController = TextEditingController();
   final TextEditingController _maleMembersController = TextEditingController();
   final TextEditingController _femaleMembersController = TextEditingController();
+  final TextEditingController _customValueChainController = TextEditingController();
 
   List<Map<String, dynamic>> membersList = [];
 
@@ -170,7 +171,26 @@ class _GroupRegisterScreenState extends State<GroupRegisterScreen> with TickerPr
     }
   }
 
-  void showSnackBar(String message) {
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _phoneController.dispose();
+    _pinController.dispose();
+    _pinConfirmController.dispose();
+    _epaController.dispose();
+    _taController.dispose();
+    _gvhController.dispose();
+    _numMembersController.dispose();
+    _chairPersonController.dispose();
+    _mappingIdController.dispose();
+    _projectNameController.dispose();
+    _maleMembersController.dispose();
+    _femaleMembersController.dispose();
+    _customValueChainController.dispose();
+    super.dispose();
+  }
+
+  Future<void> showSnackBar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(message)),
     );
@@ -213,6 +233,9 @@ class _GroupRegisterScreenState extends State<GroupRegisterScreen> with TickerPr
         
     final nameCtrl = TextEditingController(text: mName);
     final phoneCtrl = TextEditingController(text: mPhone);
+    final customGenderCtrl = TextEditingController();
+    final customAgeRangeCtrl = TextEditingController();
+    final customValueChainCtrl = TextEditingController();
     String errorMessage = '';
 
     List<String> ageRanges = ['18-25', '26-35', '36-45', '46-55', '56-65', '65+'];
@@ -276,6 +299,13 @@ class _GroupRegisterScreenState extends State<GroupRegisterScreen> with TickerPr
                              items: genders.map((g) => DropdownMenuItem(value: g, child: Text(g.capitalizeFirst!))).toList(),
                              onChanged: (val) => setModalState(() => mGender = val),
                            ),
+                           if (mGender == 'other') ...[
+                             const SizedBox(height: 10),
+                             TextField(
+                               controller: customGenderCtrl,
+                               decoration: const InputDecoration(labelText: 'Specify Gender', border: OutlineInputBorder()),
+                             ),
+                           ],
                            const SizedBox(height: 15),
                            DropdownButtonFormField<String>(
                              value: mAgeRange,
@@ -283,6 +313,13 @@ class _GroupRegisterScreenState extends State<GroupRegisterScreen> with TickerPr
                              items: ageRanges.map((a) => DropdownMenuItem(value: a, child: Text(a))).toList(),
                              onChanged: (val) => setModalState(() => mAgeRange = val),
                            ),
+                           if (mAgeRange == 'other') ...[
+                             const SizedBox(height: 10),
+                             TextField(
+                               controller: customAgeRangeCtrl,
+                               decoration: const InputDecoration(labelText: 'Specify Age Range', border: OutlineInputBorder()),
+                             ),
+                           ],
                            const SizedBox(height: 15),
                            DropdownButtonFormField<String>(
                              value: mPosition,
@@ -301,34 +338,76 @@ class _GroupRegisterScreenState extends State<GroupRegisterScreen> with TickerPr
                            const SizedBox(height: 20),
                            const Text('Member Specific Value Chains', style: TextStyle(fontWeight: FontWeight.bold)),
                            const SizedBox(height: 10),
-                           if (valueChains.isNotEmpty)
+                            if (valueChains.isNotEmpty)
                              Wrap(
                                 spacing: 6.0,
                                 runSpacing: 4.0,
-                                children: valueChains.map((vc) {
-                                  String vcId = vc['id'].toString();
-                                  bool selected = mValueChains.contains(vcId);
-                                  return FilterChip(
-                                    label: Text(vc['name'], style: const TextStyle(fontSize: 13)),
-                                    selected: selected,
-                                    selectedColor: kPrimaryColor.withOpacity(0.2),
-                                    checkmarkColor: kPrimaryColor,
-                                    onSelected: (bool isSelected) {
-                                      setModalState(() {
-                                        if (isSelected) {
-                                          if (!mValueChains.contains(vcId)) {
-                                            mValueChains.add(vcId);
+                                children: [
+                                  ...valueChains.map((vc) {
+                                    String vcId = vc['id'].toString();
+                                    bool selected = mValueChains.contains(vcId);
+                                    return FilterChip(
+                                      label: Text(vc['name'], style: const TextStyle(fontSize: 13)),
+                                      selected: selected,
+                                      selectedColor: kPrimaryColor.withOpacity(0.2),
+                                      checkmarkColor: kPrimaryColor,
+                                      onSelected: (bool isSelected) {
+                                        setModalState(() {
+                                          if (isSelected) {
+                                            if (!mValueChains.contains(vcId)) {
+                                              mValueChains.add(vcId);
+                                            }
+                                          } else {
+                                            mValueChains.remove(vcId);
                                           }
-                                        } else {
-                                          mValueChains.remove(vcId);
-                                        }
-                                      });
-                                    },
-                                  );
-                                }).toList(),
+                                        });
+                                      },
+                                    );
+                                  }).toList(),
+                                  ...mValueChains.where((id) => !valueChains.any((vc) => vc['id'].toString() == id)).map((customVal) {
+                                    return FilterChip(
+                                      label: Text(customVal, style: const TextStyle(fontSize: 13)),
+                                      selected: true,
+                                      selectedColor: kPrimaryColor.withOpacity(0.2),
+                                      checkmarkColor: kPrimaryColor,
+                                      onSelected: (bool isSelected) {
+                                        setModalState(() {
+                                          mValueChains.remove(customVal);
+                                        });
+                                      },
+                                    );
+                                  }).toList(),
+                                ]
                              )
                            else 
                              const Text("Loading value chains...", style: TextStyle(color: Colors.grey)),
+                           const SizedBox(height: 10),
+                           Row(
+                             children: [
+                               Expanded(
+                                 child: TextField(
+                                   controller: customValueChainCtrl,
+                                   decoration: const InputDecoration(
+                                     hintText: 'Add other value chain...',
+                                     border: OutlineInputBorder(),
+                                     contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8)
+                                   ),
+                                 ),
+                               ),
+                               const SizedBox(width: 8),
+                               ElevatedButton(
+                                 onPressed: () {
+                                   if (customValueChainCtrl.text.trim().isNotEmpty) {
+                                     setModalState(() {
+                                       mValueChains.add(customValueChainCtrl.text.trim());
+                                       customValueChainCtrl.clear();
+                                     });
+                                   }
+                                 },
+                                 child: const Text('Add'),
+                               )
+                             ],
+                           ),
                            const SizedBox(height: 30),
                            SizedBox(
                              width: double.infinity,
@@ -345,15 +424,15 @@ class _GroupRegisterScreenState extends State<GroupRegisterScreen> with TickerPr
                                    return;
                                  }
                                  
-                                 Map<String, dynamic> newMember = {
-                                    'name': nameCtrl.text.trim(),
-                                    'phone': phoneCtrl.text.trim(),
-                                    'gender': mGender,
-                                    'age_range': mAgeRange,
-                                    'position': mPosition ?? 'Member',
-                                    'disability': mDisability,
-                                    'value_chains': mValueChains,
-                                 };
+                                  Map<String, dynamic> newMember = {
+                                     'name': nameCtrl.text.trim(),
+                                     'phone': phoneCtrl.text.trim(),
+                                     'gender': (mGender == 'other' && customGenderCtrl.text.isNotEmpty) ? customGenderCtrl.text.trim() : mGender,
+                                     'age_range': (mAgeRange == 'other' && customAgeRangeCtrl.text.isNotEmpty) ? customAgeRangeCtrl.text.trim() : mAgeRange,
+                                     'position': mPosition ?? 'Member',
+                                     'disability': mDisability,
+                                     'value_chains': mValueChains,
+                                  };
                                  
                                  setState(() {
                                     if (editIndex != null) {
@@ -749,28 +828,76 @@ class _GroupRegisterScreenState extends State<GroupRegisterScreen> with TickerPr
                       : valueChains.isNotEmpty ? Wrap(
                           spacing: 8.0,
                           runSpacing: 8.0,
-                          children: valueChains.map((vc) {
-                            String vcId = vc['id'].toString();
-                            bool selected = selectedGroupValueChains.contains(vcId);
-                            return FilterChip(
-                              label: Text(vc['name']),
-                              selected: selected,
-                              selectedColor: kPrimaryColor.withOpacity(0.2),
-                              checkmarkColor: kPrimaryColor,
-                              onSelected: (bool isSelected) {
-                                setState(() {
-                                  if (isSelected) {
-                                    if (!selectedGroupValueChains.contains(vcId)) {
-                                      selectedGroupValueChains.add(vcId);
-                                    }
-                                  } else {
-                                    selectedGroupValueChains.remove(vcId);
-                                  }
-                                });
-                              },
-                            );
-                          }).toList(),
-                        ) : const Text('No value chains available.'),
+                          children: [
+                             ...valueChains.map((vc) {
+                               String vcId = vc['id'].toString();
+                               bool selected = selectedGroupValueChains.contains(vcId);
+                               return FilterChip(
+                                 label: Text(vc['name']),
+                                 selected: selected,
+                                 selectedColor: kPrimaryColor.withOpacity(0.2),
+                                 checkmarkColor: kPrimaryColor,
+                                 onSelected: (bool isSelected) {
+                                   setState(() {
+                                     if (isSelected) {
+                                       if (!selectedGroupValueChains.contains(vcId)) {
+                                         selectedGroupValueChains.add(vcId);
+                                       }
+                                     } else {
+                                       selectedGroupValueChains.remove(vcId);
+                                     }
+                                   });
+                                 },
+                               );
+                             }).toList(),
+                             ...selectedGroupValueChains.where((id) => !valueChains.any((vc) => vc['id'].toString() == id)).map((customVal) {
+                               return FilterChip(
+                                 label: Text(customVal),
+                                 selected: true,
+                                 selectedColor: kPrimaryColor.withOpacity(0.2),
+                                 checkmarkColor: kPrimaryColor,
+                                 onSelected: (bool isSelected) {
+                                   setState(() {
+                                     selectedGroupValueChains.remove(customVal);
+                                   });
+                                 },
+                               );
+                             }).toList(),
+                           ],
+                         ) : const Text('No value chains available.'),
+                   
+                   const SizedBox(height: 10),
+                   Row(
+                     children: [
+                       Expanded(
+                         child: TextField(
+                           controller: _customValueChainController,
+                           decoration: InputDecoration(
+                             hintText: selectedLanguage == 'en' ? 'Add other value chain...' : 'Onjezerani mwa zina...',
+                             border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                           ),
+                         ),
+                       ),
+                       const SizedBox(width: 8),
+                       ElevatedButton(
+                         onPressed: () {
+                           if (_customValueChainController.text.trim().isNotEmpty) {
+                             setState(() {
+                               selectedGroupValueChains.add(_customValueChainController.text.trim());
+                               _customValueChainController.clear();
+                             });
+                           }
+                         },
+                         style: ElevatedButton.styleFrom(
+                           backgroundColor: kPrimaryColor,
+                           foregroundColor: Colors.white,
+                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                           padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16)
+                         ),
+                         child: const Text('Add'),
+                       )
+                     ],
+                   ),
 
                   // MEMBERS SECTION
                   SizedBox(height: screenHeight * .04),

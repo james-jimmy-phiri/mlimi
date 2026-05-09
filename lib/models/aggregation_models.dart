@@ -47,7 +47,7 @@ class Aggregation {
       createdAt: json['created_at'],
       updatedAt: json['updated_at'],
       group: json['group'] != null ? AggregationGroup.fromJson(json['group']) : null,
-      commodity: json['commodity'] != null ? AggregationCommodity.fromJson(json['commodity']) : null,
+      commodity: json['commodity_details'] != null ? AggregationCommodity.fromJson(json['commodity_details']) : null,
       creator: json['creator'] != null ? AggregationCreator.fromJson(json['creator']) : null,
       contributions: json['contributions'] != null
           ? (json['contributions'] as List).map((i) => AggregationContribution.fromJson(i)).toList()
@@ -174,15 +174,34 @@ class AggregationGroup {
 class AggregationCommodity {
   final int? id;
   final int? valueChainId;
+  final String? valueChainName;
+  final String? measureName;
   final double quantity;
+  final double unitPrice;
+  final String? description;
+  final String? imageUrl;
 
-  AggregationCommodity({this.id, this.valueChainId, this.quantity = 0.0});
+  AggregationCommodity({
+    this.id,
+    this.valueChainId,
+    this.valueChainName,
+    this.measureName,
+    this.quantity = 0.0,
+    this.unitPrice = 0.0,
+    this.description,
+    this.imageUrl,
+  });
 
   factory AggregationCommodity.fromJson(Map<String, dynamic> json) {
     return AggregationCommodity(
       id: json['id'],
       valueChainId: json['value_chain_id'],
+      valueChainName: json['value_chain'] != null ? json['value_chain']['name'] : null,
+      measureName: json['measure'] != null ? json['measure']['name'] : null,
       quantity: (json['quantity'] ?? 0.0).toDouble(),
+      unitPrice: (json['unit_price'] ?? 0.0).toDouble(),
+      description: json['description'],
+      imageUrl: json['image_url'],
     );
   }
 }

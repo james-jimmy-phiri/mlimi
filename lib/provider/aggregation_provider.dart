@@ -13,6 +13,7 @@ class AggregationProvider extends ChangeNotifier {
   List<AggregationBuyer> _buyers = [];
   List<Map<String, dynamic>> _groups = [];
   List<Map<String, dynamic>> _valueChains = [];
+  Map<String, dynamic> _broadcastRecipients = {'market_actors': [], 'business_profiles': []};
 
   bool _isLoading = false;
   bool _isActionLoading = false;
@@ -20,6 +21,7 @@ class AggregationProvider extends ChangeNotifier {
   bool _isLoadingBuyers = false;
   bool _isLoadingGroups = false;
   bool _isLoadingValueChains = false;
+  bool _isLoadingRecipients = false;
   String? _errorMessage;
 
   List<Aggregation> get aggregations => _aggregations;
@@ -30,6 +32,7 @@ class AggregationProvider extends ChangeNotifier {
   List<AggregationBuyer> get buyers => _buyers;
   List<Map<String, dynamic>> get groups => _groups;
   List<Map<String, dynamic>> get valueChains => _valueChains;
+  Map<String, dynamic> get broadcastRecipients => _broadcastRecipients;
 
   bool get isLoading => _isLoading;
   bool get isActionLoading => _isActionLoading;
@@ -37,6 +40,7 @@ class AggregationProvider extends ChangeNotifier {
   bool get isLoadingBuyers => _isLoadingBuyers;
   bool get isLoadingGroups => _isLoadingGroups;
   bool get isLoadingValueChains => _isLoadingValueChains;
+  bool get isLoadingRecipients => _isLoadingRecipients;
   String? get errorMessage => _errorMessage;
 
   void _setLoading(bool value) {
@@ -211,6 +215,35 @@ class AggregationProvider extends ChangeNotifier {
     } finally {
       _isLoadingValueChains = false;
       notifyListeners();
+    }
+  }
+
+  Future<void> fetchBroadcastRecipients(int id) async {
+    _isLoadingRecipients = true;
+    _setError(null);
+    notifyListeners();
+    try {
+      _broadcastRecipients = await _service.getBroadcastRecipients(id);
+    } catch (e) {
+      _setError(e.toString());
+    } finally {
+      _isLoadingRecipients = false;
+      notifyListeners();
+    }
+  }
+
+  Future<bool> finalizeAndBroadcast(int id, Map<String, dynamic> data) async {
+    _setActionLoading(true);
+    _setError(null);
+    try {
+      await _service.finalizeAndBroadcast(id, data);
+      await fetchAggregationDetails(id); // Refresh details to show published status
+      return true;
+    } catch (e) {
+      _setError(e.toString());
+      return false;
+    } finally {
+      _setActionLoading(false);
     }
   }
 

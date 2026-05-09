@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:mlimi/constants/color.dart';
 import 'package:mlimi/provider/aggregation_provider.dart';
 import 'package:provider/provider.dart';
 import 'bottom_sheets.dart';
+import 'broadcast_config_modal.dart';
 import 'dart:ui';
 
 class AggregationDetailsScreen extends StatefulWidget {
@@ -34,226 +36,230 @@ class _AggregationDetailsScreenState extends State<AggregationDetailsScreen> wit
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey[100],
-      appBar: AppBar(
-        title: const Text('Pool Details', style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold)),
-        backgroundColor: Colors.white,
-        elevation: 0,
-        iconTheme: const IconThemeData(color: Colors.black87),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: () {
-              Provider.of<AggregationProvider>(context, listen: false).fetchAggregationDetails(widget.aggregationId);
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.delete, color: Colors.red),
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                  title: const Text('Delete Pool'),
-                  content: const Text('Are you sure you want to delete this pool? This action cannot be undone and will delete all associated data including sales and contributions.'),
-                  actions: [
-                    TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: const Text('Cancel'),
+    return Consumer<AggregationProvider>(
+      builder: (context, provider, child) {
+        final agg = provider.currentAggregation;
+        
+        return Scaffold(
+          backgroundColor: const Color(0xFFF8F9FD),
+          body: provider.isLoading && agg == null
+              ? const Center(child: CircularProgressIndicator())
+              : agg == null
+                  ? Center(child: Text(provider.errorMessage ?? 'Not found'))
+                  : CustomScrollView(
+                      slivers: [
+                        _buildSliverAppBar(agg),
+                        SliverToBoxAdapter(child: _buildMainStats(agg)),
+                        SliverPersistentHeader(
+                          pinned: true,
+                          delegate: _SliverTabDelegate(
+                            TabBar(
+                              controller: _tabController,
+                              labelColor: kPrimaryColor,
+                              unselectedLabelColor: Colors.grey[400],
+                              indicatorColor: kPrimaryColor,
+                              indicatorWeight: 3,
+                              labelStyle: GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: 13),
+                              unselectedLabelStyle: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 13),
+                              tabs: const [
+                                Tab(text: 'Contributions'),
+                                Tab(text: 'Sales History'),
+                                Tab(text: 'Earnings'),
+                              ],
+                            ),
+                          ),
+                        ),
+                        SliverFillRemaining(
+                          child: TabBarView(
+                            controller: _tabController,
+                            children: [
+                              _buildContributionsTab(agg),
+                              _buildSalesTab(agg),
+                              _buildEarningsTab(agg),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-                    TextButton(
-                      onPressed: () async {
-                        Navigator.pop(context); // Close dialog
-                        final provider = Provider.of<AggregationProvider>(context, listen: false);
-                        bool success = await provider.deleteAggregation(widget.aggregationId);
-                        if (success && mounted) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Pool deleted successfully'), backgroundColor: Colors.green),
-                          );
-                          Navigator.pop(context); // Go back to previous screen
-                        } else if (mounted) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(provider.errorMessage ?? 'Failed to delete pool'), backgroundColor: Colors.red),
-                          );
-                        }
-                      },
-                      child: const Text('Delete', style: TextStyle(color: Colors.red)),
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
-        ],
+          bottomNavigationBar: agg != null ? _buildBottomActions(agg) : null,
+        );
+      },
+    );
+  }
+
+  Widget _buildSliverAppBar(agg) {
+    final bool isPublished = agg.status != 'open' && agg.status != 'closed'; // Simplified check
+
+    return SliverAppBar(
+      expandedHeight: 220,
+      pinned: true,
+      elevation: 0,
+      backgroundColor: kPrimaryColor,
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 20),
+        onPressed: () => Navigator.pop(context),
       ),
-      body: Consumer<AggregationProvider>(
-        builder: (context, provider, child) {
-          if (provider.isLoading && provider.currentAggregation == null) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (provider.errorMessage != null && provider.currentAggregation == null) {
-            return Center(child: Text(provider.errorMessage!));
-          }
-          
-          final agg = provider.currentAggregation;
-          if (agg == null) return const Center(child: Text('Not found'));
-
-          double totalRevenue = agg.sales.fold(0.0, (sum, sale) => sum + sale.totalAmount);
-
-          return Column(
-            children: [
-              _buildHeaderCards(agg),
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.refresh_rounded, color: Colors.white),
+          onPressed: () => Provider.of<AggregationProvider>(context, listen: false).fetchAggregationDetails(widget.aggregationId),
+        ),
+        IconButton(
+          icon: const Icon(Icons.delete_outline_rounded, color: Colors.white),
+          onPressed: () => _confirmDelete(context),
+        ),
+        const SizedBox(width: 8),
+      ],
+      flexibleSpace: FlexibleSpaceBar(
+        background: Stack(
+          fit: StackFit.expand,
+          children: [
+            if (agg.commodity?.imageUrl != null)
+              Image.network(agg.commodity!.imageUrl!, fit: BoxFit.cover)
+            else
               Container(
-                color: Colors.white,
-                child: TabBar(
-                  controller: _tabController,
-                  labelColor: kPrimaryColor,
-                  unselectedLabelColor: Colors.grey,
-                  indicatorColor: kPrimaryColor,
-                  tabs: const [
-                    Tab(text: 'Contributions'),
-                    Tab(text: 'Sales'),
-                    Tab(text: 'Earnings'),
-                  ],
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [kPrimaryColor, kPrimaryColor.withOpacity(0.8)],
+                  ),
                 ),
               ),
-              Expanded(
-                child: TabBarView(
-                  controller: _tabController,
-                  children: [
-                    _buildContributionsTab(agg),
-                    _buildSalesTab(agg),
-                    _buildEarningsTab(agg, totalRevenue),
-                  ],
+            Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [Colors.black.withOpacity(0.3), Colors.black.withOpacity(0.7)],
                 ),
-              )
-            ],
-          );
-        },
-      ),
-      floatingActionButton: Consumer<AggregationProvider>(
-        builder: (context, provider, child) {
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              FloatingActionButton.extended(
-                heroTag: 'fab_sale',
-                backgroundColor: Colors.green,
-                onPressed: () {
-                  if (provider.currentAggregation != null) {
-                    showRecordSaleSheet(context, provider.currentAggregation!);
-                  }
-                },
-                icon: const Icon(Icons.sell, color: Colors.white),
-                label: const Text('Record Sale', style: TextStyle(color: Colors.white)),
               ),
-              const SizedBox(height: 12),
-              FloatingActionButton.extended(
-                heroTag: 'fab_contrib',
-                backgroundColor: kPrimaryColor,
-                onPressed: () {
-                  if (provider.currentAggregation != null) {
-                    showAddContributionSheet(context, provider.currentAggregation!);
-                  }
-                },
-                icon: const Icon(Icons.add_circle, color: Colors.white),
-                label: const Text('Add Contribution', style: TextStyle(color: Colors.white)),
+            ),
+            Positioned(
+              bottom: 60,
+              left: 20,
+              right: 20,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: _getStatusColor(agg.status).withOpacity(0.9),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Text(
+                      agg.status.toUpperCase(),
+                      style: GoogleFonts.poppins(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    agg.commodity?.valueChainName ?? 'Aggregation Pool',
+                    style: GoogleFonts.poppins(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    agg.group?.name ?? 'Farmer Group',
+                    style: GoogleFonts.poppins(color: Colors.white.withOpacity(0.8), fontSize: 14),
+                  ),
+                ],
               ),
-            ],
-          );
-        }
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildHeaderCards(agg) {
+  Widget _buildMainStats(agg) {
     return Container(
-      color: Colors.white,
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            agg.group?.name ?? 'Unknown Group',
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black87),
-          ),
-          const SizedBox(height: 16),
-          Row(
-            children: [
-              Expanded(
-                child: _buildMetricCard(
-                  title: 'Available Stock',
-                  value: '${agg.remainingQuantity} kg',
-                  color: Colors.orange,
-                  icon: Icons.inventory_2,
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: _buildMetricCard(
-                  title: 'Total Aggregated',
-                  value: '${agg.totalQuantity} kg',
-                  color: Colors.blue,
-                  icon: Icons.scale,
-                ),
-              ),
-            ],
-          )
-        ],
+      transform: Matrix4.translationValues(0, -30, 0),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Container(
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(24),
+          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 20, offset: const Offset(0, 10))],
+        ),
+        child: Row(
+          children: [
+            _buildQuickStat('Stock', '${agg.remainingQuantity}', 'kg', Colors.orange),
+            _buildDivider(),
+            _buildQuickStat('Total', '${agg.totalQuantity}', 'kg', Colors.blue),
+            _buildDivider(),
+            _buildQuickStat('Price', '${agg.commodity?.unitPrice ?? 0}', 'MWK', Colors.green),
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildMetricCard({required String title, required String value, required Color color, required IconData icon}) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(16),
-      ),
+  Widget _buildQuickStat(String label, String value, String unit, Color color) {
+    return Expanded(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, color: color, size: 28),
-          const SizedBox(height: 12),
-          Text(title, style: TextStyle(fontSize: 13, color: Colors.grey[700], fontWeight: FontWeight.w500)),
+          Text(label, style: GoogleFonts.poppins(fontSize: 12, color: Colors.grey[500], fontWeight: FontWeight.w500)),
           const SizedBox(height: 4),
-          Text(value, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black)),
+          RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(text: value, style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black87)),
+                TextSpan(text: ' $unit', style: GoogleFonts.poppins(fontSize: 10, color: Colors.grey[600], fontWeight: FontWeight.w500)),
+              ],
+            ),
+          ),
         ],
       ),
     );
   }
+
+  Widget _buildDivider() => Container(height: 30, width: 1, color: Colors.grey[200]);
 
   Widget _buildContributionsTab(agg) {
     if (agg.contributions.isEmpty) {
-      return const Center(child: Text('No contributions yet.', style: TextStyle(color: Colors.grey)));
+      return _buildEmptyState('No contributions yet', Icons.people_outline);
     }
-    return ListView.separated(
-      padding: const EdgeInsets.only(bottom: 120),
+    return ListView.builder(
+      padding: const EdgeInsets.all(16),
       itemCount: agg.contributions.length,
-      separatorBuilder: (c, i) => const Divider(height: 1),
       itemBuilder: (context, index) {
-        final contrib = agg.contributions[index];
-        return ListTile(
-          leading: CircleAvatar(
-            backgroundColor: kPrimaryColor.withOpacity(0.2),
-            child: Icon(Icons.person, color: kPrimaryColor),
+        final c = agg.contributions[index];
+        return Container(
+          margin: const EdgeInsets.bottom(12),
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: Colors.grey[100]!),
           ),
-          title: Text(contrib.groupMember?.name ?? 'Unknown Member', style: const TextStyle(fontWeight: FontWeight.w600)),
-          subtitle: Text(contrib.createdAt ?? 'Unknown date'),
-          trailing: Row(
-            mainAxisSize: MainAxisSize.min,
+          child: Row(
             children: [
-              Text('${contrib.quantity} kg', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-              if (agg.status == 'open') ...[
-                const SizedBox(width: 8),
-                IconButton(
-                  icon: const Icon(Icons.edit, size: 20, color: Colors.blue),
-                  onPressed: () => showEditContributionSheet(context, agg, contrib),
-                  padding: EdgeInsets.zero,
-                  constraints: const BoxConstraints(),
+              CircleAvatar(
+                backgroundColor: kPrimaryColor.withOpacity(0.1),
+                child: Icon(Icons.person_rounded, color: kPrimaryColor, size: 20),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(c.groupMember?.name ?? 'Unknown Member', style: GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: 14)),
+                    Text(c.createdAt ?? '', style: GoogleFonts.poppins(fontSize: 11, color: Colors.grey[500])),
+                  ],
                 ),
-              ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text('${c.quantity} kg', style: GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: 16, color: kPrimaryColor)),
+                  if (agg.status == 'open')
+                    GestureDetector(
+                      onTap: () => showEditContributionSheet(context, agg, c),
+                      child: Text('Edit', style: GoogleFonts.poppins(fontSize: 12, color: Colors.blue, fontWeight: FontWeight.w600)),
+                    ),
+                ],
+              ),
             ],
           ),
         );
@@ -263,79 +269,222 @@ class _AggregationDetailsScreenState extends State<AggregationDetailsScreen> wit
 
   Widget _buildSalesTab(agg) {
     if (agg.sales.isEmpty) {
-      return const Center(child: Text('No sales yet.', style: TextStyle(color: Colors.grey)));
+      return _buildEmptyState('No sales recorded', Icons.shopping_cart_outlined);
     }
-    return ListView.separated(
-      padding: const EdgeInsets.only(bottom: 120),
+    return ListView.builder(
+      padding: const EdgeInsets.all(16),
       itemCount: agg.sales.length,
-      separatorBuilder: (c, i) => const Divider(height: 1),
       itemBuilder: (context, index) {
-        final sale = agg.sales[index];
-        return ListTile(
-          leading: CircleAvatar(
-            backgroundColor: Colors.green.withOpacity(0.2),
-            child: const Icon(Icons.monetization_on, color: Colors.green),
+        final s = agg.sales[index];
+        return Container(
+          margin: const EdgeInsets.bottom(12),
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: Colors.grey[100]!),
           ),
-          title: Text(sale.buyer?.name ?? 'Unknown Buyer', style: const TextStyle(fontWeight: FontWeight.w600)),
-          subtitle: Text('${sale.quantitySold} kg @ MWK ${sale.pricePerUnit}'),
-          trailing: Text('MWK ${sale.totalAmount.toStringAsFixed(2)}', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Colors.green)),
-        );
-      },
-    );
-  }
-
-  Widget _buildEarningsTab(agg, double totalRevenue) {
-    if (agg.memberEarningsBreakdown.isEmpty) {
-      if (agg.sales.isEmpty) {
-        return const Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+          child: Row(
             children: [
-              Icon(Icons.monetization_on_outlined, size: 64, color: Colors.grey),
-              SizedBox(height: 16),
-              Text('No revenue generated yet.', style: TextStyle(color: Colors.grey, fontSize: 16)),
-              Text('Record a sale to see earnings.', style: TextStyle(color: Colors.grey, fontSize: 14)),
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(color: Colors.green.withOpacity(0.1), shape: BoxShape.circle),
+                child: const Icon(Icons.monetization_on_rounded, color: Colors.green, size: 24),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(s.buyer?.name ?? 'Generic Buyer', style: GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: 14)),
+                    Text('${s.quantitySold} kg @ MWK ${s.pricePerUnit}', style: GoogleFonts.poppins(fontSize: 12, color: Colors.grey[600])),
+                  ],
+                ),
+              ),
+              Text(
+                'MWK ${s.totalAmount}',
+                style: GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: 15, color: Colors.green),
+              ),
             ],
           ),
         );
-      }
-      return const Center(child: CircularProgressIndicator());
-    }
+      },
+    );
+  }
 
+  Widget _buildEarningsTab(agg) {
+    if (agg.memberEarningsBreakdown.isEmpty) {
+      return _buildEmptyState('No earnings data available', Icons.account_balance_wallet_outlined);
+    }
     return ListView.builder(
-      padding: const EdgeInsets.only(bottom: 120, top: 8),
+      padding: const EdgeInsets.all(16),
       itemCount: agg.memberEarningsBreakdown.length,
       itemBuilder: (context, index) {
-        final earnings = agg.memberEarningsBreakdown[index];
+        final e = agg.memberEarningsBreakdown[index];
         return Container(
-          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+          margin: const EdgeInsets.bottom(12),
+          padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(12),
-            boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.03), blurRadius: 4, offset: const Offset(0, 2))],
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: Colors.grey[100]!),
           ),
-          child: ListTile(
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            leading: CircleAvatar(
-              backgroundColor: Colors.green.withOpacity(0.1),
-              child: const Icon(Icons.account_balance_wallet, color: Colors.green, size: 20),
-            ),
-            title: Text(earnings.memberName, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
-            subtitle: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 4),
-                Text('Contributed: ${earnings.contributionQuantity} kg (${earnings.sharePercentage.toStringAsFixed(1)}%)', 
-                     style: TextStyle(fontSize: 12, color: Colors.grey[600])),
-              ],
-            ),
-            trailing: Text(
-              'MWK ${earnings.earnedAmount.toStringAsFixed(2)}',
-              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.green),
-            ),
+          child: Row(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(e.memberName, style: GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: 14)),
+                  Text('${e.contributionQuantity} kg (${e.sharePercentage}%)', style: GoogleFonts.poppins(fontSize: 12, color: Colors.grey[600])),
+                ],
+              ),
+              const Spacer(),
+              Text(
+                'MWK ${e.earnedAmount}',
+                style: GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: 15, color: Colors.green),
+              ),
+            ],
           ),
         );
       },
     );
   }
+
+  Widget _buildEmptyState(String message, IconData icon) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(icon, size: 64, color: Colors.grey[300]),
+          const SizedBox(height: 16),
+          Text(message, style: GoogleFonts.poppins(color: Colors.grey[500], fontSize: 14)),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBottomActions(agg) {
+    final bool canBroadcast = agg.status == 'open' && agg.remainingQuantity > 0;
+
+    return Container(
+      padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, -5))],
+      ),
+      child: Row(
+        children: [
+          if (canBroadcast)
+            Expanded(
+              child: ElevatedButton.icon(
+                onPressed: () => showBroadcastConfigModal(context, agg),
+                icon: const Icon(Icons.broadcast_on_personal_rounded, size: 20),
+                label: Text('Finalize & Broadcast', style: GoogleFonts.poppins(fontWeight: FontWeight.bold)),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: kPrimaryColor,
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                  elevation: 0,
+                ),
+              ),
+            ),
+          if (canBroadcast) const SizedBox(width: 12),
+          Expanded(
+            child: Row(
+              children: [
+                Expanded(
+                  child: _actionButton(
+                    icon: Icons.add_circle_outline_rounded,
+                    label: 'Add',
+                    color: kPrimaryColor,
+                    onTap: () => showAddContributionSheet(context, agg),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: _actionButton(
+                    icon: Icons.sell_outlined,
+                    label: 'Sell',
+                    color: Colors.green,
+                    onTap: () => showRecordSaleSheet(context, agg),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _actionButton({required IconData icon, required String label, required Color color, required VoidCallback onTap}) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 12),
+        decoration: BoxDecoration(
+          color: color.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, color: color, size: 20),
+            Text(label, style: GoogleFonts.poppins(color: color, fontSize: 12, fontWeight: FontWeight.bold)),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Color _getStatusColor(String status) {
+    switch (status.toLowerCase()) {
+      case 'open': return Colors.green;
+      case 'partial_sold': return Colors.orange;
+      case 'completed': return Colors.blue;
+      default: return Colors.grey;
+    }
+  }
+
+  void _confirmDelete(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: Text('Delete Pool', style: GoogleFonts.poppins(fontWeight: FontWeight.bold)),
+        content: Text('Are you sure? This will delete all contributions and sales data.', style: GoogleFonts.poppins()),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(context), child: Text('Cancel', style: GoogleFonts.poppins(color: Colors.grey))),
+          TextButton(
+            onPressed: () async {
+              Navigator.pop(context);
+              final success = await Provider.of<AggregationProvider>(context, listen: false).deleteAggregation(widget.aggregationId);
+              if (success && mounted) Navigator.pop(context);
+            },
+            child: Text('Delete', style: GoogleFonts.poppins(color: Colors.red, fontWeight: FontWeight.bold)),
+          ),
+        ],
+      ),
+    );
+  }
 }
+
+class _SliverTabDelegate extends SliverPersistentHeaderDelegate {
+  final TabBar tabBar;
+  _SliverTabDelegate(this.tabBar);
+
+  @override
+  double get minExtent => tabBar.preferredSize.height;
+  @override
+  double get maxExtent => tabBar.preferredSize.height;
+
+  @override
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return Container(color: const Color(0xFFF8F9FD), child: tabBar);
+  }
+
+  @override
+  bool shouldRebuild(_SliverTabDelegate oldDelegate) => false;
+}
+

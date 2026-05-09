@@ -338,10 +338,17 @@ class _SimpleRegisterScreenState extends State<SimpleRegisterScreen> {
   final box = GetStorage();
   late String name, phone, pin, confrirmPin;
   String? nameError, phoneError, districtError, pinError, epaError, genderError, ageRangeError;
-  bool isLoading = false;
   bool isFetchingDistricts = true;
   List<dynamic> districts = [];
   String? selectedDistrictId;
+  
+  bool isFetchingValueChains = true;
+  List<dynamic> valueChains = [];
+  List<String> selectedValueChains = [];
+  final TextEditingController _customValueChainController = TextEditingController();
+  final TextEditingController _customGenderController = TextEditingController();
+  final TextEditingController _customAgeRangeController = TextEditingController();
+
   String selectedLanguage = 'en';
 
   Function(String? name, String? pin)? get onSubmitted => widget.onSubmitted;
@@ -363,6 +370,20 @@ class _SimpleRegisterScreenState extends State<SimpleRegisterScreen> {
     ageRangeError = null;
     loadLanguagePreference();
     fetchDistricts();
+    fetchValueChains();
+  }
+
+  @override
+  void dispose() {
+    _fullnameController.dispose();
+    _phoneController.dispose();
+    _pinController.dispose();
+    _pinconfirmController.dispose();
+    _epaController.dispose();
+    _customValueChainController.dispose();
+    _customGenderController.dispose();
+    _customAgeRangeController.dispose();
+    super.dispose();
   }
 
   Future<void> loadLanguagePreference() async {
@@ -388,6 +409,32 @@ class _SimpleRegisterScreenState extends State<SimpleRegisterScreen> {
     } catch (e) {
       showSnackBar('An error occurred while fetching districts.');
       setState(() => isFetchingDistricts = false);
+    }
+  }
+
+  Future<void> fetchValueChains() async {
+    var url = Uri.parse('${apiurl}v1/value-chains');
+    try {
+      var response = await http.get(url);
+      if (response.statusCode == 200) {
+        if (mounted) {
+          setState(() {
+            var decoded = jsonDecode(response.body);
+            if (decoded is List) {
+              valueChains = decoded;
+            } else if (decoded is Map && decoded.containsKey('value_chains')) {
+              valueChains = decoded['value_chains'];
+            } else if (decoded is Map && decoded.containsKey('data')) {
+              valueChains = decoded['data'];
+            }
+            isFetchingValueChains = false;
+          });
+        }
+      } else {
+        if (mounted) setState(() => isFetchingValueChains = false);
+      }
+    } catch (e) {
+      if (mounted) setState(() => isFetchingValueChains = false);
     }
   }
 
@@ -473,9 +520,10 @@ class _SimpleRegisterScreenState extends State<SimpleRegisterScreen> {
             'district_id': selectedDistrictId,
             'pin': pin,
             'pin_confirmation': confrirmPin,
-            'gender': selectedGender,
-            'age_range': selectedAgeRange,
+            'gender': (selectedGender == 'other' && _customGenderController.text.isNotEmpty) ? _customGenderController.text.trim() : selectedGender,
+            'age_range': (selectedAgeRange == 'other' && _customAgeRangeController.text.isNotEmpty) ? _customAgeRangeController.text.trim() : selectedAgeRange,
             'epa': _epaController.text.trim(),
+            'value_chains': selectedValueChains,
           }),
         );
 
@@ -626,28 +674,14 @@ class _SimpleRegisterScreenState extends State<SimpleRegisterScreen> {
                 ),
               ),
             ),
-            SizedBox(height: screenHeight * .025),
-            DropdownButtonFormField<String>(
-              value: selectedGender,
-              onChanged: (value) {
-                setState(() {
-                  selectedGender = value;
-                });
-              },
-              items: genders.map<DropdownMenuItem<String>>((gender) {
-                return DropdownMenuItem<String>(
-                  value: gender,
-                  child: Text(gender[0].toUpperCase() + gender.substring(1)),
-                );
-              }).toList(),
-              decoration: InputDecoration(
-                labelText: selectedLanguage == 'en' ? 'Gender' : 'Mwamuna/Mkazi',
-                errorText: genderError,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
+            if (selectedGender == 'other') ...[
+              const SizedBox(height: 10),
+              InputField(
+                controller: _customGenderController,
+                labelText: 'Specify Gender',
+                maxLength: 20,
               ),
-            ),
+            ],
             SizedBox(height: screenHeight * .025),
             DropdownButtonFormField<String>(
               value: selectedAgeRange,
@@ -669,6 +703,97 @@ class _SimpleRegisterScreenState extends State<SimpleRegisterScreen> {
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
+            ),
+            if (selectedAgeRange == 'other') ...[
+              const SizedBox(height: 10),
+              InputField(
+                controller: _customAgeRangeController,
+                labelText: 'Specify Age Range',
+                maxLength: 20,
+              ),
+            ],
+
+            // VALUE CHAINS SECTION
+            const SizedBox(height: 16),
+            Text(
+              selectedLanguage == 'en' ? 'Practicing Value Chains' : 'Mankhwala Omwe Mumachita',
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            ),
+            const SizedBox(height: 10),
+            isFetchingValueChains
+                ? const Center(child: CircularProgressIndicator())
+                : valueChains.isNotEmpty ? Wrap(
+                    spacing: 8.0,
+                    runSpacing: 8.0,
+                    children: [
+                      ...valueChains.map((vc) {
+                        String vcId = vc['id'].toString();
+                        bool selected = selectedValueChains.contains(vcId);
+                        return FilterChip(
+                          label: Text(vc['name']),
+                          selected: selected,
+                          selectedColor: kPrimaryColor.withOpacity(0.2),
+                          checkmarkColor: kPrimaryColor,
+                          onSelected: (bool isSelected) {
+                            setState(() {
+                              if (isSelected) {
+                                if (!selectedValueChains.contains(vcId)) {
+                                  selectedValueChains.add(vcId);
+                                }
+                              } else {
+                                selectedValueChains.remove(vcId);
+                              }
+                            });
+                          },
+                        );
+                      }).toList(),
+                      ...selectedValueChains.where((id) => !valueChains.any((vc) => vc['id'].toString() == id)).map((customVal) {
+                        return FilterChip(
+                          label: Text(customVal),
+                          selected: true,
+                          selectedColor: kPrimaryColor.withOpacity(0.2),
+                          checkmarkColor: kPrimaryColor,
+                          onSelected: (bool isSelected) {
+                            setState(() {
+                              selectedValueChains.remove(customVal);
+                            });
+                          },
+                        );
+                      }).toList(),
+                    ],
+                  ) : const Text('No value chains available.'),
+            
+            const SizedBox(height: 10),
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _customValueChainController,
+                    decoration: InputDecoration(
+                      hintText: selectedLanguage == 'en' ? 'Add other value chain...' : 'Onjezerani mwa zina...',
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8)
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                ElevatedButton(
+                  onPressed: () {
+                    if (_customValueChainController.text.trim().isNotEmpty) {
+                      setState(() {
+                        selectedValueChains.add(_customValueChainController.text.trim());
+                        _customValueChainController.clear();
+                      });
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: kPrimaryColor,
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  ),
+                  child: const Text('Add'),
+                )
+              ],
             ),
             SizedBox(height: screenHeight * .025),
             InputField(

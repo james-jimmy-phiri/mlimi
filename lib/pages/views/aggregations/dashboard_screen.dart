@@ -7,6 +7,7 @@ import 'start_aggregation_screen.dart';
 import 'aggregation_details_screen.dart';
 import 'group_insights_screen.dart';
 import 'package:mlimi/models/aggregation_models.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class AggregationsDashboardScreen extends StatefulWidget {
   const AggregationsDashboardScreen({Key? key}) : super(key: key);
@@ -31,13 +32,14 @@ class _AggregationsDashboardScreenState extends State<AggregationsDashboardScree
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        title: const Text('Group Aggregation', style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold)),
+        title: Text('Group Aggregation', style: GoogleFonts.poppins(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 18)),
         backgroundColor: Colors.white,
         elevation: 0,
+        centerTitle: false,
         iconTheme: const IconThemeData(color: Colors.black87),
         actions: [
           IconButton(
-            icon: const Icon(Icons.refresh),
+            icon: const Icon(Icons.refresh_rounded),
             onPressed: () {
               final provider = Provider.of<AggregationProvider>(context, listen: false);
               provider.fetchDashboardStats();
@@ -69,9 +71,9 @@ class _AggregationsDashboardScreenState extends State<AggregationsDashboardScree
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
+                          Text(
                             'System Overview',
-                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Colors.blueGrey),
+                            style: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.blueGrey[700], letterSpacing: 0.5),
                           ),
                           const SizedBox(height: 12),
                           Row(
@@ -110,9 +112,9 @@ class _AggregationsDashboardScreenState extends State<AggregationsDashboardScree
                 SliverToBoxAdapter(
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(16.0, 10.0, 16.0, 10.0),
-                    child: const Text(
+                    child: Text(
                       'Aggregations Ledgers',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Colors.blueGrey),
+                      style: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.blueGrey[700], letterSpacing: 0.5),
                     ),
                   ),
                 ),
@@ -206,106 +208,80 @@ class _AggregationsDashboardScreenState extends State<AggregationsDashboardScree
   }
 
   Widget _buildAggregationCard(BuildContext context, Aggregation aggregation, AggregationProvider provider) {
+    final statusColor = _getStatusColor(aggregation.status);
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.04),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          )
-        ],
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.03), blurRadius: 15, offset: const Offset(0, 5))],
       ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          borderRadius: BorderRadius.circular(16),
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => AggregationDetailsScreen(aggregationId: aggregation.id!)),
-            );
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              children: [
-                Container(
-                  height: 60,
-                  width: 60,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [kPrimaryColor.withOpacity(0.7), kPrimaryColor],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => AggregationDetailsScreen(aggregationId: aggregation.id!))),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                children: [
+                  Container(
+                    height: 54,
+                    width: 54,
+                    decoration: BoxDecoration(
+                      color: kPrimaryColor.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(15),
                     ),
-                    borderRadius: BorderRadius.circular(12),
+                    child: Icon(Icons.inventory_2_outlined, color: kPrimaryColor, size: 24),
                   ),
-                  child: const Center(child: Icon(Icons.group_work, color: Colors.white, size: 30)),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        aggregation.group?.name ?? 'Group Aggregation',
-                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        'Status: ${aggregation.status.toUpperCase()}',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: aggregation.status == 'open' ? Colors.green : Colors.orange,
-                          fontWeight: FontWeight.w600,
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          aggregation.commodity?.valueChainName ?? 'Commodity Pool',
+                          style: GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.black87),
                         ),
-                      ),
-                      const SizedBox(height: 8),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Available: ${aggregation.remainingQuantity} kg',
-                              style: const TextStyle(fontSize: 13, color: Colors.black54)),
-                          Text('Total: ${aggregation.totalQuantity} kg',
-                              style: const TextStyle(fontSize: 13, color: Colors.black54)),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Column(
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.bar_chart, color: Colors.blueAccent),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => GroupInsightsScreen(
-                              groupId: aggregation.groupId!,
-                              groupName: aggregation.group?.name ?? 'Group',
+                        Text(
+                          aggregation.group?.name ?? 'Unknown Group',
+                          style: GoogleFonts.poppins(fontSize: 12, color: Colors.grey[500]),
+                        ),
+                        const SizedBox(height: 8),
+                        Row(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                              decoration: BoxDecoration(color: statusColor.withOpacity(0.1), borderRadius: BorderRadius.circular(6)),
+                              child: Text(aggregation.status.toUpperCase(), style: GoogleFonts.poppins(fontSize: 9, fontWeight: FontWeight.bold, color: statusColor)),
                             ),
-                          ),
-                        ).then((_) {
-                           // Refresh dash stats when coming back
-                           provider.fetchDashboardStats();
-                        });
-                      },
-                      tooltip: 'Group Insights',
+                            const SizedBox(width: 12),
+                            Icon(Icons.scale_outlined, size: 12, color: Colors.grey[400]),
+                            const SizedBox(width: 4),
+                            Text('${aggregation.remainingQuantity} kg available', style: GoogleFonts.poppins(fontSize: 11, color: Colors.grey[600], fontWeight: FontWeight.w500)),
+                          ],
+                        ),
+                      ],
                     ),
-                    const Icon(Icons.arrow_forward_ios, size: 14, color: Colors.black26),
-                  ],
-                ),
-              ],
+                  ),
+                  const Icon(Icons.arrow_forward_ios_rounded, size: 14, color: Colors.black12),
+                ],
+              ),
             ),
           ),
         ),
       ),
     );
+  }
+
+  Color _getStatusColor(String status) {
+    switch (status.toLowerCase()) {
+      case 'open': return Colors.green;
+      case 'partial_sold': return Colors.orange;
+      case 'completed': return Colors.blue;
+      default: return Colors.grey;
+    }
   }
 }

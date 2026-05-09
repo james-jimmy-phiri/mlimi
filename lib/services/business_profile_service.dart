@@ -25,21 +25,36 @@ class BusinessProfileService {
     };
   }
 
-  /// Get all business profiles (paginated)
-  Future<Map<String, dynamic>> getProfiles({int page = 1}) async {
-    final response = await http.get(
-      Uri.parse('$baseUrl/business-profiles?page=$page'),
-      headers: _headers,
-    );
+  // ---------------------------------------------------------------------------
+  // PROFILES
+  // ---------------------------------------------------------------------------
+
+  /// Get all business profiles (paginated, filterable)
+  Future<Map<String, dynamic>> getProfiles({
+    int page = 1,
+    String? search,
+    int? districtId,
+    int? sectorId,
+    int? valueChainId,
+  }) async {
+    final params = <String, String>{'page': page.toString()};
+    if (search != null && search.isNotEmpty) params['search'] = search;
+    if (districtId != null) params['district_id'] = districtId.toString();
+    if (sectorId != null) params['sector_id'] = sectorId.toString();
+    if (valueChainId != null) params['value_chain_id'] = valueChainId.toString();
+
+    final uri = Uri.parse('$baseUrl/business-profiles').replace(queryParameters: params);
+    final response = await http.get(uri, headers: _headers);
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
-      final List<dynamic> profilesJson = data['business_profiles'] ?? [];
-      final profiles = profilesJson.map((json) => BusinessProfile.fromJson(json)).toList();
-      
+      final List<dynamic> profilesJson = data['business_profiles'] ?? data['data'] ?? [];
+      final profiles = profilesJson
+          .map((j) => BusinessProfile.fromJson(j as Map<String, dynamic>))
+          .toList();
       return {
         'profiles': profiles,
-        'pagination': data['pagination'],
+        'pagination': data['pagination'] ?? data['meta'],
       };
     } else {
       throw Exception('Failed to load business profiles');
@@ -49,13 +64,13 @@ class BusinessProfileService {
   /// Get current user's business profile
   Future<BusinessProfile> getMyProfile() async {
     final response = await http.get(
-      Uri.parse('$baseUrl/business-profiles/my-profile'),
+      Uri.parse('$baseUrl/my-business-profile'),
       headers: _headers,
     );
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
-      return BusinessProfile.fromJson(data['business_profile']);
+      return BusinessProfile.fromJson(data['business_profile'] as Map<String, dynamic>);
     } else if (response.statusCode == 404) {
       throw Exception('No business profile found');
     } else {
@@ -72,7 +87,7 @@ class BusinessProfileService {
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
-      return BusinessProfile.fromJson(data['business_profile']);
+      return BusinessProfile.fromJson(data['business_profile'] as Map<String, dynamic>);
     } else {
       throw Exception('Failed to load profile');
     }
@@ -90,12 +105,22 @@ class BusinessProfileService {
     File? logo,
     String? businessLicenseNumber,
     int? sectorId,
+    String? customSector,
     List<int>? categoryIds,
+    List<String>? customCategories,
     int? districtId,
     String? addressLine,
     String? townCity,
     String? gpsLat,
     String? gpsLng,
+    int? yearFounded,
+    int? employeesCount,
+    String? operatingHours,
+    List<String>? paymentMethods,
+    List<String>? deliveryOptions,
+    List<String>? tags,
+    List<int>? valueChainIds,
+    List<String>? customValueChains,
     List<Map<String, dynamic>>? offerings,
     List<File>? galleryImages,
     List<File>? galleryVideos,
@@ -104,7 +129,6 @@ class BusinessProfileService {
       'POST',
       Uri.parse('$baseUrl/business-profiles'),
     );
-
     request.headers.addAll(_authHeaders);
 
     // Required fields
@@ -115,27 +139,75 @@ class BusinessProfileService {
     request.fields['contact_info[email]'] = email;
 
     // Optional fields
-    if (website != null) request.fields['contact_info[website]'] = website;
-    if (businessLicenseNumber != null) request.fields['business_license_number'] = businessLicenseNumber;
+    if (website != null && website.isNotEmpty) request.fields['contact_info[website]'] = website;
+    if (businessLicenseNumber != null && businessLicenseNumber.isNotEmpty) {
+      request.fields['business_license_number'] = businessLicenseNumber;
+    }
     if (sectorId != null) request.fields['sector_id'] = sectorId.toString();
+    if (customSector != null && customSector.isNotEmpty) request.fields['sector_id'] = customSector;
     if (districtId != null) request.fields['district_id'] = districtId.toString();
-    if (addressLine != null) request.fields['address_line'] = addressLine;
-    if (townCity != null) request.fields['town_city'] = townCity;
-    if (gpsLat != null) request.fields['gps_lat'] = gpsLat;
-    if (gpsLng != null) request.fields['gps_lng'] = gpsLng;
+    if (addressLine != null && addressLine.isNotEmpty) request.fields['address_line'] = addressLine;
+    if (townCity != null && townCity.isNotEmpty) request.fields['town_city'] = townCity;
+    if (gpsLat != null && gpsLat.isNotEmpty) request.fields['gps_lat'] = gpsLat;
+    if (gpsLng != null && gpsLng.isNotEmpty) request.fields['gps_lng'] = gpsLng;
+    if (yearFounded != null) request.fields['year_founded'] = yearFounded.toString();
+    if (employeesCount != null) request.fields['employees_count'] = employeesCount.toString();
+    if (operatingHours != null && operatingHours.isNotEmpty) {
+      request.fields['operating_hours'] = operatingHours;
+    }
 
     // Social media
     if (socialMedia != null) {
-      if (socialMedia['facebook'] != null) request.fields['contact_info[social_media][facebook]'] = socialMedia['facebook']!;
-      if (socialMedia['instagram'] != null) request.fields['contact_info[social_media][instagram]'] = socialMedia['instagram']!;
-      if (socialMedia['twitter'] != null) request.fields['contact_info[social_media][twitter]'] = socialMedia['twitter']!;
-      if (socialMedia['linkedin'] != null) request.fields['contact_info[social_media][linkedin]'] = socialMedia['linkedin']!;
+      if (socialMedia['facebook']?.isNotEmpty == true) {
+        request.fields['contact_info[social_media][facebook]'] = socialMedia['facebook']!;
+      }
+      if (socialMedia['instagram']?.isNotEmpty == true) {
+        request.fields['contact_info[social_media][instagram]'] = socialMedia['instagram']!;
+      }
+      if (socialMedia['twitter']?.isNotEmpty == true) {
+        request.fields['contact_info[social_media][twitter]'] = socialMedia['twitter']!;
+      }
+      if (socialMedia['linkedin']?.isNotEmpty == true) {
+        request.fields['contact_info[social_media][linkedin]'] = socialMedia['linkedin']!;
+      }
     }
 
-    // Categories
+    // Arrays
     if (categoryIds != null) {
       for (int i = 0; i < categoryIds.length; i++) {
         request.fields['category_ids[$i]'] = categoryIds[i].toString();
+      }
+    }
+    if (customCategories != null) {
+      final offset = categoryIds?.length ?? 0;
+      for (int i = 0; i < customCategories.length; i++) {
+        request.fields['category_ids[${offset + i}]'] = customCategories[i];
+      }
+    }
+    if (valueChainIds != null) {
+      for (int i = 0; i < valueChainIds.length; i++) {
+        request.fields['value_chains[$i]'] = valueChainIds[i].toString();
+      }
+    }
+    if (customValueChains != null) {
+      final offset = valueChainIds?.length ?? 0;
+      for (int i = 0; i < customValueChains.length; i++) {
+        request.fields['value_chains[${offset + i}]'] = customValueChains[i];
+      }
+    }
+    if (paymentMethods != null) {
+      for (int i = 0; i < paymentMethods.length; i++) {
+        request.fields['payment_methods[$i]'] = paymentMethods[i];
+      }
+    }
+    if (deliveryOptions != null) {
+      for (int i = 0; i < deliveryOptions.length; i++) {
+        request.fields['delivery_options[$i]'] = deliveryOptions[i];
+      }
+    }
+    if (tags != null) {
+      for (int i = 0; i < tags.length; i++) {
+        request.fields['tags[$i]'] = tags[i];
       }
     }
 
@@ -145,30 +217,34 @@ class BusinessProfileService {
         final offering = offerings[i];
         request.fields['offerings[$i][type]'] = offering['type'] ?? 'product';
         request.fields['offerings[$i][name]'] = offering['name'] ?? '';
-        if (offering['description'] != null) request.fields['offerings[$i][description]'] = offering['description'];
-        if (offering['price'] != null) request.fields['offerings[$i][price]'] = offering['price'].toString();
-        if (offering['currency'] != null) request.fields['offerings[$i][currency]'] = offering['currency'];
+        if (offering['description'] != null) {
+          request.fields['offerings[$i][description]'] = offering['description'];
+        }
+        if (offering['price'] != null) {
+          request.fields['offerings[$i][price]'] = offering['price'].toString();
+        }
+        if (offering['currency'] != null) {
+          request.fields['offerings[$i][currency]'] = offering['currency'];
+        }
         if (offering['unit'] != null) request.fields['offerings[$i][unit]'] = offering['unit'];
-        
+
         if (offering['image'] != null && offering['image'] is File) {
-          request.files.add(await http.MultipartFile.fromPath('offerings[$i][image]', offering['image'].path));
+          request.files.add(
+            await http.MultipartFile.fromPath('offerings[$i][image]', offering['image'].path),
+          );
         }
       }
     }
 
-    // Logo
+    // Files
     if (logo != null) {
       request.files.add(await http.MultipartFile.fromPath('logo', logo.path));
     }
-
-    // Gallery images
     if (galleryImages != null) {
       for (var image in galleryImages) {
         request.files.add(await http.MultipartFile.fromPath('gallery_images[]', image.path));
       }
     }
-
-    // Gallery videos
     if (galleryVideos != null) {
       for (var video in galleryVideos) {
         request.files.add(await http.MultipartFile.fromPath('gallery_videos[]', video.path));
@@ -180,7 +256,7 @@ class BusinessProfileService {
 
     if (response.statusCode == 201 || response.statusCode == 200) {
       final data = json.decode(response.body);
-      return BusinessProfile.fromJson(data['business_profile']);
+      return BusinessProfile.fromJson(data['business_profile'] as Map<String, dynamic>);
     } else {
       final errorData = json.decode(response.body);
       throw Exception(errorData['message'] ?? 'Failed to create profile');
@@ -200,23 +276,31 @@ class BusinessProfileService {
     File? logo,
     String? businessLicenseNumber,
     int? sectorId,
+    String? customSector,
     List<int>? categoryIds,
+    List<String>? customCategories,
     int? districtId,
     String? addressLine,
     String? townCity,
     String? gpsLat,
     String? gpsLng,
+    int? yearFounded,
+    int? employeesCount,
+    String? operatingHours,
+    List<String>? paymentMethods,
+    List<String>? deliveryOptions,
+    List<String>? tags,
+    List<int>? valueChainIds,
+    List<String>? customValueChains,
     List<Map<String, dynamic>>? offerings,
   }) async {
     var request = http.MultipartRequest(
       'POST',
       Uri.parse('$baseUrl/business-profiles/$id'),
     );
-
     request.headers.addAll(_authHeaders);
     request.fields['_method'] = 'PUT';
 
-    // Fields
     if (businessName != null) request.fields['business_name'] = businessName;
     if (description != null) request.fields['description'] = description;
     if (location != null) request.fields['location'] = location;
@@ -225,13 +309,16 @@ class BusinessProfileService {
     if (website != null) request.fields['contact_info[website]'] = website;
     if (businessLicenseNumber != null) request.fields['business_license_number'] = businessLicenseNumber;
     if (sectorId != null) request.fields['sector_id'] = sectorId.toString();
+    if (customSector != null && customSector.isNotEmpty) request.fields['sector_id'] = customSector;
     if (districtId != null) request.fields['district_id'] = districtId.toString();
     if (addressLine != null) request.fields['address_line'] = addressLine;
     if (townCity != null) request.fields['town_city'] = townCity;
     if (gpsLat != null) request.fields['gps_lat'] = gpsLat;
     if (gpsLng != null) request.fields['gps_lng'] = gpsLng;
+    if (yearFounded != null) request.fields['year_founded'] = yearFounded.toString();
+    if (employeesCount != null) request.fields['employees_count'] = employeesCount.toString();
+    if (operatingHours != null) request.fields['operating_hours'] = operatingHours;
 
-    // Social media
     if (socialMedia != null) {
       request.fields['contact_info[social_media][facebook]'] = socialMedia['facebook'] ?? '';
       request.fields['contact_info[social_media][instagram]'] = socialMedia['instagram'] ?? '';
@@ -239,32 +326,71 @@ class BusinessProfileService {
       request.fields['contact_info[social_media][linkedin]'] = socialMedia['linkedin'] ?? '';
     }
 
-    // Categories
     if (categoryIds != null) {
       for (int i = 0; i < categoryIds.length; i++) {
         request.fields['category_ids[$i]'] = categoryIds[i].toString();
       }
     }
+    if (customCategories != null) {
+      final offset = categoryIds?.length ?? 0;
+      for (int i = 0; i < customCategories.length; i++) {
+        request.fields['category_ids[${offset + i}]'] = customCategories[i];
+      }
+    }
+    if (valueChainIds != null) {
+      for (int i = 0; i < valueChainIds.length; i++) {
+        request.fields['value_chains[$i]'] = valueChainIds[i].toString();
+      }
+    }
+    if (customValueChains != null) {
+      final offset = valueChainIds?.length ?? 0;
+      for (int i = 0; i < customValueChains.length; i++) {
+        request.fields['value_chains[${offset + i}]'] = customValueChains[i];
+      }
+    }
+    if (paymentMethods != null) {
+      for (int i = 0; i < paymentMethods.length; i++) {
+        request.fields['payment_methods[$i]'] = paymentMethods[i];
+      }
+    }
+    if (deliveryOptions != null) {
+      for (int i = 0; i < deliveryOptions.length; i++) {
+        request.fields['delivery_options[$i]'] = deliveryOptions[i];
+      }
+    }
+    if (tags != null) {
+      for (int i = 0; i < tags.length; i++) {
+        request.fields['tags[$i]'] = tags[i];
+      }
+    }
 
-    // Offerings
     if (offerings != null) {
       for (int i = 0; i < offerings.length; i++) {
         final offering = offerings[i];
         request.fields['offerings[$i][type]'] = offering['type'] ?? 'product';
         request.fields['offerings[$i][name]'] = offering['name'] ?? '';
-        if (offering['description'] != null) request.fields['offerings[$i][description]'] = offering['description'];
-        if (offering['price'] != null) request.fields['offerings[$i][price]'] = offering['price'].toString();
-        if (offering['currency'] != null) request.fields['offerings[$i][currency]'] = offering['currency'];
+        if (offering['id'] != null) request.fields['offerings[$i][id]'] = offering['id'].toString();
+        if (offering['description'] != null) {
+          request.fields['offerings[$i][description]'] = offering['description'];
+        }
+        if (offering['price'] != null) {
+          request.fields['offerings[$i][price]'] = offering['price'].toString();
+        }
+        if (offering['currency'] != null) {
+          request.fields['offerings[$i][currency]'] = offering['currency'];
+        }
         if (offering['unit'] != null) request.fields['offerings[$i][unit]'] = offering['unit'];
-        if (offering['is_active'] != null) request.fields['offerings[$i][is_active]'] = offering['is_active'] ? '1' : '0';
-        
+        if (offering['is_active'] != null) {
+          request.fields['offerings[$i][is_active]'] = offering['is_active'] ? '1' : '0';
+        }
         if (offering['image'] != null && offering['image'] is File) {
-          request.files.add(await http.MultipartFile.fromPath('offerings[$i][image]', offering['image'].path));
+          request.files.add(
+            await http.MultipartFile.fromPath('offerings[$i][image]', offering['image'].path),
+          );
         }
       }
     }
 
-    // Logo
     if (logo != null) {
       request.files.add(await http.MultipartFile.fromPath('logo', logo.path));
     }
@@ -274,7 +400,7 @@ class BusinessProfileService {
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
-      return BusinessProfile.fromJson(data['business_profile']);
+      return BusinessProfile.fromJson(data['business_profile'] as Map<String, dynamic>);
     } else {
       final errorData = json.decode(response.body);
       throw Exception(errorData['message'] ?? 'Failed to update profile');
@@ -287,14 +413,16 @@ class BusinessProfileService {
       Uri.parse('$baseUrl/business-profiles/$id'),
       headers: _headers,
     );
-
-    if (response.statusCode != 200) {
+    if (response.statusCode != 200 && response.statusCode != 204) {
       final errorData = json.decode(response.body);
       throw Exception(errorData['message'] ?? 'Failed to delete profile');
     }
   }
 
-  /// Add gallery image
+  // ---------------------------------------------------------------------------
+  // GALLERY
+  // ---------------------------------------------------------------------------
+
   Future<BusinessGalleryImage> addGalleryImage({
     required int profileId,
     required File image,
@@ -303,27 +431,24 @@ class BusinessProfileService {
   }) async {
     var request = http.MultipartRequest(
       'POST',
-      Uri.parse('$baseUrl/business-profiles/$profileId/gallery/images'),
+      Uri.parse('$baseUrl/business-profiles/$profileId/gallery-images'),
     );
-
     request.headers.addAll(_authHeaders);
     request.files.add(await http.MultipartFile.fromPath('image', image.path));
-    
     if (caption != null) request.fields['caption'] = caption;
     if (sortOrder != null) request.fields['sort_order'] = sortOrder.toString();
 
     final streamedResponse = await request.send();
     final response = await http.Response.fromStream(streamedResponse);
 
-    if (response.statusCode == 201) {
+    if (response.statusCode == 201 || response.statusCode == 200) {
       final data = json.decode(response.body);
-      return BusinessGalleryImage.fromJson(data['gallery_image']);
+      return BusinessGalleryImage.fromJson(data['gallery_image'] as Map<String, dynamic>);
     } else {
-      throw Exception('Failed to add image');
+      throw Exception('Failed to add gallery image');
     }
   }
 
-  /// Add gallery video
   Future<BusinessGalleryVideo> addGalleryVideo({
     required int profileId,
     required File video,
@@ -332,118 +457,39 @@ class BusinessProfileService {
   }) async {
     var request = http.MultipartRequest(
       'POST',
-      Uri.parse('$baseUrl/business-profiles/$profileId/gallery/videos'),
+      Uri.parse('$baseUrl/business-profiles/$profileId/gallery-videos'),
     );
-
     request.headers.addAll(_authHeaders);
     request.files.add(await http.MultipartFile.fromPath('video', video.path));
-    
     if (caption != null) request.fields['caption'] = caption;
     if (sortOrder != null) request.fields['sort_order'] = sortOrder.toString();
 
     final streamedResponse = await request.send();
     final response = await http.Response.fromStream(streamedResponse);
 
-    if (response.statusCode == 201) {
+    if (response.statusCode == 201 || response.statusCode == 200) {
       final data = json.decode(response.body);
-      return BusinessGalleryVideo.fromJson(data['gallery_video']);
+      return BusinessGalleryVideo.fromJson(data['gallery_video'] as Map<String, dynamic>);
     } else {
       final errorData = json.decode(response.body);
-      throw Exception(errorData['message'] ?? 'Failed to add video');
+      throw Exception(errorData['message'] ?? 'Failed to add gallery video');
     }
   }
 
-  /// Delete gallery image
   Future<void> deleteGalleryImage(int profileId, int imageId) async {
     final response = await http.delete(
-      Uri.parse('$baseUrl/business-profiles/$profileId/gallery/images/$imageId'),
+      Uri.parse('$baseUrl/business-profiles/$profileId/gallery-images/$imageId'),
       headers: _headers,
     );
-
-    if (response.statusCode != 200) {
-      throw Exception('Failed to delete image');
+    if (response.statusCode != 200 && response.statusCode != 204) {
+      throw Exception('Failed to delete gallery image');
     }
   }
 
-  /// Delete gallery video
   Future<void> deleteGalleryVideo(int profileId, int videoId) async {
     final response = await http.delete(
-      Uri.parse('$baseUrl/business-profiles/$profileId/gallery/videos/$videoId'),
+      Uri.parse('$baseUrl/business-profiles/$profileId/gallery-videos/$videoId'),
       headers: _headers,
     );
-
-    if (response.statusCode != 200) {
-      throw Exception('Failed to delete video');
-    }
-  }
-
-  /// Get sectors
-  Future<List<BusinessSector>> getSectors() async {
-    try {
-      final response = await http.get(
-        Uri.parse('$baseUrl/business-sectors'),
-        headers: _headers,
-      );
-
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-        final List<dynamic> sectorsJson = data['data'] ?? data;
-        if (sectorsJson.isEmpty) return _getFallbackSectors();
-        return sectorsJson.map((json) => BusinessSector.fromJson(json)).toList();
-      } else {
-        return _getFallbackSectors();
-      }
-    } catch (e) {
-      return _getFallbackSectors();
-    }
-  }
-
-  List<BusinessSector> _getFallbackSectors() {
-    final List<Map<String, dynamic>> fallback = [
-      {'id': 1, 'name': 'Agriculture', 'slug': 'agriculture'},
-      {'id': 2, 'name': 'Livestock', 'slug': 'livestock'},
-      {'id': 3, 'name': 'Fisheries', 'slug': 'fisheries'},
-      {'id': 4, 'name': 'Agro-processing', 'slug': 'agro-processing'},
-      {'id': 5, 'name': 'Input Supply', 'slug': 'input-supply'},
-      {'id': 6, 'name': 'Marketing & Trade', 'slug': 'marketing-trade'},
-      {'id': 7, 'name': 'Financial Services', 'slug': 'financial-services'},
-      {'id': 8, 'name': 'Transport & Logistics', 'slug': 'transport-logistics'},
-      {'id': 9, 'name': 'Extension Services', 'slug': 'extension-services'},
-      {'id': 10, 'name': 'Machinery & Equipment', 'slug': 'machinery-equipment'},
-    ];
-    return fallback.map((json) => BusinessSector.fromJson(json)).toList();
-  }
-
-  /// Get categories
-  Future<List<BusinessCategory>> getCategories() async {
-    final response = await http.get(
-      Uri.parse('$baseUrl/business-categories'),
-      headers: _headers,
-    );
-
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      final List<dynamic> categoriesJson = data['data'] ?? data;
-      return categoriesJson.map((json) => BusinessCategory.fromJson(json)).toList();
-    } else {
-      throw Exception('Failed to load categories');
-    }
-  }
-
-  /// Get districts
-  Future<List<BusinessDistrict>> getDistricts() async {
-    final response = await http.get(
-      Uri.parse('$baseUrl/districts'),
-      headers: _headers,
-    );
-
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      // Backend returns {'districts': [...]}
-      final List<dynamic> districtsJson = data['districts'] ?? data['data'] ?? data;
-      return districtsJson.map((json) => BusinessDistrict.fromJson(json)).toList();
-    } else {
-      throw Exception('Failed to load districts');
-    }
-  }
-}
+    if (response.statusCode != 200 && response.statusCode != 204) {
+      throw Exception('Failed to delete gallery video');

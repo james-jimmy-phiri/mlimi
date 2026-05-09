@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class BusinessProfile {
   final int? id;
   final int? clientId;
@@ -14,6 +16,13 @@ class BusinessProfile {
   final String? townCity;
   final String? gpsLat;
   final String? gpsLng;
+  final int? yearFounded;
+  final int? employeesCount;
+  final dynamic operatingHours;
+  final List<String>? paymentMethods;
+  final List<String>? deliveryOptions;
+  final List<String>? tags;
+  final List<dynamic>? valueChains;
   final bool isVerified;
   final DateTime? verifiedAt;
   final String? verificationNotes;
@@ -24,6 +33,7 @@ class BusinessProfile {
   final List<BusinessOffering>? offerings;
   final List<BusinessGalleryImage>? galleryImages;
   final List<BusinessGalleryVideo>? galleryVideos;
+  final BusinessDistrict? district;
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
@@ -43,6 +53,13 @@ class BusinessProfile {
     this.townCity,
     this.gpsLat,
     this.gpsLng,
+    this.yearFounded,
+    this.employeesCount,
+    this.operatingHours,
+    this.paymentMethods,
+    this.deliveryOptions,
+    this.tags,
+    this.valueChains,
     this.isVerified = false,
     this.verifiedAt,
     this.verificationNotes,
@@ -53,20 +70,35 @@ class BusinessProfile {
     this.offerings,
     this.galleryImages,
     this.galleryVideos,
+    this.district,
     this.createdAt,
     this.updatedAt,
   });
 
   factory BusinessProfile.fromJson(Map<String, dynamic> json) {
+    // contact_info may arrive as a raw JSON string (some backends encode it)
+    ContactInfo? contactInfo;
+    final rawContact = json['contact_info'];
+    if (rawContact != null) {
+      if (rawContact is String) {
+        try {
+          final decoded = jsonDecode(rawContact);
+          if (decoded is Map<String, dynamic>) {
+            contactInfo = ContactInfo.fromJson(decoded);
+          }
+        } catch (_) {}
+      } else if (rawContact is Map<String, dynamic>) {
+        contactInfo = ContactInfo.fromJson(rawContact);
+      }
+    }
+
     return BusinessProfile(
       id: json['id'],
       clientId: json['client_id'],
       businessName: json['business_name'] ?? '',
       description: json['description'],
       location: json['location'],
-      contactInfo: json['contact_info'] != null
-          ? ContactInfo.fromJson(json['contact_info'])
-          : null,
+      contactInfo: contactInfo,
       logo: json['logo'],
       logoUrl: json['logo_url'],
       businessLicenseNumber: json['business_license_number'],
@@ -76,46 +108,55 @@ class BusinessProfile {
       townCity: json['town_city'],
       gpsLat: json['gps_lat']?.toString(),
       gpsLng: json['gps_lng']?.toString(),
-      isVerified: json['is_verified'] ?? false,
+      yearFounded: json['year_founded'],
+      employeesCount: json['employees_count'],
+      operatingHours: json['operating_hours'],
+      paymentMethods: json['payment_methods'] != null
+          ? List<String>.from(json['payment_methods'])
+          : null,
+      deliveryOptions: json['delivery_options'] != null
+          ? List<String>.from(json['delivery_options'])
+          : null,
+      tags: json['tags'] != null ? List<String>.from(json['tags']) : null,
+      valueChains: json['value_chains'] is List ? List<dynamic>.from(json['value_chains']) : null,
+      isVerified: json['is_verified'] == true || json['is_verified'] == 1,
       verifiedAt: json['verified_at'] != null
-          ? DateTime.parse(json['verified_at'])
+          ? DateTime.tryParse(json['verified_at'])
           : null,
       verificationNotes: json['verification_notes'],
       sector: json['sector'] != null
-          ? BusinessSector.fromJson(json['sector'])
+          ? BusinessSector.fromJson(json['sector'] as Map<String, dynamic>)
           : null,
       district: json['district'] != null
-          ? BusinessDistrict.fromJson(json['district'])
-          : null,
+          ? BusinessDistrict.fromJson(json['district'] as Map<String, dynamic>)
+          : (json['district_id'] != null
+              ? BusinessDistrict(id: json['district_id'], name: '')
+              : null),
       client: json['client'] != null
-          ? BusinessClient.fromJson(json['client'])
+          ? BusinessClient.fromJson(json['client'] as Map<String, dynamic>)
           : null,
       categories: json['categories'] != null
           ? (json['categories'] as List)
-              .map((c) => BusinessCategory.fromJson(c))
+              .map((c) => BusinessCategory.fromJson(c as Map<String, dynamic>))
               .toList()
           : null,
       offerings: json['offerings'] != null
           ? (json['offerings'] as List)
-              .map((o) => BusinessOffering.fromJson(o))
+              .map((o) => BusinessOffering.fromJson(o as Map<String, dynamic>))
               .toList()
           : null,
       galleryImages: json['gallery_images'] != null
           ? (json['gallery_images'] as List)
-              .map((i) => BusinessGalleryImage.fromJson(i))
+              .map((i) => BusinessGalleryImage.fromJson(i as Map<String, dynamic>))
               .toList()
           : null,
       galleryVideos: json['gallery_videos'] != null
           ? (json['gallery_videos'] as List)
-              .map((v) => BusinessGalleryVideo.fromJson(v))
+              .map((v) => BusinessGalleryVideo.fromJson(v as Map<String, dynamic>))
               .toList()
           : null,
-      createdAt: json['created_at'] != null
-          ? DateTime.parse(json['created_at'])
-          : null,
-      updatedAt: json['updated_at'] != null
-          ? DateTime.parse(json['updated_at'])
-          : null,
+      createdAt: json['created_at'] != null ? DateTime.tryParse(json['created_at']) : null,
+      updatedAt: json['updated_at'] != null ? DateTime.tryParse(json['updated_at']) : null,
     );
   }
 
@@ -135,10 +176,18 @@ class BusinessProfile {
       'town_city': townCity,
       'gps_lat': gpsLat,
       'gps_lng': gpsLng,
+      'year_founded': yearFounded,
+      'employees_count': employeesCount,
+      'operating_hours': operatingHours,
+      'payment_methods': paymentMethods,
+      'delivery_options': deliveryOptions,
+      'tags': tags,
       'is_verified': isVerified,
     };
   }
 }
+
+// ---------------------------------------------------------------------------
 
 class ContactInfo {
   final String? email;
@@ -146,12 +195,7 @@ class ContactInfo {
   final String? website;
   final SocialMedia? socialMedia;
 
-  ContactInfo({
-    this.email,
-    this.phone,
-    this.website,
-    this.socialMedia,
-  });
+  ContactInfo({this.email, this.phone, this.website, this.socialMedia});
 
   factory ContactInfo.fromJson(Map<String, dynamic> json) {
     return ContactInfo(
@@ -159,20 +203,20 @@ class ContactInfo {
       phone: json['phone'],
       website: json['website'],
       socialMedia: json['social_media'] != null
-          ? SocialMedia.fromJson(json['social_media'])
+          ? SocialMedia.fromJson(json['social_media'] as Map<String, dynamic>)
           : null,
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'email': email,
-      'phone': phone,
-      'website': website,
-      'social_media': socialMedia?.toJson(),
-    };
-  }
+  Map<String, dynamic> toJson() => {
+        'email': email,
+        'phone': phone,
+        'website': website,
+        'social_media': socialMedia?.toJson(),
+      };
 }
+
+// ---------------------------------------------------------------------------
 
 class SocialMedia {
   final String? facebook;
@@ -180,59 +224,48 @@ class SocialMedia {
   final String? twitter;
   final String? linkedin;
 
-  SocialMedia({
-    this.facebook,
-    this.instagram,
-    this.twitter,
-    this.linkedin,
-  });
+  SocialMedia({this.facebook, this.instagram, this.twitter, this.linkedin});
 
-  factory SocialMedia.fromJson(Map<String, dynamic> json) {
-    return SocialMedia(
-      facebook: json['facebook'],
-      instagram: json['instagram'],
-      twitter: json['twitter'],
-      linkedin: json['linkedin'],
-    );
-  }
+  factory SocialMedia.fromJson(Map<String, dynamic> json) => SocialMedia(
+        facebook: json['facebook'],
+        instagram: json['instagram'],
+        twitter: json['twitter'],
+        linkedin: json['linkedin'],
+      );
 
-  Map<String, dynamic> toJson() {
-    return {
-      'facebook': facebook,
-      'instagram': instagram,
-      'twitter': twitter,
-      'linkedin': linkedin,
-    };
-  }
+  Map<String, dynamic> toJson() => {
+        'facebook': facebook,
+        'instagram': instagram,
+        'twitter': twitter,
+        'linkedin': linkedin,
+      };
 }
+
+// ---------------------------------------------------------------------------
 
 class BusinessSector {
   final int? id;
   final String name;
   final String? slug;
 
-  BusinessSector({
-    this.id,
-    required this.name,
-    this.slug,
-  });
+  BusinessSector({this.id, required this.name, this.slug});
 
-  factory BusinessSector.fromJson(Map<String, dynamic> json) {
-    return BusinessSector(
-      id: json['id'],
-      name: json['name'] ?? '',
-      slug: json['slug'],
-    );
-  }
+  factory BusinessSector.fromJson(Map<String, dynamic> json) => BusinessSector(
+        id: json['id'],
+        name: json['name'] ?? '',
+        slug: json['slug'],
+      );
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'name': name,
-      'slug': slug,
-    };
-  }
+  Map<String, dynamic> toJson() => {'id': id, 'name': name, 'slug': slug};
+
+  @override
+  bool operator ==(Object other) => other is BusinessSector && other.id == id;
+
+  @override
+  int get hashCode => id.hashCode;
 }
+
+// ---------------------------------------------------------------------------
 
 class BusinessCategory {
   final int? id;
@@ -240,55 +273,47 @@ class BusinessCategory {
   final String? slug;
   final String? description;
 
-  BusinessCategory({
-    this.id,
-    required this.name,
-    this.slug,
-    this.description,
-  });
+  BusinessCategory({this.id, required this.name, this.slug, this.description});
 
-  factory BusinessCategory.fromJson(Map<String, dynamic> json) {
-    return BusinessCategory(
-      id: json['id'],
-      name: json['name'] ?? '',
-      slug: json['slug'],
-      description: json['description'],
-    );
-  }
+  factory BusinessCategory.fromJson(Map<String, dynamic> json) =>
+      BusinessCategory(
+        id: json['id'],
+        name: json['name'] ?? '',
+        slug: json['slug'],
+        description: json['description'],
+      );
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'name': name,
-      'slug': slug,
-      'description': description,
-    };
-  }
+  Map<String, dynamic> toJson() =>
+      {'id': id, 'name': name, 'slug': slug, 'description': description};
+
+  @override
+  bool operator ==(Object other) => other is BusinessCategory && other.id == id;
+
+  @override
+  int get hashCode => id.hashCode;
 }
+
+// ---------------------------------------------------------------------------
 
 class BusinessDistrict {
   final int? id;
   final String name;
 
-  BusinessDistrict({
-    this.id,
-    required this.name,
-  });
+  BusinessDistrict({this.id, required this.name});
 
-  factory BusinessDistrict.fromJson(Map<String, dynamic> json) {
-    return BusinessDistrict(
-      id: json['id'],
-      name: json['name'] ?? '',
-    );
-  }
+  factory BusinessDistrict.fromJson(Map<String, dynamic> json) =>
+      BusinessDistrict(id: json['id'], name: json['name'] ?? '');
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'name': name,
-    };
-  }
+  Map<String, dynamic> toJson() => {'id': id, 'name': name};
+
+  @override
+  bool operator ==(Object other) => other is BusinessDistrict && other.id == id;
+
+  @override
+  int get hashCode => id.hashCode;
 }
+
+// ---------------------------------------------------------------------------
 
 class BusinessClient {
   final int? id;
@@ -296,26 +321,21 @@ class BusinessClient {
   final String? phone;
   final String? email;
 
-  BusinessClient({
-    this.id,
-    required this.name,
-    this.phone,
-    this.email,
-  });
+  BusinessClient({this.id, required this.name, this.phone, this.email});
 
-  factory BusinessClient.fromJson(Map<String, dynamic> json) {
-    return BusinessClient(
-      id: json['id'],
-      name: json['name'] ?? '',
-      phone: json['phone'],
-      email: json['email'],
-    );
-  }
+  factory BusinessClient.fromJson(Map<String, dynamic> json) => BusinessClient(
+        id: json['id'],
+        name: json['name'] ?? '',
+        phone: json['phone'],
+        email: json['email'],
+      );
 }
+
+// ---------------------------------------------------------------------------
 
 class BusinessOffering {
   final int? id;
-  final String type; // 'product' or 'service'
+  final String type; // 'product' | 'service'
   final String name;
   final String? description;
   final double? price;
@@ -338,36 +358,35 @@ class BusinessOffering {
     this.isActive = true,
   });
 
-  factory BusinessOffering.fromJson(Map<String, dynamic> json) {
-    return BusinessOffering(
-      id: json['id'],
-      type: json['type'] ?? 'product',
-      name: json['name'] ?? '',
-      description: json['description'],
-      price: json['price'] != null
-          ? double.tryParse(json['price'].toString())
-          : null,
-      currency: json['currency'] ?? 'MWK',
-      unit: json['unit'],
-      image: json['image'],
-      imageUrl: json['image_url'],
-      isActive: json['is_active'] ?? true,
-    );
-  }
+  factory BusinessOffering.fromJson(Map<String, dynamic> json) =>
+      BusinessOffering(
+        id: json['id'],
+        type: json['type'] ?? 'product',
+        name: json['name'] ?? '',
+        description: json['description'],
+        price: json['price'] != null
+            ? double.tryParse(json['price'].toString())
+            : null,
+        currency: json['currency'] ?? 'MWK',
+        unit: json['unit'],
+        image: json['image'],
+        imageUrl: json['image_url'],
+        isActive: json['is_active'] == true || json['is_active'] == 1,
+      );
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'type': type,
-      'name': name,
-      'description': description,
-      'price': price,
-      'currency': currency,
-      'unit': unit,
-      'is_active': isActive,
-    };
-  }
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'type': type,
+        'name': name,
+        'description': description,
+        'price': price,
+        'currency': currency,
+        'unit': unit,
+        'is_active': isActive,
+      };
 }
+
+// ---------------------------------------------------------------------------
 
 class BusinessGalleryImage {
   final int? id;
@@ -384,16 +403,17 @@ class BusinessGalleryImage {
     this.sortOrder = 0,
   });
 
-  factory BusinessGalleryImage.fromJson(Map<String, dynamic> json) {
-    return BusinessGalleryImage(
-      id: json['id'],
-      imagePath: json['image_path'] ?? '',
-      imageUrl: json['image_url'],
-      caption: json['caption'],
-      sortOrder: json['sort_order'] ?? 0,
-    );
-  }
+  factory BusinessGalleryImage.fromJson(Map<String, dynamic> json) =>
+      BusinessGalleryImage(
+        id: json['id'],
+        imagePath: json['image_path'] ?? '',
+        imageUrl: json['image_url'],
+        caption: json['caption'],
+        sortOrder: json['sort_order'] ?? 0,
+      );
 }
+
+// ---------------------------------------------------------------------------
 
 class BusinessGalleryVideo {
   final int? id;
@@ -422,19 +442,18 @@ class BusinessGalleryVideo {
     this.sortOrder = 0,
   });
 
-  factory BusinessGalleryVideo.fromJson(Map<String, dynamic> json) {
-    return BusinessGalleryVideo(
-      id: json['id'],
-      videoPath: json['video_path'] ?? '',
-      videoUrl: json['video_url'],
-      caption: json['caption'],
-      thumbnailPath: json['thumbnail_path'],
-      thumbnailUrl: json['thumbnail_url'],
-      fileSize: json['file_size'],
-      fileSizeHuman: json['file_size_human'],
-      duration: json['duration'],
-      durationHuman: json['duration_human'],
-      sortOrder: json['sort_order'] ?? 0,
-    );
-  }
+  factory BusinessGalleryVideo.fromJson(Map<String, dynamic> json) =>
+      BusinessGalleryVideo(
+        id: json['id'],
+        videoPath: json['video_path'] ?? '',
+        videoUrl: json['video_url'],
+        caption: json['caption'],
+        thumbnailPath: json['thumbnail_path'],
+        thumbnailUrl: json['thumbnail_url'],
+        fileSize: json['file_size'],
+        fileSizeHuman: json['file_size_human'],
+        duration: json['duration'],
+        durationHuman: json['duration_human'],
+        sortOrder: json['sort_order'] ?? 0,
+      );
 }

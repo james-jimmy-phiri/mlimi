@@ -194,7 +194,44 @@ class _BusinessProfileDetailPageState extends State<BusinessProfileDetailPage> {
                   _buildSectionHeader('Social Presence', Icons.public_rounded),
                   _buildSocialMedia(),
                 ],
-                
+
+                if (_profile!.operatingHours != null) ...[
+                  const SizedBox(height: 32),
+                  _buildSectionHeader(
+                    _language == 'en' ? 'Operating Hours' : 'Maola Ogwira Ntchito',
+                    Icons.access_time_rounded,
+                  ),
+                  _buildInfoCard(_profile!.operatingHours.toString()),
+                ],
+
+                if ((_profile!.paymentMethods?.isNotEmpty == true) ||
+                    (_profile!.deliveryOptions?.isNotEmpty == true)) ...[
+                  const SizedBox(height: 32),
+                  _buildSectionHeader(
+                    _language == 'en' ? 'Payment & Delivery' : 'Kulipira ndi Kutumizia',
+                    Icons.payments_rounded,
+                  ),
+                  _buildPaymentDeliveryCard(),
+                ],
+
+                if (_profile!.tags?.isNotEmpty == true) ...[
+                  const SizedBox(height: 32),
+                  _buildSectionHeader(
+                    _language == 'en' ? 'Tags' : 'Zizindikiro',
+                    Icons.label_rounded,
+                  ),
+                  _buildTagsCard(),
+                ],
+
+                if (_profile!.valueChains?.isNotEmpty == true) ...[
+                  const SizedBox(height: 32),
+                  _buildSectionHeader(
+                    _language == 'en' ? 'Value Chains' : 'Nzere za Mtengo',
+                    Icons.link_rounded,
+                  ),
+                  _buildValueChainsCard(),
+                ],
+
                 if (_profile!.offerings != null && _profile!.offerings!.isNotEmpty) ...[
                   const SizedBox(height: 32),
                   _buildSectionHeader(
@@ -554,6 +591,183 @@ class _BusinessProfileDetailPageState extends State<BusinessProfileDetailPage> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildInfoCard(String text) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.02), blurRadius: 10, offset: const Offset(0, 4))],
+      ),
+      child: Text(
+        text,
+        style: GoogleFonts.poppins(fontSize: 14, color: Colors.grey[700], height: 1.6),
+      ),
+    );
+  }
+
+  Widget _buildPaymentDeliveryCard() {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.02), blurRadius: 10, offset: const Offset(0, 4))],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (_profile!.paymentMethods?.isNotEmpty == true) ...[
+            Text(
+              _language == 'en' ? 'Payment Methods' : 'Njira za Kulipira',
+              style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.grey[500]),
+            ),
+            const SizedBox(height: 8),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: _profile!.paymentMethods!.map((m) => _buildChip(m, Icons.payment_rounded)).toList(),
+            ),
+          ],
+          if (_profile!.paymentMethods?.isNotEmpty == true && _profile!.deliveryOptions?.isNotEmpty == true)
+            const SizedBox(height: 16),
+          if (_profile!.deliveryOptions?.isNotEmpty == true) ...[
+            Text(
+              _language == 'en' ? 'Delivery' : 'Kutumizia',
+              style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.grey[500]),
+            ),
+            const SizedBox(height: 8),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: _profile!.deliveryOptions!.map((d) => _buildChip(d, Icons.local_shipping_rounded)).toList(),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTagsCard() {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.02), blurRadius: 10, offset: const Offset(0, 4))],
+      ),
+      child: Wrap(
+        spacing: 8,
+        runSpacing: 8,
+        children: _profile!.tags!.map((tag) => _buildChip('#$tag', Icons.tag_rounded)).toList(),
+      ),
+    );
+  }
+
+  Widget _buildValueChainsCard() {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.02), blurRadius: 10, offset: const Offset(0, 4))],
+      ),
+      child: Wrap(
+        spacing: 8,
+        runSpacing: 8,
+        children: _profile!.valueChains!.map((vc) {
+          final name = vc is Map ? (vc['name'] ?? '') : vc.toString();
+          return _buildChip(name.toString(), Icons.link_rounded);
+        }).toList(),
+      ),
+    );
+  }
+
+  Widget _buildChip(String label, IconData icon) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      decoration: BoxDecoration(
+        color: kPrimaryColor.withOpacity(0.08),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: kPrimaryColor.withOpacity(0.2)),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 13, color: kPrimaryColor),
+          const SizedBox(width: 5),
+          Text(label, style: GoogleFonts.poppins(fontSize: 12, color: kPrimaryColor, fontWeight: FontWeight.w500)),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildInfoCard(String text) {
+    return Container(
+      width: double.infinity, padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20),
+          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.02), blurRadius: 10, offset: const Offset(0, 4))]),
+      child: Text(text, style: GoogleFonts.poppins(fontSize: 14, color: Colors.grey[700], height: 1.6)),
+    );
+  }
+
+  Widget _buildPaymentDeliveryCard() {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20),
+          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.02), blurRadius: 10, offset: const Offset(0, 4))]),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        if (_profile!.paymentMethods?.isNotEmpty == true) ...[
+          Text(_language == 'en' ? 'Payment Methods' : 'Njira za Kulipira',
+              style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.grey[500])),
+          const SizedBox(height: 8),
+          Wrap(spacing: 8, runSpacing: 8, children: _profile!.paymentMethods!.map((m) => _buildChip(m, Icons.payment_rounded)).toList()),
+        ],
+        if (_profile!.paymentMethods?.isNotEmpty == true && _profile!.deliveryOptions?.isNotEmpty == true) const SizedBox(height: 16),
+        if (_profile!.deliveryOptions?.isNotEmpty == true) ...[
+          Text(_language == 'en' ? 'Delivery' : 'Kutumizia',
+              style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.grey[500])),
+          const SizedBox(height: 8),
+          Wrap(spacing: 8, runSpacing: 8, children: _profile!.deliveryOptions!.map((d) => _buildChip(d, Icons.local_shipping_rounded)).toList()),
+        ],
+      ]),
+    );
+  }
+
+  Widget _buildTagsCard() {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20),
+          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.02), blurRadius: 10, offset: const Offset(0, 4))]),
+      child: Wrap(spacing: 8, runSpacing: 8, children: _profile!.tags!.map((t) => _buildChip('#$t', Icons.tag_rounded)).toList()),
+    );
+  }
+
+  Widget _buildValueChainsCard() {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20),
+          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.02), blurRadius: 10, offset: const Offset(0, 4))]),
+      child: Wrap(spacing: 8, runSpacing: 8, children: _profile!.valueChains!.map((vc) {
+        final name = vc is Map ? (vc['name'] ?? '') : vc.toString();
+        return _buildChip(name.toString(), Icons.link_rounded);
+      }).toList()),
+    );
+  }
+
+  Widget _buildChip(String label, IconData icon) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      decoration: BoxDecoration(color: kPrimaryColor.withOpacity(0.08), borderRadius: BorderRadius.circular(20), border: Border.all(color: kPrimaryColor.withOpacity(0.2))),
+      child: Row(mainAxisSize: MainAxisSize.min, children: [
+        Icon(icon, size: 13, color: kPrimaryColor),
+        const SizedBox(width: 5),
+        Text(label, style: GoogleFonts.poppins(fontSize: 12, color: kPrimaryColor, fontWeight: FontWeight.w500)),
+      ]),
     );
   }
 
