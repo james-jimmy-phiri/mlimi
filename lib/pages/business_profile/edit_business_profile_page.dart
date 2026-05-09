@@ -258,6 +258,8 @@ class _EditBusinessProfilePageState extends State<EditBusinessProfilePage> {
           'twitter': _twitterController.text,
           'linkedin': _linkedinController.text,
         },
+        yearFounded: int.tryParse(_yearFoundedController.text),
+        employeesCount: int.tryParse(_employeesCountController.text),
         logo: _newLogoImage,
         businessLicenseNumber: _licenseController.text.isNotEmpty ? _licenseController.text : null,
         sectorId: _showCustomSector ? null : _selectedSector?.id,
@@ -791,6 +793,34 @@ class _EditBusinessProfilePageState extends State<EditBusinessProfilePage> {
               _language == 'en' ? 'Business License No.' : 'Nambala ya Lazense',
               Icons.badge_rounded,
             ),
+          ),
+          const SizedBox(height: 20),
+          Row(
+            children: [
+              Expanded(
+                child: TextFormField(
+                  controller: _yearFoundedController,
+                  style: GoogleFonts.poppins(fontSize: 15),
+                  decoration: _getInputDecoration(
+                    _language == 'en' ? 'Year Founded' : 'Chaka chomwe idayambira',
+                    Icons.event_available_rounded,
+                  ),
+                  keyboardType: TextInputType.number,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: TextFormField(
+                  controller: _employeesCountController,
+                  style: GoogleFonts.poppins(fontSize: 15),
+                  decoration: _getInputDecoration(
+                    _language == 'en' ? 'Employees' : 'Ogwira Ntchito',
+                    Icons.people_alt_rounded,
+                  ),
+                  keyboardType: TextInputType.number,
+                ),
+              ),
+            ],
           ),
         ],
       ),
