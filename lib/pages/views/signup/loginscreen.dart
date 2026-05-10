@@ -338,6 +338,7 @@ class _SimpleRegisterScreenState extends State<SimpleRegisterScreen> {
   final box = GetStorage();
   late String name, phone, pin, confrirmPin;
   String? nameError, phoneError, districtError, pinError, epaError, genderError, ageRangeError;
+  bool isLoading = false;
   bool isFetchingDistricts = true;
   List<dynamic> districts = [];
   String? selectedDistrictId;

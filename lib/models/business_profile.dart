@@ -33,7 +33,6 @@ class BusinessProfile {
   final List<BusinessOffering>? offerings;
   final List<BusinessGalleryImage>? galleryImages;
   final List<BusinessGalleryVideo>? galleryVideos;
-  final BusinessDistrict? district;
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
@@ -70,7 +69,6 @@ class BusinessProfile {
     this.offerings,
     this.galleryImages,
     this.galleryVideos,
-    this.district,
     this.createdAt,
     this.updatedAt,
   });

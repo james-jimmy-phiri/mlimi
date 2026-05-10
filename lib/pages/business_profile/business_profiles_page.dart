@@ -65,7 +65,7 @@ class _BusinessProfilesPageState extends State<BusinessProfilesPage> {
   }
 
   Future<void> _loadLookups() async {
-    final results = await Future.wait([
+    final List<dynamic> results = await Future.wait([
       _businessProfileService.getSectors(),
       _businessProfileService.getDistricts(),
       _businessProfileService.getValueChains(),

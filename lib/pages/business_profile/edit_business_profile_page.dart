@@ -154,7 +154,7 @@ class _EditBusinessProfilePageState extends State<EditBusinessProfilePage> {
 
   Future<void> _loadInitialData() async {
     try {
-      final results = await Future.wait([
+      final List<dynamic> results = await Future.wait([
         _businessProfileService.getSectors(),
         _businessProfileService.getCategories(),
         _businessProfileService.getDistricts(),
@@ -713,8 +713,8 @@ class _EditBusinessProfilePageState extends State<EditBusinessProfilePage> {
                     label: Text(cat.name, style: GoogleFonts.poppins(fontSize: 12)),
                     selected: selected,
                     onSelected: (val) => setState(() {
-                      if (val) _selectedCategoryIds.add(cat.id);
-                      else _selectedCategoryIds.remove(cat.id);
+                      if (val && cat.id != null) _selectedCategoryIds.add(cat.id!);
+                      else if (!val && cat.id != null) _selectedCategoryIds.remove(cat.id!);
                     }),
                     selectedColor: kPrimaryColor.withOpacity(0.15),
                     checkmarkColor: kPrimaryColor,

@@ -226,7 +226,7 @@ class _AggregationDetailsScreenState extends State<AggregationDetailsScreen> wit
       itemBuilder: (context, index) {
         final c = agg.contributions[index];
         return Container(
-          margin: const EdgeInsets.bottom(12),
+          margin: const EdgeInsets.only(bottom: 12),
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: Colors.white,
@@ -277,7 +277,7 @@ class _AggregationDetailsScreenState extends State<AggregationDetailsScreen> wit
       itemBuilder: (context, index) {
         final s = agg.sales[index];
         return Container(
-          margin: const EdgeInsets.bottom(12),
+          margin: const EdgeInsets.only(bottom: 12),
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: Colors.white,
@@ -322,7 +322,7 @@ class _AggregationDetailsScreenState extends State<AggregationDetailsScreen> wit
       itemBuilder: (context, index) {
         final e = agg.memberEarningsBreakdown[index];
         return Container(
-          margin: const EdgeInsets.bottom(12),
+          margin: const EdgeInsets.only(bottom: 12),
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: Colors.white,

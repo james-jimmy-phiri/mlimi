@@ -190,7 +190,7 @@ class _GroupRegisterScreenState extends State<GroupRegisterScreen> with TickerPr
     super.dispose();
   }
 
-  Future<void> showSnackBar(String message) {
+  void showSnackBar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(message)),
     );

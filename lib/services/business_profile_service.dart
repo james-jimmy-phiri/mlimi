@@ -493,3 +493,44 @@ class BusinessProfileService {
     );
     if (response.statusCode != 200 && response.statusCode != 204) {
       throw Exception('Failed to delete gallery video');
+    }
+  }
+
+  Future<List<BusinessSector>> getSectors() async {
+    final response = await http.get(Uri.parse('$baseUrl/sectors'), headers: _headers);
+    if (response.statusCode == 200) {
+      final List<dynamic> data = jsonDecode(response.body);
+      return data.map((json) => BusinessSector.fromJson(json)).toList();
+    }
+    throw Exception('Failed to load sectors');
+  }
+
+  Future<List<BusinessCategory>> getCategories() async {
+    final response = await http.get(Uri.parse('$baseUrl/categories'), headers: _headers);
+    if (response.statusCode == 200) {
+      final List<dynamic> data = jsonDecode(response.body);
+      return data.map((json) => BusinessCategory.fromJson(json)).toList();
+    }
+    throw Exception('Failed to load categories');
+  }
+
+  Future<List<BusinessDistrict>> getDistricts() async {
+    final response = await http.get(Uri.parse('$baseUrl/districts'), headers: _headers);
+    if (response.statusCode == 200) {
+      final decoded = jsonDecode(response.body);
+      final List<dynamic> data = decoded['districts'] ?? decoded;
+      return data.map((json) => BusinessDistrict.fromJson(json)).toList();
+    }
+    throw Exception('Failed to load districts');
+  }
+
+  Future<List<dynamic>> getValueChains() async {
+    final response = await http.get(Uri.parse('$baseUrl/value-chains'), headers: _headers);
+    if (response.statusCode == 200) {
+      final decoded = jsonDecode(response.body);
+      if (decoded is List) return decoded;
+      return decoded['value_chains'] ?? decoded['data'] ?? [];
+    }
+    throw Exception('Failed to load value chains');
+  }
+}
