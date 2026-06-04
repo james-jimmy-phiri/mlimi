@@ -1074,6 +1074,392 @@
                   ]
                 }
               ]
+            },
+            {
+              "id": 2,
+              "image": "local_chicken",
+              "name": "Broilers Chickens",
+              "section": [
+                {
+                  "id": 1,
+                  "image": "local_chicken",
+                  "title": "Number of birds involved",
+                  "audio": "",
+                  "content": [
+                    "Plan on how many birds to raise, matching with the available resources.",
+                    "Smallholder farmers starting with at least 500 birds or more stand to get higher profits compared to those with less."
+                  ]
+                },
+                {
+                  "id": 2,
+                  "image": "local_chicken",
+                  "title": "Poultry house size & design",
+                  "audio": "",
+                  "content": [
+                    "Build a house that accommodates the planned number of birds, allowing 10-12 birds per square meter (intensive production)."
+                  ]
+                },
+                {
+                  "id": 3,
+                  "image": "local_chicken",
+                  "title": "Feeds, supplies, equipment & inputs",
+                  "audio": "",
+                  "content": [
+                    "Identify reliable sources of feed, vaccines, medicines, and other inputs before starting."
+                  ]
+                },
+                {
+                  "id": 4,
+                  "image": "local_chicken",
+                  "title": "Construction/location",
+                  "audio": "",
+                  "content": [
+                    "Build a house that is well-ventilated, facing East-West to avoid direct sunlight and wind.",
+                    "Select a site that is well-drained, secure, accessible, and away from other poultry farms."
+                  ]
+                },
+                {
+                  "id": 5,
+                  "image": "local_chicken",
+                  "title": "Materials used, insulation & ventilation",
+                  "audio": "",
+                  "content": [
+                    "Use locally available materials (e.g., bricks, timber, grass thatch or iron sheets). Ensure the floor is concrete for easy cleaning.",
+                    "Ensure standard ventilation: the upper part of the wall should be wire mesh to allow free air circulation."
+                  ]
+                },
+                {
+                  "id": 6,
+                  "image": "local_chicken",
+                  "title": "Preparation of the brooder house",
+                  "audio": "",
+                  "content": [
+                    "Clean and disinfect the house at least two weeks before chick arrival. Place wood shavings (5-10cm) on the floor. Arrange brooder guard/ring.",
+                    "The brooder should be pre-heated to the recommended temperature before the arrival of the chicks."
+                  ]
+                },
+                {
+                  "id": 7,
+                  "image": "local_chicken",
+                  "title": "Heating sources",
+                  "audio": "",
+                  "content": [
+                    "Provide heat using charcoal burners (mbaula), gas heaters, or infrared bulbs. Pre-heat the house 24 hours before chick arrival."
+                  ]
+                },
+                {
+                  "id": 8,
+                  "image": "local_chicken",
+                  "title": "Spacing within the brooder",
+                  "audio": "",
+                  "content": [
+                    "Start with a small space (brooder ring) and gradually expand it as chicks grow. Allow 50-60 chicks per square meter in the first week."
+                  ]
+                },
+                {
+                  "id": 9,
+                  "image": "local_chicken",
+                  "title": "Chicks arrival management",
+                  "audio": "",
+                  "content": [
+                    "Check chick quality (active, dry, clean, alert). Provide water with glucose or vitamins to relieve stress. Introduce chick starter feed."
+                  ]
+                },
+                {
+                  "id": 10,
+                  "image": "local_chicken",
+                  "title": "Feed types & feeding program",
+                  "audio": "",
+                  "content": [
+                    "Feed broilers according to their age: Starter (day 1-21), Grower (day 22-35), and Finisher (day 36-42/market)."
+                  ]
+                },
+                {
+                  "id": 11,
+                  "image": "local_chicken",
+                  "title": "Water management",
+                  "audio": "",
+                  "content": [
+                    "Provide clean, fresh water at all times. Clean drinkers daily. Avoid water spillage to keep litter dry.",
+                    "Ensure drinkers are at the correct height (level with the bird's back)."
+                  ]
+                },
+                {
+                  "id": 12,
+                  "image": "local_chicken",
+                  "title": "Vaccination schedule",
+                  "audio": "",
+                  "content": [
+                    "Vaccinate against Newcastle disease (day 7 & 21) and Gumboro disease (day 10 & 18). Consult a veterinary officer."
+                  ]
+                },
+                {
+                  "id": 13,
+                  "image": "local_chicken",
+                  "title": "Biosecurity measures",
+                  "audio": "",
+                  "content": [
+                    "Install footbaths with disinfectant. Restrict visitors. Clean and disinfect equipment. Dispose of dead birds by burning or burying."
+                  ]
+                },
+                {
+                  "id": 14,
+                  "image": "local_chicken",
+                  "title": "Common diseases and signs",
+                  "audio": "",
+                  "content": [
+                    "Look out for signs of diseases like Gumboro, Newcastle, Coccidiosis, and Respiratory infections (coughing, sneezing, ruffled feathers, diarrhea, high mortality)."
+                  ]
+                },
+                {
+                  "id": 15,
+                  "image": "local_chicken",
+                  "title": "Marketing strategies",
+                  "audio": "",
+                  "content": [
+                    "Target local markets, restaurants, hotels, and supermarkets. Plan marketing before birds reach market age (6 weeks) to avoid extra feed costs."
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 3,
+              "image": "local_chicken",
+              "name": "Layered Chickens",
+              "section": [
+                {
+                  "id": 1,
+                  "image": "local_chicken",
+                  "title": "Standard housing",
+                  "audio": "",
+                  "content": [
+                    "Build chicken house with blue gum, bamboo and grass or iron sheet to construct the roof.",
+                    "Construct the house 3.7m wide, 6.1m long and 2.4m high, this space can accommodate 100 chickens.",
+                    "Floor should be concrete to make it easy to clean.",
+                    "Ensure standard ventilation space in the chicken house.",
+                    "Choose a site which is protected from thieves and predators."
+                  ]
+                },
+                {
+                  "id": 2,
+                  "image": "local_chicken",
+                  "title": "Poultry house systems",
+                  "audio": "",
+                  "content": [
+                    "Deep litter system: where chickens are confined all the time in the house and floor is covered with wood shavings/saw dust.",
+                    "Battery cage system: where chickens are confined in a cage, this system is not common for smallholder farmers."
+                  ]
+                },
+                {
+                  "id": 3,
+                  "image": "local_chicken",
+                  "title": "Spacing/room requirement",
+                  "audio": "",
+                  "content": [
+                    "Floor space should be 0.15 to 0.22 square meters per bird.",
+                    "Feeders: 10 to 12 cm linear space per bird.",
+                    "Drinkers: 2 to 3 cm linear space or 1 nipple drinker for 10 to 12 birds.",
+                    "Nests: 1 nest for 4 to 5 birds."
+                  ]
+                },
+                {
+                  "id": 4,
+                  "image": "local_chicken",
+                  "title": "Common breeds",
+                  "audio": "",
+                  "content": [
+                    "Lohmann brown, Hyline, ISA brown, Bovans brown."
+                  ]
+                },
+                {
+                  "id": 5,
+                  "image": "local_chicken",
+                  "title": "Optimal age for breeding",
+                  "audio": "",
+                  "content": [
+                    "Keep the chickens up to 18 to 20 weeks before laying eggs."
+                  ]
+                },
+                {
+                  "id": 6,
+                  "image": "local_chicken",
+                  "title": "Optimal brooding",
+                  "audio": "",
+                  "content": [
+                    "Temperature: chicks need a warm environment. Maintain temperature at 32-35 degrees Celsius in the first week. Reduce the temperature by 2-3 degrees Celsius each week until they reach 4 weeks.",
+                    "Use charcoal, wood or electric bulb for heating source.",
+                    "Brooding duration is between 3 to 4 weeks."
+                  ]
+                },
+                {
+                  "id": 7,
+                  "image": "local_chicken",
+                  "title": "Preparation for arrival of chicks",
+                  "audio": "",
+                  "content": [
+                    "Clean and disinfect the house at least two weeks before the arrival of chicks.",
+                    "Place wood shavings or saw dust on the floor (5-8 cm deep).",
+                    "Set up the brooder ring or guard to confine the chicks close to the heat source.",
+                    "Fill the feeders and drinkers with feed and water 2 hours before the arrival of chicks.",
+                    "Ensure the room is pre-heated to the recommended temperature."
+                  ]
+                },
+                {
+                  "id": 8,
+                  "image": "local_chicken",
+                  "title": "Brooding management guidelines",
+                  "audio": "",
+                  "content": [
+                    "Monitor chick behavior: if chicks are huddled together close to the heat source, it means it is too cold. If they are far from the heat source and panting, it is too hot. If they are evenly distributed, it means the temperature is optimal.",
+                    "Provide chick starter feed.",
+                    "Provide clean water mixed with glucose or vitamins to reduce stress from transportation."
+                  ]
+                },
+                {
+                  "id": 9,
+                  "image": "local_chicken",
+                  "title": "Feeding program and feed formulated for layer",
+                  "audio": "",
+                  "content": [
+                    "Chick starter: feed from day 1 to 8 weeks.",
+                    "Grower mash: feed from 9 weeks to 18 weeks.",
+                    "Layer mash: feed from 19 weeks and above."
+                  ]
+                },
+                {
+                  "id": 10,
+                  "image": "local_chicken",
+                  "title": "Feeding requirements at different stages",
+                  "audio": "",
+                  "content": [
+                    "Feeding quantity: feed standard amounts of feed per bird per day.",
+                    "At 1-2 weeks: 15-20g.",
+                    "At 3-4 weeks: 30-40g.",
+                    "At 5-8 weeks: 50-60g.",
+                    "At 9-18 weeks: 70-80g.",
+                    "At 19 weeks and above: 110-120g."
+                  ]
+                },
+                {
+                  "id": 11,
+                  "image": "local_chicken",
+                  "title": "Water management",
+                  "audio": "",
+                  "content": [
+                    "Provide clean, fresh water at all times. Clean drinkers daily. Avoid water spillage to keep litter dry.",
+                    "Ensure drinkers are at the correct height (level with the bird's back)."
+                  ]
+                },
+                {
+                  "id": 12,
+                  "image": "local_chicken",
+                  "title": "Light management",
+                  "audio": "",
+                  "content": [
+                    "Gradually increase light duration to 16 hours per day to stimulate egg production. Never decrease light duration during laying period.",
+                    "Light intensity should be uniform across the house."
+                  ]
+                },
+                {
+                  "id": 13,
+                  "image": "local_chicken",
+                  "title": "Laying nests installation",
+                  "audio": "",
+                  "content": [
+                    "Install laying nests (1 nest for 4-5 birds) at 16 weeks of age so birds get used to them before they start laying.",
+                    "Place nests in a quiet, dark corner of the house. Keep nests clean and dry."
+                  ]
+                },
+                {
+                  "id": 14,
+                  "image": "local_chicken",
+                  "title": "Feeding & watering",
+                  "audio": "",
+                  "content": [
+                    "Ensure constant access to layer mash and clean water. Supplement with oyster shells or limestone for calcium.",
+                    "Do not restrict feed during laying period."
+                  ]
+                },
+                {
+                  "id": 15,
+                  "image": "local_chicken",
+                  "title": "Egg collection & storage",
+                  "audio": "",
+                  "content": [
+                    "Collect eggs at least 3-4 times a day to avoid breakage and dirt. Store eggs in a cool, dry place with the pointed end facing down.",
+                    "Do not wash eggs. Sort and grade them by size and cleanliness."
+                  ]
+                },
+                {
+                  "id": 16,
+                  "image": "local_chicken",
+                  "title": "Culling",
+                  "audio": "",
+                  "content": [
+                    "Identify and remove unproductive or sick birds (culling) to save feed and prevent disease spread.",
+                    "Signs of a good layer: bright red comb, moist and wide vent, flexible pubic bones, active behavior."
+                  ]
+                },
+                {
+                  "id": 17,
+                  "image": "local_chicken",
+                  "title": "Vaccination schedule",
+                  "audio": "",
+                  "content": [
+                    "Follow a strict vaccination schedule: Newcastle (day 7, 21, and every 3 months), Gumboro (day 10, 18), Fowl Pox (week 8), Fowl Typhoid (week 12), Deworming (every 3 months).",
+                    "Consult a veterinary officer for the recommended schedule in your area."
+                  ]
+                },
+                {
+                  "id": 18,
+                  "image": "local_chicken",
+                  "title": "Biosecurity measures",
+                  "audio": "",
+                  "content": [
+                    "Install footbaths with disinfectant. Restrict visitors. Clean and disinfect equipment. Dispose of dead birds by burning or burying.",
+                    "Keep wild birds and rodents away from the chicken house."
+                  ]
+                },
+                {
+                  "id": 19,
+                  "image": "local_chicken",
+                  "title": "Common diseases and signs",
+                  "audio": "",
+                  "content": [
+                    "Look out for signs of diseases like Gumboro, Newcastle, Coccidiosis, Fowl Pox, Fowl Typhoid, Coryza. Signs: coughing, sneezing, watery/bloody diarrhea, ruffled feathers, drop in egg production, high mortality.",
+                    "Isolate sick birds immediately and consult a veterinary officer."
+                  ]
+                },
+                {
+                  "id": 20,
+                  "image": "local_chicken",
+                  "title": "Record keeping",
+                  "audio": "",
+                  "content": [
+                    "Keep records of feed consumption, egg production, mortality, vaccinations, and expenses."
+                  ]
+                },
+                {
+                  "id": 21,
+                  "image": "local_chicken",
+                  "title": "Marketing of eggs",
+                  "audio": "",
+                  "content": [
+                    "Sort and grade eggs. Package in clean egg trays. Identify buyers (supermarkets, local markets, hotels) before production peaks.",
+                    "Maintain high-quality eggs to attract premium prices."
+                  ]
+                },
+                {
+                  "id": 22,
+                  "image": "local_chicken",
+                  "title": "Marketing of culled layers",
+                  "audio": "",
+                  "content": [
+                    "Plan for the sale of culled layers (spent hens) after their production cycle ends (usually at 72-80 weeks of age).",
+                    "Spent hens can be sold for meat."
+                  ]
+                }
+              ]
             }
           ]
         },

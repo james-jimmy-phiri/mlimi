@@ -65,17 +65,26 @@ class _BusinessProfilesPageState extends State<BusinessProfilesPage> {
   }
 
   Future<void> _loadLookups() async {
-    final List<dynamic> results = await Future.wait([
-      _businessProfileService.getSectors(),
-      _businessProfileService.getDistricts(),
-      _businessProfileService.getValueChains(),
-    ]);
-    if (mounted) {
-      setState(() {
-        _sectors = results[0] as List<BusinessSector>;
-        _districts = results[1] as List<BusinessDistrict>;
-        _valueChains = results[2] as List<Map<String, dynamic>>;
-      });
+    try {
+      final results = await Future.wait([
+        _businessProfileService.getSectors(),
+        _businessProfileService.getDistricts(),
+        _businessProfileService.getValueChains(),
+      ]);
+      if (mounted) {
+        setState(() {
+          _sectors = results[0] as List<BusinessSector>;
+          _districts = results[1] as List<BusinessDistrict>;
+          _valueChains = (results[2] as List).map((e) => e as Map<String, dynamic>).toList();
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _hasError = true;
+          _errorMessage = ErrorUtils.getFriendlyErrorMessage(e, _language);
+        });
+      }
     }
   }
 

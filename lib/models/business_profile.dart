@@ -91,8 +91,8 @@ class BusinessProfile {
     }
 
     return BusinessProfile(
-      id: json['id'],
-      clientId: json['client_id'],
+      id: json['id'] != null ? int.tryParse(json['id'].toString()) : null,
+      clientId: json['client_id'] != null ? int.tryParse(json['client_id'].toString()) : null,
       businessName: json['business_name'] ?? '',
       description: json['description'],
       location: json['location'],
@@ -100,14 +100,14 @@ class BusinessProfile {
       logo: json['logo'],
       logoUrl: json['logo_url'],
       businessLicenseNumber: json['business_license_number'],
-      sectorId: json['sector_id'],
-      districtId: json['district_id'],
+      sectorId: json['sector_id'] != null ? int.tryParse(json['sector_id'].toString()) : null,
+      districtId: json['district_id'] != null ? int.tryParse(json['district_id'].toString()) : null,
       addressLine: json['address_line'],
       townCity: json['town_city'],
       gpsLat: json['gps_lat']?.toString(),
       gpsLng: json['gps_lng']?.toString(),
-      yearFounded: json['year_founded'],
-      employeesCount: json['employees_count'],
+      yearFounded: json['year_founded'] != null ? int.tryParse(json['year_founded'].toString()) : null,
+      employeesCount: json['employees_count'] != null ? int.tryParse(json['employees_count'].toString()) : null,
       operatingHours: json['operating_hours'],
       paymentMethods: json['payment_methods'] != null
           ? List<String>.from(json['payment_methods'])
@@ -249,7 +249,7 @@ class BusinessSector {
   BusinessSector({this.id, required this.name, this.slug});
 
   factory BusinessSector.fromJson(Map<String, dynamic> json) => BusinessSector(
-        id: json['id'],
+        id: json['id'] != null ? int.tryParse(json['id'].toString()) : null,
         name: json['name'] ?? '',
         slug: json['slug'],
       );
@@ -275,7 +275,7 @@ class BusinessCategory {
 
   factory BusinessCategory.fromJson(Map<String, dynamic> json) =>
       BusinessCategory(
-        id: json['id'],
+        id: json['id'] != null ? int.tryParse(json['id'].toString()) : null,
         name: json['name'] ?? '',
         slug: json['slug'],
         description: json['description'],
@@ -299,8 +299,10 @@ class BusinessDistrict {
 
   BusinessDistrict({this.id, required this.name});
 
-  factory BusinessDistrict.fromJson(Map<String, dynamic> json) =>
-      BusinessDistrict(id: json['id'], name: json['name'] ?? '');
+  factory BusinessDistrict.fromJson(Map<String, dynamic> json) => BusinessDistrict(
+        id: json['id'] != null ? int.tryParse(json['id'].toString()) : null,
+        name: json['name'] ?? '',
+      );
 
   Map<String, dynamic> toJson() => {'id': id, 'name': name};
 
@@ -322,7 +324,7 @@ class BusinessClient {
   BusinessClient({this.id, required this.name, this.phone, this.email});
 
   factory BusinessClient.fromJson(Map<String, dynamic> json) => BusinessClient(
-        id: json['id'],
+        id: json['id'] != null ? int.tryParse(json['id'].toString()) : null,
         name: json['name'] ?? '',
         phone: json['phone'],
         email: json['email'],
@@ -403,11 +405,11 @@ class BusinessGalleryImage {
 
   factory BusinessGalleryImage.fromJson(Map<String, dynamic> json) =>
       BusinessGalleryImage(
-        id: json['id'],
+        id: json['id'] != null ? int.tryParse(json['id'].toString()) : null,
         imagePath: json['image_path'] ?? '',
         imageUrl: json['image_url'],
         caption: json['caption'],
-        sortOrder: json['sort_order'] ?? 0,
+        sortOrder: json['sort_order'] != null ? int.tryParse(json['sort_order'].toString()) ?? 0 : 0,
       );
 }
 
@@ -442,16 +444,16 @@ class BusinessGalleryVideo {
 
   factory BusinessGalleryVideo.fromJson(Map<String, dynamic> json) =>
       BusinessGalleryVideo(
-        id: json['id'],
+        id: json['id'] != null ? int.tryParse(json['id'].toString()) : null,
         videoPath: json['video_path'] ?? '',
         videoUrl: json['video_url'],
         caption: json['caption'],
         thumbnailPath: json['thumbnail_path'],
         thumbnailUrl: json['thumbnail_url'],
-        fileSize: json['file_size'],
+        fileSize: json['file_size'] != null ? int.tryParse(json['file_size'].toString()) : null,
         fileSizeHuman: json['file_size_human'],
-        duration: json['duration'],
+        duration: json['duration'] != null ? int.tryParse(json['duration'].toString()) : null,
         durationHuman: json['duration_human'],
-        sortOrder: json['sort_order'] ?? 0,
+        sortOrder: json['sort_order'] != null ? int.tryParse(json['sort_order'].toString()) ?? 0 : 0,
       );
 }

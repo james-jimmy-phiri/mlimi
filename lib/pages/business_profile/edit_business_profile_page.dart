@@ -1,9 +1,12 @@
 import 'dart:io';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mlimi/constants/color.dart';
+import 'package:mlimi/constants/url.dart';
 import 'package:mlimi/models/business_profile.dart';
 import 'package:mlimi/services/business_profile_service.dart';
 import 'package:mlimi/utils/error_utils.dart';
@@ -51,6 +54,10 @@ class _EditBusinessProfilePageState extends State<EditBusinessProfilePage> {
   List<BusinessCategory> _categories = [];
   List<BusinessDistrict> _districts = [];
   List<Map<String, dynamic>> _valueChains = [];
+  List<File> _galleryImages = [];
+  List<File> _galleryVideos = [];
+  List<BusinessGalleryImage> _existingGalleryImages = [];
+  List<BusinessGalleryVideo> _existingGalleryVideos = [];
 
   BusinessSector? _selectedSector;
   bool _showCustomSector = false;
@@ -112,6 +119,8 @@ class _EditBusinessProfilePageState extends State<EditBusinessProfilePage> {
     _selectedCategoryIds = widget.profile.categories?.map((c) => c.id!).toList() ?? [];
     _selectedPaymentMethods = widget.profile.paymentMethods?.toList() ?? [];
     _selectedDeliveryOptions = widget.profile.deliveryOptions?.toList() ?? [];
+    _existingGalleryImages = widget.profile.galleryImages?.toList() ?? [];
+    _existingGalleryVideos = widget.profile.galleryVideos?.toList() ?? [];
     _offerings = widget.profile.offerings?.map((o) => {
       'id': o.id,
       'type': o.type,
@@ -121,6 +130,7 @@ class _EditBusinessProfilePageState extends State<EditBusinessProfilePage> {
       'currency': o.currency,
       'unit': o.unit,
       'image': null,
+      'image_url': o.imageUrl,
       'is_active': o.isActive,
     }).toList() ?? [];
   }
@@ -165,7 +175,7 @@ class _EditBusinessProfilePageState extends State<EditBusinessProfilePage> {
         _sectors = results[0] as List<BusinessSector>;
         _categories = results[1] as List<BusinessCategory>;
         _districts = results[2] as List<BusinessDistrict>;
-        _valueChains = results[3] as List<Map<String, dynamic>>;
+        _valueChains = (results[3] as List).map((e) => e as Map<String, dynamic>).toList();
 
         // Pre-select value chains from profile
         if (widget.profile.valueChains != null) {
@@ -195,6 +205,34 @@ class _EditBusinessProfilePageState extends State<EditBusinessProfilePage> {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       setState(() => _newLogoImage = File(pickedFile.path));
+    }
+  }
+
+  Future<void> _pickGalleryImages() async {
+    final picker = ImagePicker();
+    final pickedFiles = await picker.pickMultiImage();
+    if (pickedFiles.isNotEmpty) {
+      setState(() {
+        _galleryImages.addAll(pickedFiles.map((f) => File(f.path)));
+      });
+    }
+  }
+
+  Future<void> _pickGalleryVideo() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickVideo(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      final file = File(pickedFile.path);
+      final int bytes = await file.length();
+      if (bytes > 100 * 1024 * 1024) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(_language == 'en' ? 'Video must be smaller than 100MB' : 'Kanema asapitirire 100MB')),
+          );
+        }
+        return;
+      }
+      setState(() => _galleryVideos.add(file));
     }
   }
 
@@ -229,9 +267,20 @@ class _EditBusinessProfilePageState extends State<EditBusinessProfilePage> {
         'currency': 'MWK',
         'unit': '',
         'image': null,
+        'image_url': null,
         'is_active': true,
       });
     });
+  }
+
+  Future<void> _pickOfferingImage(int index) async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery, imageQuality: 70);
+    if (pickedFile != null) {
+      setState(() {
+        _offerings[index]['image'] = File(pickedFile.path);
+      });
+    }
   }
 
   void _removeOffering(int index) {
@@ -280,6 +329,8 @@ class _EditBusinessProfilePageState extends State<EditBusinessProfilePage> {
         valueChainIds: _selectedValueChainIds.isNotEmpty ? _selectedValueChainIds : null,
         customValueChains: _customValueChains.isNotEmpty ? _customValueChains : null,
         offerings: _offerings.isNotEmpty ? _offerings : null,
+        galleryImages: _galleryImages.isNotEmpty ? _galleryImages : null,
+        galleryVideos: _galleryVideos.isNotEmpty ? _galleryVideos : null,
       );
 
       if (mounted) {
@@ -294,6 +345,18 @@ class _EditBusinessProfilePageState extends State<EditBusinessProfilePage> {
         Navigator.pop(context, true);
       }
     } catch (e) {
+      final errorStr = e.toString().toLowerCase();
+      if (errorStr.contains('unauthenticated') || errorStr.contains('401')) {
+        final phone = GetStorage().read('phone');
+        if (phone != null) {
+          final success = await _showReAuthModal(phone);
+          if (success == true) {
+            _submitProfile();
+            return;
+          }
+        }
+      }
+
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -386,6 +449,13 @@ class _EditBusinessProfilePageState extends State<EditBusinessProfilePage> {
                             ),
                           ),
                           _buildOfferingsSection(),
+                          const SizedBox(height: 32),
+
+                          _buildSectionHeader(
+                            _language == 'en' ? 'Media Gallery' : 'Zithunzi ndi Makanema',
+                            Icons.collections_rounded,
+                          ),
+                          _buildGallerySection(),
                           const SizedBox(height: 40),
                         ],
                       ),
@@ -702,76 +772,80 @@ class _EditBusinessProfilePageState extends State<EditBusinessProfilePage> {
               _language == 'en' ? 'Business Categories' : 'Mitundu ya Bizinesi',
               style: GoogleFonts.poppins(fontSize: 13, fontWeight: FontWeight.w600, color: Colors.grey[700]),
             ),
-            const SizedBox(height: 8),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: [
-                ..._categories.map((cat) {
-                  final selected = _selectedCategoryIds.contains(cat.id);
-                  return FilterChip(
-                    label: Text(cat.name, style: GoogleFonts.poppins(fontSize: 12)),
-                    selected: selected,
-                    onSelected: (val) => setState(() {
-                      if (val && cat.id != null) _selectedCategoryIds.add(cat.id!);
-                      else if (!val && cat.id != null) _selectedCategoryIds.remove(cat.id!);
-                    }),
-                    selectedColor: kPrimaryColor.withOpacity(0.15),
-                    checkmarkColor: kPrimaryColor,
-                    side: BorderSide(color: selected ? kPrimaryColor : Colors.grey[300]!),
-                  );
-                }),
-                ..._customCategories.map((name) {
-                  return Chip(
-                    label: Text(name, style: GoogleFonts.poppins(fontSize: 12)),
-                    backgroundColor: kPrimaryColor.withOpacity(0.1),
-                    deleteIcon: const Icon(Icons.close, size: 14),
-                    onDeleted: () => setState(() => _customCategories.remove(name)),
-                    side: BorderSide(color: kPrimaryColor.withOpacity(0.3)),
-                  );
-                }),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: _customCategoryController,
-                    style: GoogleFonts.poppins(fontSize: 14),
-                    decoration: InputDecoration(
-                      hintText: _language == 'en' ? 'Add custom category...' : 'Onjezani mtundu wina...',
-                      hintStyle: GoogleFonts.poppins(color: Colors.grey[400], fontSize: 13),
-                      filled: true,
-                      fillColor: Colors.grey[50],
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: Colors.grey[300]!)),
-                      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: Colors.grey[300]!)),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 8),
-                ElevatedButton(
-                  onPressed: () {
-                    final text = _customCategoryController.text.trim();
-                    if (text.isNotEmpty && !_customCategories.contains(text)) {
-                      setState(() {
-                        _customCategories.add(text);
-                        _customCategoryController.clear();
-                      });
-                    }
+            GestureDetector(
+              onTap: () {
+                _showMultiSelectBottomSheet(
+                  title: _language == 'en' ? 'Select Categories' : 'Sankhani Mitundu',
+                  items: _categories,
+                  selectedIds: _selectedCategoryIds,
+                  getId: (item) => (item as BusinessCategory).id,
+                  getName: (item) => (item as BusinessCategory).name,
+                  onConfirm: (updatedIds) {
+                    setState(() {
+                      _selectedCategoryIds = List<int>.from(updatedIds);
+                    });
                   },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: kPrimaryColor,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                    elevation: 0,
-                  ),
-                  child: Text(_language == 'en' ? 'Add' : 'Onjezani', style: GoogleFonts.poppins(fontSize: 13)),
+                  allowCustom: true,
+                  customItems: _customCategories,
+                  onConfirmCustom: (updatedCustoms) {
+                    setState(() {
+                      _customCategories = updatedCustoms;
+                    });
+                  },
+                );
+              },
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.grey[300]!),
                 ),
-              ],
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        (_selectedCategoryIds.isEmpty && _customCategories.isEmpty)
+                            ? (_language == 'en' ? 'Select Categories' : 'Sankhani Mitundu')
+                            : '${_selectedCategoryIds.length + _customCategories.length} selected',
+                        style: GoogleFonts.poppins(
+                          color: (_selectedCategoryIds.isEmpty && _customCategories.isEmpty) ? Colors.grey[500] : Colors.black87,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                    Icon(Icons.arrow_drop_down, color: Colors.grey[600]),
+                  ],
+                ),
+              ),
             ),
+            if (_selectedCategoryIds.isNotEmpty || _customCategories.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: Wrap(
+                  spacing: 6,
+                  runSpacing: 6,
+                  children: [
+                    ..._selectedCategoryIds.map((id) {
+                      final cat = _categories.firstWhere((c) => c.id == id, orElse: () => BusinessCategory(id: id, name: 'Unknown'));
+                      return Chip(
+                        label: Text(cat.name, style: GoogleFonts.poppins(fontSize: 11)),
+                        backgroundColor: kPrimaryColor.withOpacity(0.1),
+                        deleteIcon: const Icon(Icons.close, size: 14),
+                        onDeleted: () => setState(() => _selectedCategoryIds.remove(id)),
+                      );
+                    }),
+                    ..._customCategories.map((name) => Chip(
+                          label: Text(name, style: GoogleFonts.poppins(fontSize: 11)),
+                          backgroundColor: kPrimaryColor.withOpacity(0.1),
+                          deleteIcon: const Icon(Icons.close, size: 14),
+                          onDeleted: () => setState(() => _customCategories.remove(name)),
+                        )),
+                  ],
+                ),
+              ),
+            const SizedBox(height: 20),
+
             const SizedBox(height: 20),
           ],
           const SizedBox(height: 20),
@@ -1109,79 +1183,80 @@ class _EditBusinessProfilePageState extends State<EditBusinessProfilePage> {
         boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.03), blurRadius: 10, offset: const Offset(0, 4))],
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: [
-              ..._valueChains.map((vc) {
-                final id = vc['id'] as int;
-                final name = vc['name'] as String? ?? '';
-                final selected = _selectedValueChainIds.contains(id);
-                return FilterChip(
-                  label: Text(name, style: GoogleFonts.poppins(fontSize: 12)),
-                  selected: selected,
-                  onSelected: (val) => setState(() {
-                    if (val) _selectedValueChainIds.add(id);
-                    else _selectedValueChainIds.remove(id);
-                  }),
-                  selectedColor: kPrimaryColor.withOpacity(0.15),
-                  checkmarkColor: kPrimaryColor,
-                  side: BorderSide(color: selected ? kPrimaryColor : Colors.grey[300]!),
-                );
-              }),
-              ..._customValueChains.map((name) {
-                return Chip(
-                  label: Text(name, style: GoogleFonts.poppins(fontSize: 12)),
-                  backgroundColor: kPrimaryColor.withOpacity(0.1),
-                  deleteIcon: const Icon(Icons.close, size: 14),
-                  onDeleted: () => setState(() => _customValueChains.remove(name)),
-                  side: BorderSide(color: kPrimaryColor.withOpacity(0.3)),
-                );
-              }),
-            ],
-          ),
-          const SizedBox(height: 12),
-          Row(
-            children: [
-              Expanded(
-                child: TextField(
-                  controller: _customValueChainController,
-                  style: GoogleFonts.poppins(fontSize: 14),
-                  decoration: InputDecoration(
-                    hintText: _language == 'en' ? 'Add custom value chain...' : 'Onjezani nzere yina...',
-                    hintStyle: GoogleFonts.poppins(color: Colors.grey[400], fontSize: 13),
-                    filled: true,
-                    fillColor: Colors.grey[50],
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: Colors.grey[300]!)),
-                    enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: Colors.grey[300]!)),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 8),
-              ElevatedButton(
-                onPressed: () {
-                  final text = _customValueChainController.text.trim();
-                  if (text.isNotEmpty && !_customValueChains.contains(text)) {
-                    setState(() {
-                      _customValueChains.add(text);
-                      _customValueChainController.clear();
-                    });
-                  }
+          GestureDetector(
+            onTap: () {
+              _showMultiSelectBottomSheet(
+                title: _language == 'en' ? 'Select Value Chains' : 'Sankhani Nzere za Mtengo',
+                items: _valueChains,
+                selectedIds: _selectedValueChainIds,
+                getId: (item) => (item as Map)['id'],
+                getName: (item) => (item as Map)['name'] ?? '',
+                onConfirm: (updatedIds) {
+                  setState(() {
+                    _selectedValueChainIds = List<int>.from(updatedIds);
+                  });
                 },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: kPrimaryColor,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                  elevation: 0,
-                ),
-                child: Text(_language == 'en' ? 'Add' : 'Onjezani', style: GoogleFonts.poppins(fontSize: 13)),
+                allowCustom: true,
+                customItems: _customValueChains,
+                onConfirmCustom: (updatedCustoms) {
+                  setState(() {
+                    _customValueChains = updatedCustoms;
+                  });
+                },
+              );
+            },
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Colors.grey[300]!),
               ),
-            ],
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      (_selectedValueChainIds.isEmpty && _customValueChains.isEmpty)
+                          ? (_language == 'en' ? 'Select Value Chains' : 'Sankhani Nzere')
+                          : '${_selectedValueChainIds.length + _customValueChains.length} selected',
+                      style: GoogleFonts.poppins(
+                        color: (_selectedValueChainIds.isEmpty && _customValueChains.isEmpty) ? Colors.grey[500] : Colors.black87,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ),
+                  Icon(Icons.arrow_drop_down, color: Colors.grey[600]),
+                ],
+              ),
+            ),
           ),
+          if (_selectedValueChainIds.isNotEmpty || _customValueChains.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.only(top: 8),
+              child: Wrap(
+                spacing: 6,
+                runSpacing: 6,
+                children: [
+                  ..._selectedValueChainIds.map((id) {
+                    final vc = _valueChains.firstWhere((v) => v['id'] == id, orElse: () => {'id': id, 'name': 'Unknown'});
+                    return Chip(
+                      label: Text(vc['name'] ?? 'Unknown', style: GoogleFonts.poppins(fontSize: 11)),
+                      backgroundColor: kPrimaryColor.withOpacity(0.1),
+                      deleteIcon: const Icon(Icons.close, size: 14),
+                      onDeleted: () => setState(() => _selectedValueChainIds.remove(id)),
+                    );
+                  }),
+                  ..._customValueChains.map((name) => Chip(
+                        label: Text(name, style: GoogleFonts.poppins(fontSize: 11)),
+                        backgroundColor: kPrimaryColor.withOpacity(0.1),
+                        deleteIcon: const Icon(Icons.close, size: 14),
+                        onDeleted: () => setState(() => _customValueChains.remove(name)),
+                      )),
+                ],
+              ),
+            ),
         ],
       ),
     );
@@ -1316,6 +1391,81 @@ class _EditBusinessProfilePageState extends State<EditBusinessProfilePage> {
               ),
             ],
           ),
+          const SizedBox(height: 16),
+          // Offering Image Picker
+          GestureDetector(
+            onTap: () => _pickOfferingImage(index),
+            child: Container(
+              height: 120,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Colors.grey[50],
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Colors.grey[200]!),
+              ),
+              child: _offerings[index]['image'] != null
+                  ? Stack(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: Image.file(
+                            _offerings[index]['image'] as File,
+                            width: double.infinity,
+                            height: 120,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        Positioned(
+                          top: 8,
+                          right: 8,
+                          child: GestureDetector(
+                            onTap: () => setState(() => _offerings[index]['image'] = null),
+                            child: Container(
+                              padding: const EdgeInsets.all(4),
+                              decoration: const BoxDecoration(color: Colors.red, shape: BoxShape.circle),
+                              child: const Icon(Icons.close, color: Colors.white, size: 16),
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  : _offerings[index]['image_url'] != null
+                      ? Stack(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.network(
+                                _offerings[index]['image_url'],
+                                width: double.infinity,
+                                height: 120,
+                                fit: BoxFit.cover,
+                                errorBuilder: (_, __, ___) => Center(child: Icon(Icons.broken_image, color: Colors.grey[400])),
+                              ),
+                            ),
+                            Positioned(
+                              top: 8,
+                              right: 8,
+                              child: Container(
+                                padding: const EdgeInsets.all(6),
+                                decoration: BoxDecoration(color: Colors.black.withOpacity(0.5), borderRadius: BorderRadius.circular(8)),
+                                child: const Icon(Icons.edit, color: Colors.white, size: 14),
+                              ),
+                            ),
+                          ],
+                        )
+                      : Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.add_a_photo_outlined, color: Colors.grey[400], size: 32),
+                            const SizedBox(height: 8),
+                            Text(
+                              _language == 'en' ? 'Add Product Image' : 'Onjezani chithunzi',
+                              style: GoogleFonts.poppins(fontSize: 12, color: Colors.grey[500]),
+                            ),
+                          ],
+                        ),
+            ),
+          ),
         ],
       ),
     );
@@ -1342,6 +1492,498 @@ class _EditBusinessProfilePageState extends State<EditBusinessProfilePage> {
                 ),
               ),
       ),
+    );
+  }
+  Widget _buildGallerySection() {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.03),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: _buildGalleryPicker(
+                  onTap: _pickGalleryImages,
+                  icon: Icons.add_photo_alternate_rounded,
+                  label: _language == 'en' ? 'Add Photos' : 'Zithunzi',
+                  count: _galleryImages.length + _existingGalleryImages.length,
+                ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: _buildGalleryPicker(
+                  onTap: _pickGalleryVideo,
+                  icon: Icons.video_call_rounded,
+                  label: _language == 'en' ? 'Add Videos' : 'Makanema',
+                  count: _galleryVideos.length + _existingGalleryVideos.length,
+                ),
+              ),
+            ],
+          ),
+          if (_galleryImages.isNotEmpty || _galleryVideos.isNotEmpty || _existingGalleryImages.isNotEmpty || _existingGalleryVideos.isNotEmpty) ...[
+            const SizedBox(height: 20),
+            Text(
+              _language == 'en' ? 'Media Assets' : 'Zithunzi ndi Makanema',
+              style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.grey),
+            ),
+            const SizedBox(height: 8),
+            SizedBox(
+              height: 100,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: [
+                  // Existing Images
+                  ..._existingGalleryImages.map((img) => Container(
+                    margin: const EdgeInsets.only(right: 12),
+                    width: 100,
+                    child: Stack(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            image: DecorationImage(
+                              image: NetworkImage(img.imageUrl ?? ''),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          top: 4,
+                          right: 4,
+                          child: GestureDetector(
+                            onTap: () async {
+                              try {
+                                await _businessProfileService.deleteGalleryImage(widget.profile.id!, img.id!);
+                                setState(() => _existingGalleryImages.remove(img));
+                              } catch (e) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text('Failed to delete image: $e'), backgroundColor: Colors.red),
+                                );
+                              }
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(4),
+                              decoration: const BoxDecoration(color: Colors.red, shape: BoxShape.circle),
+                              child: const Icon(Icons.close, color: Colors.white, size: 14),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )),
+                  // New Images
+                  ..._galleryImages.asMap().entries.map((entry) {
+                    final index = entry.key;
+                    final file = entry.value;
+                    return Container(
+                      margin: const EdgeInsets.only(right: 12),
+                      width: 100,
+                      child: Stack(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              image: DecorationImage(
+                                image: FileImage(file),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            top: 4,
+                            right: 4,
+                            child: GestureDetector(
+                              onTap: () => setState(() => _galleryImages.removeAt(index)),
+                              child: Container(
+                                padding: const EdgeInsets.all(4),
+                                decoration: const BoxDecoration(color: Colors.red, shape: BoxShape.circle),
+                                child: const Icon(Icons.close, color: Colors.white, size: 14),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }),
+                  // Existing Videos
+                  ..._existingGalleryVideos.map((vid) => Container(
+                    margin: const EdgeInsets.only(right: 12),
+                    width: 100,
+                    child: Stack(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.black87,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: const Center(child: Icon(Icons.videocam, color: Colors.white, size: 30)),
+                        ),
+                        Positioned(
+                          top: 4,
+                          right: 4,
+                          child: GestureDetector(
+                            onTap: () async {
+                              try {
+                                await _businessProfileService.deleteGalleryVideo(widget.profile.id!, vid.id!);
+                                setState(() => _existingGalleryVideos.remove(vid));
+                              } catch (e) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text('Failed to delete video: $e'), backgroundColor: Colors.red),
+                                );
+                              }
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(4),
+                              decoration: const BoxDecoration(color: Colors.red, shape: BoxShape.circle),
+                              child: const Icon(Icons.close, color: Colors.white, size: 14),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )),
+                  // New Videos
+                  ..._galleryVideos.asMap().entries.map((entry) {
+                    final index = entry.key;
+                    final file = entry.value;
+                    return Container(
+                      margin: const EdgeInsets.only(right: 12),
+                      width: 100,
+                      child: Stack(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.grey[200],
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: const Center(child: Icon(Icons.videocam, color: kPrimaryColor, size: 30)),
+                          ),
+                          Positioned(
+                            top: 4,
+                            right: 4,
+                            child: GestureDetector(
+                              onTap: () => setState(() => _galleryVideos.removeAt(index)),
+                              child: Container(
+                                padding: const EdgeInsets.all(4),
+                                decoration: const BoxDecoration(color: Colors.red, shape: BoxShape.circle),
+                                child: const Icon(Icons.close, color: Colors.white, size: 14),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }),
+                ],
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
+  Widget _buildGalleryPicker({
+    required VoidCallback onTap,
+    required IconData icon,
+    required String label,
+    required int count,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        decoration: BoxDecoration(
+          color: kPrimaryColor.withOpacity(0.05),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: kPrimaryColor.withOpacity(0.1)),
+        ),
+        child: Column(
+          children: [
+            Icon(icon, color: kPrimaryColor, size: 28),
+            const SizedBox(height: 8),
+            Text(label, style: GoogleFonts.poppins(fontSize: 13, fontWeight: FontWeight.w600, color: kPrimaryColor)),
+            if (count > 0)
+              Text(
+                '$count ${count == 1 ? 'item' : 'items'}',
+                style: GoogleFonts.poppins(fontSize: 11, color: Colors.grey[600]),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _showMultiSelectBottomSheet({
+    required String title,
+    required List<dynamic> items,
+    required List<dynamic> selectedIds,
+    required dynamic Function(dynamic item) getId,
+    required String Function(dynamic item) getName,
+    required void Function(List<dynamic> updatedIds) onConfirm,
+    bool allowCustom = false,
+    List<String>? customItems,
+    void Function(List<String> updatedCustomItems)? onConfirmCustom,
+  }) {
+    List<dynamic> tempSelectedIds = List.from(selectedIds);
+    List<String> tempCustomItems = customItems != null ? List.from(customItems) : [];
+    TextEditingController customController = TextEditingController();
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setModalState) {
+            return Container(
+              height: MediaQuery.of(context).size.height * 0.75,
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+              ),
+              child: Column(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      border: Border(bottom: BorderSide(color: Colors.grey[200]!)),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(title, style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.bold)),
+                        IconButton(
+                          icon: const Icon(Icons.close),
+                          onPressed: () => Navigator.pop(context),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: ListView(
+                      padding: const EdgeInsets.all(16),
+                      children: [
+                        ...items.map((item) {
+                          final id = getId(item);
+                          final name = getName(item);
+                          final isSelected = tempSelectedIds.contains(id);
+                          return CheckboxListTile(
+                            title: Text(name, style: GoogleFonts.poppins()),
+                            value: isSelected,
+                            activeColor: kPrimaryColor,
+                            onChanged: (bool? checked) {
+                              setModalState(() {
+                                if (checked == true) {
+                                  tempSelectedIds.add(id);
+                                } else {
+                                  tempSelectedIds.remove(id);
+                                }
+                              });
+                            },
+                          );
+                        }),
+                        if (allowCustom) ...[
+                          const Divider(),
+                          ...tempCustomItems.map((customName) {
+                            return CheckboxListTile(
+                              title: Text(customName, style: GoogleFonts.poppins()),
+                              value: true,
+                              activeColor: kPrimaryColor,
+                              onChanged: (bool? checked) {
+                                setModalState(() {
+                                  tempCustomItems.remove(customName);
+                                });
+                              },
+                            );
+                          }),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: TextField(
+                                    controller: customController,
+                                    decoration: InputDecoration(
+                                      hintText: _language == 'en' ? 'Add other...' : 'Onjezani zina...',
+                                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                                      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    if (customController.text.trim().isNotEmpty) {
+                                      setModalState(() {
+                                        tempCustomItems.add(customController.text.trim());
+                                        customController.clear();
+                                      });
+                                    }
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: kPrimaryColor,
+                                    foregroundColor: Colors.white,
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                                  ),
+                                  child: Text(_language == 'en' ? 'Add' : 'Onjeza', style: GoogleFonts.poppins(color: Colors.white)),
+                                )
+                              ],
+                            ),
+                          ),
+                        ]
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: kPrimaryColor,
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        ),
+                        onPressed: () {
+                          onConfirm(tempSelectedIds);
+                          if (allowCustom && onConfirmCustom != null) {
+                            onConfirmCustom(tempCustomItems);
+                          }
+                          Navigator.pop(context);
+                        },
+                        child: Text(_language == 'en' ? 'Confirm Selection' : 'Tsimikizani', style: GoogleFonts.poppins(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Future<bool?> _showReAuthModal(String phone) async {
+    final TextEditingController pinController = TextEditingController();
+    bool isAuthenticating = false;
+    String? pinError;
+
+    return await showModalBottomSheet<bool>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      isDismissible: false,
+      enableDrag: false,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setModalState) {
+            return Padding(
+              padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+              child: Container(
+                padding: const EdgeInsets.all(24),
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      _language == 'en' ? 'Session Expired' : 'Nthawi Yanu Yatha',
+                      style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.red),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      _language == 'en'
+                          ? 'Your session has expired. Please enter your PIN for $phone to continue updating your profile.'
+                          : 'Nthawi yanu yatha. Chonde lowetsani PIN yanu ya $phone kuti mupitirize.',
+                      style: GoogleFonts.poppins(fontSize: 14, color: Colors.grey[700]),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 24),
+                    TextField(
+                      controller: pinController,
+                      keyboardType: TextInputType.number,
+                      obscureText: true,
+                      maxLength: 4,
+                      decoration: InputDecoration(
+                        labelText: 'PIN',
+                        errorText: pinError,
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                        prefixIcon: const Icon(Icons.lock_outline),
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    isAuthenticating
+                        ? const Center(child: CircularProgressIndicator())
+                        : ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: kPrimaryColor,
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                            ),
+                            onPressed: () async {
+                              final pin = pinController.text.trim();
+                              if (pin.isEmpty || pin.length < 4) {
+                                setModalState(() => pinError = _language == 'en' ? 'Enter a valid 4-digit PIN' : 'Lowetsani PIN yolondola');
+                                return;
+                              }
+                              setModalState(() {
+                                isAuthenticating = true;
+                                pinError = null;
+                              });
+
+                              try {
+                                final response = await http.post(
+                                  Uri.parse('${apiurl}v1/auth/login'),
+                                  headers: {'Content-Type': 'application/json'},
+                                  body: jsonEncode({'phone': phone, 'pin': pin}),
+                                );
+                                if (response.statusCode == 200) {
+                                  final token = jsonDecode(response.body)['token'];
+                                  GetStorage().write('token', token);
+                                  if (mounted) Navigator.pop(context, true);
+                                } else {
+                                  setModalState(() => pinError = _language == 'en' ? 'Incorrect PIN' : 'PIN yolakwika');
+                                }
+                              } catch (e) {
+                                setModalState(() => pinError = _language == 'en' ? 'Network error. Try again.' : 'Vuto la intaneti.');
+                              } finally {
+                                setModalState(() => isAuthenticating = false);
+                              }
+                            },
+                            child: Text(_language == 'en' ? 'Verify & Resume' : 'Tsimikizani', style: GoogleFonts.poppins(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
+                          ),
+                    const SizedBox(height: 16),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context, false);
+                      },
+                      child: Text(_language == 'en' ? 'Cancel' : 'Tiyeni', style: GoogleFonts.poppins(color: Colors.grey[600])),
+                    )
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
     );
   }
 }

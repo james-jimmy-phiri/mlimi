@@ -20,11 +20,15 @@ class ErrorUtils {
       return language == 'en'
           ? 'Invalid response from server.'
           : 'Zotsulidwa molakwika kuchokera ku seva.';
+    } else if (error is Exception) {
+      final msg = error.toString();
+      if (msg.startsWith('Exception: ')) {
+        return msg.substring(11);
+      }
+      return msg;
     }
 
-    // Default error message
-    return language == 'en'
-        ? 'Something went wrong. Please try again.'
-        : 'Zalakwika zinazake. Yesaninso.';
+    // Default error message: show the error instead of hiding it
+    return error.toString();
   }
 }

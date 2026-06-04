@@ -98,8 +98,8 @@ if (keystorePropertiesFile.exists()) {
 }
 
 // Fallback version info (these usually come from pubspec.yaml, but just in case)
-def flutterVersionCode = 11
-def flutterVersionName = "1.0.10"
+def flutterVersionCode = 12
+def flutterVersionName = "1.0.11"
 
 android {
     namespace "com.frtholdingsmw.mlimi"   // ✅ Required for AGP 8+

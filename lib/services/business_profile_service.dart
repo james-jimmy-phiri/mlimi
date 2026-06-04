@@ -25,6 +25,30 @@ class BusinessProfileService {
     };
   }
 
+  String _parseError(http.Response response, String defaultMessage) {
+    try {
+      final data = json.decode(response.body);
+      if (data is Map<String, dynamic>) {
+        if (data.containsKey('errors') && data['errors'] is Map) {
+          final errors = data['errors'] as Map;
+          if (errors.isNotEmpty) {
+            final firstErrorList = errors.values.first;
+            if (firstErrorList is List && firstErrorList.isNotEmpty) {
+              return '${data['message'] ?? defaultMessage}: ${firstErrorList.first}';
+            }
+          }
+        }
+        if (data.containsKey('message')) {
+          return data['message'].toString();
+        }
+        if (data.containsKey('error')) {
+          return data['error'].toString();
+        }
+      }
+    } catch (_) {}
+    return '$defaultMessage (Status: ${response.statusCode})';
+  }
+
   // ---------------------------------------------------------------------------
   // PROFILES
   // ---------------------------------------------------------------------------
@@ -57,7 +81,7 @@ class BusinessProfileService {
         'pagination': data['pagination'] ?? data['meta'],
       };
     } else {
-      throw Exception('Failed to load business profiles');
+      throw Exception(_parseError(response, 'Failed to load business profiles'));
     }
   }
 
@@ -74,7 +98,7 @@ class BusinessProfileService {
     } else if (response.statusCode == 404) {
       throw Exception('No business profile found');
     } else {
-      throw Exception('Failed to load profile');
+      throw Exception(_parseError(response, 'Failed to load profile'));
     }
   }
 
@@ -89,7 +113,7 @@ class BusinessProfileService {
       final data = json.decode(response.body);
       return BusinessProfile.fromJson(data['business_profile'] as Map<String, dynamic>);
     } else {
-      throw Exception('Failed to load profile');
+      throw Exception(_parseError(response, 'Failed to load profile'));
     }
   }
 
@@ -258,8 +282,7 @@ class BusinessProfileService {
       final data = json.decode(response.body);
       return BusinessProfile.fromJson(data['business_profile'] as Map<String, dynamic>);
     } else {
-      final errorData = json.decode(response.body);
-      throw Exception(errorData['message'] ?? 'Failed to create profile');
+      throw Exception(_parseError(response, 'Failed to create profile'));
     }
   }
 
@@ -293,6 +316,8 @@ class BusinessProfileService {
     List<int>? valueChainIds,
     List<String>? customValueChains,
     List<Map<String, dynamic>>? offerings,
+    List<File>? galleryImages,
+    List<File>? galleryVideos,
   }) async {
     var request = http.MultipartRequest(
       'POST',
@@ -395,6 +420,22 @@ class BusinessProfileService {
       request.files.add(await http.MultipartFile.fromPath('logo', logo.path));
     }
 
+    if (galleryImages != null) {
+      for (int i = 0; i < galleryImages.length; i++) {
+        request.files.add(
+          await http.MultipartFile.fromPath('gallery_images[$i]', galleryImages[i].path),
+        );
+      }
+    }
+
+    if (galleryVideos != null) {
+      for (int i = 0; i < galleryVideos.length; i++) {
+        request.files.add(
+          await http.MultipartFile.fromPath('gallery_videos[$i]', galleryVideos[i].path),
+        );
+      }
+    }
+
     final streamedResponse = await request.send();
     final response = await http.Response.fromStream(streamedResponse);
 
@@ -402,8 +443,7 @@ class BusinessProfileService {
       final data = json.decode(response.body);
       return BusinessProfile.fromJson(data['business_profile'] as Map<String, dynamic>);
     } else {
-      final errorData = json.decode(response.body);
-      throw Exception(errorData['message'] ?? 'Failed to update profile');
+      throw Exception(_parseError(response, 'Failed to update profile'));
     }
   }
 
@@ -414,8 +454,7 @@ class BusinessProfileService {
       headers: _headers,
     );
     if (response.statusCode != 200 && response.statusCode != 204) {
-      final errorData = json.decode(response.body);
-      throw Exception(errorData['message'] ?? 'Failed to delete profile');
+      throw Exception(_parseError(response, 'Failed to delete profile'));
     }
   }
 
@@ -445,7 +484,7 @@ class BusinessProfileService {
       final data = json.decode(response.body);
       return BusinessGalleryImage.fromJson(data['gallery_image'] as Map<String, dynamic>);
     } else {
-      throw Exception('Failed to add gallery image');
+      throw Exception(_parseError(response, 'Failed to add gallery image'));
     }
   }
 
@@ -471,8 +510,7 @@ class BusinessProfileService {
       final data = json.decode(response.body);
       return BusinessGalleryVideo.fromJson(data['gallery_video'] as Map<String, dynamic>);
     } else {
-      final errorData = json.decode(response.body);
-      throw Exception(errorData['message'] ?? 'Failed to add gallery video');
+      throw Exception(_parseError(response, 'Failed to add gallery video'));
     }
   }
 
@@ -482,7 +520,7 @@ class BusinessProfileService {
       headers: _headers,
     );
     if (response.statusCode != 200 && response.statusCode != 204) {
-      throw Exception('Failed to delete gallery image');
+      throw Exception(_parseError(response, 'Failed to delete gallery image'));
     }
   }
 
@@ -492,45 +530,47 @@ class BusinessProfileService {
       headers: _headers,
     );
     if (response.statusCode != 200 && response.statusCode != 204) {
-      throw Exception('Failed to delete gallery video');
+      throw Exception(_parseError(response, 'Failed to delete gallery video'));
     }
   }
 
   Future<List<BusinessSector>> getSectors() async {
-    final response = await http.get(Uri.parse('$baseUrl/sectors'), headers: _headers);
+    final response = await http.get(Uri.parse('$baseUrl/lookups/sectors'), headers: _headers);
     if (response.statusCode == 200) {
-      final List<dynamic> data = jsonDecode(response.body);
+      final decoded = jsonDecode(response.body);
+      final List<dynamic> data = decoded['data'] ?? [];
       return data.map((json) => BusinessSector.fromJson(json)).toList();
     }
-    throw Exception('Failed to load sectors');
+    throw Exception(_parseError(response, 'Failed to load sectors'));
   }
 
   Future<List<BusinessCategory>> getCategories() async {
-    final response = await http.get(Uri.parse('$baseUrl/categories'), headers: _headers);
+    final response = await http.get(Uri.parse('$baseUrl/lookups/categories'), headers: _headers);
     if (response.statusCode == 200) {
-      final List<dynamic> data = jsonDecode(response.body);
+      final decoded = jsonDecode(response.body);
+      final List<dynamic> data = decoded['data'] ?? [];
       return data.map((json) => BusinessCategory.fromJson(json)).toList();
     }
-    throw Exception('Failed to load categories');
+    throw Exception(_parseError(response, 'Failed to load categories'));
   }
 
   Future<List<BusinessDistrict>> getDistricts() async {
-    final response = await http.get(Uri.parse('$baseUrl/districts'), headers: _headers);
+    final response = await http.get(Uri.parse('$baseUrl/lookups/districts'), headers: _headers);
     if (response.statusCode == 200) {
       final decoded = jsonDecode(response.body);
-      final List<dynamic> data = decoded['districts'] ?? decoded;
+      final List<dynamic> data = decoded['data'] ?? [];
       return data.map((json) => BusinessDistrict.fromJson(json)).toList();
     }
-    throw Exception('Failed to load districts');
+    throw Exception(_parseError(response, 'Failed to load districts'));
   }
 
   Future<List<dynamic>> getValueChains() async {
-    final response = await http.get(Uri.parse('$baseUrl/value-chains'), headers: _headers);
+    final response = await http.get(Uri.parse('$baseUrl/lookups/value-chains'), headers: _headers);
     if (response.statusCode == 200) {
       final decoded = jsonDecode(response.body);
-      if (decoded is List) return decoded;
-      return decoded['value_chains'] ?? decoded['data'] ?? [];
+      final List<dynamic> data = decoded['data'] ?? [];
+      return data;
     }
-    throw Exception('Failed to load value chains');
+    throw Exception(_parseError(response, 'Failed to load value chains'));
   }
 }

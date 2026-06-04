@@ -915,7 +915,7 @@
             {
               "id": 1,
               "image": "local_chicken",
-              "name": "Ulimi wa Nkunu za Chikuda",
+              "name": "Ulimi wa Nkhuku za Chikuda",
               "section": [
                 {
                   "id": 1,
@@ -1097,13 +1097,13 @@
             {
               "id": 2,
               "image": "broilerchickens",
-              "name": "Ulimi wa Nkunu za Nyama",
+              "name": "Ulimi wa Nkhuku za Nyama",
               "section": [
                 {
                   "id": 1,
                   "image": "broilerchickens",
                   "title": "Zinthu zomwe zimapangitsa kuti ulimi w nkhuku za Nyama upite patsogolo/upindule",
-                  "audio": "broiler_1",
+                  "audio": "chicken_pro",
                   "content": [
                     "Kuweta nkhuku zochepa kumabweretsa ndalama zochepa",
                     "Aalimi amene amasunga nkhuku zosachepera 500 amapanga phindu lochuluka kuyerekeza ndi alimi omwe amasunga nkhuku zochepera 500",
@@ -1117,7 +1117,7 @@
                   "id": 2,
                   "image": "broilerchickens",
                   "title": "Mitundu ya Nkunku za Nyama",
-                  "audio": "broiler_2",
+                  "audio": "chicken_pro",
                   "content": [
                     "Pali mitundu itatu:",
                     "1. Coob 500",
@@ -1129,7 +1129,7 @@
                   "id": 3,
                   "image": "broilerchickens",
                   "title": "Komwe alimi angagule nkhuku zanyama",
-                  "audio": "broiler_3",
+                  "audio": "chicken_pro",
                   "content": [
                     "Gulani anapiye ongobadwa kumene pamene atha tsiku limodzi kapena nkhuku zomwe zafika poikira zomwe zatha masabata 18 kukula kwake ku Kampani ya Central Poultry ndi Proto Feeds mmashopu awo. "
                   ]
@@ -1138,7 +1138,7 @@
                   "id": 4,
                   "image": "broilerchickens",
                   "title": "Zoyenera kutsatira pomanga makola a nkhuku za nyama",
-                  "audio": "broiler_4",
+                  "audio": "chicken_pro",
                   "content": [
                     "Alimi atsate njira zotsatirazi pomanga makola a nkhuku za nyama:",
                     "1. Sankhani malo otetezedwa ku mbava ndi nyama zoononga nkhuku",
@@ -1154,7 +1154,7 @@
                   "id": 5,
                   "image": "broilerchickens",
                   "title": "Zofunikira m'nyumba ya chifundizi",
-                  "audio": "broiler_5",
+                  "audio": "chicken_pro",
                   "content": [
                     "Chifundizi chimayenera anapiye osapitilira masabata atatu akubadwa .Anapiye akhale mu chifundizi masabata osachepera awiri",
                     "Nyumba yosungira anapiye osapitilira masabata atatu iyenera kukhala yozungulira kuti anapiye asaunjikane pamodzi zimene zimapangitsa kufa potsatira kupondana.",
@@ -1168,7 +1168,7 @@
                   "id": 6,
                   "image": "broilerchickens",
                   "title": "Mitundu ya chifundizi",
-                  "audio": "broiler_6",
+                  "audio": "chicken_pro",
                   "content": [
                     "kuika mbaula/babu pakati- nkhuku zimamva kutentha kuchokera pakati pomwe paikidwa mbaula/babu ndipo zimamva kuzizira zikakhala kutali ndi mbaulayi",
                     "Kuika mbaula/babu momwazikana- nkhuku zimamva kutentha kuchokera ku mbali zosiyanasiyana za chipindacho",
@@ -1180,7 +1180,7 @@
                   "id": 7,
                   "image": "broilerchickens",
                   "title": "Kutentha kapena kuzizira kwa mu chifundizi",
-                  "audio": "broiler_7",
+                  "audio": "chicken_pro",
                   "content": [
                     "Onetsetsani kuti kutentha kapena kuzizira kwa chipinda chosungiramo anapiye ndikoyenera potsatira khalidwe lomwe anapiye akuonetsa mchipindamo",
                     "Tingadziwe kuti mchipindamo mwatentha kwambiri ngati anapiye aunjikana mmakoma komanso akupuma mwakuya",
@@ -1192,8 +1192,8 @@
                 {
                   "id": 8,
                   "image": "broilerchickens",
-                  "title": "Zofunikira khola la nkuku zazikulu",
-                  "audio": "broiler_8",
+                  "title": "Zofunikira khola la nkhuku zazikulu",
+                  "audio": "chicken_pro",
                   "content": [
                     "Anapiye oyambira masabata anayi mpaka asanu ndi atatu ayenera kusungidwa mukhola laokha",
                     "Sungani anapiye okulirapo 10-12 pa sikweya imodzi"
@@ -1203,7 +1203,7 @@
                   "id": 9,
                   "image": "broilerchickens",
                   "title": "Kuweta anapiye mwapakamodzi",
-                  "audio": "broiler_9",
+                  "audio": "chicken_pro",
                   "content": [
                     "Anapiye omwe anatengedwa pakamodzi amawetedwa mchifundizi ndopo amasamutsiridwa ku khola la nkhuku zazikulu pakamodzi. Kenako alimi amapopera makhwala ochotsa matenda ndi tizilombo mchifundizi asanaikemo anapiye ena.",
                     "Kawetedweka kamathandiza kuchepetsa matenda ngakhale nthawi zambiri sizipindulitsa ngati nkhuku zowetedwazo zinali zochepa"
@@ -1213,7 +1213,7 @@
                   "id": 10,
                   "image": "broilerchickens",
                   "title": "Kuweta anapiye mopatsirana",
-                  "audio": "broiler_10",
+                  "audio": "chicken_pro",
                   "content": [
                     "Kuweta anapiye osiyana misinkhu ndipo amasamutsiridwa ku makola a nkhuku zazikulu motsogozana",
                     "Kawetedweka kamabweretsa mavuto a chitetezo ku nkhuku zathu",
@@ -1224,7 +1224,7 @@
                   "id": 11,
                   "image": "broilerchickens",
                   "title": "Kukonzekera anapiye",
-                  "audio": "broiler_11",
+                  "audio": "chicken_pro",
                   "content": [
                     "Onetsetsani kuti ziwiya komanso khola ndi malo ozungulira ndizaukhondo. Poperani mankhwala oteteza ku tizilombo ndi matenda pasanadutse masabata awiri musanaikemo anapiye kuti muteteze matenda",
                     "Onetsetsani kuti mwakonzekera bwino lomwe pamene mukudikilira anapiye pokhala ndi zinthu zofunikira pa ulimiwu",
@@ -1236,7 +1236,7 @@
                   "id": 12,
                   "image": "broilerchickens",
                   "title": "Ndondomeko pamene tikuyembekezera anapiye",
-                  "audio": "broiler_12",
+                  "audio": "chicken_pro",
                   "content": [
                     "Konzani chifundizi chanu maola 24 musanalandire anapiye",
                     "Ikani utuchi okwanira mozungulira chipinda choikamo anapiye",
@@ -1250,7 +1250,7 @@
                   "id": 13,
                   "image": "broilerchickens",
                   "title": "Kuika anapiye mu chifundizi",
-                  "audio": "broiler_13",
+                  "audio": "chicken_pro",
                   "content": [
                     "Onetsetsani kuti babu liyatsidwe usiku ndi usana kwa masiku atatu. Kuwala kumafunikira kwambiri kulekeza masiku khumi kuti anapiye adye kwambiri munthawiyi. Yatsani babu usiku kuti anapiye adzidyabe.",
                     "Onetsetsani kuti anapiye agulidwa kwa munthu mmodzi komanso akhale obadwa tsiku limodzi. Izi zimathandiza kuti pasakhale mpikisano pakai pa anapiyewa.",
@@ -1264,7 +1264,7 @@
                   "id": 14,
                   "image": "broilerchickens",
                   "title": "Magulu a chakudya cha nkhuku za nyama",
-                  "audio": "broiler_14",
+                  "audio": "chicken_pro",
                   "content": [
                     "Nkhuku zanyama zimadya chakudya chomwe chimagawidwa mmagulu atatu. Chakudyachi chimachita kugulidwa ku makampani monga ProtoFeeds, CP Feeds, Ziweto, omwe amapanga chakudyachi poyika zonse zofunikira potengera msinkhu wa nkhuku",
                     "1. Chakudya cha anapiye osapitilira masiku 14",
@@ -1276,7 +1276,7 @@
                   "id": 15,
                   "image": "broilerchickens",
                   "title": "Mitundu ya kadyetsedwe ka nkhuku zanyama",
-                  "audio": "broiler_15",
+                  "audio": "chicken_pro",
                   "content": [
                     "1. Kudyetsa mitundu iwiri ya chakudya",
                     "Perekani chakudya choyambilira cha nkhuku zanyama kuanapiye oyambira masiku 1-28 kenako chakudya cha nkhuku za nyama chomalizira kuyambira masiku 21-56",
@@ -1291,7 +1291,7 @@
                   "id": 16,
                   "image": "broilerchickens",
                   "title": "Kadyetsedwe",
-                  "audio": "broiler_16",
+                  "audio": "chicken_pro",
                   "content": [
                     "Mwanapiye m'modzi wa amasiku pakati pa 1-21 amafunika 1- 1.5kg yachakudya",
                     "Mwanapiye m'modzi wa amasiku pakati pa 22-56 amafunika 2.8-3.5kg yachakudya",
@@ -1303,7 +1303,7 @@
                   "id": 17,
                   "image": "broilerchickens",
                   "title": "Kapangidwe ka zakudya",
-                  "audio": "broiler_17",
+                  "audio": "chicken_pro",
                   "content": [
                     "Mulingo oyenera wa kapangidwe ka chakudya cha nkhuku zanyama uli motere",
                     "Chakudya choyambilira cha nkhuku za nyama chimayenera kukhala ndi 20-21% ya chakudya chomanga thupi komanso 2900Kcals/Kg ya chakudya cholimbitsa/ chopatsa mphamvu",
@@ -1316,7 +1316,7 @@
                   "id": 18,
                   "image": "broilerchickens",
                   "title": "Ndondomeko ya kaperekedwe ka katemera",
-                  "audio": "broiler_18",
+                  "audio": "chicken_pro",
                   "content": [
                     "Katemera amaperekedwa ku nkhuku za nyama  kuti zitetezedwe ku chipumphu komanso chitopa",
                     "Ndondomek yoperekera katemera ku nkhuku za nyama ali motere",
@@ -1331,7 +1331,7 @@
                   "id": 18,
                   "image": "broilerchickens",
                   "title": "Chipumphu cha misoti ndi khuku zazing'ono",
-                  "audio": "broiler_18",
+                  "audio": "chicken_pro",
                   "content": [
                     "Kafalidwe: ",
                     "Kukhudzana ndi nkhuku yodwala kapena malo pomwe pali kachilombo koyambitsa matendawa. Mumpweya,fumbi, kuyenda ndi nkhuku zodwala kapena nyama ya nkhuku yodwala, zitosi ndi  ziwiya.",
@@ -1349,7 +1349,7 @@
                   "id": 19,
                   "image": "broilerchickens",
                   "title": "Chitopa",
-                  "audio": "broiler_19",
+                  "audio": "chicken_pro",
                   "content": [
                     "Choyambitsa:",
                     "Imayamba ndi kachilombo ka Vayilasi.",
@@ -1365,7 +1365,7 @@
                   "id": 19,
                   "image": "broilerchickens",
                   "title": "Njira zoyenera kutsatira kuti musunge nkhuku yaotetezedwa",
-                  "audio": "broiler_19",
+                  "audio": "chicken_pro",
                   "content": [
                     "1. Samalirani ndi kudyetsera bwino nkhuku zanu",
                     "2. Onetsetsani kuti alendo asalowe mukhola",
@@ -1380,7 +1380,7 @@
                   "id": 20,
                   "image": "broilerchickens",
                   "title": "Kasamalidwe ka nkhuku pamene mukufuna kugulitsa",
-                  "audio": "broiler_20",
+                  "audio": "chicken_pro",
                   "content": [
                     "1. Tsatani ndondomeko zotsatirazi kuti mupindule pamene mukufuna kugulitsa nkhuku zanyama",
                     "2. Chotsani chakudya maola asanu ndi limodzi musanapititse nkhuku zanu kumsika",
@@ -1394,7 +1394,7 @@
                   "id": 21,
                   "image": "broilerchickens",
                   "title": "Kasamalidwe ka nkhuku pamene mukufuna kugulitsa",
-                  "audio": "broiler_21",
+                  "audio": "chicken_pro",
                   "content": [
                     "Tingathe kugulitsa khuku za nyama kumisika yakwathu konkuno"
                   ]
@@ -1404,7 +1404,7 @@
             {
               "id": 3,
               "image": "layerchickens",
-              "name": "Ulimi wa Nkunu za Mazira",
+              "name": "Ulimi wa Nkhuku za Mazira",
               "section": [
                 {
                   "id": 1,
