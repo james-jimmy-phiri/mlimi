@@ -142,6 +142,257 @@
                   ]
                 }
               ]
+            },
+            {
+              "id": 2,
+              "image": "sorghum",
+              "name": "Mapira",
+              "section": [
+                {
+                  "id": 1,
+                  "image": "sorghum_variety",
+                  "title": "Nyengo yoyenerera",
+                  "audio": "",
+                  "content": [
+                    "Mitundu ya Mapira yomwe ingalimidwe madera osiyanasiyama - monga yocha msanga, yopilira ku nga'amba, matenda komanso yobereka kwambiri: Pilira 1, Pilira 2, Pilira 3, Pilira 4, Pilira 5, Gwiramtima, Makolokoto, Sinakhomo, PN3, Summer T170, SC Sila, SC XH102, SCSVHYB017000, SCSVHYB017091"
+                  ]
+                },
+                {
+                  "id": 2,
+                  "image": "sorghum_site",
+                  "title": "Kusankha malo olima mapira",
+                  "audio": "",
+                  "content": [
+                    "Sankhani malo osadikha madzi koma osunga chinyezi nthawi yaitali komanso ali ndi dothi la nchengachenga"
+                  ]
+                },
+                {
+                  "id": 3,
+                  "image": "sorghum_land",
+                  "title": "Kukonza malo obzala mapira",
+                  "audio": "",
+                  "content": [
+                    "Konzani malo mwansanga dothi lidakali ndi chinyontho",
+                    "Chotsani tchire, zitsa ndi kutipula nthaka, kuswa zigulumwa ndi kusalaza kukonzekera kubzala"
+                  ]
+                },
+                {
+                  "id": 4,
+                  "image": "sorghum_planting",
+                  "title": "Kabzalidwe kake",
+                  "audio": "",
+                  "content": [
+                    "Bzalani mbeu zanu ndi mvula yoyambilira imene ndiyokwanira bwino",
+                    "Bzalani mbeu zisanu paphando lililonse motalikilana 30cm pamene mizele italikilano 75cm",
+                    "Patulirani mapira akafika nsinkhu wotalika 15cm ndikusiya mapira awiri paphando lililonse",
+                    "Pa hekitala imodzi, pamafunika mbeu yolemela 5kg"
+                  ]
+                },
+                {
+                  "id": 5,
+                  "image": "sorghum_fertilizer",
+                  "title": "Kathiridwe ka fetereza",
+                  "audio": "",
+                  "content": [
+                    "Feteleza ovomerezeka: NPK ndi UREA",
+                    "Okulitsa: thirani magalamu 6 a feteleza wa NPK (23:10:5:6S+1Zn) ochuluka 100kg pa hekitala. Pa phando lililonse thirani 6g ndipo kwilirani ndi dothi",
+                    "Thiraninso obekeretsa (UREA) ochuluka 50kg pa hekitala pakotha masabata atatu. Boolani kadzenje pa pambali phando motalikirana 10cm ndi kuzama 2.5cm. Pa phando lililonse thirani 1.5g ndipo kwilirani ndi dothi"
+                  ]
+                },
+                {
+                  "id": 6,
+                  "image": "sorghum_weeding",
+                  "title": "Kupalira kapena kuzulira mmunda wa mapira",
+                  "audio": "",
+                  "content": [
+                    "Palirani mapira tchire likangomera; palirani pakadutsa ma sabata asanu ndi imodzi ndikubandila",
+                    "Tikuyenela Kupalira ndi khasu kutengera kuchuluka kwa tchire mmundamo",
+                    "Muthanso kugwiritsa ntchito mankhwala ophera tchiro"
+                  ]
+                },
+                {
+                  "id": 7,
+                  "image": "sorghum_birds",
+                  "title": "Kuteteza mapira kumbalame",
+                  "audio": "",
+                  "content": [
+                    "Alimi akuyenela kuthamangitsa mbalame mpakana zitakula mpaka zitafika kuti zikoloedwe"
+                  ]
+                },
+                {
+                  "id": 8,
+                  "image": "sorghum_disease",
+                  "title": "Matenda",
+                  "audio": "",
+                  "content": [
+                    "Mapira nthawi zambiri amalimbana ndi matenda okhazikika ngati mlimi akugwiritsa ntchito mitundu yokonzedwa bwino",
+                    "Leaf Blight (Helminthosporium turcicum): Amapezeka kumapeto kwa nyengo, koma nthawi zambiri pambuyo popanga tirigu kumbeu zopilira",
+                    "Downy Mildew (Sclerospora sorghi) ndi Sooty Stripe (Ramulispora sorghi): Zimatha kupewedwa mwa kubzala mwachangu komanso kugwiritsa ntchito mitundu yolimba monga Pilira 1 ndi 2",
+                    "Grain Moulds (Fusarium spp ndi Culvularia spp): Zimapezeka chifukwa cha kuvuna mochedwa, makamaka m'madera omwe mvula imagwa mosalekeza. Kuvuna mapira nthawi yomwe amakolola bwino ndi njira yabwino yopewera kuwonongeka kumeneku",
+                    "Alimi ayenera kupwiritsa ntchito njira zabwino za ulimi, kuwunika minda nthawi zonse, ndi kugwiritsa ntchito mankhwala omwe akulimbikitsidwa kuti achepetse zovuta ndikuwonjezera zokolola"
+                  ]
+                },
+                {
+                  "id": 9,
+                  "image": "sorghum_pest",
+                  "title": "Tizirombo towononga mapira",
+                  "audio": "",
+                  "content": [
+                    "Tizilombo toopsa kwambiri ku mapira ndi Nsabwe, Kapuchi ndi tizolombo tofanana ndi ntchembere zandonda",
+                    "Nsabwe: amathesedwa ndi kubdzala mbeu zothiridwa mankhwala monga Gaucho, omwe amateteza mbeuzo chindunji",
+                    "Kapuchi: Amakhudza kwambiri mbeu zimene zabdzalidwa mochedwa ndipo amatha kupewedwa ndikubdzala mbeu mwansanga. Kugwiritsa ntchito Ecoterex 0.5GR pa 0.1g pa whorl pachomela chilichonse zimathandizanso",
+                    "Tizolombo tofanana ndi ntchembere zandonda: Zimaononga masamba ndi mphesi ndipo njira zochepesela ndi kudzala moyambilira, kusamalira bwino mmunda ndikugwiritsa ntchito makhwala oyenelela"
+                  ]
+                },
+                {
+                  "id": 10,
+                  "image": "sorghum_harvest",
+                  "title": "Kukolola mapira",
+                  "audio": "",
+                  "content": [
+                    "Nthawi Yokolola: Kukolola kuyenera kuchitika mapira atakwanitsa msinkhu wa kukhwima kwathunthu, nthawi zambiri pasanathe miyezi itatu kochokera pobzala",
+                    "Pa msinkhu uwu, tirigu amakhala ndi chinyezi cha 25% mpaka 30% ndipo pamakhala chizindikiro chakuda pamalo otchedwa hilum",
+                    "Kukolola mwachangu kumachepetsa mavuto ngati kuwukira kwa nyerere, kuwonongekandi mbalame, ndi kugwa kwa tirigu kumunda",
+                    "Kusamalira Mapira Atakolola: Pambuyo pokolola, mitu yowuma iyenera kudulidwa ndi kusungidwa m'thumba",
+                    "Kuthetsera tirigu kumachitika powombetsa matumba kuti tirigu ulowe mkatimo"
+                  ]
+                },
+                {
+                  "id": 11,
+                  "image": "sorghum_storage",
+                  "title": "Kusunga mapira",
+                  "audio": "",
+                  "content": [
+                    "Njira Zolimbikitsidwa Zosungira: Mapira ayenera kuumitsidwa kufika pa chinyezi cha 12.5% asanasungidwe",
+                    "Kusungira kumatha kuchitika m'malo owuma komanso oyera monga matumba kapena m'zikolokolo zachikhalidwe (nkhokwe)",
+                    "Musamasungire m'zikolokolo, yeretsani bwino ndikuteketeza ndi mankhwala monga Actellic Super kapena Super Grain Dust (sachete imodzi ya 40g pa mita imodzi lalikulu) kuti mupowe kuwukira kwa tizilombo",
+                    "Mbewu zosungidwa ziyenera kuteketetzedwa ndi Actellic Super Grain Dust kapena Wivokill Super Dust pa 25g pa thumba la 50kg la mapira"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 3,
+              "image": "rice",
+              "name": "Mpunga",
+              "section": [
+                {
+                  "id": 1,
+                  "image": "rice_variety",
+                  "title": "Nyengo yoyenerera",
+                  "audio": "",
+                  "content": [
+                    "Yolimidwa nthawi ya dzinja: Faya, Kilombero, Kayanjamalo, Nazolo, Wambone, Lifuwu, Nerica 4, Kameme, Katete, Kudya, Kuwemi, Linga, Mthetsanjala, Mpheta",
+                    "Yolimidwa nthawi yachilimwe: Senga, Changu, Pusa 33, Mtupatupe, Vyawo, Makalaki, Kudya, Kuwemi, Linga, Mthetsanjala, Mpasa, Wachangu"
+                  ]
+                },
+                {
+                  "id": 2,
+                  "image": "rice_nursery",
+                  "title": "Kakonzedwe ndi kusamalila nazale",
+                  "audio": "",
+                  "content": [
+                    "Sankhani malo a nazale omwe ali ndi dothi losakanizika ndi mchenga",
+                    "M'malo omwe mvula imagwa yochuluka dothi likhale losakanikirana ndi dongo; Komwe mvula imagwa yocheperapo malo akhale adothi lomwe limasunga madzi nthawi yayitatali, konzani ngalande zoti madzi azidutsamo",
+                    "Konzani malo a nazale dothi lidakali ndi chinyontho, potipula, kupopota ndi kusalaza kukonzekera kufesa",
+                    "Kutali kwa nazale likhale 1mita mulifupi, mulitali likhoza kutalika mmene litalikire kutengela malo komanso kutalika 5cm kuchoka pansi",
+                    "Mbeu yobdzalidwa mabedi 20 otele imekwana kubdzala ma ekale awiri ndi theka (1 ha)"
+                  ]
+                },
+                {
+                  "id": 3,
+                  "image": "rice_site",
+                  "title": "Kusankha malo olima mpunga",
+                  "audio": "",
+                  "content": [
+                    "Konzani malo mwansanga dothi lidakali ndi chinyontho, posuela, kupopota, kusalaze, ndikukafula kukonzekera kuzala"
+                  ]
+                },
+                {
+                  "id": 4,
+                  "image": "rice_land",
+                  "title": "Kukonza malo odzala mpunga",
+                  "audio": "",
+                  "content": [
+                    "Konzani malo mwansanga dothi lidakali ndi chinyontho, posuela, kupopota, kusalaze, ndikukafula kukonzekera kuzala"
+                  ]
+                },
+                {
+                  "id": 5,
+                  "image": "rice_planting",
+                  "title": "Malimidwe ake ndi Nthawi yodzala",
+                  "audio": "",
+                  "content": [
+                    "Alimi ogwiritsa ntchito SRI - Dzalani mbeu ya mpunga imodzi-imodzi motalikirana 10cm",
+                    "Mmene alimi amadzalira kale ndi mpunga utatu motalikana 15cm",
+                    "Mpunga wa dzinja uwokeledwe mu mwezi wa December mpaka January, koma wa chilimwe uwokeledwe mu mwezi wa July mpaka August",
+                    "Mbeu ziwokoledwa patha masiku 10 zitamora"
+                  ]
+                },
+                {
+                  "id": 6,
+                  "image": "rice_fertilizer",
+                  "title": "Kathiridwe ka fetereza",
+                  "audio": "",
+                  "content": [
+                    "Feterizer Obereketsa: Thirani fetereza okulitsa wa 23:10:5:6S+1Zn ochuluka 120kg pa hekitala",
+                    "Feteleza obekeretsa: UREA or Sulphate of amonia ochuluka 43kg pakatha masiku 35 mpaka 40 powaza"
+                  ]
+                },
+                {
+                  "id": 7,
+                  "image": "rice_weeding",
+                  "title": "Kupalira kapena kuzulira",
+                  "audio": "",
+                  "content": [
+                    "Palliani udzu mmunda wa mpunga ukangomera",
+                    "Udzu uzulidwe mmundwa wa mpunga pakadutsa ma sabata awiri, msabata asanu ndi umodzi mpunga ukangomera"
+                  ]
+                },
+                {
+                  "id": 8,
+                  "image": "rice_disease",
+                  "title": "Matenda a mpunga",
+                  "audio": "",
+                  "content": [
+                    "Matenda a mpunga ndi kuyosa kwa masamba madela madera, madotho pa masamba komanso kuoneka ngati kuwauka kwa mmasamba",
+                    "Masendawave akhoza kupewedwa potsatilia ndondomeko izi: Kutcha rice straws, potsatila njira zamakono za ulimi wa mpunga, ngati kugwiritsa ntchito mbewu yovomelezeka, kudzala moyenelela"
+                  ]
+                },
+                {
+                  "id": 9,
+                  "image": "rice_pest",
+                  "title": "Tizirombo towononga mpunga",
+                  "audio": "",
+                  "content": [
+                    "Tizilombo tomwe timononga mpunga ndi tchire, Mbalame, Mbewa Bwannoni, nthembele zandonda ndi ziwala zina",
+                    "Zimaonomga kwambiri choncho zimenera kuopsezedwa mmunda wa mpunga, zingatetezedwe popopela, mankwala ovomelezeka ngati Carbaryal, labycide"
+                  ]
+                },
+                {
+                  "id": 10,
+                  "image": "rice_harvest",
+                  "title": "Kukolola mpunga",
+                  "audio": "",
+                  "content": [
+                    "Kukolola mpunga nthawi yabwino kumathandiza kuti usayoyoke ndikumelonaso. Zizindikilo zimenonetsa kuti warcha umasintha mtundu kupita ku chikasu",
+                    "Tulutsani madzi mmunda masiku 7 mpaka 10 musanayambo kukolola kuti mmundamo mukhale mouma",
+                    "Dulani mpunga ma centimeter 5-10 pogwiritsa ntchito chikwakwa ndikuomba tsiku lomwelo",
+                    "Petani mpunga omwe mwaomba kuti muchotse zinyalala zonse"
+                  ]
+                },
+                {
+                  "id": 11,
+                  "image": "rice_storage",
+                  "title": "Kusamala mpunga tikakolola",
+                  "audio": "",
+                  "content": [
+                    "Mpunga ukuyenera kuyanikidwa poumwaza pa mphasa kapena pa chikopa kwa masiku okwanira awiri kuti usungike bwino",
+                    "Sungani mpunga osapuntha mmatumba pamalo ouma odutsa mphepo a ukhondo komanso opanda tizirombo",
+                    "Thirani mankhwala a Actellic waufa pamlingo wa magalamu 40 ku mpunga osapuntha wolemera makilogaramu 75 kuti muthane ndi anankafumbwe"
+                  ]
+                }
+              ]
             }
           ],
           "description": "Cereals crops advisories such as Maize, rice, sorghum, and millet."
@@ -600,6 +851,128 @@
             }
           ],
           "description": "Oil and Seeds crops advisories such us sun flower "
+        },
+        {
+          "id": 4,
+          "image": "roots_and_tubers",
+          "name": "Mizizi ndi Mitengo ya Chakudya",
+          "description": "Zaulimi za Mizizi ndi Mitengo ya Chakudya monga Mbatata, Mbatata Yodya ndi Chinangwa.",
+          "products": [
+            {
+              "id": 1,
+              "image": "potato",
+              "name": "Mbatata",
+              "section": [
+                {
+                  "id": 1,
+                  "image": "potato_variety",
+                  "title": "Mitundu yoyenera",
+                  "audio": "",
+                  "content": [
+                    "i. Mitundu yokhucha msanga imacha masiku 90-110 monga: Rosita, thandizo, mpatsa, mtukulakhomo, kaso ndi ufulu",
+                    "ii. Mitundu yocha pakatikati imacha masiku 120 monga: mwayi, zikomo ndi violet",
+                    "iii. Mitundu yocha mochedwa imacha kupitilira masiku 120 monga: chuma",
+                    "Mitundu yovomerezeka ikuphatikizira: Rosita, Cardinal, Holland, Desiree, Pimpernel, Roslin Bvumbwe, Roslin Tsangano, Violet, Chuma, Thandizo, Njuli, Bembeke, Mwayi, Mpatsa, Kaso, Mtukulapakhomo, Ufulu ndi Lady Rosetta",
+                    "Mbeu imafunika makilogalamu 2000-3000 pa hekitala kutengera kukula kwa mbatata",
+                    "Zokolola zikufikira makilogalamu 15000-20000 pa hekitala"
+                  ]
+                },
+                {
+                  "id": 2,
+                  "image": "potato_climate",
+                  "title": "Nyengo yoyenerera",
+                  "audio": "",
+                  "content": [
+                    "Mbatata imafuna malo akudera la mapiri komanso nyengo yozizira ndi mvula yochuluka",
+                    "Alimi alimbikitsidwa kusankha mitundu ya mbatata potengera nthawi ya mvula ya dera lawo"
+                  ]
+                },
+                {
+                  "id": 3,
+                  "image": "potato_site",
+                  "title": "Kusankha malo olima",
+                  "audio": "",
+                  "content": [
+                    "Malo akhale ndi dothi lodutsa madzi, lozama, ndi lochuluka ndi zakudya za chilengedwe, ndi chinyezi cha pH 5.0 mpaka 6.5",
+                    "Pewani malo a miyala omwe amasokoneza kukula kwa mbatata",
+                    "Tilani dothi mozama ndi kuswa zigulumwa kuti dothi likhale loyanda",
+                    "Pangani mizere yotalikilana 75cm mpaka 90cm"
+                  ]
+                },
+                {
+                  "id": 4,
+                  "image": "potato_land",
+                  "title": "Kukonza malo obzala",
+                  "audio": "",
+                  "content": [
+                    "Onetsetsani kuti dothi lazungzika bwino musanabzale",
+                    "Thirani feteleza ndi manyowa monga momwe mulilimbikitsidwa m'mifatizo"
+                  ]
+                },
+                {
+                  "id": 5,
+                  "image": "potato_planting",
+                  "title": "Kabzalidwe kake",
+                  "audio": "",
+                  "content": [
+                    "Bzalani mbatata imodzi pa phando lililonse lotalikilana 30cm, ndi mizere yotalikilana 90cm pa ulimi wochitira chakudya",
+                    "Gwiritsani ntchito kutalikilana kwa 25cm pa mizere yotalikilana 75cm pa ulimi wa mbewu ya mbatata",
+                    "Bzalani mbatata yomwe yamera bwino",
+                    "Phimbani mbatata ndi dothi la 6 mpaka 10cm kutengera chinyezi cha dothi",
+                    "Pa dothi loyawa, bzalani mbatata mozama kwambiri",
+                    "Mbewu yabwino ya mbatata ilikutsika cha phanga la nkhuku ya m'mudzi"
+                  ]
+                },
+                {
+                  "id": 6,
+                  "image": "potato_fertilizer",
+                  "title": "Kathiridwe ka feteleza",
+                  "audio": "",
+                  "content": [
+                    "Pambuyo popanga mizere, pangani mifatizo pa msonga wa mizere, 15cm mozama. Thirani pakati pa matani 12.5 ndi 25 a compost kapena manyowa a khola pa hekitala",
+                    "Thirani makilogalamu 200 a D Compound pa hekitala mu mifatizo, ndikuphimba feteleza ndi manyowa ndi dothi la 5cm",
+                    "Masabata 3-4 pambuyo pa kumera, thirani feteleza wa wowaza wa CAN makilogalamu 150 pa hekitala (thirani 20g pa mita wa mzere pogwiritsa ntchito zikhale 5 za chitsekelero nambala 5)",
+                    "Feteleza wowaza athiridwe pambali pa mizere ya mbewu pa mzere ndikuundidwa ndi dothi"
+                  ]
+                },
+                {
+                  "id": 7,
+                  "image": "potato_weeding",
+                  "title": "Kupalira kapena kuzulira",
+                  "audio": "",
+                  "content": [
+                    "Mmunda wa mbatata upalirwe kawiri mu nyengo ya kulima",
+                    "Pamene mbewu ikukhudzana, tchire linalake lichotsedwe ndi manja",
+                    "Phimbirani mbatata zikukula kuti muzipewe tizilombo ta tuber-moth"
+                  ]
+                },
+                {
+                  "id": 8,
+                  "image": "potato_pest",
+                  "title": "Kuteteza ku tizilombo",
+                  "audio": "",
+                  "content": [
+                    "Nsabwe: Thirirani ndi Malathion 25WP kapena Dimethoate 20WP. Gwiritsani ntchito 14g mu madzi 14L pogwiritsa ntchito sprayer ya knapsack kapena 14g mu madzi 1L ya sprayer ya ULV",
+                    "Tuber moth: Phimbirani mbatata kuti muzipewe tizilombo. Thirirani Dipterex 50WP kapena Lebaycid 50WP pa chikhale chimodzi nambala 16 mu madzi 15L, kuyambira pamene mbewu ili 23cm, kuchitiranso nthawi zonse pa masiku 10-14",
+                    "Dunirani mbewu ya mbatata ndi sachete imodzi (40g) ya Pirimifos Methyl (Actellic) pa thumba la makilogalamu 90 la mbatata"
+                  ]
+                },
+                {
+                  "id": 9,
+                  "image": "potato_disease",
+                  "title": "Kuteteza ku matenda",
+                  "audio": "",
+                  "content": [
+                    "Matenda a Late Blight (Phytophthora infestans): Ndi matenda oopsa kwambiri a fangasi ku Malawi. Gwiritsani ntchito mitundu yopilira monga Rosita ndi Cardinal. Thirirani Mancozeb (Dithane M45-80WP) pa 20g mu madzi 10L",
+                    "Matenda a Early Blight (Alternaria solani): Matenda a fangasi omwe agwira masamba. Kubzala mbatata kunja kwa nyengo yoyamba ya mvula kumathandiza kupewa matendawa",
+                    "Bacterial Wilt (Ralstonia solanacearum): Ndi matenda oopsa kwambiri. Palibe mankhwala - gwiritsani ntchito ulimi wa kasinthasintha, malo opanda matenda ndi kuchotsa mbewu zogwidwa ndi matenda",
+                    "Vayirasi ya Mbatata YX ndi PLRV: Zimachepetsa zokolola mpaka 80-90%. Gwiritsani ntchito mbewu yabwino, mitundu yopilira ndi kuletsera nsabwe. Thirirani Cypermethrin, Deltamethrin kapena Dimethoate kuti muletsere nsabwe zobiriwira",
+                    "Nematodes: Tizilombo ta Root-knot nematodes awa akhoza kuletsedwa ndi ulimi wa kasinthasintha ndi mankhwala a nematicide monga Furadan"
+                  ]
+                }
+              ]
+            }
+          ]
         }
       ],
       "sectorimage": "maize1"

@@ -4,7 +4,7 @@
       "id": 1,
       "name": "Crops",
       "image": "crops_advisory",
-      "sectorimage":"maize1",
+      "sectorimage": "maize1",
       "categories": [
         {
           "id": 1,
@@ -140,6 +140,261 @@
                   ]
                 }
               ]
+            },
+            {
+              "id": 2,
+              "image": "sorghum",
+              "name": "Sorghum",
+              "section": [
+                {
+                  "id": 1,
+                  "image": "sorghum_variety",
+                  "title": "Choice of variety",
+                  "audio": "",
+                  "content": [
+                    "Options on Sorghum varieties suitable for specific zones - early maturing, medium maturing, drought tolerant, high yielding and disease tolerant: Pilira 1, Pilira 2, Pilira 3, Pilira 4, Pilira 5, Gwiramtima, Makolokoto, Sinakhomo, PN3, Summer T170, SC Sila, SC XH102, SCSVHYB017000, SCSVHYB017091"
+                  ]
+                },
+                {
+                  "id": 2,
+                  "image": "sorghum_site",
+                  "title": "Site selection and Soil Requirement",
+                  "audio": "",
+                  "content": [
+                    "Select well drained sandy loam soil for sorghum production"
+                  ]
+                },
+                {
+                  "id": 3,
+                  "image": "sorghum_land",
+                  "title": "Land preparation",
+                  "audio": "",
+                  "content": [
+                    "Prepare the land soon after harvesting when the soil is still moist",
+                    "Remove all weeds, shrubs and stumps",
+                    "Loosen the soil, break clods and smoothen out"
+                  ]
+                },
+                {
+                  "id": 4,
+                  "image": "sorghum_planting",
+                  "title": "Planting",
+                  "audio": "",
+                  "content": [
+                    "Plant with the first effective rains of 25mm or wetting to a soil depth of 15cm in order to take full advantage of the rainy season",
+                    "Plant 5 seeds per planting station spaced at 30cm apart while ridges should be spaced at 75cm apart",
+                    "Thin to 2 seedlings per station when plants are 15cm high",
+                    "The seed rate is 5kg per hectare"
+                  ]
+                },
+                {
+                  "id": 5,
+                  "image": "sorghum_fertilizer",
+                  "title": "Fertilizer Application",
+                  "audio": "",
+                  "content": [
+                    "Recommended fertiliser types: NPK and UREA",
+                    "Basal dressing: apply 6 grams (Cup no. 8) of NPK (23:10:5:6S+1Zn) per planting station (2 x 50kg bags of NPK per hectare)",
+                    "Top dressing: apply 2.5 grams of UREA (half full Cup no. 5) giving 1 x 50kg bag of UREA per hectare"
+                  ]
+                },
+                {
+                  "id": 6,
+                  "image": "sorghum_weeding",
+                  "title": "Weed control",
+                  "audio": "",
+                  "content": [
+                    "Timely weeding should be done during the first 6 to 8 weeks and should be followed by banking",
+                    "Hoe weeding is recommended depending on weed infestation levels",
+                    "Weeds can also be controlled by herbicide application"
+                  ]
+                },
+                {
+                  "id": 7,
+                  "image": "sorghum_birds",
+                  "title": "Bird Control",
+                  "audio": "",
+                  "content": [
+                    "Scare birds from the field until the crop reaches maturity"
+                  ]
+                },
+                {
+                  "id": 8,
+                  "image": "sorghum_disease",
+                  "title": "Diseases",
+                  "audio": "",
+                  "content": [
+                    "Sorghum is generally resistant to severe diseases with improved varieties",
+                    "Leaf Blight (Helminthosporium turcicum): Occurs late in the season but typically after grain formation in resistant varieties",
+                    "Downy Mildew (Sclerospora sorghi) and Sooty Stripe (Ramulispora sorghi): Controlled by timely sowing and using resistant varieties like Pilira 1 and 2",
+                    "Grain Moulds (Fusarium spp and Culvularia spp): Occur due to delayed harvesting, especially in areas with continuous rainfall. Harvesting at physiological maturity is essential to prevent these fungal infections",
+                    "Farmers should adopt improved cultural practices, monitor crops regularly, and apply recommended treatments to maintain productivity"
+                  ]
+                },
+                {
+                  "id": 9,
+                  "image": "sorghum_pest",
+                  "title": "Pests",
+                  "audio": "",
+                  "content": [
+                    "Main pests for sorghum are the Shoot Fly (Atherigona soccata), Stem Borer (Chilo partellus) and Fall Armyworm (Spodoptera frugiperda)",
+                    "Shoot Fly: Controlled by planting treated seeds using Gaucho, which systemically protects against these pests",
+                    "Stem Borer: Often affects late-planted crops and can be managed through early planting. Application of Ecoterex 0.5 GR at 0.1g per plant whorl is recommended",
+                    "Fall Armyworm: Controlled by early planting, field hygiene practices; botanical and chemical control must be a last option"
+                  ]
+                },
+                {
+                  "id": 10,
+                  "image": "sorghum_harvest",
+                  "title": "Harvest and Post-Harvest",
+                  "audio": "",
+                  "content": [
+                    "Harvesting should be done as soon as the crop has reached physiological maturity, typically three months after planting",
+                    "At this stage, the grain has 25% to 30% moisture content and forms a black layer at the hilum region",
+                    "Timely harvesting minimizes issues like weevil attacks, bird damage, and grain shattering in the field",
+                    "After harvesting, dried heads should be cut and stored in bags",
+                    "Threshing can be done by beating the bags to loosen the grains from the heads"
+                  ]
+                },
+                {
+                  "id": 11,
+                  "image": "sorghum_storage",
+                  "title": "Storage",
+                  "audio": "",
+                  "content": [
+                    "The grain should be dried to approximately 12.5% moisture content before storage",
+                    "Storage can be done in dry and clean structures such as bags or traditional cribs (nkhokwe)",
+                    "Before storing grain in cribs, clean the structure thoroughly and treat it with Actellic Super or Super Grain Dust (one sachet of 40g per square meter) to prevent pest infestations",
+                    "Treat grains with Actellic Super Grain Dust or Wivokill Super Dust at 25g per 50kg bag of sorghum"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 3,
+              "image": "rice",
+              "name": "Rice",
+              "section": [
+                {
+                  "id": 1,
+                  "image": "rice_variety",
+                  "title": "Choice of variety",
+                  "audio": "",
+                  "content": [
+                    "Rain fed varieties: Faya, Kilombero, Makafaci, Kayanjamalo, Nazolo, Wambone, Lifuwu, Nerica 4, Kameme, Katete, Mpheta, Kudya, Kuwemi, Kulinga and Mthetsanjala",
+                    "Irrigated varieties: Senga, Changu, Pusa 33, Mtupatupa, Vyawo, Makafaci, Wachangu, Kudya, Kuwemi, Kulinga, Mpasa, Mthetsanjala"
+                  ]
+                },
+                {
+                  "id": 2,
+                  "image": "rice_nursery",
+                  "title": "Nursery Establishment",
+                  "audio": "",
+                  "content": [
+                    "Select sandy loam well drained soil for nursery establishment",
+                    "For normal to above normal rainfall: select dambo area with clay loam soils",
+                    "Plough/till the land, break the clods, and level the seedbed",
+                    "The nursery bed should be 1m wide, 20m length and 5cm high",
+                    "Twenty such seed beds will produce enough seedlings for one hectare"
+                  ]
+                },
+                {
+                  "id": 3,
+                  "image": "rice_site",
+                  "title": "Site selection and Soil Requirement",
+                  "audio": "",
+                  "content": [
+                    "Prepare the land soon after harvesting when the soil is still moist",
+                    "This should be followed by the breaking of the clods, levelling, bunding and puddling"
+                  ]
+                },
+                {
+                  "id": 4,
+                  "image": "rice_land",
+                  "title": "Land preparation",
+                  "audio": "",
+                  "content": [
+                    "Plough or till the land soon after harvesting when the soil is still moist",
+                    "This should be followed by breaking of clods, levelling, bunding and puddling"
+                  ]
+                },
+                {
+                  "id": 5,
+                  "image": "rice_planting",
+                  "title": "Cropping Systems and Time of Planting",
+                  "audio": "",
+                  "content": [
+                    "Sustainable Rice Intensification (SRI): Transplant one seedling per station at 10cm apart",
+                    "Normal: three plants per station at 15cm apart",
+                    "Rainfed rice should be transplanted in December to January; irrigated rice from mid-July to August",
+                    "Seedlings should be transplanted after 10 days of emergence"
+                  ]
+                },
+                {
+                  "id": 6,
+                  "image": "rice_fertilizer",
+                  "title": "Fertilizer Application",
+                  "audio": "",
+                  "content": [
+                    "Basal Dressing: 120kg of 23:10:5:6S+1Zn per hectare",
+                    "Top Dressing: UREA or Sulphate of Ammonia at 43kg per hectare, applied 35 to 40 days after basal dressing using broadcast method"
+                  ]
+                },
+                {
+                  "id": 7,
+                  "image": "rice_weeding",
+                  "title": "Weed control",
+                  "audio": "",
+                  "content": [
+                    "Weeding should be done regularly in rice fields when weeds appear",
+                    "Hand weeding is recommended after two weeks, then four and six weeks after rice transplanting"
+                  ]
+                },
+                {
+                  "id": 8,
+                  "image": "rice_disease",
+                  "title": "Rice diseases",
+                  "audio": "",
+                  "content": [
+                    "Diseases of rice include Leaf Blast, Brown Spot, and Yellow Mottle Virus",
+                    "Prevention includes burning rice straw, following modern rice farming practices, using approved seed varieties, and planting at the right time"
+                  ]
+                },
+                {
+                  "id": 9,
+                  "image": "rice_pest",
+                  "title": "Rice pests",
+                  "audio": "",
+                  "content": [
+                    "Pests of rice include weeds, birds, mice, green grasshoppers, shoot fly, and armyworm",
+                    "Chemical control using approved pesticides such as Carbaryl or Labycide is recommended where pest pressure is high"
+                  ]
+                },
+                {
+                  "id": 10,
+                  "image": "rice_harvest",
+                  "title": "Harvesting",
+                  "audio": "",
+                  "content": [
+                    "Paddy is ready for harvesting when grains in the panicles are golden brown",
+                    "Drain water from the field 7 to 10 days before harvesting so the field is dry",
+                    "Cut rice at 5 to 10cm above the ground using sickles and thresh the same day",
+                    "Clean the threshed rice to remove all impurities"
+                  ]
+                },
+                {
+                  "id": 11,
+                  "image": "rice_storage",
+                  "title": "Storage",
+                  "audio": "",
+                  "content": [
+                    "Dry rice by spreading it on a mat for two sunny days to achieve 14% moisture content which is safe for storage",
+                    "Store well-dried paddy in moisture-proof, well-aerated structures and guard against insects and rodents",
+                    "Dust with Actellic Super (Bifelthrin) and Super Grain Dust at the rate of one sachet (40g) per 75kg bag of paddy to control Rice Weevil (Sitophilus oryzae)",
+                    "Use rat guards to protect against rodents"
+                  ]
+                }
+              ]
             }
           ]
         },
@@ -155,7 +410,7 @@
               "name": "Groundnuts",
               "section": [
                 {
-                  "id": 1, 
+                  "id": 1,
                   "image": "groundseed",
                   "title": "Choice of variety",
                   "audio": "",
@@ -604,6 +859,129 @@
               ]
             }
           ]
+        },
+        {
+          "id": 4,
+          "image": "roots_and_tubers",
+          "name": "Roots and Tubers",
+          "description": "Roots and Tubers crops advisories such as Potato, sweet potato and cassava.",
+          "products": [
+            {
+              "id": 1,
+              "image": "potato",
+              "name": "Potato",
+              "section": [
+                {
+                  "id": 1,
+                  "image": "potato_variety",
+                  "title": "Recommended varieties",
+                  "audio": "",
+                  "content": [
+                    "Potato varieties are categorized based on their use: Ware potato for food and Seed potato for seed multiplication",
+                    "Early maturing varieties (90-110 days): Rosita, Thandizo, Mpatsa, Mtukulakhomo, Kaso and Ufulu",
+                    "Medium maturing varieties (up to 120 days): Mwayi, Zikomo and Violet",
+                    "Late maturing varieties (over 120 days): Chuma",
+                    "Recommended varieties include: Rosita, Cardinal, Holland, Desiree, Pimpernel, Roslin Bvumbwe, Roslin Tsangano, Violet, Chuma, Thandizo, Njuli, Bembeke, Mwayi, Mpatsa, Kaso, Mtukulapakhomo, Ufulu and Lady Rosetta",
+                    "Seed rate ranges from 2000-3000kg/ha depending on size of potatoes",
+                    "Potential yield is 15,000kg-20,000kg per hectare"
+                  ]
+                },
+                {
+                  "id": 2,
+                  "image": "potato_climate",
+                  "title": "Climatic Requirement",
+                  "audio": "",
+                  "content": [
+                    "Potato requires a high-altitude area with cool climate and adequate rainfall",
+                    "Farmers are advised to choose varieties taking into consideration the rainfall duration period of their area"
+                  ]
+                },
+                {
+                  "id": 3,
+                  "image": "potato_site",
+                  "title": "Site selection and Soil Requirement",
+                  "audio": "",
+                  "content": [
+                    "Soils should be free draining, deep, and rich in organic matter with soil acidity of pH 5.0 to 6.5",
+                    "Avoid rocky soils which deform developing tubers",
+                    "Plough deeply and break soil clods to make fine tilth",
+                    "Make ridges between 75cm to 90cm apart"
+                  ]
+                },
+                {
+                  "id": 4,
+                  "image": "potato_land",
+                  "title": "Land preparation",
+                  "audio": "",
+                  "content": [
+                    "Make sure the soil is loosened up before planting",
+                    "Apply fertilizer and manure as recommended in the furrows"
+                  ]
+                },
+                {
+                  "id": 5,
+                  "image": "potato_planting",
+                  "title": "Planting",
+                  "audio": "",
+                  "content": [
+                    "Plant 1 tuber at 30cm apart, with ridges at 90cm apart for table (food) production",
+                    "Use 25cm plant spacing, with ridges at 75cm apart for seed potato production",
+                    "Plant well sprouted tubers",
+                    "Cover tubers with about 6 to 10cm of soil depending on soil moisture",
+                    "In dry soil, seed tubers should be planted deeper",
+                    "Good potato seed is a local chicken egg size"
+                  ]
+                },
+                {
+                  "id": 6,
+                  "image": "potato_fertilizer",
+                  "title": "Fertilizer Application",
+                  "audio": "",
+                  "content": [
+                    "After ridging make grooves on top of ridges 15cm deep. Apply between 12.5 and 25 tonnes of compost or khola manure per hectare",
+                    "Apply 200kg of D Compound per hectare in the grooves, then cover with about 5cm of soil",
+                    "3-4 weeks after emergence, top dress with 150kg of CAN per hectare (apply 20g per meter of ridge length using 5 cupfuls of cup number 5)",
+                    "Top dressing is done by applying the fertilizer along the plant rows on the ridge and working it into the soil"
+                  ]
+                },
+                {
+                  "id": 7,
+                  "image": "potato_weeding",
+                  "title": "Weed control",
+                  "audio": "",
+                  "content": [
+                    "A potato field should be weeded twice during the growing season",
+                    "When the crop is crowding, occasional weeds should be uprooted by hand",
+                    "Earth up to cover developing tubers to prevent tuber-moth infestation"
+                  ]
+                },
+                {
+                  "id": 8,
+                  "image": "potato_pest",
+                  "title": "Insect Pest Control",
+                  "audio": "",
+                  "content": [
+                    "Aphids: Spray with Malathion 25WP or Dimethoate 20WP. Apply 14g in 14L of water for knapsack sprayer or 14g in 1L for ULV sprayer",
+                    "Tuber moth: Earth up to avoid infestation. Chemical control using Dipterex 50WP or Lebaycid 50WP at one fertiliser cup number 16 per 15L of water, starting when plants are 23cm high, repeated every 10-14 days",
+                    "Dust stored seed tubers with 1 sachet (40g) of Pirimifos Methyl (Actellic) per 90kg sack of potatoes"
+                  ]
+                },
+                {
+                  "id": 9,
+                  "image": "potato_disease",
+                  "title": "Disease Control",
+                  "audio": "",
+                  "content": [
+                    "Late Blight (Phytophthora infestans): The most serious fungal disease. Use resistant varieties like Rosita and Cardinal. Spray with Mancozeb (Dithane M45-80WP) at 20g per 10L of water",
+                    "Early Blight (Alternaria solani): Fungal disease attacking foliage. Planting out of the main early rain season helps prevent it",
+                    "Bacterial Wilt (Ralstonia solanacearum): Very destructive. No chemical control - use crop rotation, disease-free fields and rogue out diseased plants",
+                    "Potato Viruses YX and PLRV: Cause yield losses of 80-90%. Use clean seed, tolerant varieties and control aphid populations. Apply Cypermethrin, Deltamethrin or Dimethoate to control green peach aphids",
+                    "Nematodes: Root-knot nematodes controlled through crop rotation and chemical nematicides such as Furadan"
+                  ]
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -611,9 +989,8 @@
       "id": 2,
       "image": "animal_advisory",
       "name": "Livestock",
-      "sectorimage":"animal1",
+      "sectorimage": "animal1",
       "categories": [
-
         {
           "id": 1,
           "image": "cattle",
@@ -634,7 +1011,6 @@
                     "Use durable and locally available materials like bluegum, bamboo, grass",
                     "Make a concrete floor to ease cleaning",
                     "Construct a the house, 2.1m wide, 2.1m long and 2.4m high. This will occupy 1 cattle."
-
                   ]
                 },
                 {
@@ -644,7 +1020,6 @@
                   "audio": "enBeef_02",
                   "content": [
                     "Malawian Zebu, Brahman and their crosses"
-
                   ]
                 },
                 {
@@ -653,11 +1028,9 @@
                   "title": "Types of production systems",
                   "audio": "enBeef_03",
                   "content": [
-
                     "Beef production is categorised based on feeding system. There is extensive feeding system and intensive feeding system.",
                     "Extensive system: This is where by animals are left to graze either in free range or on a ranch",
                     "Intensive system: this is where animals are fed specially formulated feed between 50 to 150 days to attain slaughter weight"
-
                   ]
                 },
                 {
@@ -666,13 +1039,11 @@
                   "title": "How to feed beef cattle",
                   "audio": "enBeef_04",
                   "content": [
-
                     "Ensure that animals should graze for at least 8 hours during the dry season and 5hours during the rainy season.",
                     "Treat crop residues with mollasses or salt water before giving to animals to aid in digestion",
                     "Provide clean water",
                     "Provide supplement feed to your animals.Animals should be supplimented with 4-5kg of maize bran per animal per day to improve nutrition of the animal",
                     " farmers should also grow pasture and fodder crops to preserve for future use"
-
                   ]
                 },
                 {
@@ -681,12 +1052,11 @@
                   "title": "Breeding qualities for beef production",
                   "audio": "enBeef_05",
                   "content": [
-                   "Bulls must be of high growthrate and well developed body, chosen from high productive cows, not too fat or too thin,disease free. ",
+                    "Bulls must be of high growthrate and well developed body, chosen from high productive cows, not too fat or too thin,disease free. ",
                     "Cows must be selected from cows that calve down every year, has normal udder with 4 teats, high weaning weights, calving ease, disease free",
                     "Recommended ratio is 1bull:30-40cows",
                     "Heifers should be bred before cows",
                     "Animals should be bred from january to march so that there is plenty food when they calf-down around december"
-
                   ]
                 },
                 {
@@ -695,11 +1065,9 @@
                   "title": "Birthing management practices",
                   "audio": "enBeef_06",
                   "content": [
-
                     "Separate pregnant cows from the rest a week before giving birth to provide timely care.",
                     "Signs that the cow is going into labour include dropping of breasts, increased mucous discharge, lack of appetite, restlessness",
                     "Cut the umbilical cord with the help of the veterinary officer. Put some iodine to speed up healing of the wound as well as prevent germ infestation"
-
                   ]
                 },
                 {
@@ -708,14 +1076,12 @@
                   "title": "Proper management of calves",
                   "audio": "enBeef_07",
                   "content": [
-
                     "Clean nostrils and mouth which helps the calf breathe better and help prevent future breathing problems. Allow the mother to lick the calf clean which promotes circulation within the calf's body and prepares the calf to stand up and walk.",
                     "Consult a verterinary officer is lameness is observed in a calf",
                     "Allow the calf to suckle frequently for the first 4 four days",
                     "Calves can be weaned at 6-8months and be put on high quality roughage",
                     "Calves should be regulary dewormed and supplement them with concentrates and minerals",
                     "Young males not needed for breeding should be castrated"
-
                   ]
                 },
                 {
@@ -724,13 +1090,10 @@
                   "title": "Disease control in beef production",
                   "audio": "enBeef_08",
                   "content": [
-
                     "Beef cattle is prone to many diseass of economic importance",
                     "Some of the diseases include heartwater,lumpy skin, foot and mouth disease, babesiosis, anaplasmosis and many more",
                     "Consult the nearest Verterinary Officer of any disease that occurs within your farm for quick treatment",
                     "Follow all the control guidelines for different diseases to keep the animals vibrant and healthy"
-
-
                   ]
                 },
                 {
@@ -739,11 +1102,8 @@
                   "title": "Parasites(External parasites",
                   "audio": "enBeef_09",
                   "content": [
-
                     "Ticks cause tickborne diseases that reduce yield of milk",
                     "Apply acaricides"
-
-
                   ]
                 },
                 {
@@ -752,10 +1112,8 @@
                   "title": "Parasited(Internal parasites)",
                   "audio": "enBeef_10",
                   "content": [
-
                     "Signs include diarrhoea, swollen belly, anemia. ",
                     "Routine deworming at the start and end of rainy season, change razingland every 3-4weeks, practice good hygiene"
-
                   ]
                 },
                 {
@@ -764,12 +1122,10 @@
                   "title": "Things to consider when marketing beef",
                   "audio": "enBeef_11",
                   "content": [
-
                     "Weigh about 350kg for small breeds and 500kg for large breeds",
                     "Carry out a market research for beef to find the best offers",
                     "Sell animals collectively to attain much bargaining power",
                     "Commercial markets require constant supply of products, therefore, aggregate marketing can help attain the required amounts"
-
                   ]
                 },
                 {
@@ -796,7 +1152,6 @@
                   "title": "How to construct cattle housing",
                   "audio": "enDairy_1",
                   "content": [
-
                     "Use durable and locally available materials like bluegum, bamboo, grass",
                     "Make a concrete floor to ease cleaning",
                     "Construct a the house, 3.7m wide, 6.1m long and 2.4m high. This will occupy 2 cattle."
@@ -812,7 +1167,6 @@
                     "2. Holstein Friesian",
                     "3. Ayrshire",
                     "4. Jersey, Guernsey"
-
                   ]
                 },
                 {
@@ -839,7 +1193,6 @@
                     "Use Artificial Insemination to improve milk yielding capacity of the calf",
                     "Consult a verterinary officer to help in identifying the best cow for breeding during the natural mating process",
                     "Herifers should be mated when they are 18months old, and weighing 300kg for Friesian or Holstein breeds, and 230Kg for Jerseys breed"
-
                   ]
                 },
                 {
@@ -853,7 +1206,6 @@
                     "Mating should be done at the first 6hours of heat signs",
                     "Do not use cows that have just delivered/given birth to allow it to recover. Such an animal can be mated at the second time of showing the heat, usually after 2 to 3 months.",
                     "A cow must give birth every year"
-
                   ]
                 },
                 {
@@ -862,13 +1214,11 @@
                   "title": "Birthing management practices",
                   "audio": "enDairy_06",
                   "content": [
-                   "Stop milking the cow at 7months. Provide the cow with 2 to 4kg of highly nutritious feed that is rich in carbohydrates",
+                    "Stop milking the cow at 7months. Provide the cow with 2 to 4kg of highly nutritious feed that is rich in carbohydrates",
                     "Separate pregnant cows from the rest a week before giving birth to provide timely care.",
                     "Signs that the cow is going into labour include dropping of breasts, increased mucous discharge, lack of appetite, restlessness",
                     "Cut the umbilical cord with the help of the veterinary officer. Put some iodine to speed up heling of the wound as well as prevent germ infestation",
                     "Let the calf suckle within the first 24hours to get the colostrum for vibrant growth nd health"
-
-
                   ]
                 },
                 {
@@ -883,7 +1233,6 @@
                     "Calves should be introduced to grasses in the third week to help their rumen develop",
                     "Calves can be weaned off at 3months old",
                     "Dehorn/disbud the calves at 2 to 3month old to reduce injuries, ease handling and maximise feeding space"
-
                   ]
                 },
                 {
@@ -893,7 +1242,6 @@
                   "audio": "enDairy_08",
                   "content": [
                     ""
-
                   ]
                 },
                 {
@@ -949,9 +1297,10 @@
                   "title": "construct a standard chicken house",
                   "audio": "enBeef_01",
                   "content": [
-                    "choose a site  which is protected from thieves and predators","Construct the kraal according to number of birds you want to keep, for instance, 15 birds require 2m by 2m space.","use grass or iron sheet to thatch your roof to keep the house dry",
+                    "choose a site  which is protected from thieves and predators",
+                    "Construct the kraal according to number of birds you want to keep, for instance, 15 birds require 2m by 2m space.",
+                    "use grass or iron sheet to thatch your roof to keep the house dry",
                     "use locally available materials to construct kraal"
-
                   ]
                 },
                 {
@@ -960,8 +1309,9 @@
                   "title": "How to manage a chicken house",
                   "audio": "enBeef_02",
                   "content": [
-                    "Provide necessary bedding for the chickens like wood shavings, rice husks. Make sure to change whenever necessary to improve cleanliness","Prepare a comfortable nesting place for your chickens ","Ensure that you observe cleanliness at all times to prevent disease infestation"
-
+                    "Provide necessary bedding for the chickens like wood shavings, rice husks. Make sure to change whenever necessary to improve cleanliness",
+                    "Prepare a comfortable nesting place for your chickens ",
+                    "Ensure that you observe cleanliness at all times to prevent disease infestation"
                   ]
                 },
                 {
@@ -970,11 +1320,9 @@
                   "title": "How to breed chickens",
                   "audio": "enBeef_03",
                   "content": [
-
                     "Choose breeds that have good qualities like high growthrate ith good mothering abilities",
                     "Crossbreed local chickens with Black Australorp to improve traits like fast growing, high egg production, high meat production",
                     "Ratio of cock to hen should be 1:10. The cock must be changed after every 2years"
-
                   ]
                 },
                 {
@@ -983,12 +1331,9 @@
                   "title": "How to care for eggs",
                   "audio": "enBeef_04",
                   "content": [
-
                     "Eggs must be  kept in a clean and dry place with the pointed tip downwards",
                     "Eggs must be incubated within 10 days of being laid, because hatchability decreases rapidly when eggs are stored for more than 10 days",
                     "You may use incubators to hatch eggs"
-                    
-
                   ]
                 },
                 {
@@ -997,12 +1342,11 @@
                   "title": "How to feed local chickens",
                   "audio": "enBeef_05",
                   "content": [
-                   "Local chickens can be kept at a free range or intensively",
-                   "Inorder to improve the nutriotion of free range local chickens, farmers must give supplement feed like maize bran, maize, left overs, vegetables",
-                   "Chickens must also be supplemented with eggshells to improve shell strength",
-                   "chicks up to 6weeks must be intensively fed in a kraal to best control diseases, predators and monitor growth. "
-                   ,"Provide clean and adequate water at all times"
-                    
+                    "Local chickens can be kept at a free range or intensively",
+                    "Inorder to improve the nutriotion of free range local chickens, farmers must give supplement feed like maize bran, maize, left overs, vegetables",
+                    "Chickens must also be supplemented with eggshells to improve shell strength",
+                    "chicks up to 6weeks must be intensively fed in a kraal to best control diseases, predators and monitor growth. ",
+                    "Provide clean and adequate water at all times"
                   ]
                 },
                 {
@@ -1011,7 +1355,6 @@
                   "title": "How to formulate feed for chickens",
                   "audio": "enBeef_06",
                   "content": [
-
                     "Weigh two parts of maizebran or maize flour",
                     "Mix with one part of roasted soybean flour",
                     "Add some salt"
@@ -1023,10 +1366,9 @@
                   "title": "Parasites",
                   "audio": "enBeef_07",
                   "content": [
-
                     "External Parasites - Mites and Flees : Apply Chemicals like Actellic and Akheri powder  in the Khola and on the chickens",
                     "Internal Parasites - Worms : Deworm chickens at week 18, week 21, week 41 and after  every 6 month "
-                    ]
+                  ]
                 },
                 {
                   "id": 8,
@@ -1034,15 +1376,12 @@
                   "title": "Diseases",
                   "audio": "enBeef_08",
                   "content": [
-
-                    "Gumboro  -  Transmission: Transimitted through contact with infected chickens or contaminated surfaces; aerols, dust, movement of live infected  birds or carcases, droppings and contaminated utensils. Causative organism: Virus Symptoms: Depression, stop eating and drink excessively, sit back on the cloaca, yellowish diarrhoea, death after few days. Prevention: Good feed and khola hygeine, disinfect the house  between batches of birds with 4% formalin solution. Vaccinate the floack at day 10 and day 21 of age. Do not mix new or young batch  with old batch, farmers should not visit or buy other people's sick birds. Treatment:  No treatment "
-                    ,"Newcastle - Cause: Caused by a virus Symptoms: Egg production drops or stps completely, incoordination, neck twisting, inability to stand, Green diarrhoea, high mortality. Snuffles, flothy air sacs, decreased feed conversion efficiency. Prevention: Good feed and khola hygein, disinfect the house  between batches of birds with 4% formalin solution. Vaccinate the floack at day 16, day 28 of age and then every 3 months. Do not mix new or young batch  with old batch, farmers should not visit or buy other people's sick birds. Treatment: There is no treatment. Consult your nearest veterinary officers. "
-                    ,"Coccidiosis - Cause: Caused by a Protozoa called coccidia Symptoms: Weight loss, paleness, blood in droppings, diarrhoea and ruffled feathers. Prevention: Keep litter dry, add coccidiostat in feed, don’t mix birds of different ages, clean and disinfect house at the end of the batch of birds. Treatment:  Admister Amprolium to chicckens",
+                    "Gumboro  -  Transmission: Transimitted through contact with infected chickens or contaminated surfaces; aerols, dust, movement of live infected  birds or carcases, droppings and contaminated utensils. Causative organism: Virus Symptoms: Depression, stop eating and drink excessively, sit back on the cloaca, yellowish diarrhoea, death after few days. Prevention: Good feed and khola hygeine, disinfect the house  between batches of birds with 4% formalin solution. Vaccinate the floack at day 10 and day 21 of age. Do not mix new or young batch  with old batch, farmers should not visit or buy other people's sick birds. Treatment:  No treatment ",
+                    "Newcastle - Cause: Caused by a virus Symptoms: Egg production drops or stps completely, incoordination, neck twisting, inability to stand, Green diarrhoea, high mortality. Snuffles, flothy air sacs, decreased feed conversion efficiency. Prevention: Good feed and khola hygein, disinfect the house  between batches of birds with 4% formalin solution. Vaccinate the floack at day 16, day 28 of age and then every 3 months. Do not mix new or young batch  with old batch, farmers should not visit or buy other people's sick birds. Treatment: There is no treatment. Consult your nearest veterinary officers. ",
+                    "Coccidiosis - Cause: Caused by a Protozoa called coccidia Symptoms: Weight loss, paleness, blood in droppings, diarrhoea and ruffled feathers. Prevention: Keep litter dry, add coccidiostat in feed, don’t mix birds of different ages, clean and disinfect house at the end of the batch of birds. Treatment:  Admister Amprolium to chicckens",
                     "Infectious coryza - Cause: Caused by bacteria Symtoms: Fascial swellings, purulent ocular and nasal discharge, swollen wattles, sneezing and dyspnoea, loss of condition and loss of appetite. Prevention: Practicing all in, all out system Treatment: Administer Antibiotics eg Streptomycin ",
                     "Fowel Cholera - Cause: Caused by bacteria Symtoms: in acute form; death of many birds without showing signs, mortality increses rapidly, depresssion, anorexia, mucus discharge from  the  mouth, ruffled feathers, diarrhoea, increased resparatory rate. In Chronic form; lesions on sternal bursal, wattles, joints, tendon shealth and foot pads which are normally swollen. suprative lesions involving resparatory tract, the conjactiva and caseous arthritis. Prevention: Good management practices, High level of biosecurity. Rodents, wild animals and birds which are carriers of the bacteria must be excluded from poultry houses. Treatment: Administer Antibiotics eg Sulfonamides, Triple Sulfer ",
                     "Fowl pox - Cause: Caused by virus Symtoms: start as small white lumps whch grow rapidly and turn brown on comb.face and wattles which become scabby after 2-3 weeks.   Egg production is reduced. Prevention: Vaccinate with poxine, apply Actellic dust in the Khola and on the birds. Treatment: No treatment but report to veterinary "
-                 
-
                   ]
                 },
                 {
@@ -1051,14 +1390,11 @@
                   "title": "General management of local chickens",
                   "audio": "enBeef_09",
                   "content": [
-
                     "Follow proper management and feeding procedures ",
-                    "Vaccinate chickes with Lasota every 1-2 months to control newcastle disease "
-                    ,"Deworm chickens towards and during the rainy season",
+                    "Vaccinate chickes with Lasota every 1-2 months to control newcastle disease ",
+                    "Deworm chickens towards and during the rainy season",
                     "Burn or burry all infected chickens to control the spread of the disease",
                     "oberve and treat chickens for any signs of disease infestation. Consult verterinary officer or shop for proper medication "
-
-
                   ]
                 },
                 {
@@ -1067,10 +1403,8 @@
                   "title": "Marketing local chickens",
                   "audio": "enBeef_10",
                   "content": [
-
                     "Local chickens can be sold as chicks, point of lays and mature chickens ",
                     "They can be sold both locally and internationally to countries like Burundi and South Africa where ther is high demand for local eggs"
-
                   ]
                 }
               ]
@@ -1103,7 +1437,7 @@
                   "id": 3,
                   "image": "local_chicken",
                   "title": "Feeds, supplies, equipment & inputs",
-                  "audio": "",
+                  "audio": "  ",
                   "content": [
                     "Identify reliable sources of feed, vaccines, medicines, and other inputs before starting."
                   ]
@@ -1483,7 +1817,6 @@
                     "- Meat breeds - Indiginous and Boer",
                     "- Dairy Breed - Saanen",
                     "- Dual purpose - Alpine"
-
                   ]
                 },
                 {
@@ -1492,12 +1825,10 @@
                   "title": "When to breed goats",
                   "audio": "enBeef_02",
                   "content": [
-                    
                     "Goatsare to be bred at the onset of rain season and at the end of rain season so that kidding is done when feed is adequately available",
-                    "a dow reaches maturity age at 5-6 months but should be served at age of 10-12 months", 
-                    "a buck reaches maturity age in 4-5 months and active to met at 6-9 Months. " ,
+                    "a dow reaches maturity age at 5-6 months but should be served at age of 10-12 months",
+                    "a buck reaches maturity age in 4-5 months and active to met at 6-9 Months. ",
                     "Heat signs in female goats include bleating continuously, mounting others, produces clear mucous,  urinating frequently, low appetite and frequently twists the tail."
-            
                   ]
                 },
                 {
@@ -1506,12 +1837,9 @@
                   "title": "How to feed goats",
                   "audio": "enBeef_03",
                   "content": [
-
                     "There are three types of feed for goats:  Pastures: Legumes and grasses 2. Conserved feeds: Crop residues, Hay and silage 3. Concetrates: rice and maize bran and feed rations ",
                     "Goats prefer legumes and these have medicinal value",
                     "Goats must be given supplemental feed to balnce up the nutrition of the feed"
-
-
                   ]
                 },
                 {
@@ -1520,9 +1848,7 @@
                   "title": "Feeding systems",
                   "audio": "enBeef_04",
                   "content": [
-
-                  "  Feeding methods 1. Free range 2. Herding 3. Tethering "                    
-
+                    "  Feeding methods 1. Free range 2. Herding 3. Tethering "
                   ]
                 },
                 {
@@ -1531,8 +1857,7 @@
                   "title": "Parasites",
                   "audio": "enBeef_05",
                   "content": [
-                   
-                   "External Parasites control-Apply acaricides following guidelines as spciefied by the manufacturer",
+                    "External Parasites control-Apply acaricides following guidelines as spciefied by the manufacturer",
                     "Internal parasite control : Deworm goats at on-set of rains and at end of rain season. Esure practicing rotational grazing "
                   ]
                 },
@@ -1542,12 +1867,10 @@
                   "title": "Diseases Control ",
                   "audio": "enBeef_06",
                   "content": [
-
-                   " Goats are prone to some diseass of economic importance",
-"Some of the diseases include heartwater,goat plague and foot rot",
-"Consult the nearest Verterinary Officer of any disease that occurs within your farm for quick treatment",
-"follow all the control guidelines for different diseases to keep the animals vibrant and healthy"
-
+                    " Goats are prone to some diseass of economic importance",
+                    "Some of the diseases include heartwater,goat plague and foot rot",
+                    "Consult the nearest Verterinary Officer of any disease that occurs within your farm for quick treatment",
+                    "follow all the control guidelines for different diseases to keep the animals vibrant and healthy"
                   ]
                 },
                 {
@@ -1556,14 +1879,10 @@
                   "title": "Things to consider when marketing goats",
                   "audio": "enBeef_07",
                   "content": [
-
-                   " Carry out a market research for goats to find the best offers",
-"Sell animals collectively to attain much bargaining power",
-"Commercial markets require constant supply of products, therefore, aggregate marketing can help attain the required amounts"
-
-
-
-                    ]
+                    " Carry out a market research for goats to find the best offers",
+                    "Sell animals collectively to attain much bargaining power",
+                    "Commercial markets require constant supply of products, therefore, aggregate marketing can help attain the required amounts"
+                  ]
                 }
               ]
             }
@@ -1587,10 +1906,9 @@
                   "audio": "enBeef_01",
                   "content": [
                     "Pig house should have a living and exercise yard, double fenced wall with a concrete floor",
- "A parent requires 2m by 2m space",
-"Spacing for one piglet should be 1m by 0.5m",
-"The total length of the pig house will be determined by the total number of pigs available"
-
+                    "A parent requires 2m by 2m space",
+                    "Spacing for one piglet should be 1m by 0.5m",
+                    "The total length of the pig house will be determined by the total number of pigs available"
                   ]
                 },
                 {
@@ -1599,12 +1917,10 @@
                   "title": "Types of breeds",
                   "audio": "enBeef_02",
                   "content": [
-                    
                     "Indigenous pigs, Large white, Landrace and Trista",
-"Large white",
-"Landrace",
-"Trista"
-
+                    "Large white",
+                    "Landrace",
+                    "Trista"
                   ]
                 },
                 {
@@ -1613,10 +1929,9 @@
                   "title": "Breeding",
                   "audio": "enBeef_03",
                   "content": [
-
-           "Considerations when selecting breeding stock : Healthy and fast growing, well developed sexual organs,those with fast growing traits, not selected from the same parental source",
-           "When to breed pigs : Pigs can be bred at any season of the year hence it is important that farmers identify sows on heat ",
-           "Heat detection : Sows on heat can be identified when they show the following signs: Restlessness, lack of appetite, swelling and reddening of the vulva and clear mucus discharge, when the pig is pressed hard with the hands on either side of the back she will stand still showing she is ready to accept the male " 
+                    "Considerations when selecting breeding stock : Healthy and fast growing, well developed sexual organs,those with fast growing traits, not selected from the same parental source",
+                    "When to breed pigs : Pigs can be bred at any season of the year hence it is important that farmers identify sows on heat ",
+                    "Heat detection : Sows on heat can be identified when they show the following signs: Restlessness, lack of appetite, swelling and reddening of the vulva and clear mucus discharge, when the pig is pressed hard with the hands on either side of the back she will stand still showing she is ready to accept the male "
                   ]
                 },
                 {
@@ -1627,9 +1942,6 @@
                   "content": [
                     "Types of pig feed : Pigs feed on a variety of feed. Some examples are maize and rice bran, vegetables, kitchen left overs, potato vines, banana chops, grass, guava and mango leaves, formulated rations",
                     "How to feed pigs : -Pigs should be fed indoor and atleast 3 times a day - Provide clean and adequate water at alltimes"
-                    
-                    
-
                   ]
                 },
                 {
@@ -1638,8 +1950,7 @@
                   "title": "Parasites",
                   "audio": "enBeef_05",
                   "content": [
-                   
-                   "External Parasites control - External parasites  irritates the animal and sucks blood which can result into an animal being anaemic, parasites transmit diseases like mange and African swine fever (ASF) External parasites can be controlled by scrubbing pigs with insectcides/acaricides. Pig house/pens should be spread with insectcides/acaricides and kholas should be kept clean ",
+                    "External Parasites control - External parasites  irritates the animal and sucks blood which can result into an animal being anaemic, parasites transmit diseases like mange and African swine fever (ASF) External parasites can be controlled by scrubbing pigs with insectcides/acaricides. Pig house/pens should be spread with insectcides/acaricides and kholas should be kept clean ",
                     "Internal parasite control : Internal Parasites compete with the host animal on feed in the digetive system and  suck blood resulting in an animal being malnourished and anaemic. Internal parasites can be controlled by routine deworming of animals Kholas should be kept clean by removing dung every time when the khola is soiled "
                   ]
                 },
@@ -1649,12 +1960,8 @@
                   "title": "Diseases Control ",
                   "audio": "enBeef_06",
                   "content": [
-
                     "African Swine Fever disease : Signs and Symptoms of ASF - Depression, weakness, swaying when walking, fever, haemorrhage, blueish discoloration of the skin, death after few hours or few days, diarrhoea/dysentry and abortion. How to control ASF - pigs should be confined all the time, the khola to have a Double fenced wall, the khola should have a foot bath, quaratine and isolate the sick ones, do not allow visitors to visit your pens, burry and destroy all affected pigs or carcass.  Treatment - There is no treatment ",
                     "Mange or ringworms : Signs and Symptoms of Mange/ring worm - Pigs mostly scruch themselves against the walls, falling-off of hair, thinkening of the skin, sores and wounds. Mange/ring worms can be controlled by ensuring routine cleaning of kholas/pens and isolate a sick animal Apply wound spray to treat mange/ ringworms and consult your nearest veterinary officer "
-                    
-
-
                   ]
                 },
                 {
@@ -1663,20 +1970,15 @@
                   "title": "Things to consider when marketing Pigs",
                   "audio": "enBeef_07",
                   "content": [
-
-                   " Encourage farmers to work as a group by forming associations. When pigs and pig products are sold as a group they have more bargaining power and reduce competition amongst themselves ",
-                   "Ensure producer offtaker agreements",
-                   "Avoid panic selling of pigs. As such diversify to other crops which can become handy in times of need. Have some other income generating activities."
-
-
-
-                    ]
+                    " Encourage farmers to work as a group by forming associations. When pigs and pig products are sold as a group they have more bargaining power and reduce competition amongst themselves ",
+                    "Ensure producer offtaker agreements",
+                    "Avoid panic selling of pigs. As such diversify to other crops which can become handy in times of need. Have some other income generating activities."
+                  ]
                 }
               ]
             }
           ]
-        }
-        ,
+        },
         {
           "id": 5,
           "image": "honey_bee",
@@ -1696,8 +1998,8 @@
                   "content": [
                     "Beekeeping is a source of income.",
                     "Bees play a role in pollination and biodiversity conservation, including Polination of crops such as sunflower, citrus fruits plums and macadamia including the natural vegetation",
-                    "Beekeeping contributes to food security: "
-                    ,"1. Provides source of income and food such as honey, which consist of simple sugars that do not need to be digested but assimilated directly by the body, thus making it a quick source of energy.",
+                    "Beekeeping contributes to food security: ",
+                    "1. Provides source of income and food such as honey, which consist of simple sugars that do not need to be digested but assimilated directly by the body, thus making it a quick source of energy.",
                     "2. Honey is a natural sweetener that can be used in any type of cooking and of sweeting beverages.",
                     "3. Honey can also be used for wine making, wound dressing and Honey beer"
                   ]
@@ -1712,7 +2014,6 @@
                     "",
                     "A. Recommended Bee Hive",
                     "The Kenya Top Bar Hive is recommended for high production, ease of monitoring and harvesting. This type of hive is a simple long box covered with 30 movable slats called top bars. The hive can be constructed using timber or straw. For dimensions of the bee hive and other bee equipment, farmers are advised to contact their field extension workers, Wildlife offices or bee-keeping expert in consultation with any agriculture office. Where bees become a threat to human life, members of the community are advised to contact local beekeeping expert. Beside the Kenya Top Bar Hive there is also the Malawi Standard Top Bar Hive which is an adaptation of the Kenyan type to suit Malawi conditions. Farmers are therefore encouraged to use such top bar hives and refrain from using log or bark hives because these cause a lot of deforestation. In addition to the scarce tree resources. These are difficult to manage and are a source of bushfires. "
-
                   ]
                 },
                 {
@@ -1725,7 +2026,6 @@
                     "",
                     "B. Recommended Siting and Hanging Beehives",
                     "The site should have vegetation that will adequately provide nectar, a good shade to protect the bees from excessive heat, dry and accessible and beat least 100m away from people’s and domesticated animals’ paths. Humid conditions are conducive to disease infection. Hang the hive between 2 strong trees or on a single strong branch using wire or strong rope. The distance from the ground will depend upon the bee-keeper’s height. Where honey badger (Mellivora capensis) (Chiuli) is a problem, suspend the hive at a minimum distance of 1.5m from the ground as well as from the supporting trees. After 2 to 3days check for bee colonization and ensure that pests and other unfavorable bee colonization conditions are either eliminated or controlled."
-
                   ]
                 },
                 {
@@ -1738,7 +2038,6 @@
                     "Put the syrup in a container which has a cover (like a chicken water drinker) and place it in the hive in such a way that the syrup trickles on to a cover from where bees can feed. The duration for initial feeding will normally depend on whether bees have started to acclimatize to the surrounding environment. This is provided for a period of 2 to 3 days."
                   ]
                 },
-                
                 {
                   "id": 5,
                   "image": "bee_feeding",
@@ -1753,7 +2052,6 @@
                     "",
                     "CATCHING A SWARM",
                     "A natural swarm hanging from a tree is normally docile and can easily be removed and hived. When catching a swarm, the bee-keeper should have a smoker-ready and put on a veil and gloves. Avoid using inappropriate protective gear to ensure full personal safety from stings. Take a capture box or a carton and put it beneath the clustering bees. Smoke the bees gently, shake or brush the bees off directly into the capture box and make sure most of the bees have entered the box before you cover it. This will ensure that the queen has entered the box as well; otherwise the swarm will not grow. Put the swarm in an already installed hive and keep on inspecting 2 times a month to monitor growth. Where possible monitoring at closer frequencies is encouraged"
-
                   ]
                 },
                 {
@@ -1764,17 +2062,14 @@
                   "content": [
                     "When handling bees, it is important to make sure that they are kept under control by good sense of judgment, confidence and gentleness of the bee- keeper in addition to smoke. The bees should be under control from the time the hives are approached to the end of the operation. ",
                     "",
-                    "The following practices should be followed in order to manage bees properly when rearing them."
-                    ,"",
+                    "The following practices should be followed in order to manage bees properly when rearing them.",
+                    "",
                     "1. All unnecessary movements or noise when working with bees should be avoided. Rapid and nervous movements will annoy the bees. The bee-keeper should go by the side of the hive and not in-front as he/she may block the flight path and annoy the bees.",
                     "2. Avoid perfumes and scented lotions when working with bees. Strong scents attract the bees and incite them to sting.",
                     "3. Use smoke to control the bees.",
                     "4. Smouldering pieces of dry cattle dung will provide the best smoke for bee handling. Make sure there is no glowing dung but plenty of cool white smoke should be maintained. Do not puff in too much smoke as this may affect the quality of honey through smell. Smoke induces the bees to start consuming some honey there by reducing their tendency to fly and sting. Smoke also assists to direct the bees away from areas of the hive in which the bee-keeper is working.",
                     "5. Avoid killing bees as this may annoy the others and incite them to sting or swarm. Once a bee stings, it later on dies. The more the stings, the more the colony is depopulated by way of death.",
                     "6. When opening a hive, blow a little smoke into the entrance holes several times and then move behind the hive. After 1 or 2 minutes lift the top cover and detector determine the empty side of the hive without combs. Then start working from the empty side of the hive. Every time you lift a top bar blow some smoke into the gap to keep the bees away and after the operation is over, quietly close the hive and move away. "
-                  
-                  
-                  
                   ]
                 },
                 {
@@ -1787,8 +2082,6 @@
                     "Prevent swarming by harvesting honey or dividing the bee colony in order to provide adequate room in the hive. This will result in brood rearing and honey storage. Dividing a colony prevents swarming. This can be done by removing 12 to 15 combs that should include bees, sealed, and unsealed brood, honey and pollen, into a capture hive. Carry the capture hive to a new site and transfer the colony into an empty hive, which has already been installed. This will have been properly baited or positioned for bee colonization."
                   ]
                 },
-                
-               
                 {
                   "id": 15,
                   "image": "bee_safety",
@@ -1797,7 +2090,6 @@
                   "content": [
                     "Where sprays and dusts are used to control crop pests, a farmer and bee-keepers should cooperate if the lives of bees are to be protected. The danger can be minimized by the farmer not spraying crops when flowers are open; ",
                     "and the bee-keeper shutting hives the night before spraying is to begin making sure no chemical dust will fall on his hives. One can also avoid hanging hives close or where there is heavy use of pesticides or insecticides."
-                  
                   ]
                 },
                 {
@@ -1831,13 +2123,12 @@
                   ]
                 }
               ]
-            }
-            ,
+            },
             {
               "id": 2,
               "image": "honey_pest",
               "name": "Honey Pest_control",
-              "section":[
+              "section": [
                 {
                   "id": 8,
                   "image": "bee_pest_Wax",
@@ -1879,7 +2170,6 @@
                   "content": [
                     "• When in large numbers, the pest demoralizes a colony causing the bees to stop for aging or collecting nectar, pollen and resins. It waits around hives during the heat of the day and pounces on passing foragers, stinging them off as food for its larvae. ",
                     "• Control is by seeking wasp nests and burning them. "
-                   
                   ]
                 },
                 {
@@ -1892,7 +2182,6 @@
                     "• It eats some food from the mouth parts of its host.  ",
                     "• Control is by putting a heavily infested queen bee in a matchbox and blowing in tobacco smoke. ",
                     "• The bee lice will fall off then the queen bee can be returned to her colony."
-                   
                   ]
                 },
                 {
@@ -1904,8 +2193,8 @@
                     "• This is a destructive animal about 1m long with very tough skin and long strong curved claws. ",
                     "• It breaks up bee hives and feeds on all combs without being worried by stings.",
                     "• It can also attack human beings. ",
-                    "• Constructing a fence around the apiary so that it has no access to the hive can control the Honey Badger. Where wires suspend hives, pile thorns on bottom of trees supporting the hive three times a year. "
-                    ,"• You can also ensure that hives are suspended at a height slightly above a metre. This will disable the honey badger reaching the hive. However, it has to be noted that honey badger is capable of climbing trees and can jump onto the hive from tree branches. Hence, where this animal is a problem, avoid branches hanging over the hive"
+                    "• Constructing a fence around the apiary so that it has no access to the hive can control the Honey Badger. Where wires suspend hives, pile thorns on bottom of trees supporting the hive three times a year. ",
+                    "• You can also ensure that hives are suspended at a height slightly above a metre. This will disable the honey badger reaching the hive. However, it has to be noted that honey badger is capable of climbing trees and can jump onto the hive from tree branches. Hence, where this animal is a problem, avoid branches hanging over the hive"
                   ]
                 },
                 {
@@ -1939,11 +2228,9 @@
                   "title": "Types of pasture",
                   "audio": "enBeef_01",
                   "content": [
-                    "There are two types of pasture.      ",                     
-                    " 1) Legumes: These contain more protein like silver leaf,leucaena and stylo", 
+                    "There are two types of pasture.      ",
+                    " 1) Legumes: These contain more protein like silver leaf,leucaena and stylo",
                     " 2)Grasses: These contain more roughage such as rhodes grass, napier grass, Ntchisi panicum, branciaria and guatemala"
-
-
                   ]
                 },
                 {
@@ -1952,12 +2239,10 @@
                   "title": "When to preserve feed ",
                   "audio": "enBeef_02",
                   "content": [
-                    
                     "Feed preservation should be done based on type of preservation on wants to do",
                     "If preservation is to be done by crop residues, do it soon after harvesting.",
                     "If you are using grass, cut them just before they start flowering. ",
                     "If you are using legumes, cut them just before they start losing their leaves or just before they start flowering. "
-
                   ]
                 },
                 {
@@ -1966,14 +2251,11 @@
                   "title": "Preserving silage",
                   "audio": "enBeef_03",
                   "content": [
-
-                    "Harvest tender maize or grass" ,      
+                    "Harvest tender maize or grass",
                     "Chop the material into smaller pieces",
                     "Put them into plastic silos or pits and compact to remove air ",
                     "Cover with a plastic sheet or large round bale tightly.",
                     "Keep in a well drained and ventilated place"
-
-
                   ]
                 },
                 {
@@ -1982,13 +2264,11 @@
                   "title": "Preserving hay",
                   "audio": "enBeef_04",
                   "content": [
-
-                    "Make hay from rhodes grass when it is showing the flower heads which have just started to emerge ", 
-                    "When using legumes to make hay, cut them just before they start losing their leaves or just before they start flowering.", 
+                    "Make hay from rhodes grass when it is showing the flower heads which have just started to emerge ",
+                    "When using legumes to make hay, cut them just before they start losing their leaves or just before they start flowering.",
                     "Using a sickel, cut grass or legumes early in the morning",
                     "Dry it as soon as possible; turn grass when 20% moisture content has been lost and stack the grass on tripods by late afternoon",
                     "Collect dried hay and store in a properly constructed hay shed"
-                    
                   ]
                 },
                 {
@@ -1997,19 +2277,16 @@
                   "title": "Preserving crop residues",
                   "audio": "enBeef_05",
                   "content": [
-                   
-                    "These include maize, millet, sorghum, rice straw and dry grass found in dry season", 
-                    "Put them in bundles ", 
+                    "These include maize, millet, sorghum, rice straw and dry grass found in dry season",
+                    "Put them in bundles ",
                     "Store on a stall 0.5m high to protect from termites",
                     "Feed must be treated with either mollases or Urea before it is given to animals, taking into consideration the proper procedure to avoid poisoning"
-                    
                   ]
                 }
               ]
             }
           ]
         }
- 
       ]
     }
   ]

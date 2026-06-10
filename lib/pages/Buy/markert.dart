@@ -631,15 +631,15 @@ class _PostStats extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Icon(
-              Icons.attach_money,
-              size: 15.0,
-              color: Colors.black,
-            ),
+            // const Icon(
+            //   Icons.attach_money,
+            //   size: 15.0,
+            //   color: Colors.black,
+            // ),
             const SizedBox(width: 4.0),
             Expanded(
               child: Text(
-                '${product.unitPrice} /${product.measure}',
+                'MWK ${product.unitPrice} /${product.measure}',
                 style: TextStyle(
                   color: Colors.grey[600],
                 ),
