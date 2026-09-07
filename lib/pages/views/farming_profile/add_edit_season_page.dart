@@ -165,7 +165,7 @@ class _AddEditSeasonPageState extends State<AddEditSeasonPage> {
                     const SizedBox(height: 20),
 
                     DropdownButtonFormField<String>(
-                      value: _type,
+                      initialValue: _type,
                       decoration: InputDecoration(
                         labelText: _language == 'en' ? 'Season Type' : 'Mtundu Wa Nyengo',
                         border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
@@ -178,7 +178,7 @@ class _AddEditSeasonPageState extends State<AddEditSeasonPage> {
                     const SizedBox(height: 20),
                     
                     DropdownButtonFormField<String>(
-                      value: _status,
+                      initialValue: _status,
                       decoration: InputDecoration(
                         labelText: _language == 'en' ? 'Status' : 'Mkhalidwe',
                         border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),

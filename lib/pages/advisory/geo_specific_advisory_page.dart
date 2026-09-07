@@ -15,6 +15,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:mlimi/services/farmer/farmer_service.dart';
+import 'package:mlimi/services/language_service.dart';
 
 class GeoSpecificAdvisoryPage extends StatefulWidget {
   const GeoSpecificAdvisoryPage({
@@ -371,6 +372,8 @@ class _GeoSpecificAdvisoryPageState extends State<GeoSpecificAdvisoryPage> {
                 if (val == null) return;
                 setState(() => _language = val);
                 _storage.write('language', val);
+                // Sync to backend so push notifications arrive in correct language
+                LanguageService.syncToBackend(val);
               },
             ),
             const SizedBox(height: 16),

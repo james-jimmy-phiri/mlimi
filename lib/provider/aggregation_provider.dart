@@ -12,7 +12,7 @@ class AggregationProvider extends ChangeNotifier {
   List<AggregationGroupMember> _groupMembers = [];
   List<AggregationBuyer> _buyers = [];
   List<Map<String, dynamic>> _groups = [];
-  List<Map<String, dynamic>> _valueChains = [];
+  List<ValueChainItem> _valueChains = [];
   Map<String, dynamic> _broadcastRecipients = {'market_actors': [], 'business_profiles': []};
 
   bool _isLoading = false;
@@ -31,7 +31,7 @@ class AggregationProvider extends ChangeNotifier {
   List<AggregationGroupMember> get groupMembers => _groupMembers;
   List<AggregationBuyer> get buyers => _buyers;
   List<Map<String, dynamic>> get groups => _groups;
-  List<Map<String, dynamic>> get valueChains => _valueChains;
+  List<ValueChainItem> get valueChains => _valueChains;
   Map<String, dynamic> get broadcastRecipients => _broadcastRecipients;
 
   bool get isLoading => _isLoading;
@@ -42,6 +42,16 @@ class AggregationProvider extends ChangeNotifier {
   bool get isLoadingValueChains => _isLoadingValueChains;
   bool get isLoadingRecipients => _isLoadingRecipients;
   String? get errorMessage => _errorMessage;
+
+  /// Returns value chains grouped by sector: {'crops': [...], 'livestock': [...], 'honey': [...]}
+  Map<String, List<ValueChainItem>> get valueChainsBySector {
+    final Map<String, List<ValueChainItem>> grouped = {};
+    for (final vc in _valueChains) {
+      final sector = vc.sector.toLowerCase().trim();
+      grouped.putIfAbsent(sector, () => []).add(vc);
+    }
+    return grouped;
+  }
 
   void _setLoading(bool value) {
     _isLoading = value;
@@ -63,8 +73,14 @@ class AggregationProvider extends ChangeNotifier {
     _setError(null);
     try {
       final data = await _service.getAggregations(status: status, groupId: groupId);
-      _aggregations = data['aggregations'] as List<Aggregation>;
-    } catch (e) {
+      final list = data['aggregations'];
+      debugPrint('[AggregationProvider] fetchAggregations raw list type=${list.runtimeType} count=${(list as List).length}');
+      _aggregations = List<Aggregation>.from(list);
+      debugPrint('[AggregationProvider] fetchAggregations assigned ${_aggregations.length} items');
+      notifyListeners();
+    } catch (e, stack) {
+      debugPrint('[AggregationProvider] fetchAggregations ERROR: $e');
+      debugPrint('[AggregationProvider] Stack: $stack');
       _setError(e.toString());
     } finally {
       _setLoading(false);
@@ -74,7 +90,7 @@ class AggregationProvider extends ChangeNotifier {
   Future<void> fetchDashboardStats({int? groupId}) async {
     _setLoading(true);
     _setError(null);
-    if (groupId != null) _groupMetrics = null; 
+    if (groupId != null) _groupMetrics = null;
     try {
       final metrics = await _service.getDashboardStats(groupId: groupId);
       if (groupId != null) {
@@ -90,28 +106,32 @@ class AggregationProvider extends ChangeNotifier {
   }
 
   Future<void> fetchAggregationDetails(int id) async {
+    _currentAggregation = null;
     _setLoading(true);
     _setError(null);
     try {
       _currentAggregation = await _service.getAggregationDetails(id);
+      debugPrint('[AggregationProvider] fetchAggregationDetails id=$id OK → status=${_currentAggregation?.status}');
     } catch (e) {
+      debugPrint('[AggregationProvider] fetchAggregationDetails id=$id ERROR: $e');
       _setError(e.toString());
     } finally {
       _setLoading(false);
     }
   }
 
-  Future<bool> createAggregation(Map<String, dynamic> data) async {
+  Future<Aggregation?> createAggregation(Map<String, dynamic> data, {String? imagePath}) async {
     _setActionLoading(true);
     _setError(null);
     try {
-      final newAgg = await _service.createAggregation(data);
+      final newAgg = await _service.createAggregation(data, imagePath: imagePath);
       _aggregations.insert(0, newAgg);
+      _currentAggregation = newAgg;
       notifyListeners();
-      return true;
+      return newAgg;
     } catch (e) {
       _setError(e.toString());
-      return false;
+      return null;
     } finally {
       _setActionLoading(false);
     }
@@ -122,7 +142,7 @@ class AggregationProvider extends ChangeNotifier {
     _setError(null);
     try {
       await _service.addContribution(id, data);
-      await fetchAggregationDetails(id); // Refresh details
+      await fetchAggregationDetails(id);
       return true;
     } catch (e) {
       _setError(e.toString());
@@ -137,7 +157,7 @@ class AggregationProvider extends ChangeNotifier {
     _setError(null);
     try {
       await _service.addNewMemberContribution(id, data);
-      await fetchAggregationDetails(id); // Refresh details
+      await fetchAggregationDetails(id);
       return true;
     } catch (e) {
       _setError(e.toString());
@@ -152,7 +172,7 @@ class AggregationProvider extends ChangeNotifier {
     _setError(null);
     try {
       await _service.recordSale(id, data);
-      await fetchAggregationDetails(id); // Refresh details
+      await fetchAggregationDetails(id);
       return true;
     } catch (e) {
       _setError(e.toString());
@@ -205,6 +225,7 @@ class AggregationProvider extends ChangeNotifier {
   }
 
   Future<void> fetchValueChains() async {
+    if (_isLoadingValueChains) return; // prevent duplicate calls
     _isLoadingValueChains = true;
     _setError(null);
     notifyListeners();
@@ -237,7 +258,7 @@ class AggregationProvider extends ChangeNotifier {
     _setError(null);
     try {
       await _service.finalizeAndBroadcast(id, data);
-      await fetchAggregationDetails(id); // Refresh details to show published status
+      await fetchAggregationDetails(id);
       return true;
     } catch (e) {
       _setError(e.toString());
@@ -252,7 +273,7 @@ class AggregationProvider extends ChangeNotifier {
     _setError(null);
     try {
       await _service.updateContribution(aggregationId, contributionId, data);
-      await fetchAggregationDetails(aggregationId); // Refresh details
+      await fetchAggregationDetails(aggregationId);
       return true;
     } catch (e) {
       _setError(e.toString());

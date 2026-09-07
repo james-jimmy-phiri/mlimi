@@ -14,17 +14,30 @@ import 'package:mlimi/pages/wallet/wallet.dart';
 import 'package:mlimi/provider/http_provider.dart';
 import 'package:mlimi/pages/profile/edit_profile.dart';
 import 'package:mlimi/pages/profile/manage_group_members.dart';
+import 'package:mlimi/pages/profile/add_group_members_page.dart';
+import 'package:mlimi/pages/notifications/notifications_screen.dart';
 
 List<Map<String, dynamic>> getCardOperations(String language, Map<String, dynamic>? user, VoidCallback onRefresh) {
   List<Map<String, dynamic>> operations = [];
 
+  final String clientType = user?['client']?['type']?.toString().toLowerCase() ??
+      GetStorage().read('client_type')?.toString().toLowerCase() ?? '';
+  final bool isGroup = clientType == 'group';
+
   if (language == 'ny') {
     operations = [
-      {
-        "title": "Lembelani Pa mlimi Waleti",
-        "page": const Wallet(),
-        "icon": Icons.wallet
-      },
+      if (isGroup)
+        {
+          "title": "Wonjezani Mamembala a Gulu",
+          "page": AddGroupMembersPage(user: user, onUpdate: onRefresh),
+          "icon": Icons.group_add
+        }
+      else
+        {
+          "title": "Lembelani Pa mlimi Waleti",
+          "page": const Wallet(),
+          "icon": Icons.wallet
+        },
       {
         "title": "Malonda Mukugulitsa",
         "page": const SalePage(),
@@ -39,20 +52,27 @@ List<Map<String, dynamic>> getCardOperations(String language, Map<String, dynami
       {"title": "Sinthani Mbiri Yanu", "page": EditProfilePage(user: user, onUpdate: onRefresh), "icon": Icons.edit},
     ];
 
-    if (user != null && user['client'] != null && user['client']['type'] == 'group') {
+    if (isGroup) {
       operations.add({
         "title": "Konzani Mamembala a Gulu",
         "page": ManageGroupMembersPage(user: user, onUpdate: onRefresh),
-        "icon": Icons.group_add
+        "icon": Icons.settings
       });
     }
   } else {
     operations = [
-      {
-        "title": "Apply Mlimi Wallet",
-        "page": const Wallet(),
-        "icon": Icons.wallet
-      },
+      if (isGroup)
+        {
+          "title": "Add Group Members",
+          "page": AddGroupMembersPage(user: user, onUpdate: onRefresh),
+          "icon": Icons.group_add
+        }
+      else
+        {
+          "title": "Apply Mlimi Wallet",
+          "page": const Wallet(),
+          "icon": Icons.wallet
+        },
       {
         "title": "Product Sale Offs",
         "page": const SalePage(),
@@ -67,11 +87,11 @@ List<Map<String, dynamic>> getCardOperations(String language, Map<String, dynami
       {"title": "Edit Profile", "page": EditProfilePage(user: user, onUpdate: onRefresh), "icon": Icons.edit},
     ];
 
-    if (user != null && user['client'] != null && user['client']['type'] == 'group') {
+    if (isGroup) {
       operations.add({
         "title": "Manage Group Members",
         "page": ManageGroupMembersPage(user: user, onUpdate: onRefresh),
-        "icon": Icons.group_add
+        "icon": Icons.settings
       });
     }
   }
@@ -519,7 +539,7 @@ class CustomeAppBar extends StatelessWidget {
                   onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const SimpleLoginScreen(),
+                      builder: (context) => const NotificationsScreen(),
                     ),
                   ),
                   child: Row(
@@ -585,94 +605,288 @@ class CustomeAppBar extends StatelessWidget {
   }
 
   Widget _buildHeader(Map<String, dynamic> client) {
-    return Card(
-      elevation: 5,
-      color: Bgreen, // Light teal background
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
+    final String clientType = client['type']?.toString().toLowerCase() ??
+        GetStorage().read('client_type')?.toString().toLowerCase() ?? '';
+    final bool isGroup = clientType == 'group';
+    final selectedLanguage = GetStorage().read('language') ?? 'en';
+
+    final valueChains = client['value_chains'];
+
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.08),
+            blurRadius: 15,
+            offset: const Offset(0, 5),
+          ),
+        ],
       ),
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Top Header Info
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CircleAvatar(
-                  radius: 28,
-                  backgroundColor: Colors.teal[600],
-                  child:
-                      const Icon(Icons.groups, color: Colors.white, size: 30),
+                Container(
+                  width: 56,
+                  height: 56,
+                  decoration: BoxDecoration(
+                    color: kPrimaryColor.withOpacity(0.12),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Center(
+                    child: Icon(
+                      isGroup ? Icons.groups_rounded : Icons.person_rounded,
+                      color: kPrimaryColor,
+                      size: 32,
+                    ),
+                  ),
                 ),
-                const SizedBox(width: 16),
+                const SizedBox(width: 14),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        client['name'] ?? 'N/A',
-                        style: const TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black87,
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              client['name'] ?? 'N/A',
+                              style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black87,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                            decoration: BoxDecoration(
+                              color: isGroup ? Colors.teal.shade50 : Colors.blue.shade50,
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(
+                                color: isGroup ? Colors.teal.shade200 : Colors.blue.shade200,
+                              ),
+                            ),
+                            child: Text(
+                              isGroup
+                                  ? (selectedLanguage == 'ny' ? 'Gulu / Coop' : 'Group')
+                                  : (selectedLanguage == 'ny' ? 'Mlimi' : 'Individual'),
+                              style: TextStyle(
+                                fontSize: 11,
+                                fontWeight: FontWeight.bold,
+                                color: isGroup ? Colors.teal.shade800 : Colors.blue.shade800,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 6),
+                      Wrap(
+                        spacing: 12,
+                        runSpacing: 4,
+                        children: [
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.phone_outlined, size: 14, color: Colors.grey.shade600),
+                              const SizedBox(width: 4),
+                              Text(
+                                client['phone'] ?? 'N/A',
+                                style: TextStyle(color: Colors.grey.shade700, fontSize: 13, fontWeight: FontWeight.w500),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.location_on_outlined, size: 14, color: Colors.grey.shade600),
+                              const SizedBox(width: 4),
+                              Text(
+                                client['district'] ?? 'N/A',
+                                style: TextStyle(color: Colors.grey.shade700, fontSize: 13, fontWeight: FontWeight.w500),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      if (isGroup && client['project_name'] != null && client['project_name'].toString().trim().isNotEmpty) ...[
+                        const SizedBox(height: 8),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                          decoration: BoxDecoration(
+                            color: Colors.amber.shade50,
+                            borderRadius: BorderRadius.circular(6),
+                            border: Border.all(color: Colors.amber.shade300),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.assignment_outlined, size: 12, color: Colors.amber.shade900),
+                              const SizedBox(width: 4),
+                              Text(
+                                "Project: ${client['project_name']}",
+                                style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: Colors.amber.shade900),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        client['phone'] ?? '',
-                        style: const TextStyle(color: Colors.black54),
-                      ),
+                      ],
                     ],
                   ),
                 ),
               ],
             ),
+
             const SizedBox(height: 16),
-            Wrap(
-              spacing: 24,
-              runSpacing: 12,
-              children: [
-                _infoTile('District', client['district'] ?? 'N/A'),
-                _infoTile('Joined', client['joined'] ?? 'N/A'),
-                _infoTile(
-                    'Status', client['active'] == true ? 'Active' : 'Inactive'),
-                if (client['epa'] != null) _infoTile('EPA', client['epa']),
-                if (client['t_a'] != null) _infoTile('T/A', client['t_a']),
-                if (client['gvh'] != null) _infoTile('GVH', client['gvh']),
-                if (client['chair_person'] != null)
-                  _infoTile('Chairperson', client['chair_person']),
-                if (client['number_of_members'] != null)
-                  _infoTile('Members', client['number_of_members'].toString()),
+            Divider(color: Colors.grey.shade200, height: 1),
+            const SizedBox(height: 16),
+
+            // Group-specific details section
+            if (isGroup) ...[
+              // Section Header: Location & Address
+              Text(
+                selectedLanguage == 'ny' ? 'Malo Opezekela a Gulu' : 'Location Details',
+                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: kPrimaryColor, letterSpacing: 0.5),
+              ),
+              const SizedBox(height: 8),
+              Wrap(
+                spacing: 10,
+                runSpacing: 8,
+                children: [
+                  _infoBadge(Icons.map_outlined, 'District', client['district'] ?? 'N/A'),
+                  if (client['epa'] != null && client['epa'].toString().isNotEmpty)
+                    _infoBadge(Icons.holiday_village_outlined, 'EPA', client['epa']),
+                  if (client['t_a'] != null && client['t_a'].toString().isNotEmpty)
+                    _infoBadge(Icons.account_balance_outlined, 'T/A', client['t_a']),
+                  // if (client['gvh'] != null && client['gvh'].toString().isNotEmpty)
+                  //   _infoBadge(Icons.home_work_outlined, 'GVH', client['gvh']),
+                  // if (client['mapping_id'] != null && client['mapping_id'].toString().isNotEmpty)
+                  //   _infoBadge(Icons.qr_code_outlined, 'Mapping ID', client['mapping_id']),
+                ],
+              ),
+
+              const SizedBox(height: 16),
+
+              // Section Header: Leadership & Membership
+              Text(
+                selectedLanguage == 'ny' ? 'Utsogoleri ndi Mamembala' : 'Leadership & Membership',
+                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: kPrimaryColor, letterSpacing: 0.5),
+              ),
+              const SizedBox(height: 8),
+              Wrap(
+                spacing: 10,
+                runSpacing: 8,
+                children: [
+                  if (client['chair_person'] != null && client['chair_person'].toString().isNotEmpty)
+                    _infoBadge(Icons.person_pin_outlined, selectedLanguage == 'ny' ? 'Wampando' : 'Chairperson', client['chair_person']),
+                  _infoBadge(
+                    Icons.groups_outlined,
+                    selectedLanguage == 'ny' ? 'Mamembala Onse' : 'Total Members',
+                    (client['number_of_members'] ?? (client['members'] != null ? (client['members'] as List).length : 0)).toString(),
+                  ),
+                  // if (client['male_group_members'] != null)
+                  //   _infoBadge(Icons.male_outlined, selectedLanguage == 'ny' ? 'Amuna' : 'Male Members', client['male_group_members'].toString()),
+                  // if (client['female_group_members'] != null)
+                  //   _infoBadge(Icons.female_outlined, selectedLanguage == 'ny' ? 'Amayi' : 'Female Members', client['female_group_members'].toString()),
+                ],
+              ),
+
+              // Section Header: Value Chains
+              if (valueChains != null && (valueChains is List) && valueChains.isNotEmpty) ...[
+                const SizedBox(height: 16),
+                Text(
+                  selectedLanguage == 'ny' ? 'Mbeu Zazolimidwa pa Gulu' : 'Group Value Chains',
+                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: kPrimaryColor, letterSpacing: 0.5),
+                ),
+                const SizedBox(height: 8),
+                Wrap(
+                  spacing: 6,
+                  runSpacing: 6,
+                  children: (valueChains as List).map((vc) {
+                    final String name = vc is Map ? (vc['name'] ?? '') : vc.toString();
+                    return Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      decoration: BoxDecoration(
+                        color: Colors.green.shade50,
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(color: Colors.green.shade200),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.eco_outlined, size: 12, color: Colors.green.shade700),
+                          const SizedBox(width: 4),
+                          Text(
+                            name,
+                            style: TextStyle(fontSize: 12, color: Colors.green.shade800, fontWeight: FontWeight.w600),
+                          ),
+                        ],
+                      ),
+                    );
+                  }).toList(),
+                ),
               ],
-            ),
+            ] else ...[
+              // Individual client details
+              Wrap(
+                spacing: 12,
+                runSpacing: 10,
+                children: [
+                  _infoBadge(Icons.map_outlined, 'District', client['district'] ?? 'N/A'),
+                  if (client['gender'] != null) _infoBadge(Icons.wc_outlined, 'Gender', client['gender']),
+                  if (client['age_range'] != null) _infoBadge(Icons.cake_outlined, 'Age Range', client['age_range']),
+                  if (client['disability'] != null) _infoBadge(Icons.accessible_outlined, 'Disability', client['disability'] == true ? 'Yes' : 'No'),
+                  _infoBadge(Icons.calendar_today_outlined, 'Joined', client['joined'] ?? 'N/A'),
+                  _infoBadge(Icons.check_circle_outline, 'Status', client['active'] == true ? 'Active' : 'Inactive'),
+                ],
+              ),
+            ],
           ],
         ),
       ),
     );
   }
 
-  Widget _infoTile(String title, String value) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style: const TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.bold,
-            color: Colors.teal,
+  Widget _infoBadge(IconData icon, String label, String value) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      decoration: BoxDecoration(
+        color: Colors.grey.shade50,
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: Colors.grey.shade200),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 15, color: kPrimaryColor),
+          const SizedBox(width: 6),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                label,
+                style: TextStyle(fontSize: 10, color: Colors.grey.shade600, fontWeight: FontWeight.w500),
+              ),
+              const SizedBox(height: 1),
+              Text(
+                value,
+                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.black87),
+              ),
+            ],
           ),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          value,
-          style: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            color: Colors.black87,
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
+

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:get_storage/get_storage.dart';
 import 'package:mlimi/constants/url.dart';
@@ -21,47 +22,75 @@ class AggregationService {
     if (status != null && status.isNotEmpty) url += '&status=$status';
     if (groupId != null) url += '&group_id=$groupId';
 
+    debugPrint('[AggregationService] GET $url');
     final response = await http.get(Uri.parse(url), headers: _headers);
+    debugPrint('[AggregationService] getAggregations status=${response.statusCode} body=${response.body.substring(0, response.body.length.clamp(0, 300))}');
 
     if (response.statusCode == 200) {
       final jsonResponse = json.decode(response.body);
       final List<dynamic> data = jsonResponse['data'] ?? [];
-      final List<Aggregation> aggregations = data.map((json) => Aggregation.fromJson(json)).toList();
+      debugPrint('[AggregationService] getAggregations raw count=${data.length}');
+
+      final List<Aggregation> aggregations = [];
+      for (int i = 0; i < data.length; i++) {
+        try {
+          aggregations.add(Aggregation.fromJson(data[i] as Map<String, dynamic>));
+        } catch (e) {
+          debugPrint('[AggregationService] getAggregations PARSE ERROR at index $i: $e');
+          debugPrint('[AggregationService] Bad item: ${data[i]}');
+        }
+      }
+      debugPrint('[AggregationService] getAggregations successfully parsed ${aggregations.length}/${data.length} items');
+
       return {
         'aggregations': aggregations,
         'current_page': jsonResponse['current_page'],
         'last_page': jsonResponse['last_page'],
       };
     } else {
-      throw Exception('Failed to load aggregations');
+      debugPrint('[AggregationService] getAggregations FAILED: ${response.statusCode} ${response.body}');
+      throw Exception('Failed to load aggregations: ${response.statusCode}');
     }
   }
 
   Future<Aggregation> getAggregationDetails(int id) async {
-    final response = await http.get(Uri.parse('$baseUrl/aggregations/$id'), headers: _headers);
+    final url = '$baseUrl/aggregations/$id';
+    debugPrint('[AggregationService] GET $url');
+    final response = await http.get(Uri.parse(url), headers: _headers);
+    debugPrint('[AggregationService] getAggregationDetails id=$id status=${response.statusCode} body=${response.body.substring(0, response.body.length.clamp(0, 500))}');
     if (response.statusCode == 200) {
-      return Aggregation.fromJson(json.decode(response.body));
+      final decoded = json.decode(response.body);
+      // Laravel's JsonResource wraps single resources in a 'data' key.
+      final data = decoded is Map && decoded.containsKey('data') ? decoded['data'] : decoded;
+      debugPrint('[AggregationService] getAggregationDetails parsed id=${data['id']} status=${data['status']}');
+      return Aggregation.fromJson(data);
+    } else if (response.statusCode == 404) {
+      debugPrint('[AggregationService] Aggregation $id NOT FOUND on backend (404). Full body: ${response.body}');
+      throw Exception('Aggregation #$id not found on server (404). It may have been deleted.');
     } else {
-      throw Exception('Failed to fetch aggregation details');
+      debugPrint('[AggregationService] getAggregationDetails FAILED: ${response.statusCode} ${response.body}');
+      throw Exception('Failed to fetch aggregation details: ${response.statusCode}');
     }
   }
 
   Future<Aggregation> createAggregation(Map<String, dynamic> data, {String? imagePath}) async {
     if (imagePath != null) {
       final request = http.MultipartRequest('POST', Uri.parse('$baseUrl/aggregations'));
-      request.headers.addAll(_headers);
-      
+      // MultipartRequest doesn't accept Content-Type header — strip it
+      final headers = Map<String, String>.from(_headers)..remove('Content-Type');
+      request.headers.addAll(headers);
+
       data.forEach((key, value) {
         if (value != null) {
           request.fields[key] = value.toString();
         }
       });
-      
+
       request.files.add(await http.MultipartFile.fromPath('image', imagePath));
-      
+
       final response = await request.send();
       final responseBody = await response.stream.bytesToString();
-      
+
       if (response.statusCode == 201 || response.statusCode == 200) {
         final jsonResponse = json.decode(responseBody);
         return Aggregation.fromJson(jsonResponse['data']);
@@ -156,7 +185,7 @@ class AggregationService {
   Future<AggregationMetrics> getDashboardStats({int? groupId}) async {
     String url = '$baseUrl/aggregations/dashboard/stats';
     if (groupId != null) url += '?group_id=$groupId';
-    
+
     final response = await http.get(Uri.parse(url), headers: _headers);
     if (response.statusCode == 200) {
       return AggregationMetrics.fromJson(json.decode(response.body));
@@ -168,7 +197,11 @@ class AggregationService {
   Future<List<AggregationGroupMember>> getGroupMembers(int groupId) async {
     final response = await http.get(Uri.parse('$baseUrl/clients/$groupId/members'), headers: _headers);
     if (response.statusCode == 200) {
-      final List<dynamic> data = json.decode(response.body);
+      final decoded = json.decode(response.body);
+      // Guard: handle both bare list and {data: [...]} shapes
+      final List<dynamic> data = decoded is List
+          ? decoded
+          : (decoded['data'] ?? []) as List<dynamic>;
       return data.map((json) => AggregationGroupMember.fromJson(json)).toList();
     } else {
       throw Exception('Failed to fetch group members');
@@ -178,37 +211,60 @@ class AggregationService {
   Future<List<AggregationBuyer>> getBuyers() async {
     final response = await http.get(Uri.parse('$baseUrl/buyers'), headers: _headers);
     if (response.statusCode == 200) {
-      final List<dynamic> data = json.decode(response.body);
+      final decoded = json.decode(response.body);
+      final raw = decoded is Map ? (decoded['buyers'] ?? decoded['data'] ?? decoded) : decoded;
+      final List<dynamic> data = raw is Map
+          ? (raw['data'] ?? [])
+          : (raw is List ? raw : []);
       return data.map((json) => AggregationBuyer.fromJson(json)).toList();
     } else {
       throw Exception('Failed to fetch buyers');
     }
   }
 
-  Future<List<Map<String, dynamic>>> getGroups() async {
-    final response = await http.get(Uri.parse('$baseUrl/clients'), headers: _headers);
+  /// Fetches all value chains from the backend.
+  /// Backend returns: { "value_chains": [ {id, name, category, sector}, ... ] }
+  /// or a plain list. Both shapes are handled.
+  Future<List<ValueChainItem>> getValueChains() async {
+    final response = await http.get(Uri.parse('$baseUrl/value-chains?all=true'), headers: _headers);
     if (response.statusCode == 200) {
-      final List<dynamic> data = json.decode(response.body);
-      return data.cast<Map<String, dynamic>>();
-    } else {
-      // Fallback to business profiles if clients endpoint is missing
-      final profilesResponse = await http.get(Uri.parse('$baseUrl/business-profiles'), headers: _headers);
-      if (profilesResponse.statusCode == 200) {
-        final data = json.decode(profilesResponse.body);
-        final List<dynamic> profiles = data['business_profiles'] ?? [];
-        return profiles.map((p) => {'id': p['id'], 'name': p['business_name']}).toList();
+      final decoded = json.decode(response.body);
+      List<dynamic> raw = [];
+      if (decoded is List) {
+        raw = decoded;
+      } else if (decoded is Map) {
+        final target = decoded['value_chains'] ?? decoded['data'];
+        if (target is List) {
+          raw = target;
+        } else if (target is Map && target['data'] is List) {
+          raw = target['data'];
+        }
       }
-      throw Exception('Failed to fetch groups');
+      return raw.map((item) => ValueChainItem.fromJson(item as Map<String, dynamic>)).toList();
+    } else {
+      throw Exception('Failed to fetch value chains');
     }
   }
 
-  Future<List<Map<String, dynamic>>> getValueChains() async {
-    final response = await http.get(Uri.parse('$baseUrl/value-chains'), headers: _headers);
+  /// Returns groups — kept for compatibility with other screens.
+  Future<List<Map<String, dynamic>>> getGroups() async {
+    final response = await http.get(Uri.parse('$baseUrl/clients'), headers: _headers);
     if (response.statusCode == 200) {
-      final List<dynamic> data = json.decode(response.body);
-      return data.cast<Map<String, dynamic>>();
+      final decoded = json.decode(response.body);
+      final List<dynamic> list = decoded is List
+          ? decoded
+          : (decoded['data'] ?? []) as List<dynamic>;
+      return list.cast<Map<String, dynamic>>();
     } else {
-      throw Exception('Failed to fetch value chains');
+      final profilesResponse = await http.get(Uri.parse('$baseUrl/business-profiles'), headers: _headers);
+      if (profilesResponse.statusCode == 200) {
+        final decoded = json.decode(profilesResponse.body);
+        final List<dynamic> profiles = decoded is List
+            ? decoded
+            : (decoded['business_profiles'] ?? decoded['data'] ?? []) as List<dynamic>;
+        return profiles.map((p) => {'id': p['id'], 'name': p['business_name'] ?? p['name']}).toList();
+      }
+      throw Exception('Failed to fetch groups');
     }
   }
 

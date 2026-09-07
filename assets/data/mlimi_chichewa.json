@@ -854,18 +854,18 @@
         },
         {
           "id": 4,
-          "image": "roots_and_tubers",
-          "name": "Mizizi ndi Mitengo ya Chakudya",
-          "description": "Zaulimi za Mizizi ndi Mitengo ya Chakudya monga Mbatata, Mbatata Yodya ndi Chinangwa.",
+          "image": "potato_farm",
+          "name": "Midzu ndi Mitsitsi",
+          "description": "Zaulimi za Midzi ndi Mitsitsi ya Chakudya monga Mbatata, Mbatata Yodya ndi Chinangwa.",
           "products": [
             {
               "id": 1,
-              "image": "potato",
-              "name": "Mbatata",
+              "image": "potato_coverphoto",
+              "name": "Mbatatetsi",
               "section": [
                 {
                   "id": 1,
-                  "image": "potato_variety",
+                  "image": "potato_seeds",
                   "title": "Mitundu yoyenera",
                   "audio": "",
                   "content": [
@@ -879,7 +879,7 @@
                 },
                 {
                   "id": 2,
-                  "image": "potato_climate",
+                  "image": "potato_farm",
                   "title": "Nyengo yoyenerera",
                   "audio": "",
                   "content": [
@@ -889,7 +889,7 @@
                 },
                 {
                   "id": 3,
-                  "image": "potato_site",
+                  "image": "potato_dry",
                   "title": "Kusankha malo olima",
                   "audio": "",
                   "content": [
@@ -901,7 +901,7 @@
                 },
                 {
                   "id": 4,
-                  "image": "potato_land",
+                  "image": "potato_farm",
                   "title": "Kukonza malo obzala",
                   "audio": "",
                   "content": [
@@ -911,7 +911,7 @@
                 },
                 {
                   "id": 5,
-                  "image": "potato_planting",
+                  "image": "potato_seeds",
                   "title": "Kabzalidwe kake",
                   "audio": "",
                   "content": [
@@ -925,7 +925,7 @@
                 },
                 {
                   "id": 6,
-                  "image": "potato_fertilizer",
+                  "image": "potato_coverphoto",
                   "title": "Kathiridwe ka feteleza",
                   "audio": "",
                   "content": [
@@ -937,7 +937,7 @@
                 },
                 {
                   "id": 7,
-                  "image": "potato_weeding",
+                  "image": "potato_haverst",
                   "title": "Kupalira kapena kuzulira",
                   "audio": "",
                   "content": [
@@ -948,7 +948,7 @@
                 },
                 {
                   "id": 8,
-                  "image": "potato_pest",
+                  "image": "potato_packaging",
                   "title": "Kuteteza ku tizilombo",
                   "audio": "",
                   "content": [
@@ -959,7 +959,7 @@
                 },
                 {
                   "id": 9,
-                  "image": "potato_disease",
+                  "image": "potato_storage",
                   "title": "Kuteteza ku matenda",
                   "audio": "",
                   "content": [
@@ -1173,7 +1173,7 @@
                 },
                 {
                   "id": 4,
-                  "image": "dairyproduction",
+                  "image": "dairy_breed",
                   "title": "Kachulukitsidwe ndi Nsinkhu oyenerera",
                   "audio": "Dairy_04",
                   "content": [
@@ -1211,7 +1211,7 @@
                 },
                 {
                   "id": 7,
-                  "image": "dairyproduction",
+                  "image": "dairy_birth",
                   "title": "Momwe mungapangire kuti ng’ombe zanu zikhale za thanzi",
                   "audio": "Dairy_07",
                   "content": [
@@ -1245,7 +1245,7 @@
                 },
                 {
                   "id": 9,
-                  "image": "dairyproduction",
+                  "image": "dairy_diseases",
                   "title": "Tizilombo toyambitsa matenda(Nthata)",
                   "audio": "Dairy_9",
                   "content": [
@@ -1266,7 +1266,7 @@
                 },
                 {
                   "id": 11,
-                  "image": "dairyproduction",
+                  "image": "beef_record",
                   "title": "Kusunga akaundula paulimi",
                   "audio": "Dairy_11",
                   "content": [

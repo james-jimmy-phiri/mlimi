@@ -5,6 +5,7 @@ import 'package:mlimi/constants/color.dart';
 import 'package:mlimi/models/business_profile.dart';
 import 'package:mlimi/services/business_profile_service.dart';
 import 'package:mlimi/pages/business_profile/edit_business_profile_page.dart';
+import 'package:mlimi/pages/business_profile/inventory/inventory_dashboard_page.dart';
 import 'package:mlimi/utils/error_utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
@@ -398,64 +399,119 @@ class _BusinessProfileDetailPageState extends State<BusinessProfileDetailPage> {
   }
 
   Widget _buildActionButtons() {
-    return Row(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        if (_profile!.isVerified)
-          Expanded(
-            child: Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: Colors.green[50],
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: Colors.green[100]!),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.verified_rounded, color: Colors.green[700], size: 20),
-                  const SizedBox(width: 8),
-                  Text(
-                    _language == 'en' ? 'Verified' : 'Yotsimikizidwa',
-                    style: GoogleFonts.poppins(
-                      color: Colors.green[700],
-                      fontWeight: FontWeight.bold,
-                      fontSize: 13,
-                    ),
+        // ── Existing action row (Verified badge + Contact) ──────────────────
+        Row(
+          children: [
+            if (_profile!.isVerified)
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Colors.green[50],
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: Colors.green[100]!),
                   ),
-                ],
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.verified_rounded, color: Colors.green[700], size: 20),
+                      const SizedBox(width: 8),
+                      Text(
+                        _language == 'en' ? 'Verified' : 'Yotsimikizidwa',
+                        style: GoogleFonts.poppins(
+                          color: Colors.green[700],
+                          fontWeight: FontWeight.bold,
+                          fontSize: 13,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            if (_profile!.isVerified) const SizedBox(width: 12),
+            Expanded(
+              child: InkWell(
+                onTap: () {
+                  if (_profile!.contactInfo?.phone != null) {
+                    _launchUrl('tel:${_profile!.contactInfo!.phone}');
+                  }
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: kPrimaryColor.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: kPrimaryColor.withOpacity(0.2)),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(Icons.call_rounded, color: kPrimaryColor, size: 20),
+                      const SizedBox(width: 8),
+                      Text(
+                        _language == 'en' ? 'Contact' : 'Lumikizani',
+                        style: GoogleFonts.poppins(
+                          color: kPrimaryColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 13,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
-          ),
-        if (_profile!.isVerified) const SizedBox(width: 12),
-        Expanded(
-          child: InkWell(
-            onTap: () {
-              if (_profile!.contactInfo?.phone != null) {
-                _launchUrl('tel:${_profile!.contactInfo!.phone}');
-              }
-            },
-            child: Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: kPrimaryColor.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: kPrimaryColor.withOpacity(0.2)),
+          ],
+        ),
+
+        // ── Inventory Management button ────────────────────────────────────
+        const SizedBox(height: 12),
+        InkWell(
+          borderRadius: BorderRadius.circular(16),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => InventoryDashboardPage(profile: _profile!),
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(Icons.call_rounded, color: kPrimaryColor, size: 20),
-                  const SizedBox(width: 8),
-                  Text(
-                    _language == 'en' ? 'Contact' : 'Lumikizani',
-                    style: GoogleFonts.poppins(
-                      color: kPrimaryColor,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 13,
-                    ),
+            );
+          },
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                colors: [Color(0xFF003EC7), Color(0xFF1565C0)],
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+              ),
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(0xFF003EC7).withOpacity(0.25),
+                  blurRadius: 12,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.inventory_2_rounded, color: Colors.white, size: 20),
+                const SizedBox(width: 10),
+                Text(
+                  _language == 'en' ? 'Inventory Management' : 'Chitsamaliro cha Katundu',
+                  style: GoogleFonts.poppins(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
                   ),
-                ],
-              ),
+                ),
+                const SizedBox(width: 8),
+                const Icon(Icons.arrow_forward_ios_rounded, color: Colors.white70, size: 14),
+              ],
             ),
           ),
         ),

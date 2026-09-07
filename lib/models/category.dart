@@ -9,6 +9,7 @@ import 'package:mlimi/pages/views/farming_profile/farming_seasons_page.dart';
 import 'package:mlimi/pages/sale/supply.dart';
 import 'package:mlimi/pages/wallet/wallet.dart';
 import 'package:mlimi/pages/views/aggregations/dashboard_screen.dart';
+import 'package:mlimi/pages/views/aggregations/public_aggregations_screen.dart';
 
 class Category_featured {
   String thumbnail;
@@ -37,10 +38,11 @@ List<Category_featured> getCategoryList(String language) {
         targetPage: const Buy(),
       ),
       Category_featured(
-        name: 'Aggregation',
-        thumbnail: 'aggregation',
-        targetPage: const AggregationsDashboardScreen(),
+        name: 'Zosonkhanitsa',
+        thumbnail: 'all_aggregations',
+        targetPage: const PublicAggregationsScreen(),
       ),
+      
       Category_featured(
         name: 'Mabizinesi',
         thumbnail: 'business',
@@ -67,10 +69,16 @@ List<Category_featured> getCategoryList(String language) {
         targetPage: const FarmingSeasonsPage(),
       ),
       Category_featured(
+        name: 'Zosonkhanitsidwa',
+        thumbnail: 'aggregation',
+        targetPage: const AggregationsDashboardScreen(),
+      ),
+      Category_featured(
         name: 'Mlimi Waleti',
         thumbnail: 'wallet',
         targetPage: const Wallet(),
       ),
+      
       Category_featured(
         name: 'Dera Langa',
         thumbnail: 'location',
@@ -90,10 +98,11 @@ List<Category_featured> getCategoryList(String language) {
         targetPage: const Buy(),
       ),
       Category_featured(
-        name: 'Aggregation',
-        thumbnail: 'aggregation',
-        targetPage: const AggregationsDashboardScreen(),
+        name: 'Aggregations',
+        thumbnail: 'all_aggregations',
+        targetPage: const PublicAggregationsScreen(),
       ),
+
       Category_featured(
         name: 'Business Profiles',
         thumbnail: 'business',
@@ -118,6 +127,11 @@ List<Category_featured> getCategoryList(String language) {
         name: 'Farming Profile',
         thumbnail: 'farming_profile',
         targetPage: const FarmingSeasonsPage(),
+      ),
+      Category_featured(
+        name: 'Aggregation Dashboard',
+        thumbnail: 'aggregation',
+        targetPage: const AggregationsDashboardScreen(),
       ),
       Category_featured(
         name: 'Mlimi Wallet',

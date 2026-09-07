@@ -12,6 +12,7 @@ const Map<String, IconData> _iconMap = {
   'location': Icons.location_on_outlined,
   'farming_profile': Icons.agriculture_rounded,
   'aggregation': Icons.groups_rounded,
+  'all_aggregations': Icons.explore_rounded,
 };
 
 IconData? getIconDataFromString(String iconName) {

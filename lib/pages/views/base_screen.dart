@@ -6,6 +6,7 @@ import 'package:mlimi/models/advisory_model.dart';
 import 'package:mlimi/pages/advisory/advivory_all.dart';
 import 'package:mlimi/pages/market/market.dart';
 import 'package:mlimi/pages/profile/profile.dart';
+import 'package:mlimi/pages/trendings/trendings_screen.dart';
 import 'package:mlimi/pages/views/featured_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:mlimi/services/advisory_service.dart';
@@ -40,7 +41,8 @@ class _BaseScreenState extends State<BaseScreen> {
   // Widgets with data passed to them
   List<Widget> _buildScreens(List<Sector> sectors) {
     return [
-      FeaturedScreen(sectors: sectors), // Pass the data to FeaturedScreen
+      FeaturedScreen(sectors: sectors),
+      const TrendingsScreen(),
       AllAdvisory(),
       Market(),
       ProfileScreen(),
@@ -82,6 +84,11 @@ class _BaseScreenState extends State<BaseScreen> {
                     height: kBottomNavigationBarItemSize,
                   ),
                   label: selectedLanguage == 'en' ? "Home" : "Home",
+                ),
+                BottomNavigationBarItem(
+                  activeIcon: Icon(Icons.local_fire_department, color: kPrimaryColor, size: kBottomNavigationBarItemSize),
+                  icon: Icon(Icons.local_fire_department_outlined, color: Colors.grey, size: kBottomNavigationBarItemSize),
+                  label: selectedLanguage == 'en' ? "Trendings" : "Zochitika",
                 ),
                 BottomNavigationBarItem(
                   activeIcon: Image.asset(

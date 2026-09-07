@@ -1,3 +1,45 @@
+/// Safely converts a dynamic value (String, int, double, or null) to double.
+/// The backend sometimes sends numbers as strings (e.g. "1711.00") so we
+/// must handle both types to avoid NoSuchMethodError.
+double _toDouble(dynamic v) {
+  if (v == null) return 0.0;
+  if (v is double) return v;
+  if (v is int) return v.toDouble();
+  if (v is String) return double.tryParse(v) ?? 0.0;
+  return 0.0;
+}
+
+// ─── ValueChainItem ───────────────────────────────────────────────────────────
+
+class ValueChainItem {
+  final int id;
+  final String name;
+  final String category;
+  final String sector;
+
+  ValueChainItem({
+    required this.id,
+    required this.name,
+    required this.category,
+    required this.sector,
+  });
+
+  factory ValueChainItem.fromJson(Map<String, dynamic> json) {
+    return ValueChainItem(
+      id: json['id'] is int
+          ? json['id'] as int
+          : (int.tryParse(json['id']?.toString() ?? '') ?? 0),
+      name: json['name']?.toString() ?? '',
+      category: json['category']?.toString() ?? '',
+      sector: json['sector']?.toString() ?? '',
+    );
+  }
+
+  Map<String, dynamic> toMap() => {'id': id, 'name': name};
+}
+
+// ─── Aggregation ──────────────────────────────────────────────────────────────
+
 class Aggregation {
   final int? id;
   final int? groupId;
@@ -6,8 +48,14 @@ class Aggregation {
   final double remainingQuantity;
   final String status;
   final int? createdBy;
+  final String? publishedAt;  // null means not yet finalized/broadcast
   final String? createdAt;
   final String? updatedAt;
+
+  // Extra fields that come from the aggregation record directly
+  final double? unitPrice;
+  final String? description;
+  final String? expectedSupplyDate;
 
   // Relations
   final AggregationGroup? group;
@@ -25,8 +73,12 @@ class Aggregation {
     this.remainingQuantity = 0.0,
     this.status = 'open',
     this.createdBy,
+    this.publishedAt,
     this.createdAt,
     this.updatedAt,
+    this.unitPrice,
+    this.description,
+    this.expectedSupplyDate,
     this.group,
     this.commodity,
     this.creator,
@@ -36,18 +88,48 @@ class Aggregation {
   });
 
   factory Aggregation.fromJson(Map<String, dynamic> json) {
+    AggregationCommodity? comm;
+    if (json['commodity_details'] != null) {
+      comm = AggregationCommodity.fromJson(json['commodity_details']);
+    } else if (json['commodity'] != null) {
+      comm = AggregationCommodity.fromJson(json['commodity']);
+    }
+
+    // Top-level aggregation fields that may supplement commodity data
+    final topPrice = _toDouble(json['unit_price']);
+    final topImage = json['image_url'] ?? json['image'];
+    final topDesc = json['description'];
+
+    if (comm != null && (comm.unitPrice == 0.0 && topPrice > 0 || comm.imageUrl == null && topImage != null)) {
+      comm = AggregationCommodity(
+        id: comm.id,
+        valueChainId: comm.valueChainId,
+        valueChainName: comm.valueChainName,
+        measureName: comm.measureName,
+        quantity: comm.quantity,
+        unitPrice: comm.unitPrice > 0 ? comm.unitPrice : topPrice,
+        description: comm.description ?? topDesc,
+        imageUrl: comm.imageUrl ?? topImage,
+        districtName: comm.districtName,
+      );
+    }
+
     return Aggregation(
       id: json['id'],
       groupId: json['group_id'],
       commodityId: json['commodity_id'],
-      totalQuantity: (json['total_quantity'] ?? 0.0).toDouble(),
-      remainingQuantity: (json['remaining_quantity'] ?? 0.0).toDouble(),
+      totalQuantity: _toDouble(json['total_quantity']),
+      remainingQuantity: _toDouble(json['remaining_quantity']),
       status: json['status'] ?? 'open',
       createdBy: json['created_by'],
+      publishedAt: json['published_at'],
       createdAt: json['created_at'],
       updatedAt: json['updated_at'],
+      unitPrice: topPrice > 0 ? topPrice : null,
+      description: json['description'],
+      expectedSupplyDate: json['expected_supply_date'],
       group: json['group'] != null ? AggregationGroup.fromJson(json['group']) : null,
-      commodity: json['commodity_details'] != null ? AggregationCommodity.fromJson(json['commodity_details']) : null,
+      commodity: comm,
       creator: json['creator'] != null ? AggregationCreator.fromJson(json['creator']) : null,
       contributions: json['contributions'] != null
           ? (json['contributions'] as List).map((i) => AggregationContribution.fromJson(i)).toList()
@@ -61,6 +143,8 @@ class Aggregation {
     );
   }
 }
+
+// ─── MemberEarnings ───────────────────────────────────────────────────────────
 
 class MemberEarnings {
   final int? memberId;
@@ -81,12 +165,14 @@ class MemberEarnings {
     return MemberEarnings(
       memberId: json['member_id'],
       memberName: json['member_name'] ?? 'Unknown',
-      contributionQuantity: (json['contribution_quantity'] ?? 0.0).toDouble(),
-      sharePercentage: (json['share_percentage'] ?? 0.0).toDouble(),
-      earnedAmount: (json['earned_amount'] ?? 0.0).toDouble(),
+      contributionQuantity: _toDouble(json['contribution_quantity']),
+      sharePercentage: _toDouble(json['share_percentage']),
+      earnedAmount: _toDouble(json['earned_amount'] ?? json['earnings_amount']),
     );
   }
 }
+
+// ─── AggregationContribution ─────────────────────────────────────────────────
 
 class AggregationContribution {
   final int? id;
@@ -111,12 +197,14 @@ class AggregationContribution {
       id: json['id'],
       aggregationId: json['aggregation_id'],
       groupMemberId: json['group_member_id'],
-      quantity: (json['quantity'] ?? 0.0).toDouble(),
+      quantity: _toDouble(json['quantity']),
       createdAt: json['created_at'],
       groupMember: json['group_member'] != null ? AggregationGroupMember.fromJson(json['group_member']) : null,
     );
   }
 }
+
+// ─── AggregationSale ──────────────────────────────────────────────────────────
 
 class AggregationSale {
   final int? id;
@@ -147,15 +235,17 @@ class AggregationSale {
       id: json['id'],
       aggregationId: json['aggregation_id'],
       buyerId: json['buyer_id'],
-      quantitySold: (json['quantity_sold'] ?? 0.0).toDouble(),
-      pricePerUnit: (json['price_per_unit'] ?? 0.0).toDouble(),
-      totalAmount: (json['total_amount'] ?? 0.0).toDouble(),
+      quantitySold: _toDouble(json['quantity_sold']),
+      pricePerUnit: _toDouble(json['price_per_unit']),
+      totalAmount: _toDouble(json['total_amount']),
       dateSold: json['date_sold'],
       createdAt: json['created_at'],
       buyer: json['buyer'] != null ? AggregationBuyer.fromJson(json['buyer']) : null,
     );
   }
 }
+
+// ─── AggregationGroup ────────────────────────────────────────────────────────
 
 class AggregationGroup {
   final int? id;
@@ -171,6 +261,8 @@ class AggregationGroup {
   }
 }
 
+// ─── AggregationCommodity ────────────────────────────────────────────────────
+
 class AggregationCommodity {
   final int? id;
   final int? valueChainId;
@@ -180,6 +272,7 @@ class AggregationCommodity {
   final double unitPrice;
   final String? description;
   final String? imageUrl;
+  final String? districtName;
 
   AggregationCommodity({
     this.id,
@@ -190,21 +283,25 @@ class AggregationCommodity {
     this.unitPrice = 0.0,
     this.description,
     this.imageUrl,
+    this.districtName,
   });
 
   factory AggregationCommodity.fromJson(Map<String, dynamic> json) {
     return AggregationCommodity(
       id: json['id'],
       valueChainId: json['value_chain_id'],
-      valueChainName: json['value_chain'] != null ? json['value_chain']['name'] : null,
-      measureName: json['measure'] != null ? json['measure']['name'] : null,
-      quantity: (json['quantity'] ?? 0.0).toDouble(),
-      unitPrice: (json['unit_price'] ?? 0.0).toDouble(),
+      valueChainName: json['name'] ?? (json['value_chain'] != null ? json['value_chain']['name'] : null),
+      measureName: json['measure'] is Map ? json['measure']['name'] : json['measure']?.toString(),
+      quantity: _toDouble(json['quantity']),
+      unitPrice: _toDouble(json['price'] ?? json['unit_price']),
       description: json['description'],
-      imageUrl: json['image_url'],
+      imageUrl: json['image'] ?? json['image_url'],
+      districtName: json['district'] is Map ? json['district']['name'] : json['district']?.toString(),
     );
   }
 }
+
+// ─── AggregationCreator ──────────────────────────────────────────────────────
 
 class AggregationCreator {
   final int? id;
@@ -220,6 +317,8 @@ class AggregationCreator {
   }
 }
 
+// ─── AggregationGroupMember ──────────────────────────────────────────────────
+
 class AggregationGroupMember {
   final int? id;
   final String name;
@@ -233,6 +332,8 @@ class AggregationGroupMember {
     );
   }
 }
+
+// ─── AggregationBuyer ────────────────────────────────────────────────────────
 
 class AggregationBuyer {
   final int? id;
@@ -249,6 +350,8 @@ class AggregationBuyer {
     );
   }
 }
+
+// ─── AggregationMetrics ──────────────────────────────────────────────────────
 
 class AggregationMetrics {
   final int totalAggregations;
@@ -276,10 +379,10 @@ class AggregationMetrics {
       totalAggregations: json['total_aggregations'] ?? 0,
       activeAggregations: json['active_aggregations'] ?? 0,
       completedAggregations: json['completed_aggregations'] ?? 0,
-      totalVolume: (json['total_volume'] ?? 0.0).toDouble(),
-      remainingVolume: (json['remaining_volume'] ?? 0.0).toDouble(),
-      totalSoldVolume: (json['total_sold_volume'] ?? 0.0).toDouble(),
-      totalRevenue: (json['total_revenue'] ?? 0.0).toDouble(),
+      totalVolume: _toDouble(json['total_volume']),
+      remainingVolume: _toDouble(json['remaining_volume']),
+      totalSoldVolume: _toDouble(json['total_sold_volume']),
+      totalRevenue: _toDouble(json['total_revenue']),
       uniqueFarmerCount: json['unique_farmer_count'] ?? 0,
     );
   }

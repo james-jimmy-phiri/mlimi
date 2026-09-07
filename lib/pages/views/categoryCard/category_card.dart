@@ -9,6 +9,7 @@ import 'package:mlimi/models/category_icons.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:http/http.dart' as http;
+import 'package:mlimi/pages/views/aggregations/public_aggregations_screen.dart';
 
 class CategoryCard extends StatefulWidget {
   final Category_featured category;
@@ -152,20 +153,15 @@ class _CategoryCardState extends State<CategoryCard> {
             return;
           }
 
-          // Check for group restriction on Aggregation
+          // Route based on account type for Aggregation
           if (targetType == 'AggregationsDashboardScreen') {
-            final clientType = box.read('client_type');
-            if (clientType != 'group') {
-              QuickAlert.show(
-                context: context,
-                type: QuickAlertType.warning,
-                title: getLocalizedText('Access Denied', 'Malo Woletsedwa'),
-                text: getLocalizedText(
-                  'Aggregation management is only available for Group accounts.',
-                  'Kasamalidwe ka aggregation kumasungidwira maakaunti a Gulu okha.'
-                ),
-                confirmBtnText: 'OK',
-                confirmBtnColor: kPrimaryColor,
+            final rawClientType = box.read('client_type')?.toString().toLowerCase() ?? '';
+            final members = box.read('members');
+            final isGroup = rawClientType.contains('group') || (members != null && members is List && members.isNotEmpty);
+            if (!isGroup) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const PublicAggregationsScreen()),
               );
               return;
             }

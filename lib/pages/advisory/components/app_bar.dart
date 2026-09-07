@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mlimi/constants/color.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:mlimi/services/language_service.dart';
 
 class HomeAppBarWithDrawer extends StatefulWidget {
   final Widget Function() profileScreenBuilder;
@@ -32,7 +33,7 @@ class _HomeAppBarWithDrawerState extends State<HomeAppBarWithDrawer> {
 
   Future<void> loadLanguagePreference() async {
     setState(() {
-      _language = storage.read('language') ?? 'en';
+      _language = storage.read('language') ?? 'ny'; // Default to Chichewa
     });
   }
 
@@ -41,6 +42,9 @@ class _HomeAppBarWithDrawerState extends State<HomeAppBarWithDrawer> {
     setState(() {
       _language = newLanguage;
     });
+    // Sync language preference to backend so notifications arrive in the right language.
+    // This is fire-and-forget — language is already applied locally.
+    LanguageService.syncToBackend(newLanguage);
   }
 
   String _localizedText(String enText, String nyText) {

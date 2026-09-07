@@ -11,7 +11,10 @@ import 'package:mlimi/pages/profile/settings.dart';
 import 'package:mlimi/pages/profile/privacy/privacy.dart';
 import 'package:mlimi/pages/views/base_screen.dart';
 import 'package:mlimi/pages/views/signup/loginscreen.dart';
+import 'package:mlimi/pages/views/farming_profile/farming_seasons_page.dart';
+import 'package:mlimi/pages/views/farming_profile/farmers_directory_page.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:mlimi/pages/notifications/notifications_screen.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:http/http.dart' as http;
 
@@ -140,6 +143,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: ListView(
               children: <Widget>[
                 ProfileListItem(
+                  icon: LineAwesomeIcons.seedling_solid,
+                  text: _localizedText('Farming Profile', 'Kusunga Ma Record'),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const FarmingSeasonsPage()),
+                    );
+                  },
+                ),
+                ProfileListItem(
+                  icon: LineAwesomeIcons.users_solid,
+                  text: _localizedText('Farmers Directory', 'Mndandanda wa Alimi'),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const FarmersDirectoryPage()),
+                    );
+                  },
+                ),
+                ProfileListItem(
                   icon: LineAwesomeIcons.user_shield_solid,
                   text: _localizedText('Privacy', 'Zachinsinsi'),
                   onTap: () {
@@ -186,6 +211,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   },
                 ),
                 ProfileListItem(
+                  icon: LineAwesomeIcons.bell,
+                  text: _localizedText('Notifications', 'Zomuwuza'),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const NotificationsScreen()),
+                    );
+                  },
+                ),
+                ProfileListItem(
                   icon: LineAwesomeIcons.cog_solid,
                   text: _localizedText('Settings', 'Zikhazikiso'),
                   onTap: () {
@@ -214,6 +250,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         storage.remove('phone');
                         storage.remove('name');
                         storage.remove('token');
+                        storage.remove('shown_notification_ids');
 
                         Navigator.pushAndRemoveUntil(
                           context,
@@ -240,6 +277,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         storage.remove('name');
                         storage.remove('phone');
                         storage.remove('token');
+                        storage.remove('shown_notification_ids');
                       } else {
                         throw Exception('Failed to log out');
                       }

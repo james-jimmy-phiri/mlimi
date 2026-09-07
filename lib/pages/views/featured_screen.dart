@@ -94,7 +94,7 @@ class _FeaturedScreenState extends State<FeaturedScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
               content: Text(
-                  'Poor Server connection . failed to fetch the trending Data')),
+                  'Failed to fetch the trending Data')),
         );
         setState(() {
           isdisplay = false;
@@ -103,7 +103,7 @@ class _FeaturedScreenState extends State<FeaturedScreen> {
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('No  connection. failed to fetch the trending Data')),
+        SnackBar(content: Text('Failed to fetch the trending Data')),
       );
       setState(() {
         isLoading = false;

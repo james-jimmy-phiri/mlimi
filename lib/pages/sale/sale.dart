@@ -10,7 +10,7 @@ import 'package:lottie/lottie.dart';
 import 'package:mlimi/pages/Buy/buy.dart';
 import 'package:mlimi/constants/url.dart';
 import 'package:flutter/foundation.dart';
-import 'package:mlimi/pages/sale/groupSale.dart';
+
 
 class SalePage extends StatefulWidget {
   /// Callback for when this form is submitted successfully. Parameters are (productName, unitPrice)
@@ -23,8 +23,8 @@ class SalePage extends StatefulWidget {
 }
 
 class _SalePageState extends State<SalePage> {
+  static const decocolor = Color.fromARGB(255, 3, 81, 0);
   late String unitPrice, quantity, description, expectedSupplyDate;
-  String? productNameError, unitPriceError, quantityError, descriptionError;
   Function(String? productName, String? unitPrice)? get onSubmitted =>
       widget.onSubmitted;
 
@@ -137,10 +137,10 @@ class _SalePageState extends State<SalePage> {
         List<dynamic> data = json.decode(response.body)['value_chains'];
         setState(() {
           _products = data.map((item) {
-            return {'id': item['id'], 'name': item['name']};
+            return {'id': item['id']?.toString(), 'name': item['name']};
           }).toList();
           if (_products.isNotEmpty) {
-            _selectedProduct = _products[0]['id'];
+            _selectedProduct = _products[0]['id']?.toString();
           }
         });
       } else {
@@ -158,142 +158,275 @@ class _SalePageState extends State<SalePage> {
     }
   }
 
+  String? productNameError, unitPriceError, quantityError, descriptionError, districtError, unitError;
+
   void resetErrorText() {
     setState(() {
       productNameError = null;
       unitPriceError = null;
       descriptionError = null;
       quantityError = null;
+      districtError = null;
+      unitError = null;
     });
   }
 
   String? _getMimeType(String path) {
-  final extension = path.split('.').last.toLowerCase();
-  switch (extension) {
-    case 'jpg':
-    case 'jpeg':
-      return 'jpeg';
-    case 'png':
-      return 'png';
-    case 'webp':
-      return 'webp';
-    default:
-      return null;
+    final extension = path.split('.').last.toLowerCase();
+    switch (extension) {
+      case 'jpg':
+      case 'jpeg':
+        return 'jpeg';
+      case 'png':
+        return 'png';
+      case 'webp':
+        return 'webp';
+      default:
+        return null;
+    }
   }
-}
 
+  String _extractErrorMessage(dynamic parsedResponse, int statusCode) {
+    if (parsedResponse is Map) {
+      if (parsedResponse.containsKey('errors') && parsedResponse['errors'] is Map) {
+        final errors = parsedResponse['errors'] as Map;
+        List<String> errList = [];
+        errors.forEach((key, value) {
+          if (value is List && value.isNotEmpty) {
+            errList.add('${key}: ${value.join(', ')}');
+          } else if (value is String) {
+            errList.add('${key}: $value');
+          }
+        });
+        if (errList.isNotEmpty) {
+          return errList.join('\n');
+        }
+      }
+      if (parsedResponse.containsKey('message') && parsedResponse['message'] != null) {
+        return parsedResponse['message'].toString();
+      }
+      if (parsedResponse.containsKey('error') && parsedResponse['error'] != null) {
+        return parsedResponse['error'].toString();
+      }
+    }
+    return 'Server returned error code $statusCode / Seva yabweza zolakwika $statusCode';
+  }
+
+  void _showBilingualErrorDialog(BuildContext context, String rawError) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: const Row(
+          children: [
+            Icon(Icons.error_outline_rounded, color: Colors.red),
+            SizedBox(width: 8),
+            Expanded(
+              child: Text(
+                'Submission Error / Zolakwika Pakutumiza',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+            ),
+          ],
+        ),
+        content: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                'Could not submit form due to the following issue:',
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
+              ),
+              const Text(
+                'Sikwatheka kutumiza fomu chifukwa cha vuto ili:',
+                style: TextStyle(color: Colors.grey, fontSize: 12),
+              ),
+              const SizedBox(height: 10),
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Colors.red.withOpacity(0.08),
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: Colors.red.withOpacity(0.3)),
+                ),
+                child: Text(
+                  rawError,
+                  style: const TextStyle(color: Colors.redAccent, fontSize: 13),
+                ),
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: decocolor,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            ),
+            onPressed: () => Navigator.pop(context),
+            child: const Text('OK / Chabwino', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+          ),
+        ],
+      ),
+    );
+  }
 
   bool validate() {
     resetErrorText();
-
     bool isValid = true;
 
-    if (unitPrice.isEmpty) {
+    if (_selectedProduct == null || _selectedProduct!.trim().isEmpty) {
       setState(() {
-        unitPriceError = 'Please enter a unit price';
+        productNameError = 'Please select a product / Chonde sankhani chinthu';
       });
       isValid = false;
     }
-    if (description.isEmpty) {
+    if (unitPrice.trim().isEmpty) {
       setState(() {
-        descriptionError = 'Please enter a product description';
+        unitPriceError = 'Please enter a unit price / Chonde lowetsani mtengo wa chinthu';
       });
       isValid = false;
     }
-    if (quantity.isEmpty) {
+    if (_selectedUnit == null || _selectedUnit!.trim().isEmpty) {
       setState(() {
-        quantityError = 'Please enter Quatity';
+        unitError = 'Please select a unit / Chonde sankhani muyezo';
       });
       isValid = false;
+    }
+    if (quantity.trim().isEmpty) {
+      setState(() {
+        quantityError = 'Please enter quantity / Chonde lowetsani kuchuluka';
+      });
+      isValid = false;
+    }
+    if (selectedDistrictId == null || selectedDistrictId!.trim().isEmpty) {
+      setState(() {
+        districtError = 'Please select a district / Chonde sankhani boma';
+      });
+      isValid = false;
+    }
+    if (description.trim().isEmpty) {
+      setState(() {
+        descriptionError = 'Please enter product description / Chonde fotokozani katundu';
+      });
+      isValid = false;
+    }
+
+    if (!isValid) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please fill all required fields / Chonde dzazani mindandanda yonse yofunika'),
+          backgroundColor: Colors.red,
+        ),
+      );
     }
 
     return isValid;
   }
 
   Future<void> submit() async {
-    if (validate()) {
-      setState(() {
-        isLoadingSubmit = true;
-      });
+    if (!validate()) {
+      return;
+    }
 
-      var url = Uri.parse('${apiurl}v1/commodities');
-      final storage = GetStorage();
-      String? token = storage.read('token');
+    setState(() {
+      isLoadingSubmit = true;
+    });
 
-      try {
-        var request = http.MultipartRequest('POST', url)
-          ..headers['Authorization'] = 'Bearer $token'
-          ..headers['Accept'] = 'application/json'
-          ..fields['value_chain_id'] = _selectedProduct ?? ''
-          ..fields['unit_price'] = unitPrice
-          ..fields['measure_id'] = _selectedUnit ?? ''
-          ..fields['quantity'] = quantity
-          ..fields['district_id'] = selectedDistrictId!
-          ..fields['description'] = description
-          ..fields['expected_supply_date'] = expectedSupplyDate
-          ..fields['commodity_type_id'] = _selectedtype ?? '';
+    var url = Uri.parse('${apiurl}v1/commodities');
+    final storage = GetStorage();
+    String? token = storage.read('token');
 
-        if (_selectedImage != null) {
-          if (kIsWeb) {
+    try {
+      var request = http.MultipartRequest('POST', url)
+        ..headers['Authorization'] = 'Bearer $token'
+        ..headers['Accept'] = 'application/json'
+        ..fields['value_chain_id'] = _selectedProduct ?? ''
+        ..fields['unit_price'] = unitPrice.trim()
+        ..fields['measure_id'] = _selectedUnit ?? ''
+        ..fields['quantity'] = quantity.trim()
+        ..fields['district_id'] = selectedDistrictId ?? ''
+        ..fields['description'] = description.trim()
+        ..fields['expected_supply_date'] = expectedSupplyDate
+        ..fields['commodity_type_id'] = _selectedtype ?? '1';
+
+      if (_selectedImage != null) {
+        if (kIsWeb) {
+          if (_selectedImageBytes != null) {
             request.files.add(
               http.MultipartFile.fromBytes(
-                'image', // The field name for the image in the backend
+                'image',
                 _selectedImageBytes!,
-                filename: 'image.jpg', // You can set a filename for the image
+                filename: 'image.jpg',
+              ),
+            );
+          }
+        } else {
+          final mimeSubtype = _getMimeType(_selectedImage!.path);
+          if (mimeSubtype != null) {
+            request.files.add(
+              await http.MultipartFile.fromPath(
+                'image',
+                _selectedImage!.path,
+                contentType: MediaType('image', mimeSubtype),
               ),
             );
           } else {
-            final mimeSubtype = _getMimeType(_selectedImage!.path);
-            if (mimeSubtype != null) {
-              request.files.add(
-                await http.MultipartFile.fromPath(
-                  'image',
-                  _selectedImage!.path,
-                  contentType: MediaType('image', mimeSubtype),
-                ),
-              );
-            } else {
-              print('⚠️ Unsupported image format. Upload skipped.');
-            }
-
+            print('⚠️ Unsupported image format. Upload skipped.');
           }
         }
+      }
 
-        var response = await request.send();
+      var streamedResponse = await request.send();
+      var response = await http.Response.fromStream(streamedResponse);
 
-        setState(() {
-          isLoadingSubmit = false;
-        });
+      setState(() {
+        isLoadingSubmit = false;
+      });
 
-        if (response.statusCode == 201) {
-          if (onSubmitted != null) {
-            onSubmitted!(_selectedProduct, unitPrice);
-          }
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (onSubmitted != null) {
+          onSubmitted!(_selectedProduct, unitPrice);
+        }
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Successfully submitted! / Zatumizidwa bwino!'),
+            backgroundColor: Colors.green,
+          ),
+        );
+        if (mounted) {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => const Buy()),
           );
-        } else {
-          var responseBody = await response.stream.bytesToString();
-          print('Response Body: $responseBody');
-          // Handle error response
-          var parsedResponse = jsonDecode(responseBody);
-          print('parsedResponse: $parsedResponse');
         }
-      } catch (e) {
-        setState(() {
-          isLoadingSubmit = false;
-        });
-        // Print the error to console
-        print('Error occurred: $e');
-        // Optionally show an error dialog or a Snackbar to the user
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('An error occurred. Please try again.')),
+      } else {
+        String errorMsg = 'Server status code: ${response.statusCode}';
+        try {
+          final parsedResponse = jsonDecode(response.body);
+          errorMsg = _extractErrorMessage(parsedResponse, response.statusCode);
+        } catch (_) {
+          if (response.body.isNotEmpty) {
+            errorMsg = response.body;
+          }
+        }
+        if (mounted) {
+          _showBilingualErrorDialog(context, errorMsg);
+        }
+      }
+    } catch (e) {
+      setState(() {
+        isLoadingSubmit = false;
+      });
+      print('Error occurred: $e');
+      if (mounted) {
+        _showBilingualErrorDialog(
+          context,
+          'Network connection error / Vuto la Intaneti kapena kulumikizana: $e',
         );
       }
-    } else {
-      print(
-          "failed to validate $_selectedProduct $_selectedUnit $_selectedtype $unitPrice $description $quantity ");
     }
   }
 
@@ -385,7 +518,6 @@ class _SalePageState extends State<SalePage> {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
-    const decocolor = Color.fromARGB(255, 3, 81, 0);
 
     return Scaffold(
       body: _isLoading
@@ -454,21 +586,7 @@ class _SalePageState extends State<SalePage> {
                           padding: const EdgeInsets.all(16.0),
                           child: Column(
                             children: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (_) => const GroupSalePage()),
-                                  );
-                                },
-                                child: Text(
-                                  'Sell Group aggregated Products',
-                                  style: TextStyle(
-                                      color: Colors.green,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
+                              
                               Form(
                                 child: Column(
                                   crossAxisAlignment:
@@ -476,43 +594,40 @@ class _SalePageState extends State<SalePage> {
                                   children: [
                                     const SizedBox(height: 10),
                                     DropdownButtonFormField<String>(
-                                      decoration: const InputDecoration(
-                                        labelText: 'Product Name',
-                                        labelStyle: TextStyle(
+                                      decoration: InputDecoration(
+                                        labelText: 'Product Name / Dzina la Katundu',
+                                        labelStyle: const TextStyle(
                                           fontFamily: 'Poppins',
                                           fontWeight: FontWeight.w400,
                                           fontSize: 16,
                                           color: decocolor,
                                         ),
+                                        errorText: productNameError,
                                       ),
-                                      initialValue: _selectedProduct,
+                                      value: _selectedProduct,
                                       onChanged: (newValue) {
                                         setState(() {
                                           _selectedProduct = newValue;
+                                          productNameError = null;
                                         });
                                       },
                                       items: _products.map((product) {
                                         return DropdownMenuItem<String>(
-                                          value: product['id'],
-                                          child: Text(product['name']),
+                                          value: product['id']?.toString(),
+                                          child: Text(product['name'] ?? ''),
                                         );
                                       }).toList(),
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return 'Please select a product';
-                                        }
-                                        return null;
-                                      },
                                     ),
                                     const SizedBox(height: 10),
                                     TextFormField(
                                       onChanged: (value) {
                                         setState(() {
                                           unitPrice = value;
+                                          unitPriceError = null;
                                         });
                                       },
                                       decoration: InputDecoration(
-                                        labelText: 'Unit Price',
+                                        labelText: 'Unit Price (MWK) / Mtengo wa Chinthu',
                                         labelStyle: const TextStyle(
                                           fontFamily: 'Poppins',
                                           fontWeight: FontWeight.w400,
@@ -525,43 +640,40 @@ class _SalePageState extends State<SalePage> {
                                     ),
                                     const SizedBox(height: 10),
                                     DropdownButtonFormField<String>(
-                                      decoration: const InputDecoration(
-                                        labelText: 'Unit',
-                                        labelStyle: TextStyle(
+                                      decoration: InputDecoration(
+                                        labelText: 'Unit / Muyezo',
+                                        labelStyle: const TextStyle(
                                           fontFamily: 'Poppins',
                                           fontWeight: FontWeight.w400,
                                           fontSize: 16,
                                           color: decocolor,
                                         ),
+                                        errorText: unitError,
                                       ),
-                                      initialValue: _selectedUnit,
+                                      value: _selectedUnit,
                                       onChanged: (newValue) {
                                         setState(() {
                                           _selectedUnit = newValue;
+                                          unitError = null;
                                         });
                                       },
                                       items: measures.map((measure) {
                                         return DropdownMenuItem<String>(
-                                          value: measure['id'],
+                                          value: measure['id'].toString(),
                                           child: Text(measure['name']),
                                         );
                                       }).toList(),
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return 'Please select a Measurement';
-                                        }
-                                        return null;
-                                      },
                                     ),
                                     const SizedBox(height: 10),
                                     TextFormField(
                                       onChanged: (value) {
                                         setState(() {
                                           quantity = value;
+                                          quantityError = null;
                                         });
                                       },
                                       decoration: InputDecoration(
-                                        labelText: 'Quantity',
+                                        labelText: 'Quantity / Kuchuluka',
                                         labelStyle: const TextStyle(
                                           fontFamily: 'Poppins',
                                           fontWeight: FontWeight.w400,
@@ -574,19 +686,21 @@ class _SalePageState extends State<SalePage> {
                                     ),
                                     const SizedBox(height: 10),
                                     DropdownButtonFormField<String>(
-                                      decoration: const InputDecoration(
-                                        labelText: 'Select District',
-                                        labelStyle: TextStyle(
+                                      decoration: InputDecoration(
+                                        labelText: 'Select District / Sankhani Boma',
+                                        labelStyle: const TextStyle(
                                           fontFamily: 'Poppins',
                                           fontWeight: FontWeight.w400,
                                           fontSize: 16,
                                           color: decocolor,
                                         ),
+                                        errorText: districtError,
                                       ),
-                                      initialValue: selectedDistrictId,
+                                      value: selectedDistrictId,
                                       onChanged: (value) {
                                         setState(() {
                                           selectedDistrictId = value;
+                                          districtError = null;
                                         });
                                       },
                                       items: districts
@@ -597,22 +711,17 @@ class _SalePageState extends State<SalePage> {
                                           child: Text(district['name']),
                                         );
                                       }).toList(),
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return 'Please select a District';
-                                        }
-                                        return null;
-                                      },
                                     ),
                                     const SizedBox(height: 10),
                                     TextFormField(
                                       onChanged: (value) {
                                         setState(() {
                                           description = value;
+                                          descriptionError = null;
                                         });
                                       },
                                       decoration: InputDecoration(
-                                        labelText: 'Product Description',
+                                        labelText: 'Product Description / Kufotokozera Katundu',
                                         labelStyle: const TextStyle(
                                           fontFamily: 'Poppins',
                                           fontWeight: FontWeight.w400,
@@ -658,7 +767,7 @@ class _SalePageState extends State<SalePage> {
                                                     size: 35,
                                                   ),
                                                   Text(
-                                                    'Add Image',
+                                                    'Add Image / Ikani Chithunzi',
                                                     style: TextStyle(
                                                       fontFamily: 'Poppins',
                                                       fontWeight:

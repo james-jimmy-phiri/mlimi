@@ -28,7 +28,7 @@ class HttpProvider {
     }
   }
 
-  Future<Map<String, dynamic>?> updateProfile(String token, int clientId, Map<String, dynamic> data) async {
+  Future<Map<String, dynamic>?> updateProfile(String token, dynamic clientId, Map<String, dynamic> data) async {
     try {
       var url = Uri.parse('${apiurl}v1/profile/$clientId/update');
       var response = await http.put(

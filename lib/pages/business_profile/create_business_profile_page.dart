@@ -132,7 +132,7 @@ class _CreateBusinessProfilePageState extends State<CreateBusinessProfilePage> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('${_language == 'en' ? 'Failed to load lookups' : 'Zaphwanya kutsegula zofunikira'}: ${ErrorUtils.getFriendlyErrorMessage(e, _language)}'),
+            content: Text('${_language == 'en' ? 'Failed to load lookups' : 'zakanika, Muyenseso Nthawi ina'}: ${ErrorUtils.getFriendlyErrorMessage(e, _language)}'),
             backgroundColor: Colors.red,
           ),
         );
@@ -191,7 +191,7 @@ class _CreateBusinessProfilePageState extends State<CreateBusinessProfilePage> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('${_language == 'en' ? 'Failed to get location' : 'Zaphwanya kuziwa komwe muli'}: ${ErrorUtils.getFriendlyErrorMessage(e, _language)}')),
+          SnackBar(content: Text('${_language == 'en' ? 'Failed to get location' : 'talephera kuziwa komwe muli'}: ${ErrorUtils.getFriendlyErrorMessage(e, _language)}')),
         );
       }
     }
@@ -275,7 +275,7 @@ class _CreateBusinessProfilePageState extends State<CreateBusinessProfilePage> {
           SnackBar(
             content: Text(_language == 'en'
                 ? 'Profile created successfully!'
-                : 'Mbiri yapangidwa bwino!'),
+                : 'Buziness yanu yapangidwa !'),
             backgroundColor: Colors.green,
           ),
         );
@@ -301,7 +301,7 @@ class _CreateBusinessProfilePageState extends State<CreateBusinessProfilePage> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('${_language == 'en' ? 'Failed to create profile' : 'Zaphwanya kupanga mbiri'}: ${ErrorUtils.getFriendlyErrorMessage(e, _language)}'),
+            content: Text('${_language == 'en' ? 'Failed to create profile' : 'Zakanika kupanga bizinesi'}: ${ErrorUtils.getFriendlyErrorMessage(e, _language)}'),
             backgroundColor: Colors.red,
           ),
         );
@@ -336,21 +336,21 @@ class _CreateBusinessProfilePageState extends State<CreateBusinessProfilePage> {
                           const SizedBox(height: 32),
                           
                           _buildSectionHeader(
-                            _language == 'en' ? 'Core Information' : 'Zambiri zazikulu',
+                            _language == 'en' ? 'Core Information' : 'Uthenga ofunika kwambiri',
                             Icons.business_center_rounded,
                           ),
                           _buildBusinessInfoSection(),
                           const SizedBox(height: 32),
                           
                           _buildSectionHeader(
-                            _language == 'en' ? 'Location Details' : 'Zambiri za Malo',
+                            _language == 'en' ? 'Location Details' : ' Malo opangira Bizinesi',
                             Icons.location_on_rounded,
                           ),
                           _buildLocationSection(),
                           const SizedBox(height: 32),
                           
                           _buildSectionHeader(
-                            _language == 'en' ? 'Contact & Digital' : 'Zolumikizirana',
+                            _language == 'en' ? 'Contact & Digital' : 'Njira zolumikizilana ndi anthu za Bizinesi',
                             Icons.contact_mail_rounded,
                           ),
                           _buildContactSection(),
@@ -372,7 +372,7 @@ class _CreateBusinessProfilePageState extends State<CreateBusinessProfilePage> {
 
                           if (_valueChains.isNotEmpty) ...[
                             _buildSectionHeader(
-                              _language == 'en' ? 'Value Chains' : 'Nzere za Mtengo',
+                              _language == 'en' ? 'Value Chains' : 'zomwe malima kapena kuweta',
                               Icons.link_rounded,
                             ),
                             _buildValueChainsSection(),
@@ -380,12 +380,12 @@ class _CreateBusinessProfilePageState extends State<CreateBusinessProfilePage> {
                           ],
 
                           _buildSectionHeader(
-                            _language == 'en' ? 'Offerings (Products/Services)' : 'Zogulitsa ndi Ntchito',
+                            _language == 'en' ? 'Offerings (Products/Services)' : 'Zomwe mumagulitsa kapena kuchita',  
                             Icons.shopping_bag_rounded,
                             action: TextButton.icon(
                               onPressed: _addOffering,
                               icon: const Icon(Icons.add_circle_outline, size: 20),
-                              label: Text(_language == 'en' ? 'Add Item' : 'Onjezani'),
+                              label: Text(_language == 'en' ? 'Add Item' : 'Onjezelani'),
                               style: TextButton.styleFrom(foregroundColor: kPrimaryColor),
                             ),
                           ),
@@ -419,7 +419,7 @@ class _CreateBusinessProfilePageState extends State<CreateBusinessProfilePage> {
       flexibleSpace: FlexibleSpaceBar(
         centerTitle: true,
         title: Text(
-          _language == 'en' ? 'Create Business Profile' : 'Pangani Mbiri',
+          _language == 'en' ? 'Create Business Profile' : 'Segulani Buzinesi yanu',
           style: GoogleFonts.poppins(
             fontWeight: FontWeight.w600,
             fontSize: 16,
@@ -540,7 +540,7 @@ class _CreateBusinessProfilePageState extends State<CreateBusinessProfilePage> {
                     child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
                   )
                 : Text(
-                    _language == 'en' ? 'Launch Business Profile' : 'Tumizani Mbiri ya Bizinesi',
+                    _language == 'en' ? 'Launch Business Profile' : 'Tumizani Bizinesi yanu',
                     style: GoogleFonts.poppins(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -666,7 +666,7 @@ class _CreateBusinessProfilePageState extends State<CreateBusinessProfilePage> {
                   children: [
                     Icon(Icons.add_circle_outline, size: 16, color: kPrimaryColor),
                     const SizedBox(width: 8),
-                    Text(_language == 'en' ? 'Other (Add New)' : 'Zina (Onjeza Tsopano)',
+                    Text(_language == 'en' ? 'Other (Add New)' : 'Zina (Onjezerani)',
                         style: GoogleFonts.poppins(color: kPrimaryColor)),
                   ],
                 ),
@@ -707,7 +707,7 @@ class _CreateBusinessProfilePageState extends State<CreateBusinessProfilePage> {
           // ── Categories ──
           if (_categories.isNotEmpty) ...[
             Text(
-              _language == 'en' ? 'Business Categories' : 'Mitundu ya Bizinesi',
+              _language == 'en' ? 'Business Categories' : 'Mitundu yama Bizinesi',
               style: GoogleFonts.poppins(fontSize: 13, fontWeight: FontWeight.w600, color: Colors.grey[700]),
             ),
             const SizedBox(height: 8),
@@ -791,7 +791,7 @@ class _CreateBusinessProfilePageState extends State<CreateBusinessProfilePage> {
             controller: _descriptionController,
             style: GoogleFonts.poppins(fontSize: 15),
             decoration: _getInputDecoration(
-              _language == 'en' ? 'Business Description *' : 'Kufotokozera *',
+              _language == 'en' ? 'Business Description *' : 'Fotokozani zomwe mapanga mubizinesi *',
               Icons.description_rounded,
             ).copyWith(alignLabelWithHint: true),
             maxLines: 4,
@@ -802,7 +802,7 @@ class _CreateBusinessProfilePageState extends State<CreateBusinessProfilePage> {
             controller: _licenseController,
             style: GoogleFonts.poppins(fontSize: 15),
             decoration: _getInputDecoration(
-              _language == 'en' ? 'Business License No.' : 'Nambala ya Lazense',
+              _language == 'en' ? 'Business License No.' : 'Nambala ya License',
               Icons.badge_rounded,
             ),
           ),
@@ -859,7 +859,7 @@ class _CreateBusinessProfilePageState extends State<CreateBusinessProfilePage> {
             controller: _locationController,
             style: GoogleFonts.poppins(fontSize: 15),
             decoration: _getInputDecoration(
-              _language == 'en' ? 'Primary Location *' : 'Malo Akulu *',
+              _language == 'en' ? 'Primary Location *' : 'Malo komwe kuli shop *',
               Icons.place_rounded,
             ),
             validator: (value) => value?.isEmpty == true ? 'Required' : null,
@@ -958,7 +958,7 @@ class _CreateBusinessProfilePageState extends State<CreateBusinessProfilePage> {
             controller: _phoneController,
             style: GoogleFonts.poppins(fontSize: 15),
             decoration: _getInputDecoration(
-              _language == 'en' ? 'Business Phone *' : 'Lamya ya Bizinesi *',
+              _language == 'en' ? 'Business Phone *' : 'Foni ya Bizinesi *',
               Icons.phone_rounded,
             ),
             keyboardType: TextInputType.phone,
@@ -980,7 +980,7 @@ class _CreateBusinessProfilePageState extends State<CreateBusinessProfilePage> {
             controller: _websiteController,
             style: GoogleFonts.poppins(fontSize: 15),
             decoration: _getInputDecoration(
-              _language == 'en' ? 'Website URL' : 'Webusaiti',
+              _language == 'en' ? 'Website URL' : 'website',
               Icons.language_rounded,
             ),
             keyboardType: TextInputType.url,
@@ -1005,13 +1005,13 @@ class _CreateBusinessProfilePageState extends State<CreateBusinessProfilePage> {
             controller: _operatingHoursController,
             style: GoogleFonts.poppins(fontSize: 14),
             decoration: _getInputDecoration(
-              _language == 'en' ? 'Operating Hours (e.g. Mon-Fri 8am-5pm)' : 'Maola Ogwira Ntchito',
+              _language == 'en' ? 'Operating Hours (e.g. Mon-Fri 8am-5pm)' : 'Nthawi yogwira Ntchito (e.g. Mon-Fri 8am-5pm)',
               Icons.access_time_rounded,
             ).copyWith(alignLabelWithHint: true),
             maxLines: 2,
           ),
           const SizedBox(height: 20),
-          Text(_language == 'en' ? 'Payment Methods' : 'Njira za Kulipira',
+          Text(_language == 'en' ? 'Payment Methods' : 'Njira za zolandilira ndalama',
               style: GoogleFonts.poppins(fontSize: 13, fontWeight: FontWeight.w600, color: Colors.grey[700])),
           const SizedBox(height: 8),
           Wrap(
@@ -1033,7 +1033,7 @@ class _CreateBusinessProfilePageState extends State<CreateBusinessProfilePage> {
             }).toList(),
           ),
           const SizedBox(height: 20),
-          Text(_language == 'en' ? 'Delivery Options' : 'Njira za Kutumizia',
+          Text(_language == 'en' ? 'Delivery Options' : 'Njira zo zotumizia katundu',
               style: GoogleFonts.poppins(fontSize: 13, fontWeight: FontWeight.w600, color: Colors.grey[700])),
           const SizedBox(height: 8),
           Wrap(
@@ -1082,7 +1082,7 @@ class _CreateBusinessProfilePageState extends State<CreateBusinessProfilePage> {
           GestureDetector(
             onTap: () {
               _showMultiSelectBottomSheet(
-                title: _language == 'en' ? 'Select Value Chains' : 'Sankhani Nzere',
+                title: _language == 'en' ? 'Select Value Chains' : 'Sankhani Mbewu',
                 items: _valueChains,
                 selectedIds: _selectedValueChainIds,
                 getId: (item) => item['id'] as int,
@@ -1113,7 +1113,7 @@ class _CreateBusinessProfilePageState extends State<CreateBusinessProfilePage> {
                   Expanded(
                     child: Text(
                       (_selectedValueChainIds.isEmpty && _customValueChains.isEmpty)
-                          ? (_language == 'en' ? 'Select Value Chains' : 'Sankhani Nzere')
+                          ? (_language == 'en' ? 'Select Value Chains' : 'Sankhani Mbeu')
                           : '${_selectedValueChainIds.length + _customValueChains.length} selected',
                       style: GoogleFonts.poppins(
                         color: (_selectedValueChainIds.isEmpty && _customValueChains.isEmpty) ? Colors.grey[500] : Colors.black87,
@@ -1226,7 +1226,7 @@ class _CreateBusinessProfilePageState extends State<CreateBusinessProfilePage> {
                 foregroundColor: kPrimaryColor,
                 elevation: 0,
               ),
-              child: Text(_language == 'en' ? 'Add First Item' : 'Onjezani Choyamba'),
+              child: Text(_language == 'en' ? 'Add First Item' : 'Choyamba'),
             ),
           ],
         ),
@@ -1568,7 +1568,7 @@ class _CreateBusinessProfilePageState extends State<CreateBusinessProfilePage> {
         child: _isLoading
             ? const CircularProgressIndicator(color: Colors.white)
             : Text(
-                _language == 'en' ? 'Create Profile' : 'Pangani Mbiri',
+                _language == 'en' ? 'Create Profile' : 'Lembetsani Bizinesi',
                 style: GoogleFonts.poppins(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,

@@ -67,30 +67,67 @@ class _ManageGroupMembersPageState extends State<ManageGroupMembersPage> {
     if (membersToAdd.isEmpty) return;
 
     setState(() => isLoading = true);
-    final client = widget.user?['client'];
-    if (client == null) return;
-    
-    String token = GetStorage().read('token');
-    Map<String, dynamic> data = {
-      'add_members': membersToAdd,
-    };
 
-    var result = await HttpProvider().updateProfile(token, client['id'], data);
+    try {
+      final client = widget.user?['client'];
+      if (client == null) {
+        setState(() => isLoading = false);
+        return;
+      }
+      
+      String token = GetStorage().read('token') ?? '';
+      dynamic clientId = client['id'];
 
-    setState(() => isLoading = false);
+      Map<String, dynamic> data = {
+        'add_members': membersToAdd.map((m) {
+          final rawVc = m['value_chains'] as List<dynamic>? ?? [];
+          final intVc = rawVc
+              .map((id) => int.tryParse(id.toString()))
+              .whereType<int>()
+              .toList();
 
-    if (result != null && result['client'] != null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(selectedLanguage == 'ny' ? 'Mamembala awonjezedwa bwino' : 'Members added successfully')),
-      );
-      setState(() {
-        membersToAdd.clear();
-      });
-      widget.onUpdate();
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(selectedLanguage == 'ny' ? 'Kuwonjezela kwalephera' : 'Failed to add members')),
-      );
+          return {
+            'name': m['name'],
+            'phone': m['phone'],
+            'gender': (m['gender'] == 'male' || m['gender'] == 'female' || m['gender'] == 'other') ? m['gender'] : 'other',
+            'age_range': m['age_range'],
+            'position': m['position'] ?? 'Member',
+            'disability': m['disability'] ?? false,
+            if (intVc.isNotEmpty) 'value_chains': intVc,
+          };
+        }).toList(),
+      };
+
+      var result = await HttpProvider().updateProfile(token, clientId, data);
+
+      if (!mounted) return;
+
+      if (result != null && result['client'] != null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(selectedLanguage == 'ny' ? 'Mamembala awonjezedwa bwino' : 'Members added successfully')),
+        );
+        setState(() {
+          membersToAdd.clear();
+        });
+        widget.onUpdate();
+      } else {
+        final details = result?['details'] ?? result?['error'] ?? '';
+        debugPrint('Manage members error: $details');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(selectedLanguage == 'ny' ? 'Kuwonjezela kwalephera' : 'Failed to add members')),
+        );
+      }
+    } catch (e, stack) {
+      debugPrint('Exception in submit members: $e\n$stack');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: ${e.toString()}')),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => isLoading = false);
+      }
     }
   }
 

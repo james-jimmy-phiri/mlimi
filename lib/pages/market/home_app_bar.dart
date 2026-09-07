@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:mlimi/constants/color.dart';
+import 'package:mlimi/pages/notifications/notifications_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:mlimi/provider/notification_provider.dart';
-import 'package:mlimi/pages/notifications/notification_list_screen.dart';
 
 AppBar homeAppBar(BuildContext context) {
-  // Fetch notifications on load using addPostFrameCallback if not already fetching
   WidgetsBinding.instance.addPostFrameCallback((_) {
     final provider = context.read<NotificationProvider>();
-    if (provider.notifications.isEmpty && !provider.isLoading) {
-      provider.fetchNotifications();
+    if (provider.notifications.isEmpty && !provider.loading) {
+      provider.refresh(showAlerts: false);
     }
   });
 
@@ -35,7 +34,7 @@ AppBar homeAppBar(BuildContext context) {
     actions: [
       Consumer<NotificationProvider>(
         builder: (context, notificationProvider, child) {
-          int unreadCount = notificationProvider.unreadCount;
+          final unreadCount = notificationProvider.unreadCount;
           return IconButton(
             icon: Stack(
               children: [
@@ -64,14 +63,14 @@ AppBar homeAppBar(BuildContext context) {
                         textAlign: TextAlign.center,
                       ),
                     ),
-                  )
+                  ),
               ],
             ),
             onPressed: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const NotificationListScreen(),
+                  builder: (context) => const NotificationsScreen(),
                 ),
               );
             },
@@ -82,4 +81,3 @@ AppBar homeAppBar(BuildContext context) {
     ],
   );
 }
-

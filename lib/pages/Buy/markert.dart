@@ -12,6 +12,9 @@ import 'package:mlimi/models/products_model.dart';
 import 'package:mlimi/pages/Buy/product_deteils.dart';
 import 'package:mlimi/pages/Buy/product_edit.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:provider/provider.dart';
+import 'package:mlimi/provider/cart_provider.dart';
+import 'package:mlimi/pages/order/cart_screen.dart';
 
 class Markert extends StatefulWidget {
   const Markert({Key? key}) : super(key: key);
@@ -72,32 +75,43 @@ class _MarkertState extends State<Markert> {
 
         List<Product> fetchedProducts = [];
         for (var item in jsonData['commodities']) {
-          var clientData = item['client'];
-          var client = Client(
-            name: clientData['name'],
-            phone: clientData['phone'],
-          );
+          try {
+            var clientData = item['client'] as Map<String, dynamic>?;
+            var client = Client(
+              name: clientData?['name'] ?? '',
+              phone: clientData?['phone'] ?? '',
+            );
+            final seller = Seller.fromJson(
+              item['seller'] as Map<String, dynamic>?,
+              client: clientData,
+            );
 
-          var product = Product(
-            id: item['id'],
-            name: item['name'],
-            imageUrl: item['image'] ?? '',
-            unitPrice: item['price'],
-            measure: item['measure'],
-            quantity: item['quantity'],
-            location: item['location'],
-            description: item['description'],
-            type: item['type'],
-            active: item['active'],
-            views: item['views'],
-            created: item['created'],
-            client: client,
-            isAggregation: item['is_aggregation'] == 1 || item['type'] == 'aggregation',
-            totalSold: item['total_sold']?.toString(),
-            quantityRemaining: item['quantity_remaining']?.toString(),
-          );
+            var product = Product(
+              id: item['id'],
+              name: item['name'] ?? '',
+              imageUrl: item['image'] ?? '',
+              unitPrice: item['price'] != null ? item['price'].toString() : '0',
+              measure: item['measure'] ?? '',
+              quantity: item['quantity'] != null ? item['quantity'].toString() : '0',
+              location: item['location'] ?? '',
+              description: item['description'] ?? '',
+              type: item['type'] ?? '',
+              active: item['active'] == true || item['active'] == 1,
+              views: item['views'] is int ? item['views'] : int.tryParse(item['views']?.toString() ?? '0') ?? 0,
+              created: item['created'] ?? '',
+              client: client,
+              seller: seller,
+              isAggregation: item['is_aggregation'] == 1 || item['type'] == 'aggregation',
+              totalSold: item['total_sold']?.toString(),
+              quantityRemaining: item['quantity_remaining'] != null
+                  ? double.tryParse(item['quantity_remaining'].toString())
+                  : null,
+            );
 
-          fetchedProducts.add(product);
+            fetchedProducts.add(product);
+          } catch (parseError) {
+            print('Error parsing product item: $parseError');
+          }
         }
 
       setState(() {
@@ -224,7 +238,7 @@ Future<void> _refreshProducts() async {
                           ? NetworkImage(client.avatarUrl!)
                           : null,
                       child: client.avatarUrl == null
-                          ? Icon(Icons.person,
+                          ? const Icon(Icons.person,
                               size: 40, color: Colors.blueAccent)
                           : null,
                     ),
@@ -247,9 +261,33 @@ Future<void> _refreshProducts() async {
                 child: Column(
                   children: [
                     ListTile(
-                      leading: Icon(Icons.phone, color: Colors.blueAccent),
-                      title: Text(client.phone),
-                      onTap: () => launch("tel://${client.phone}"),
+                      leading: const Icon(Icons.phone, color: Colors.blueAccent),
+                      title: const Text('Call Seller'),
+                      subtitle: Text(client.phone),
+                      onTap: () async {
+                        final Uri callUri = Uri(scheme: 'tel', path: client.phone);
+                        if (await canLaunchUrl(callUri)) {
+                          await launchUrl(callUri);
+                        }
+                      },
+                    ),
+                    const Divider(),
+                    ListTile(
+                      leading: Icon(MdiIcons.whatsapp, color: Colors.green),
+                      title: const Text('WhatsApp Chat'),
+                      subtitle: const Text('Open in WhatsApp'),
+                      onTap: () async {
+                        String formatted = client.phone.trim();
+                        if (formatted.startsWith('0')) {
+                          formatted = '+265${formatted.substring(1)}';
+                        } else if (!formatted.startsWith('+') && !formatted.startsWith('265')) {
+                          formatted = '+265$formatted';
+                        }
+                        final Uri whatsappUri = Uri.parse("https://wa.me/$formatted");
+                        if (await canLaunchUrl(whatsappUri)) {
+                          await launchUrl(whatsappUri, mode: LaunchMode.externalApplication);
+                        }
+                      },
                     ),
                   ],
                 ),
@@ -613,6 +651,72 @@ class _PostHeader extends StatelessWidget {
   }
 }
 
+void _handleAddToCartInMarket(BuildContext context, Product product) {
+  final cart = Provider.of<CartProvider>(context, listen: false);
+  try {
+    cart.addItem(product);
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('${product.name} added to cart'),
+        backgroundColor: kPrimaryColor,
+        behavior: SnackBarBehavior.floating,
+        action: SnackBarAction(
+          label: 'VIEW CART',
+          textColor: Colors.amber,
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const CartScreen()),
+            );
+          },
+        ),
+      ),
+    );
+  } catch (e) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Different Seller'),
+        content: const Text(
+          'Your cart contains items from a different seller. Would you like to clear your cart and add this item?',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(backgroundColor: kPrimaryColor),
+            onPressed: () {
+              Navigator.pop(ctx);
+              cart.clear();
+              cart.addItem(product);
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('${product.name} added to cart'),
+                  backgroundColor: kPrimaryColor,
+                  behavior: SnackBarBehavior.floating,
+                  action: SnackBarAction(
+                    label: 'VIEW CART',
+                    textColor: Colors.amber,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const CartScreen()),
+                      );
+                    },
+                  ),
+                ),
+              );
+            },
+            child: const Text('Clear & Add', style: TextStyle(color: Colors.white)),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class _PostStats extends StatelessWidget {
   final Product product;
   final Function(int) onPoke;
@@ -672,18 +776,18 @@ class _PostStats extends StatelessWidget {
               child: InkWell(
                 onTap: () => onViewSeller(context, product.client),
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                  height: 25.0,
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  height: 28.0,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(
                         MdiIcons.eyeOutline,
                         color: Colors.grey[600],
-                        size: 20.0,
+                        size: 18.0,
                       ),
                       const SizedBox(width: 4.0),
-                      const Text('View Seller'),
+                      const Text('View Seller', style: TextStyle(fontSize: 12)),
                     ],
                   ),
                 ),
@@ -695,18 +799,48 @@ class _PostStats extends StatelessWidget {
               child: InkWell(
                 onTap: () => onPoke(product.id),
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                  height: 25.0,
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  height: 28.0,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(
                         MdiIcons.handWaveOutline,
                         color: Colors.grey[600],
-                        size: 20.0,
+                        size: 18.0,
                       ),
                       const SizedBox(width: 4.0),
-                      const Text('Poke Seller'),
+                      const Text('Poke', style: TextStyle(fontSize: 12)),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+
+            Material(
+              color: Colors.white,
+              child: InkWell(
+                onTap: () => _handleAddToCartInMarket(context, product),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  height: 28.0,
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.add_shopping_cart,
+                        color: kPrimaryColor,
+                        size: 18.0,
+                      ),
+                      SizedBox(width: 4.0),
+                      Text(
+                        'Add to Cart',
+                        style: TextStyle(
+                          color: kPrimaryColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12,
+                        ),
+                      ),
                     ],
                   ),
                 ),

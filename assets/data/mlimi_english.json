@@ -862,18 +862,18 @@
         },
         {
           "id": 4,
-          "image": "roots_and_tubers",
+          "image": "potato_farm",
           "name": "Roots and Tubers",
           "description": "Roots and Tubers crops advisories such as Potato, sweet potato and cassava.",
           "products": [
             {
               "id": 1,
-              "image": "potato",
+              "image": "potato_coverphoto",
               "name": "Potato",
               "section": [
                 {
                   "id": 1,
-                  "image": "potato_variety",
+                  "image": "potato_seeds",
                   "title": "Recommended varieties",
                   "audio": "",
                   "content": [
@@ -888,7 +888,7 @@
                 },
                 {
                   "id": 2,
-                  "image": "potato_climate",
+                  "image": "potato_farm",
                   "title": "Climatic Requirement",
                   "audio": "",
                   "content": [
@@ -898,7 +898,7 @@
                 },
                 {
                   "id": 3,
-                  "image": "potato_site",
+                  "image": "potato_dry",
                   "title": "Site selection and Soil Requirement",
                   "audio": "",
                   "content": [
@@ -910,7 +910,7 @@
                 },
                 {
                   "id": 4,
-                  "image": "potato_land",
+                  "image": "potato_farm",
                   "title": "Land preparation",
                   "audio": "",
                   "content": [
@@ -920,7 +920,7 @@
                 },
                 {
                   "id": 5,
-                  "image": "potato_planting",
+                  "image": "potato_seeds",
                   "title": "Planting",
                   "audio": "",
                   "content": [
@@ -934,7 +934,7 @@
                 },
                 {
                   "id": 6,
-                  "image": "potato_fertilizer",
+                  "image": "potato_coverphoto",
                   "title": "Fertilizer Application",
                   "audio": "",
                   "content": [
@@ -946,7 +946,7 @@
                 },
                 {
                   "id": 7,
-                  "image": "potato_weeding",
+                  "image": "potato_haverst",
                   "title": "Weed control",
                   "audio": "",
                   "content": [
@@ -957,7 +957,7 @@
                 },
                 {
                   "id": 8,
-                  "image": "potato_pest",
+                  "image": "potato_packaging",
                   "title": "Insect Pest Control",
                   "audio": "",
                   "content": [
@@ -968,7 +968,7 @@
                 },
                 {
                   "id": 9,
-                  "image": "potato_disease",
+                  "image": "potato_storage",
                   "title": "Disease Control",
                   "audio": "",
                   "content": [
@@ -1186,7 +1186,7 @@
                 },
                 {
                   "id": 4,
-                  "image": "dairyproduction",
+                  "image": "dairy_breed",
                   "title": "Recommended size for breeding",
                   "audio": "enDairy_04",
                   "content": [
@@ -1223,7 +1223,7 @@
                 },
                 {
                   "id": 7,
-                  "image": "dairyproduction",
+                  "image": "dairy_birth",
                   "title": "Proper management of calves",
                   "audio": "enDairy_07",
                   "content": [
@@ -1246,7 +1246,7 @@
                 },
                 {
                   "id": 9,
-                  "image": "dairyproduction",
+                  "image": "dairy_diseases",
                   "title": "Tizilombo toyambitsa matenda(Nthata)",
                   "audio": "Dairy_9",
                   "content": [
@@ -1267,7 +1267,7 @@
                 },
                 {
                   "id": 11,
-                  "image": "dairyproduction",
+                  "image": "beef_record",
                   "title": "Kusunga akaundula paulimi",
                   "audio": "Dairy_11",
                   "content": [

@@ -89,6 +89,7 @@ plugins {
     id "com.android.application"
     id "org.jetbrains.kotlin.android"
     id "dev.flutter.flutter-gradle-plugin"
+    id "com.google.gms.google-services"
 }
 
 def keystoreProperties = new Properties()
@@ -97,9 +98,25 @@ if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
 
-// Fallback version info (these usually come from pubspec.yaml, but just in case)
-def flutterVersionCode = 12
-def flutterVersionName = "1.0.11"
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader("UTF-8") { reader ->
+        localProperties.load(reader)
+    }
+}
+
+def flutterVersionCode = localProperties.getProperty("flutter.versionCode")
+if (flutterVersionCode == null) {
+    flutterVersionCode = 16
+} else {
+    flutterVersionCode = flutterVersionCode.toInteger()
+}
+
+def flutterVersionName = localProperties.getProperty("flutter.versionName")
+if (flutterVersionName == null) {
+    flutterVersionName = "1.0.15"
+}
 
 android {
     namespace "com.frtholdingsmw.mlimi"   // ✅ Required for AGP 8+
@@ -107,6 +124,8 @@ android {
     ndkVersion flutter.ndkVersion
 
     compileOptions {
+        // Enable support for the new language APIs (required by flutter_local_notifications)
+        coreLibraryDesugaringEnabled true
         // ✅ Use Java 17 for Gradle 8+ and AGP 8+ (Java 8 can cause warnings now)
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
@@ -122,6 +141,7 @@ android {
         targetSdk 36
         versionCode flutterVersionCode
         versionName flutterVersionName
+        multiDexEnabled true
     }
 
     signingConfigs {
@@ -152,4 +172,5 @@ flutter {
 
 dependencies {
     implementation "androidx.activity:activity-ktx:1.9.3"
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
 }

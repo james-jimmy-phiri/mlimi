@@ -66,7 +66,9 @@ class _SupplyState extends State<ToSupply> {
             created: item['created'],
             client: client,
             totalSold: item['total_sold']?.toString(),
-            quantityRemaining: item['quantity_remaining']?.toString(),
+            quantityRemaining: item['quantity_remaining'] != null
+                ? double.tryParse(item['quantity_remaining'].toString())
+                : null,
           ));
         }
 
@@ -147,18 +149,83 @@ class _SupplyState extends State<ToSupply> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Seller Details'),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16.0),
+          ),
+          contentPadding: EdgeInsets.zero,
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('Name: ${client.name}'),
-              Text('Phone: ${client.phone}'),
-              IconButton(
-                icon: Icon(Icons.phone),
-                onPressed: () {
-                  // Code to dial the phone number
-                  launch("tel://${client.phone}");
-                },
+              // Top section with avatar and name
+              Container(
+                padding: const EdgeInsets.all(16.0),
+                decoration: const BoxDecoration(
+                  color: Colors.blueAccent,
+                  borderRadius:
+                      BorderRadius.vertical(top: Radius.circular(16.0)),
+                ),
+                child: Column(
+                  children: [
+                    CircleAvatar(
+                      radius: 40,
+                      backgroundColor: Colors.white,
+                      backgroundImage: client.avatarUrl != null
+                          ? NetworkImage(client.avatarUrl!)
+                          : null,
+                      child: client.avatarUrl == null
+                          ? const Icon(Icons.person,
+                              size: 40, color: Colors.blueAccent)
+                          : null,
+                    ),
+                    const SizedBox(height: 8.0),
+                    Text(
+                      client.name,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              // Middle section with details
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    ListTile(
+                      leading: const Icon(Icons.phone, color: Colors.blueAccent),
+                      title: const Text('Call Seller'),
+                      subtitle: Text(client.phone),
+                      onTap: () async {
+                        final Uri callUri = Uri(scheme: 'tel', path: client.phone);
+                        if (await canLaunchUrl(callUri)) {
+                          await launchUrl(callUri);
+                        }
+                      },
+                    ),
+                    const Divider(),
+                    ListTile(
+                      leading: Icon(MdiIcons.whatsapp, color: Colors.green),
+                      title: const Text('WhatsApp Chat'),
+                      subtitle: const Text('Open in WhatsApp'),
+                      onTap: () async {
+                        String formatted = client.phone.trim();
+                        if (formatted.startsWith('0')) {
+                          formatted = '+265${formatted.substring(1)}';
+                        } else if (!formatted.startsWith('+') && !formatted.startsWith('265')) {
+                          formatted = '+265$formatted';
+                        }
+                        final Uri whatsappUri = Uri.parse("https://wa.me/$formatted");
+                        if (await canLaunchUrl(whatsappUri)) {
+                          await launchUrl(whatsappUri, mode: LaunchMode.externalApplication);
+                        }
+                      },
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
@@ -167,7 +234,10 @@ class _SupplyState extends State<ToSupply> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Close'),
+              child: const Text(
+                'Close',
+                style: TextStyle(color: Colors.blueAccent),
+              ),
             ),
           ],
         );

@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
 import 'package:mlimi/pages/views/signup/loginscreen.dart';
 import 'package:mlimi/pages/views/signup/registration_tab_view.dart';
+import 'package:mlimi/pages/views/signup/otp_verification_screen.dart';
 
 class GroupRegisterScreen extends StatefulWidget {
   final Function(String? name, String? pin)? onSubmitted;
@@ -473,14 +474,14 @@ class _GroupRegisterScreenState extends State<GroupRegisterScreen> with TickerPr
     if (phone.isEmpty || !RegExp(r'^(09|08)[0-9]{8}$').hasMatch(phone)) {
       phoneError = selectedLanguage == 'en'
           ? 'Phone Number is invalid, must start with 08 or 09 and be 10 digits.'
-          : 'Nambala Ya Foni siyolondola';
+          : 'Nambala Ya Foni siyolondola kapena yosakwana manambala 10';
       isValid = false;
     }
 
     if (selectedDistrictId == null) {
       districtError = selectedLanguage == 'en'
           ? 'Please select a district'
-          : 'Chonde sankhani dera';
+          : 'Chonde sankhani Boma lochokera (District)';
       isValid = false;
     }
 
@@ -540,82 +541,70 @@ class _GroupRegisterScreenState extends State<GroupRegisterScreen> with TickerPr
       return;
     }
 
-    final payload = {
+    final payload = <String, dynamic>{
       'name': _nameController.text.trim(),
       'pin': _pinController.text,
       'pin_confirmation': _pinConfirmController.text,
-      'district_id': selectedDistrictId,
+      'district_id': int.tryParse(selectedDistrictId ?? ''),
       'phone': _phoneController.text.trim(),
       'type': 'group',
-      'project_name': _projectNameController.text.trim(),
+      'project_name': _projectNameController.text.trim().isNotEmpty ? _projectNameController.text.trim() : null,
       'epa': _epaController.text.trim(),
       't_a': _taController.text.trim(),
       'gvh': _gvhController.text.trim(),
       'number_of_members': int.tryParse(_numMembersController.text) ?? membersList.length,
-      'male_group_members': int.tryParse(_maleMembersController.text) ?? 0,
-      'female_group_members': int.tryParse(_femaleMembersController.text) ?? 0,
+      'male_group_members': int.tryParse(_maleMembersController.text),
+      'female_group_members': int.tryParse(_femaleMembersController.text),
       'chair_person': _chairPersonController.text.trim(),
       'mapping_id': _mappingIdController.text.trim(),
-      'members': membersList,
-      'value_chains': selectedGroupValueChains,
+      'members': membersList.map((m) => {
+        ...m,
+        'value_chains': (m['value_chains'] as List<dynamic>? ?? []).map((id) => int.tryParse(id.toString()) ?? id).toList(),
+      }).toList(),
+      'value_chains': selectedGroupValueChains.map((id) => int.tryParse(id) ?? id).toList(),
     };
 
-    debugPrint("Submitting Payload: ${jsonEncode(payload)}");
+    debugPrint('>>> [GroupSubmit] Requesting OTP for phone: ${_phoneController.text.trim()}');
     setState(() => isLoading = true);
 
+    // Step 1: Request OTP — registration completes in OtpVerificationScreen
     try {
-      final response = await http.post(
-        Uri.parse('${apiurl}v1/auth/register'),
+      final otpResponse = await http.post(
+        Uri.parse('${apiurl}v1/auth/request-otp'),
         headers: {'Content-Type': 'application/json'},
-        body: jsonEncode(payload),
+        body: jsonEncode({'phone_number': _phoneController.text.trim()}),
       );
 
+      debugPrint('>>> [GroupSubmit] request-otp status: ${otpResponse.statusCode}');
+      debugPrint('>>> [GroupSubmit] request-otp body: ${otpResponse.body}');
+
       setState(() => isLoading = false);
-      debugPrint("Response (${response.statusCode}): ${response.body}");
 
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-        GetStorage().write('token', data['token']);
-        GetStorage().write('phone', payload['phone']);
-        GetStorage().write('name', payload['name']);
-        GetStorage().write('district', selectedDistrictId);
-        GetStorage().write('client_type', 'group');
-
-        // ✅ Save members list
-        if (data['client'] != null && data['client']['members'] != null) {
-          final members = data['client']['members'];
-          GetStorage().write('members', members);
-        }
-
-        Navigator.pushReplacement(
+      if (otpResponse.statusCode == 200) {
+        if (!mounted) return;
+        Navigator.push(
           context,
-          MaterialPageRoute(builder: (_) => const Homepage()),
+          MaterialPageRoute(
+            builder: (_) => OtpVerificationScreen(
+              phone: _phoneController.text.trim(),
+              registrationData: payload,
+              onRegistered: onSubmitted,
+            ),
+          ),
         );
       } else {
-        final error =
-            jsonDecode(response.body)['message'] ?? 'Registration failed.';
-        showSnackBar(error);
-      }
-      
-      if (response.statusCode == 422) {
-        var responseBody = jsonDecode(response.body);
-        String errorMessage =
-            responseBody['message'] ?? (selectedLanguage == 'en'
-                ? 'This phone has already been taken '
-                : 'Nambala iyi ya foni yapezeka kale');
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(errorMessage)),
-        );
-        setState(() {
-          nameError = responseBody['errors']['name']?.join(', ');
-          phoneError = responseBody['errors']['phone']?.join(', ');
-          districtError = responseBody['errors']['district_id']?.join(', ');
-          pinError = responseBody['errors']['pin']?.join(', ');
-        });
+        final body = jsonDecode(otpResponse.body);
+        showSnackBar(body['message'] ??
+            (selectedLanguage == 'en'
+                ? 'Failed to send verification code. Please try again.'
+                : 'Kutumiza nambala yakutsimikizira kulephera. Yesaninso.'));
       }
     } catch (e) {
       setState(() => isLoading = false);
-      showSnackBar('Something went wrong. Try again.');
+      debugPrint('>>> [GroupSubmit] Error: $e');
+      showSnackBar(selectedLanguage == 'en'
+          ? 'Something went wrong. Try again.'
+          : 'Pali vuto. Yesaninso.');
     }
   }
 
@@ -730,7 +719,7 @@ class _GroupRegisterScreenState extends State<GroupRegisterScreen> with TickerPr
                     decoration: InputDecoration(
                       labelText: selectedLanguage == 'en'
                           ? 'Select District'
-                          : 'Sankhani Dera',
+                          : 'Sankhani Boma lochokera (District)',
                       errorText: districtError,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -793,7 +782,7 @@ class _GroupRegisterScreenState extends State<GroupRegisterScreen> with TickerPr
                         pin = value;
                       });
                     },
-                    labelText: selectedLanguage == 'en' ? 'Pin (4 Digits)' : 'Pin (Ziwerengero 4)',
+                    labelText: selectedLanguage == 'en' ? 'Pin (4 Digits)' : 'Pin (Manambala 4)',
                     errorText: pinError,
                     obscureText: true,
                     maxLength: 4,
@@ -819,7 +808,7 @@ class _GroupRegisterScreenState extends State<GroupRegisterScreen> with TickerPr
                   // VALUE CHAINS SECTION
                   SizedBox(height: screenHeight * .025),
                   Text(
-                    selectedLanguage == 'en' ? 'Group Practicing Value Chains' : 'Mankhwala A Gulu',
+                    selectedLanguage == 'en' ? 'Group Practicing Value Chains' : 'Mbeu zomwe malima pa Gulu',
                     style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                   ),
                   const SizedBox(height: 10),
@@ -1055,7 +1044,7 @@ class _GroupRegisterScreenState extends State<GroupRegisterScreen> with TickerPr
                       : FormButton(
                           text: selectedLanguage == 'en'
                               ? 'Sign Up Group'
-                              : 'Lembetsani Gulu',
+                              : 'Lembetsani ngat Gulu',
                           onPressed: submit,
                         ),
                   if (!widget.embedded)

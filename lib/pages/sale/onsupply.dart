@@ -65,7 +65,9 @@ class _OnSupply extends State<Onsupply> {
             created: item['created'],
             client: client,
             totalSold: item['total_sold']?.toString(),
-            quantityRemaining: item['quantity_remaining']?.toString(),
+            quantityRemaining: item['quantity_remaining'] != null
+                ? double.tryParse(item['quantity_remaining'].toString())
+                : null,
           ));
         }
 

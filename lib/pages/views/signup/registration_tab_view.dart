@@ -88,7 +88,7 @@ class _RegistrationTabViewState extends State<RegistrationTabView>
                             Text(
                               selectedLanguage == 'en'
                                   ? 'Join our community'
-                                  : 'Lowani mu gulu lathu',
+                                  : 'Khalani Modzi Mwa alimi otsogolora',
                               style: const TextStyle(
                                 fontSize: 36,
                                 fontWeight: FontWeight.w800,
@@ -106,7 +106,7 @@ class _RegistrationTabViewState extends State<RegistrationTabView>
                             Text(
                               selectedLanguage == 'en'
                                   ? 'Register as an individual or a group to get started.'
-                                  : 'Lembetsani nokha kapena monga gulu kuti muyambe.',
+                                  : 'Mutha kulembetsa panokha ngat munthu kapena ngati gulu',
                               style: TextStyle(
                                 fontSize: 16,
                                 color: Colors.white.withOpacity(0.95),

@@ -6,8 +6,11 @@ import 'package:provider/provider.dart';
 import 'start_aggregation_screen.dart';
 import 'aggregation_details_screen.dart';
 import 'group_insights_screen.dart';
+import 'public_aggregations_screen.dart';
 import 'package:mlimi/models/aggregation_models.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:mlimi/services/language_service.dart';
 
 class AggregationsDashboardScreen extends StatefulWidget {
   const AggregationsDashboardScreen({Key? key}) : super(key: key);
@@ -29,15 +32,27 @@ class _AggregationsDashboardScreenState extends State<AggregationsDashboardScree
 
   @override
   Widget build(BuildContext context) {
+    final language = GetStorage().read('language') ?? 'en';
+
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        title: Text('Group Aggregation', style: GoogleFonts.poppins(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 18)),
+        title: Text(LanguageService.getText('groupAggregation', language), style: GoogleFonts.poppins(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 18)),
         backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: false,
         iconTheme: const IconThemeData(color: Colors.black87),
         actions: [
+          IconButton(
+            tooltip: language == 'ny' ? 'Fufuzani Zosonkhanitsa Zonse' : 'Explore All Aggregations',
+            icon: const Icon(Icons.explore_outlined, color: kPrimaryColor),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const PublicAggregationsScreen()),
+              );
+            },
+          ),
           IconButton(
             icon: const Icon(Icons.refresh_rounded),
             onPressed: () {
@@ -72,7 +87,7 @@ class _AggregationsDashboardScreenState extends State<AggregationsDashboardScree
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'System Overview',
+                            LanguageService.getText('systemOverview', language),
                             style: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.blueGrey[700], letterSpacing: 0.5),
                           ),
                           const SizedBox(height: 12),
@@ -80,7 +95,7 @@ class _AggregationsDashboardScreenState extends State<AggregationsDashboardScree
                             children: [
                               Expanded(
                                 child: _buildGlassMetricCard(
-                                  title: 'Total Volume',
+                                  title: LanguageService.getText('totalVolume', language),
                                   value: '${provider.metrics!.totalVolume} kg',
                                   icon: Icons.scale,
                                   color: Colors.blueAccent,
@@ -89,7 +104,7 @@ class _AggregationsDashboardScreenState extends State<AggregationsDashboardScree
                               const SizedBox(width: 12),
                               Expanded(
                                 child: _buildGlassMetricCard(
-                                  title: 'Remaining',
+                                  title: LanguageService.getText('remaining', language),
                                   value: '${provider.metrics!.remainingVolume} kg',
                                   icon: Icons.inventory_2,
                                   color: Colors.orangeAccent,
@@ -99,7 +114,7 @@ class _AggregationsDashboardScreenState extends State<AggregationsDashboardScree
                           ),
                           const SizedBox(height: 12),
                           _buildGlassMetricCard(
-                            title: 'Total Revenue',
+                            title: LanguageService.getText('totalRevenue', language),
                             value: 'MWK ${provider.metrics!.totalRevenue.toStringAsFixed(2)}',
                             icon: Icons.monetization_on,
                             color: Colors.green,
@@ -109,11 +124,62 @@ class _AggregationsDashboardScreenState extends State<AggregationsDashboardScree
                       ),
                     ),
                   ),
+                // Banner linking to All Aggregations
                 SliverToBoxAdapter(
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(16.0, 10.0, 16.0, 10.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
+                    child: Material(
+                      color: kPrimaryColor.withValues(alpha: 0.08),
+                      borderRadius: BorderRadius.circular(16),
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(16),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => const PublicAggregationsScreen()),
+                          );
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                          child: Row(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  color: kPrimaryColor,
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: const Icon(Icons.explore_outlined, color: Colors.white, size: 20),
+                              ),
+                              const SizedBox(width: 14),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      language == 'ny' ? 'Onani Zosonkhanitsa Zonse' : 'Explore All Aggregations',
+                                      style: GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: 14, color: kPrimaryColor),
+                                    ),
+                                    Text(
+                                      language == 'ny' ? 'Fufuzani katundu wa magulu m\'Malawi muno' : 'Browse public crop pools across all groups in Malawi',
+                                      style: GoogleFonts.poppins(fontSize: 11, color: Colors.grey[700]),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const Icon(Icons.arrow_forward_ios_rounded, size: 14, color: kPrimaryColor),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 10.0),
                     child: Text(
-                      'Aggregations Ledgers',
+                      LanguageService.getText('aggregationsLedgers', language),
                       style: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.blueGrey[700], letterSpacing: 0.5),
                     ),
                   ),
@@ -142,7 +208,7 @@ class _AggregationsDashboardScreenState extends State<AggregationsDashboardScree
           );
         },
         icon: const Icon(Icons.add, color: Colors.white),
-        label: const Text('Start Aggregation', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
+        label: Text(LanguageService.getText('startAggregation', language), style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
       ),
     );
   }
@@ -156,12 +222,12 @@ class _AggregationsDashboardScreenState extends State<AggregationsDashboardScree
   }) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.6),
+        color: Colors.white.withValues(alpha: 0.6),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.white.withOpacity(0.5)),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.5)),
         boxShadow: [
           BoxShadow(
-            color: color.withOpacity(0.1),
+            color: color.withValues(alpha: 0.1),
             blurRadius: 10,
             spreadRadius: 2,
           ),
@@ -178,7 +244,7 @@ class _AggregationsDashboardScreenState extends State<AggregationsDashboardScree
                 Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: color.withOpacity(0.15),
+                    color: color.withValues(alpha: 0.15),
                     shape: BoxShape.circle,
                   ),
                   child: Icon(icon, color: color, size: 24),
@@ -215,7 +281,7 @@ class _AggregationsDashboardScreenState extends State<AggregationsDashboardScree
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
-        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.03), blurRadius: 15, offset: const Offset(0, 5))],
+        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.03), blurRadius: 15, offset: const Offset(0, 5))],
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
@@ -231,7 +297,7 @@ class _AggregationsDashboardScreenState extends State<AggregationsDashboardScree
                     height: 54,
                     width: 54,
                     decoration: BoxDecoration(
-                      color: kPrimaryColor.withOpacity(0.1),
+                      color: kPrimaryColor.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(15),
                     ),
                     child: Icon(Icons.inventory_2_outlined, color: kPrimaryColor, size: 24),
@@ -245,16 +311,42 @@ class _AggregationsDashboardScreenState extends State<AggregationsDashboardScree
                           aggregation.commodity?.valueChainName ?? 'Commodity Pool',
                           style: GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.black87),
                         ),
-                        Text(
-                          aggregation.group?.name ?? 'Unknown Group',
-                          style: GoogleFonts.poppins(fontSize: 12, color: Colors.grey[500]),
+                        // Tappable group name → Group Insights
+                        GestureDetector(
+                          onTap: aggregation.groupId != null
+                              ? () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => GroupInsightsScreen(
+                                        groupId: aggregation.groupId!,
+                                        groupName: aggregation.group?.name ?? 'Group',
+                                      ),
+                                    ),
+                                  )
+                              : null,
+                          child: Row(
+                            children: [
+                              Text(
+                                aggregation.group?.name ?? 'Unknown Group',
+                                style: GoogleFonts.poppins(
+                                  fontSize: 12,
+                                  color: aggregation.groupId != null ? kPrimaryColor : Colors.grey[500],
+                                  decoration: aggregation.groupId != null ? TextDecoration.underline : null,
+                                ),
+                              ),
+                              if (aggregation.groupId != null) ...[
+                                const SizedBox(width: 4),
+                                Icon(Icons.bar_chart_rounded, size: 13, color: kPrimaryColor.withValues(alpha: 0.7)),
+                              ]
+                            ],
+                          ),
                         ),
                         const SizedBox(height: 8),
                         Row(
                           children: [
                             Container(
                               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                              decoration: BoxDecoration(color: statusColor.withOpacity(0.1), borderRadius: BorderRadius.circular(6)),
+                              decoration: BoxDecoration(color: statusColor.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(6)),
                               child: Text(aggregation.status.toUpperCase(), style: GoogleFonts.poppins(fontSize: 9, fontWeight: FontWeight.bold, color: statusColor)),
                             ),
                             const SizedBox(width: 12),

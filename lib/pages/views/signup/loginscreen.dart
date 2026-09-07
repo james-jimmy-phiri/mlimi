@@ -15,8 +15,11 @@ import 'package:mlimi/constants/url.dart';
 import 'package:mlimi/pages/product_request/homepage.dart';
 import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
+import 'package:mlimi/provider/notification_provider.dart';
 
 import 'package:mlimi/pages/views/signup/registration_tab_view.dart';
+import 'package:mlimi/pages/views/signup/otp_verification_screen.dart';
 
 class SimpleLoginScreen extends StatefulWidget {
   /// Callback for when this form is submitted successfully. Parameters are (name, pin)
@@ -68,8 +71,8 @@ class _SimpleLoginScreenState extends State<SimpleLoginScreen> {
     if (phone.isEmpty || !RegExp(r'^(09|08)[0-9]{8}$').hasMatch(phone)) {
       setState(() {
         phoneError = selectedLanguage == 'en'
-            ? 'Phone Number is invalid'
-            : 'Mwalakwisa Nambala';
+            ? 'phone is already registered or Phone Number is invalid'
+            : 'Nambalayi yolembetsedwa kale kapena Mwalakwisa Nambala';
       });
       isValid = false;
     }
@@ -119,10 +122,14 @@ class _SimpleLoginScreenState extends State<SimpleLoginScreen> {
 
           // Store user details
           GetStorage().write('token', token);
+          GetStorage().write('client_id', client['id']);
           GetStorage().write('phone', phone);
           GetStorage().write('name', client['name']);
           GetStorage().write('district', client['district']);
           GetStorage().write('client_type', client['type'] ?? 'individual');
+          try {
+            if (mounted) context.read<NotificationProvider>().refresh();
+          } catch (_) {}
           print('Stored name: ${client['name']}');
           print('Stored district: ${client['district']}');
 
@@ -161,7 +168,7 @@ class _SimpleLoginScreenState extends State<SimpleLoginScreen> {
           isLoading = false;
         });
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Bad response format. Please try again.')),
+          SnackBar(content: Text('The User Not found. Please try again.')),
         );
       } on HttpException catch (e) {
         setState(() {
@@ -461,19 +468,19 @@ class _SimpleRegisterScreenState extends State<SimpleRegisterScreen> {
     resetErrorText();
 
     bool isValid = true;
-    if (name.isEmpty) {
+    if (name.isEmpty || name.length < 3 || name.length > 64) {
       setState(() {
         nameError = selectedLanguage == 'en'
-            ? 'Full Name is required'
-            : 'Dzina Lonse ndilofunika';
+            ? 'Full Name is required and must be 3 to 64 characters'
+            : 'Dzina Lonse lifunika (zolemba zikhale 3 mpaka 64)';
       });
       isValid = false;
     }
     if (phone.isEmpty || !RegExp(r'^(09|08)[0-9]{8}$').hasMatch(phone)) {
       setState(() {
         phoneError = selectedLanguage == 'en'
-            ? 'Phone Number is invalid'
-            : 'Nambala Ya Foni siyolondola';
+            ? 'Phone Number must start with 08 or 09 and be 10 digits'
+            : 'Nambala Ya Foni siyolondola kapena yosakwana';
       });
       isValid = false;
     }
@@ -481,22 +488,22 @@ class _SimpleRegisterScreenState extends State<SimpleRegisterScreen> {
       setState(() {
         districtError = selectedLanguage == 'en'
             ? 'Please select a district'
-            : 'Chonde sankhani dera';
+            : 'Chonde sankhani Boma lomwe mukukhala ';
       });
       isValid = false;
     }
-    if (pin.isEmpty || confrirmPin.isEmpty) {
+    if (pin.length != 4) {
       setState(() {
         pinError = selectedLanguage == 'en'
-            ? 'PINs do not match'
-            : 'Ma PIN sakufanana';
+            ? 'PIN must be exactly 4 digits'
+            : 'PIN iyenera kukhala zolemba 4 zokha';
       });
       isValid = false;
     } else if (pin != confrirmPin) {
       setState(() {
         pinError = selectedLanguage == 'en'
-            ? 'Please enter a PIN'
-            : 'Chonde lowetsani PIN';
+            ? 'PINs do not match'
+            : 'Ma PIN sakufanana';
       });
       isValid = false;
     }
@@ -506,76 +513,75 @@ class _SimpleRegisterScreenState extends State<SimpleRegisterScreen> {
 
   Future<void> submit() async {
     if (validate()) {
-      setState(() {
-        isLoading = true;
-      });
+      setState(() => isLoading = true);
 
-      var url = Uri.parse('${apiurl}v1/auth/register');
+      // Build the registration payload to carry forward to the OTP screen
+      final registrationData = <String, dynamic>{
+        'type': 'individual',
+        'name': name,
+        'phone': phone,
+        'district_id': int.tryParse(selectedDistrictId ?? ''),
+        'pin': pin,
+        'pin_confirmation': confrirmPin,
+        'gender': (selectedGender == 'other' && _customGenderController.text.isNotEmpty)
+            ? _customGenderController.text.trim()
+            : selectedGender,
+        'age_range': (selectedAgeRange == 'other' && _customAgeRangeController.text.isNotEmpty)
+            ? _customAgeRangeController.text.trim()
+            : selectedAgeRange,
+        'epa': _epaController.text.trim().isNotEmpty ? _epaController.text.trim() : null,
+        'value_chains': selectedValueChains.map((id) => int.tryParse(id) ?? id).toList(),
+      };
+
+      // Step 1: Request OTP — the actual registration happens in OtpVerificationScreen
+      final otpUrl = Uri.parse('${apiurl}v1/auth/request-otp');
+      print('>>> [submit] Requesting OTP for phone: $phone');
+
       try {
-        var response = await http.post(
-          url,
+        final otpResponse = await http.post(
+          otpUrl,
           headers: {'Content-Type': 'application/json'},
-          body: jsonEncode({
-            'name': name,
-            'phone': phone,
-            'district_id': selectedDistrictId,
-            'pin': pin,
-            'pin_confirmation': confrirmPin,
-            'gender': (selectedGender == 'other' && _customGenderController.text.isNotEmpty) ? _customGenderController.text.trim() : selectedGender,
-            'age_range': (selectedAgeRange == 'other' && _customAgeRangeController.text.isNotEmpty) ? _customAgeRangeController.text.trim() : selectedAgeRange,
-            'epa': _epaController.text.trim(),
-            'value_chains': selectedValueChains,
-          }),
+          body: jsonEncode({'phone_number': phone}),
         );
 
-        print('Response Headers: ${response.headers}');
-        print('Response Body: ${response.body}');
+        print('>>> [submit] request-otp status: ${otpResponse.statusCode}');
+        print('>>> [submit] request-otp body: ${otpResponse.body}');
 
-        setState(() {
-          isLoading = false;
-        });
+        setState(() => isLoading = false);
 
-        if (response.statusCode == 200) {
-          var token = jsonDecode(response.body)['token'];
-          var client = jsonDecode(response.body)['client'];
-
-          GetStorage().write('token', token);
-          GetStorage().write('phone', phone);
-          GetStorage().write('name', client['name']);
-          GetStorage().write('district', client['district']);
-          GetStorage().write('client_type', client['type'] ?? 'individual');
-
-          if (onSubmitted != null) {
-            onSubmitted!(name, pin);
-          }
-          Navigator.pushReplacement(
+        if (otpResponse.statusCode == 200) {
+          // Navigate to OTP verification screen, carrying registration data
+          if (!mounted) return;
+          Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => Homepage()),
+            MaterialPageRoute(
+              builder: (_) => OtpVerificationScreen(
+                phone: phone,
+                registrationData: registrationData,
+                onRegistered: onSubmitted,
+              ),
+            ),
           );
-        }
-        if (response.statusCode == 422) {
-          var responseBody = jsonDecode(response.body);
-          String errorMessage =
-              responseBody['message'] ?? selectedLanguage == 'en'
-                  ? 'This phone has already been taken '
-                  : 'Nambala iyi ya foni yapezeka kale';
+        } else {
+          final body = jsonDecode(otpResponse.body);
+          final message = body['message'] ??
+              (selectedLanguage == 'en'
+                  ? 'Failed to send verification code. Please try again.'
+                  : 'Kutumiza nambala yakutsimikizira kulephera. Yesaninso.');
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(errorMessage)),
+            SnackBar(content: Text(message)),
           );
-          setState(() {
-            nameError = responseBody['errors']['name']?.join(', ');
-            phoneError = responseBody['errors']['phone']?.join(', ');
-            districtError = responseBody['errors']['district_id']?.join(', ');
-            pinError = responseBody['errors']['pin']?.join(', ');
-          });
         }
-      } catch (e) {
-        setState(() {
-          isLoading = false;
-        });
-        print('Error occurred: $e');
+      } catch (e, stackTrace) {
+        setState(() => isLoading = false);
+        print('>>> [submit] Error: $e');
+        print('>>> [submit] StackTrace: $stackTrace');
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('An error occurred. Please try again.')),
+          SnackBar(
+            content: Text(selectedLanguage == 'en'
+                ? 'An error occurred. Please try again.'
+                : 'Pali vuto. Yesaninso.'),
+          ),
         );
       }
     }
@@ -601,7 +607,7 @@ class _SimpleRegisterScreenState extends State<SimpleRegisterScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      selectedLanguage == 'en' ? 'Create Account' : 'Pangani Akaunti',
+                      selectedLanguage == 'en' ? 'Create Account' : 'Segulani Akaunti',
                       style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.w800,
@@ -668,8 +674,30 @@ class _SimpleRegisterScreenState extends State<SimpleRegisterScreen> {
               decoration: InputDecoration(
                 labelText: selectedLanguage == 'en'
                     ? 'Select District'
-                    : 'Sankhani Dera',
+                    : 'Sankhani Boma Lochokela',
                 errorText: districtError,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+            ),
+            SizedBox(height: screenHeight * .025),
+            DropdownButtonFormField<String>(
+              value: selectedGender,
+              onChanged: (value) {
+                setState(() {
+                  selectedGender = value;
+                });
+              },
+              items: genders.map<DropdownMenuItem<String>>((gender) {
+                return DropdownMenuItem<String>(
+                  value: gender,
+                  child: Text(gender.capitalizeFirst ?? gender),
+                );
+              }).toList(),
+              decoration: InputDecoration(
+                labelText: selectedLanguage == 'en' ? 'Select Gender' : 'Sankhani ndinu amuna/akazi',
+                errorText: genderError,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -698,7 +726,7 @@ class _SimpleRegisterScreenState extends State<SimpleRegisterScreen> {
                 );
               }).toList(),
               decoration: InputDecoration(
-                labelText: selectedLanguage == 'en' ? 'Age Range' : 'Mibadwo',
+                labelText: selectedLanguage == 'en' ? 'Age Range' : 'Zaka Zobadwa',
                 errorText: ageRangeError,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
@@ -717,7 +745,7 @@ class _SimpleRegisterScreenState extends State<SimpleRegisterScreen> {
             // VALUE CHAINS SECTION
             const SizedBox(height: 16),
             Text(
-              selectedLanguage == 'en' ? 'Practicing Value Chains' : 'Mankhwala Omwe Mumachita',
+              selectedLanguage == 'en' ? 'Practicing Value Chains' : 'Mbewu/Ulimi Omwe Mumachita',
               style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
             ),
             const SizedBox(height: 10),
@@ -884,8 +912,8 @@ class _SimpleRegisterScreenState extends State<SimpleRegisterScreen> {
                 ),
                 child: Text(
                   selectedLanguage == 'en' 
-                      ? 'Direct Group Registration'
-                      : 'Lembetsani Gulu Mwachindunji',
+                      ? ' Group Registration'
+                      : 'Lembetsani ngat Gulu',
                   style: TextStyle(
                     color: Colors.green,
                     fontWeight: FontWeight.bold,

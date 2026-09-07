@@ -168,10 +168,10 @@ class _SupplyPageState extends State<SupplyPage>
         List<dynamic> data = json.decode(response.body)['value_chains'];
         setState(() {
           _products = data.map((item) {
-            return {'id': item['id'], 'name': item['name']};
+            return {'id': item['id']?.toString(), 'name': item['name']};
           }).toList();
           if (_products.isNotEmpty) {
-            _selectedProduct = _products[0]['id'];
+            _selectedProduct = _products[0]['id']?.toString();
           }
         });
       } else {
@@ -230,6 +230,8 @@ class _SupplyPageState extends State<SupplyPage>
     }
   }
 
+  String? unitError;
+
   void resetErrorText() {
     setState(() {
       productNameError = null;
@@ -238,130 +240,260 @@ class _SupplyPageState extends State<SupplyPage>
       quantityError = null;
       districtError = null;
       typeError = null;
+      unitError = null;
     });
+  }
+
+  String _extractErrorMessage(dynamic parsedResponse, int statusCode) {
+    if (parsedResponse is Map) {
+      if (parsedResponse.containsKey('errors') && parsedResponse['errors'] is Map) {
+        final errors = parsedResponse['errors'] as Map;
+        List<String> errList = [];
+        errors.forEach((key, value) {
+          if (value is List && value.isNotEmpty) {
+            errList.add('${key}: ${value.join(', ')}');
+          } else if (value is String) {
+            errList.add('${key}: $value');
+          }
+        });
+        if (errList.isNotEmpty) {
+          return errList.join('\n');
+        }
+      }
+      if (parsedResponse.containsKey('message') && parsedResponse['message'] != null) {
+        return parsedResponse['message'].toString();
+      }
+      if (parsedResponse.containsKey('error') && parsedResponse['error'] != null) {
+        return parsedResponse['error'].toString();
+      }
+    }
+    return 'Server error code: $statusCode / Zolakwika pa Seva: $statusCode';
+  }
+
+  void _showBilingualErrorDialog(BuildContext context, String rawError) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: const Row(
+          children: [
+            Icon(Icons.error_outline_rounded, color: Colors.red),
+            SizedBox(width: 8),
+            Expanded(
+              child: Text(
+                'Submission Error / Zolakwika Pakutumiza',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+            ),
+          ],
+        ),
+        content: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                'Could not submit supply due to the following issue:',
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
+              ),
+              const Text(
+                'Sikwatheka kutumiza katundu chifukwa cha vuto ili:',
+                style: TextStyle(color: Colors.grey, fontSize: 12),
+              ),
+              const SizedBox(height: 10),
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Colors.red.withOpacity(0.08),
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: Colors.red.withOpacity(0.3)),
+                ),
+                child: Text(
+                  rawError,
+                  style: const TextStyle(color: Colors.redAccent, fontSize: 13),
+                ),
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: kPrimaryColor,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            ),
+            onPressed: () => Navigator.pop(context),
+            child: const Text('OK / Chabwino', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+          ),
+        ],
+      ),
+    );
   }
 
   bool validate() {
     resetErrorText();
-
     bool isValid = true;
 
-    if (unitPrice.isEmpty) {
+    if (_selectedProduct == null || _selectedProduct!.trim().isEmpty) {
+      setState(() {
+        productNameError = _localizedText(
+            'Please select a product', 'Chonde sankhani katundu');
+      });
+      isValid = false;
+    }
+    if (unitPrice.trim().isEmpty) {
       setState(() {
         unitPriceError = _localizedText('Please enter a unit price',
             'Chonde lowetsani mtengo wa chinthu chimodzi');
       });
       isValid = false;
     }
-    if (description.isEmpty) {
+    if (_selectedUnit == null || _selectedUnit!.trim().isEmpty) {
       setState(() {
-        descriptionError = _localizedText('Please enter a product description',
+        unitError = _localizedText(
+            'Please select a unit', 'Chonde sankhani muyezo');
+      });
+      isValid = false;
+    }
+    if (quantity.trim().isEmpty) {
+      setState(() {
+        quantityError = _localizedText(
+            'Please enter quantity', 'Chonde lowetsani kuchuluka kwa zinthu');
+      });
+      isValid = false;
+    }
+    if (district.trim().isEmpty) {
+      setState(() {
+        districtError = _localizedText(
+            'Please select a location/district', 'Chonde sankhani dera/boma');
+      });
+      isValid = false;
+    }
+    if (description.trim().isEmpty) {
+      setState(() {
+        descriptionError = _localizedText('Please enter a description',
             'Chonde lowetsani kufotokozera kwa chinthu');
       });
       isValid = false;
     }
-    if (quantity.isEmpty) {
-      setState(() {
-        quantityError = _localizedText(
-            'Please enter Quatity', 'Chonde lowetsani kuchuluka kwa zinthu');
-      });
-      isValid = false;
-    }
-    if (district.isEmpty) {
-      setState(() {
-        districtError =
-            _localizedText('Please enter a Location', 'Chonde lowetsani dera');
-      });
-      isValid = false;
+
+    if (!isValid) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(_localizedText(
+              'Please fill all required fields',
+              'Chonde dzazani mindandanda yonse yofunika')),
+          backgroundColor: Colors.red,
+        ),
+      );
     }
 
     return isValid;
   }
 
   Future<void> submit() async {
-    if (validate()) {
-      setState(() {
-        isLoadingSubmit = true;
-      });
+    if (!validate()) {
+      return;
+    }
 
-      var url = Uri.parse('${apiurl}v1/commodities');
-      final storage = GetStorage();
-      String? token = storage.read('token');
+    setState(() {
+      isLoadingSubmit = true;
+    });
 
-      try {
-        var request = http.MultipartRequest('POST', url)
-          ..headers['Authorization'] = 'Bearer $token'
-          ..headers['Accept'] = 'application/json'
-          ..fields['value_chain_id'] = _selectedProduct ?? ''
-          ..fields['unit_price'] = unitPrice
-          ..fields['measure_id'] = _selectedUnit ?? ''
-          ..fields['quantity'] = quantity
-          ..fields['district_id'] = district
-          ..fields['description'] = description
-          ..fields['expected_supply_date'] = expectedSupplyDate
-          ..fields['commodity_type_id'] = _selectedtype ?? '';
+    var url = Uri.parse('${apiurl}v1/commodities');
+    final storage = GetStorage();
+    String? token = storage.read('token');
 
-        if (_selectedImage != null) {
-          if (kIsWeb) {
+    try {
+      var request = http.MultipartRequest('POST', url)
+        ..headers['Authorization'] = 'Bearer $token'
+        ..headers['Accept'] = 'application/json'
+        ..fields['value_chain_id'] = _selectedProduct ?? ''
+        ..fields['unit_price'] = unitPrice.trim()
+        ..fields['measure_id'] = _selectedUnit ?? ''
+        ..fields['quantity'] = quantity.trim()
+        ..fields['district_id'] = district
+        ..fields['description'] = description.trim()
+        ..fields['expected_supply_date'] = expectedSupplyDate
+        ..fields['commodity_type_id'] = _selectedtype ?? '2';
+
+      if (_selectedImage != null) {
+        if (kIsWeb) {
+          if (_selectedImageBytes != null) {
             request.files.add(
               http.MultipartFile.fromBytes(
-                'image', // The field name for the image in the backend
+                'image',
                 _selectedImageBytes!,
-                filename: 'image.jpg', // You can set a filename for the image
+                filename: 'image.jpg',
+              ),
+            );
+          }
+        } else {
+          final mimeSubtype = _getMimeType(_selectedImage!.path);
+          if (mimeSubtype != null) {
+            request.files.add(
+              await http.MultipartFile.fromPath(
+                'image',
+                _selectedImage!.path,
+                contentType: MediaType('image', mimeSubtype),
               ),
             );
           } else {
-        final mimeSubtype = _getMimeType(_selectedImage!.path);
-        if (mimeSubtype != null) {
-          request.files.add(
-            await http.MultipartFile.fromPath(
-              'image',
-              _selectedImage!.path,
-              contentType: MediaType('image', mimeSubtype),
-            ),
-          );
-        } else {
-          print('⚠️ Unsupported image format. Upload skipped.');
-        }
-
+            print('⚠️ Unsupported image format. Upload skipped.');
           }
         }
+      }
 
-        var response = await request.send();
+      var streamedResponse = await request.send();
+      var response = await http.Response.fromStream(streamedResponse);
 
-        setState(() {
-          isLoadingSubmit = false;
-        });
+      setState(() {
+        isLoadingSubmit = false;
+      });
 
-        if (response.statusCode == 201) {
-          if (onSubmitted != null) {
-            onSubmitted!(_selectedProduct, unitPrice);
-          }
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (onSubmitted != null) {
+          onSubmitted!(_selectedProduct, unitPrice);
+        }
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(_localizedText(
+                'Successfully submitted supply!', 'Zatumizidwa bwino!')),
+            backgroundColor: Colors.green,
+          ),
+        );
+        if (mounted) {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => const AllSupply()),
           );
-        } else {
-          var responseBody = await response.stream.bytesToString();
-          print('Response Body: $responseBody');
-          // Handle error response
-          var parsedResponse = jsonDecode(responseBody);
-          print('parsedResponse: $parsedResponse');
         }
-      } catch (e) {
-        setState(() {
-          isLoadingSubmit = false;
-        });
-        // Print the error to console
-        print('Error occurred: $e');
-        // Optionally show an error dialog or a Snackbar to the user
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('An error occurred. Please try again.')),
+      } else {
+        String errorMsg = 'Server status code: ${response.statusCode}';
+        try {
+          final parsedResponse = jsonDecode(response.body);
+          errorMsg = _extractErrorMessage(parsedResponse, response.statusCode);
+        } catch (_) {
+          if (response.body.isNotEmpty) {
+            errorMsg = response.body;
+          }
+        }
+        if (mounted) {
+          _showBilingualErrorDialog(context, errorMsg);
+        }
+      }
+    } catch (e) {
+      setState(() {
+        isLoadingSubmit = false;
+      });
+      print('Error occurred: $e');
+      if (mounted) {
+        _showBilingualErrorDialog(
+          context,
+          'Network connection error / Vuto la Intaneti kapena kulumikizana: $e',
         );
       }
-    } else {
-      print(
-          "failed to validate $_selectedProduct $_selectedUnit $_selectedtype $unitPrice $description $quantity $district");
     }
   }
 
@@ -513,7 +645,7 @@ class _SupplyPageState extends State<SupplyPage>
                           child: ListView(
                             children: [
                               DropdownButtonFormField<String>(
-                                initialValue: _selectedProduct,
+                                value: _selectedProduct,
                                 items: _products
                                     .map((product) => DropdownMenuItem<String>(
                                           value: product['id'].toString(),
@@ -523,11 +655,11 @@ class _SupplyPageState extends State<SupplyPage>
                                 onChanged: (value) {
                                   setState(() {
                                     _selectedProduct = value;
+                                    productNameError = null;
                                   });
                                 },
                                 decoration: InputDecoration(
-                                  labelText:
-                                      _localizedText('Product', 'Katundu'),
+                                  labelText: _localizedText('Product / Katundu', 'Katundu / Product'),
                                   errorText: productNameError,
                                 ),
                               ),
@@ -536,20 +668,22 @@ class _SupplyPageState extends State<SupplyPage>
                                 onChanged: (value) {
                                   setState(() {
                                     unitPrice = value;
+                                    unitPriceError = null;
                                   });
                                 },
                                 decoration: InputDecoration(
-                                  labelText: _localizedText('Unit Price',
-                                      'Mtengo wa Chinthu Chimodzi'),
+                                  labelText: _localizedText('Unit Price (MWK) / Mtengo wa Chinthu', 'Mtengo wa Chinthu / Unit Price'),
                                   errorText: unitPriceError,
                                 ),
+                                keyboardType: TextInputType.number,
                               ),
                               const SizedBox(height: 16.0),
                               DropdownButtonFormField<String>(
-                                initialValue: _selectedUnit,
+                                value: _selectedUnit,
                                 onChanged: (String? newValue) {
                                   setState(() {
                                     _selectedUnit = newValue;
+                                    unitError = null;
                                   });
                                 },
                                 items: _units.map((unit) {
@@ -559,8 +693,8 @@ class _SupplyPageState extends State<SupplyPage>
                                   );
                                 }).toList(),
                                 decoration: InputDecoration(
-                                  labelText: _localizedText('Unit', 'pagawo'),
-                                  errorText: unitPriceError,
+                                  labelText: _localizedText('Unit / Muyezo', 'Muyezo / Unit'),
+                                  errorText: unitError,
                                 ),
                               ),
                               const SizedBox(height: 16.0),
@@ -568,20 +702,22 @@ class _SupplyPageState extends State<SupplyPage>
                                 onChanged: (value) {
                                   setState(() {
                                     quantity = value;
+                                    quantityError = null;
                                   });
                                 },
                                 decoration: InputDecoration(
-                                  labelText:
-                                      _localizedText('Quantity', 'Kuchuluka'),
+                                  labelText: _localizedText('Quantity / Kuchuluka', 'Kuchuluka / Quantity'),
                                   errorText: quantityError,
                                 ),
+                                keyboardType: TextInputType.number,
                               ),
                               const SizedBox(height: 16.0),
                               DropdownButtonFormField<String>(
-                                initialValue: district,
+                                value: district.isNotEmpty ? district : null,
                                 onChanged: (String? newValue) {
                                   setState(() {
-                                    district = newValue!;
+                                    district = newValue ?? '';
+                                    districtError = null;
                                   });
                                 },
                                 items: _districts.map((district) {
@@ -591,7 +727,7 @@ class _SupplyPageState extends State<SupplyPage>
                                   );
                                 }).toList(),
                                 decoration: InputDecoration(
-                                  labelText: _localizedText('District', 'Dera'),
+                                  labelText: _localizedText('Select District / Sankhani Dera', 'Sankhani Dera / Select District'),
                                   errorText: districtError,
                                 ),
                               ),
@@ -600,27 +736,24 @@ class _SupplyPageState extends State<SupplyPage>
                                 onChanged: (value) {
                                   setState(() {
                                     description = value;
+                                    descriptionError = null;
                                   });
                                 },
                                 decoration: InputDecoration(
-                                  labelText: _localizedText(
-                                      'Description', 'Kufotokozera'),
+                                  labelText: _localizedText('Description / Kufotokozera', 'Kufotokozera / Description'),
                                   errorText: descriptionError,
                                 ),
+                                maxLines: null,
                               ),
-                              const SizedBox(height: 16.0),
                               const SizedBox(height: 16.0),
                               TextFormField(
                                 onTap: _pickDate,
                                 readOnly: true,
                                 decoration: InputDecoration(
-                                  labelText: _localizedText(
-                                      'Expected Supply Date',
-                                      'Tsiku Lokonzekera Kupereka'),
+                                  labelText: _localizedText('Expected Supply Date / Tsiku Lokonzekera Kupereka', 'Tsiku Lokonzekera Kupereka / Expected Supply Date'),
                                   hintText: expectedSupplyDate.isNotEmpty
                                       ? expectedSupplyDate
-                                      : _localizedText(
-                                          'Pick a date', 'Sankhani tsiku'),
+                                      : _localizedText('Pick a date / Sankhani tsiku', 'Sankhani tsiku / Pick a date'),
                                 ),
                               ),
                               Row(

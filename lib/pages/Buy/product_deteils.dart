@@ -7,6 +7,9 @@ import 'package:mlimi/features/buy_sell/views/quick_sell_screen.dart';
 import 'package:mlimi/pages/views/aggregations/aggregation_details_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:mlimi/models/products_model.dart';
+import 'package:provider/provider.dart';
+import 'package:mlimi/provider/cart_provider.dart';
+import 'package:mlimi/pages/order/cart_screen.dart';
 
 class ProductDetailPage extends StatefulWidget {
   final Product product;
@@ -22,6 +25,86 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   final _repo = CommodityRepository();
   bool _loading = true;
   CommodityDetails? _details;
+
+  void _handleAddToCart({bool directToCart = false}) {
+    final cart = Provider.of<CartProvider>(context, listen: false);
+    try {
+      cart.addItem(widget.product);
+      if (directToCart) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const CartScreen()),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('${widget.product.name} added to cart'),
+            backgroundColor: const Color(0xFF006B29),
+            behavior: SnackBarBehavior.floating,
+            action: SnackBarAction(
+              label: 'VIEW CART',
+              textColor: Colors.amber,
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const CartScreen()),
+                );
+              },
+            ),
+          ),
+        );
+      }
+    } catch (e) {
+      showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: const Text('Different Seller'),
+          content: const Text(
+            'Your cart contains items from a different seller. Would you like to clear your cart and add this item?',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx),
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF006B29)),
+              onPressed: () {
+                Navigator.pop(ctx);
+                cart.clear();
+                cart.addItem(widget.product);
+                if (directToCart) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const CartScreen()),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('${widget.product.name} added to cart'),
+                      backgroundColor: const Color(0xFF006B29),
+                      behavior: SnackBarBehavior.floating,
+                      action: SnackBarAction(
+                        label: 'VIEW CART',
+                        textColor: Colors.amber,
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => const CartScreen()),
+                          );
+                        },
+                      ),
+                    ),
+                  );
+                }
+              },
+              child: const Text('Clear & Add', style: TextStyle(color: Colors.white)),
+            ),
+          ],
+        ),
+      );
+    }
+  }
 
   @override
   void initState() {
@@ -94,7 +177,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
 
     return Scaffold(
       backgroundColor: Colors.grey[100],
-      bottomNavigationBar: hasFullDetails ? _buildBottomBar(c) : null,
+      bottomNavigationBar: _buildBottomBar(c),
       body: CustomScrollView(
         slivers: [
           _buildSliverAppBar(c, hasFullDetails),
@@ -142,6 +225,44 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
       backgroundColor: Colors.green[700],
       iconTheme: const IconThemeData(color: Colors.white),
       actions: [
+        Consumer<CartProvider>(
+          builder: (context, cart, _) {
+            return Stack(
+              clipBehavior: Clip.none,
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.shopping_cart_outlined, color: Colors.white),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const CartScreen()),
+                    );
+                  },
+                ),
+                if (cart.itemCount > 0)
+                  Positioned(
+                    right: 6,
+                    top: 6,
+                    child: Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: const BoxDecoration(
+                        color: Colors.amber,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Text(
+                        '${cart.itemCount}',
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
+            );
+          },
+        ),
         if (hasFullDetails && c.ownPost)
           PopupMenuButton<String>(
             icon: const Icon(Icons.more_vert, color: Colors.white),
@@ -544,8 +665,55 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     );
   }
 
-  Widget? _buildBottomBar(Commodity c) {
-    if (!c.ownPost) return null;
+  Widget _buildBottomBar(Commodity c) {
+    if (!c.ownPost) {
+      return SafeArea(
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.05),
+                blurRadius: 10,
+                offset: const Offset(0, -5),
+              ),
+            ],
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                child: OutlinedButton.icon(
+                  onPressed: () => _handleAddToCart(directToCart: false),
+                  icon: const Icon(Icons.add_shopping_cart, color: Color(0xFF006B29)),
+                  label: const Text('ADD TO CART', style: TextStyle(fontWeight: FontWeight.bold)),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: const Color(0xFF006B29),
+                    side: const BorderSide(color: Color(0xFF006B29), width: 1.5),
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: ElevatedButton.icon(
+                  onPressed: () => _handleAddToCart(directToCart: true),
+                  icon: const Icon(Icons.shopping_cart_checkout, color: Colors.white),
+                  label: const Text('ORDER NOW', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF006B29),
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    elevation: 2,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
 
     return SafeArea(
       child: Container(

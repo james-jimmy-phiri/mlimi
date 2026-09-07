@@ -1,10 +1,10 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:mlimi/constants/color.dart';
 import 'package:mlimi/models/aggregation_models.dart';
 import 'package:mlimi/provider/aggregation_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:mlimi/services/language_service.dart';
 
 class GroupInsightsScreen extends StatefulWidget {
   final int groupId;
@@ -27,10 +27,11 @@ class _GroupInsightsScreenState extends State<GroupInsightsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final language = GetStorage().read('language') ?? 'en';
     return Scaffold(
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
-        title: Text('${widget.groupName} Insights', style: const TextStyle(color: Colors.black87, fontWeight: FontWeight.bold)),
+        title: Text('${widget.groupName} ${LanguageService.getText('insights', language)}', style: const TextStyle(color: Colors.black87, fontWeight: FontWeight.bold)),
         backgroundColor: Colors.white,
         elevation: 0,
         iconTheme: const IconThemeData(color: Colors.black87),
@@ -45,7 +46,7 @@ class _GroupInsightsScreenState extends State<GroupInsightsScreen> {
           }
           
           final metrics = provider.groupMetrics;
-          if (metrics == null) return const Center(child: Text('No data found'));
+          if (metrics == null) return Center(child: Text(LanguageService.getText('noData', language)));
 
           return RefreshIndicator(
             onRefresh: () => provider.fetchDashboardStats(groupId: widget.groupId),
@@ -54,15 +55,15 @@ class _GroupInsightsScreenState extends State<GroupInsightsScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildSummarySection(metrics),
+                  _buildSummarySection(metrics, language),
                   const SizedBox(height: 32),
-                  const Text('Volume Analytics', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  Text(LanguageService.getText('volumeAnalytics', language), style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                   const SizedBox(height: 16),
-                  _buildVolumeBarChart(metrics),
+                  _buildVolumeBarChart(metrics, language),
                   const SizedBox(height: 32),
-                  const Text('Aggregation Status', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  Text(LanguageService.getText('aggregationStatus', language), style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                   const SizedBox(height: 16),
-                  _buildStatusPieChart(metrics),
+                  _buildStatusPieChart(metrics, language),
                   const SizedBox(height: 40),
                 ],
               ),
@@ -73,14 +74,14 @@ class _GroupInsightsScreenState extends State<GroupInsightsScreen> {
     );
   }
 
-  Widget _buildSummarySection(AggregationMetrics metrics) {
+  Widget _buildSummarySection(AggregationMetrics metrics, String language) {
     return Column(
       children: [
         Row(
           children: [
             Expanded(
               child: _buildMetricTile(
-                title: 'Aggregations',
+                title: LanguageService.getText('aggregations', language),
                 value: '${metrics.totalAggregations}',
                 icon: Icons.layers,
                 color: Colors.blue,
@@ -89,7 +90,7 @@ class _GroupInsightsScreenState extends State<GroupInsightsScreen> {
             const SizedBox(width: 16),
             Expanded(
               child: _buildMetricTile(
-                title: 'Revenue',
+                title: LanguageService.getText('revenue', language),
                 value: 'MWK ${metrics.totalRevenue.toStringAsFixed(0)}',
                 icon: Icons.monetization_on,
                 color: Colors.green,
@@ -99,7 +100,7 @@ class _GroupInsightsScreenState extends State<GroupInsightsScreen> {
         ),
         const SizedBox(height: 16),
         _buildMetricTile(
-          title: 'Total Group Volume',
+          title: LanguageService.getText('totalVolume', language),
           value: '${metrics.totalVolume} kg',
           icon: Icons.scale,
           color: Colors.orange,
@@ -117,7 +118,7 @@ class _GroupInsightsScreenState extends State<GroupInsightsScreen> {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: color.withOpacity(0.1),
+            color: color.withValues(alpha: 0.1),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -128,7 +129,7 @@ class _GroupInsightsScreenState extends State<GroupInsightsScreen> {
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: color.withOpacity(0.1),
+              color: color.withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
             child: Icon(icon, color: color, size: 24),
@@ -149,14 +150,14 @@ class _GroupInsightsScreenState extends State<GroupInsightsScreen> {
     );
   }
 
-  Widget _buildVolumeBarChart(AggregationMetrics metrics) {
+  Widget _buildVolumeBarChart(AggregationMetrics metrics, String language) {
     return Container(
       height: 250,
       padding: const EdgeInsets.fromLTRB(16, 24, 16, 16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
-        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 10)],
+        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.04), blurRadius: 10)],
       ),
       child: BarChart(
         BarChartData(
@@ -170,9 +171,9 @@ class _GroupInsightsScreenState extends State<GroupInsightsScreen> {
                 showTitles: true,
                 getTitlesWidget: (value, meta) {
                   switch (value.toInt()) {
-                    case 0: return const Text('Aggregated');
-                    case 1: return const Text('Sold');
-                    case 2: return const Text('Remain');
+                    case 0: return Text(LanguageService.getText('aggregated', language));
+                    case 1: return Text(LanguageService.getText('sold', language));
+                    case 2: return Text(LanguageService.getText('remain', language));
                     default: return const Text('');
                   }
                 },
@@ -194,14 +195,14 @@ class _GroupInsightsScreenState extends State<GroupInsightsScreen> {
     );
   }
 
-  Widget _buildStatusPieChart(AggregationMetrics metrics) {
+  Widget _buildStatusPieChart(AggregationMetrics metrics, String language) {
     return Container(
       height: 300,
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
-        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 10)],
+        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.04), blurRadius: 10)],
       ),
       child: Row(
         children: [
@@ -233,9 +234,9 @@ class _GroupInsightsScreenState extends State<GroupInsightsScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildLegend(color: Colors.orange, text: 'Active Pools'),
+              _buildLegend(color: Colors.orange, text: LanguageService.getText('activePools', language)),
               const SizedBox(height: 8),
-              _buildLegend(color: Colors.green, text: 'Completed'),
+              _buildLegend(color: Colors.green, text: LanguageService.getText('completed', language)),
             ],
           )
         ],

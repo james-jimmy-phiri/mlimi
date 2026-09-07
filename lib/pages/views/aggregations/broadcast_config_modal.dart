@@ -4,6 +4,8 @@ import 'package:mlimi/constants/color.dart';
 import 'package:mlimi/models/aggregation_models.dart';
 import 'package:mlimi/provider/aggregation_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:mlimi/services/language_service.dart';
 
 void showBroadcastConfigModal(BuildContext context, Aggregation aggregation) {
   showModalBottomSheet(
@@ -42,6 +44,7 @@ class _BroadcastConfigModalState extends State<BroadcastConfigModal> {
 
   @override
   Widget build(BuildContext context) {
+    final language = GetStorage().read('language') ?? 'en';
     final provider = Provider.of<AggregationProvider>(context);
     final recipients = provider.broadcastRecipients;
     final marketActors = recipients['market_actors'] as List? ?? [];
@@ -55,17 +58,17 @@ class _BroadcastConfigModalState extends State<BroadcastConfigModal> {
       ),
       child: Column(
         children: [
-          _buildHeader(),
+          _buildHeader(language),
           Expanded(
             child: provider.isLoadingRecipients
                 ? const Center(child: CircularProgressIndicator())
                 : ListView(
                     padding: const EdgeInsets.all(24),
                     children: [
-                      _buildSectionHeader('Matched Market Actors', Icons.store_rounded),
+                      _buildSectionHeader(LanguageService.getText('matchedMarketActors', language), Icons.store_rounded),
                       const SizedBox(height: 12),
                       if (marketActors.isEmpty)
-                        _buildEmptySection('No matched market actors for this value chain.')
+                        _buildEmptySection(LanguageService.getText('noMatchedActors', language))
                       else
                         ...marketActors.map((ma) => _buildRecipientTile(
                           id: ma['id'],
@@ -78,10 +81,10 @@ class _BroadcastConfigModalState extends State<BroadcastConfigModal> {
                         )),
                       
                       const SizedBox(height: 32),
-                      _buildSectionHeader('Business Profiles', Icons.business_rounded),
+                      _buildSectionHeader(LanguageService.getText('businessProfiles', language), Icons.business_rounded),
                       const SizedBox(height: 12),
                       if (businessProfiles.isEmpty)
-                        _buildEmptySection('No matched businesses for this value chain.')
+                        _buildEmptySection(LanguageService.getText('noMatchedBusinesses', language))
                       else
                         ...businessProfiles.map((bp) => _buildRecipientTile(
                           id: bp['id'],
@@ -94,11 +97,11 @@ class _BroadcastConfigModalState extends State<BroadcastConfigModal> {
                         )),
 
                       const SizedBox(height: 32),
-                      _buildSectionHeader('Extra Contacts', Icons.add_link_rounded),
+                      _buildSectionHeader(LanguageService.getText('extraContacts', language), Icons.add_link_rounded),
                       const SizedBox(height: 12),
                       _buildExtraInput(
                         controller: _smsController,
-                        hint: 'Add extra phone number...',
+                        hint: LanguageService.getText('addExtraPhone', language),
                         icon: Icons.phone_android,
                         onAdd: (val) => setState(() { _extraSms.add(val); _smsController.clear(); }),
                       ),
@@ -106,7 +109,7 @@ class _BroadcastConfigModalState extends State<BroadcastConfigModal> {
                       const SizedBox(height: 12),
                       _buildExtraInput(
                         controller: _emailController,
-                        hint: 'Add extra email address...',
+                        hint: LanguageService.getText('addExtraEmail', language),
                         icon: Icons.email_outlined,
                         onAdd: (val) => setState(() { _extraEmails.add(val); _emailController.clear(); }),
                       ),
@@ -116,13 +119,13 @@ class _BroadcastConfigModalState extends State<BroadcastConfigModal> {
                     ],
                   ),
           ),
-          _buildBottomActions(provider),
+          _buildBottomActions(provider, language),
         ],
       ),
     );
   }
 
-  Widget _buildHeader() {
+  Widget _buildHeader(String language) {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -132,8 +135,8 @@ class _BroadcastConfigModalState extends State<BroadcastConfigModal> {
         children: [
           Container(width: 40, height: 4, decoration: BoxDecoration(color: Colors.grey[200], borderRadius: BorderRadius.circular(2))),
           const SizedBox(height: 20),
-          Text('Broadcast Aggregation', style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.bold)),
-          Text('Select who should receive this alert', style: GoogleFonts.poppins(fontSize: 13, color: Colors.grey[500])),
+          Text(LanguageService.getText('broadcastAggregation', language), style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.bold)),
+          Text(LanguageService.getText('selectRecipientDesc', language), style: GoogleFonts.poppins(fontSize: 13, color: Colors.grey[500])),
         ],
       ),
     );
@@ -156,9 +159,9 @@ class _BroadcastConfigModalState extends State<BroadcastConfigModal> {
         margin: const EdgeInsets.only(bottom: 10),
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: isSelected ? kPrimaryColor.withOpacity(0.05) : Colors.grey[50],
+          color: isSelected ? kPrimaryColor.withValues(alpha: 0.05) : Colors.grey[50],
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: isSelected ? kPrimaryColor.withOpacity(0.3) : Colors.transparent),
+          border: Border.all(color: isSelected ? kPrimaryColor.withValues(alpha: 0.3) : Colors.transparent),
         ),
         child: Row(
           children: [
@@ -220,12 +223,12 @@ class _BroadcastConfigModalState extends State<BroadcastConfigModal> {
     );
   }
 
-  Widget _buildBottomActions(AggregationProvider provider) {
+  Widget _buildBottomActions(AggregationProvider provider, String language) {
     return Container(
       padding: const EdgeInsets.fromLTRB(24, 16, 24, 32),
       decoration: BoxDecoration(
         color: Colors.white,
-        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, -5))],
+        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.05), blurRadius: 10, offset: const Offset(0, -5))],
       ),
       child: ElevatedButton(
         onPressed: provider.isActionLoading ? null : _handleBroadcast,
@@ -238,12 +241,13 @@ class _BroadcastConfigModalState extends State<BroadcastConfigModal> {
         ),
         child: provider.isActionLoading 
             ? const SizedBox(height: 24, width: 24, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
-            : Text('Finalize & Send Alerts', style: GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: 16)),
+            : Text(LanguageService.getText('finalizeSendAlerts', language), style: GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: 16)),
       ),
     );
   }
 
   void _handleBroadcast() async {
+    final language = GetStorage().read('language') ?? 'en';
     final provider = Provider.of<AggregationProvider>(context, listen: false);
     
     final data = {
@@ -252,17 +256,17 @@ class _BroadcastConfigModalState extends State<BroadcastConfigModal> {
       'extra_sms_numbers': _extraSms,
       'extra_emails': _extraEmails,
     };
-
+ 
     final success = await provider.finalizeAndBroadcast(widget.aggregation.id!, data);
-
+ 
     if (success && mounted) {
       Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Broadcast completed successfully!'), backgroundColor: Colors.green),
+        SnackBar(content: Text(LanguageService.getText('successBroadcast', language)), backgroundColor: Colors.green),
       );
     } else if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(provider.errorMessage ?? 'Failed to broadcast'), backgroundColor: Colors.red),
+        SnackBar(content: Text(provider.errorMessage ?? LanguageService.getText('failedBroadcast', language)), backgroundColor: Colors.red),
       );
     }
   }

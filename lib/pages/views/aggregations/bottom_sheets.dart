@@ -3,6 +3,8 @@ import 'package:mlimi/constants/color.dart';
 import 'package:mlimi/provider/aggregation_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:mlimi/models/aggregation_models.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:mlimi/services/language_service.dart';
 
 void showRecordSaleSheet(BuildContext context, Aggregation aggregation) {
   showModalBottomSheet(
@@ -49,6 +51,7 @@ class _RecordSaleSheetState extends State<_RecordSaleSheet> {
   String? _buyerLocation;
   String? _quantitySold;
   String? _pricePerUnit;
+  DateTime? _dateSold;
 
   @override
   void initState() {
@@ -59,6 +62,7 @@ class _RecordSaleSheetState extends State<_RecordSaleSheet> {
   }
 
   void _submit() async {
+    final language = GetStorage().read('language') ?? 'en';
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       final provider = Provider.of<AggregationProvider>(context, listen: false);
@@ -76,18 +80,23 @@ class _RecordSaleSheetState extends State<_RecordSaleSheet> {
         payload['buyer_id'] = _selectedBuyerId;
       }
 
+      if (_dateSold != null) {
+        payload['date_sold'] = '${_dateSold!.year}-${_dateSold!.month.toString().padLeft(2, '0')}-${_dateSold!.day.toString().padLeft(2, '0')}';
+      }
+
       bool success = await provider.recordSale(widget.aggregation.id!, payload);
       if (success && mounted) {
         Navigator.pop(context);
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Sale recorded successfully!'), backgroundColor: Colors.green));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(LanguageService.getText('successRecordSale', language)), backgroundColor: Colors.green));
       } else if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(provider.errorMessage ?? 'Error recording sale'), backgroundColor: Colors.red));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(provider.errorMessage ?? LanguageService.getText('errorLoading', language)), backgroundColor: Colors.red));
       }
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final language = GetStorage().read('language') ?? 'en';
     final bottomInset = MediaQuery.of(context).viewInsets.bottom;
     return Container(
       decoration: const BoxDecoration(
@@ -102,9 +111,9 @@ class _RecordSaleSheetState extends State<_RecordSaleSheet> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Text('Record Sale', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+              Text(LanguageService.getText('recordSale', language), style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
               const SizedBox(height: 8),
-              Text('Available Stock: ${widget.aggregation.remainingQuantity} kg', 
+              Text('${LanguageService.getText('availableStock', language)}: ${widget.aggregation.remainingQuantity} kg', 
                    style: const TextStyle(color: Colors.orange, fontWeight: FontWeight.w600)),
               const SizedBox(height: 20),
               
@@ -112,18 +121,18 @@ class _RecordSaleSheetState extends State<_RecordSaleSheet> {
                 children: [
                   Expanded(
                     child: ChoiceChip(
-                      label: const Center(child: Text('Existing Buyer')),
+                      label: Center(child: Text(LanguageService.getText('existingBuyer', language))),
                       selected: !_isNewBuyer,
-                      selectedColor: Colors.green.withOpacity(0.2),
+                      selectedColor: Colors.green.withValues(alpha: 0.2),
                       onSelected: (val) => setState(() => _isNewBuyer = false),
                     ),
                   ),
                   const SizedBox(width: 8),
                   Expanded(
                     child: ChoiceChip(
-                      label: const Center(child: Text('New Buyer')),
+                      label: Center(child: Text(LanguageService.getText('newBuyer', language))),
                       selected: _isNewBuyer,
-                      selectedColor: Colors.green.withOpacity(0.2),
+                      selectedColor: Colors.green.withValues(alpha: 0.2),
                       onSelected: (val) => setState(() => _isNewBuyer = true),
                     ),
                   ),
@@ -137,42 +146,43 @@ class _RecordSaleSheetState extends State<_RecordSaleSheet> {
                     if (provider.isLoadingBuyers) return const LinearProgressIndicator();
                     return DropdownButtonFormField<int>(
                       decoration: InputDecoration(
-                        labelText: 'Select Buyer',
+                        labelText: LanguageService.getText('selectBuyer', language),
                         prefixIcon: const Icon(Icons.person),
                         border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                       ),
+                      // ignore: deprecated_member_use
                       value: _selectedBuyerId,
                       items: provider.buyers.map((b) => DropdownMenuItem(value: b.id, child: Text(b.name))).toList(),
                       onChanged: (val) => setState(() => _selectedBuyerId = val),
-                      validator: (val) => val == null ? 'Required' : null,
+                      validator: (val) => val == null ? LanguageService.getText('required', language) : null,
                     );
                   },
                 )
               else ...[
                 TextFormField(
                   decoration: InputDecoration(
-                    labelText: 'Buyer Name',
+                    labelText: LanguageService.getText('buyerName', language),
                     prefixIcon: const Icon(Icons.person_add),
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                   ),
-                  validator: (val) => val == null || val.isEmpty ? 'Required' : null,
+                  validator: (val) => val == null || val.isEmpty ? LanguageService.getText('required', language) : null,
                   onSaved: (val) => _buyerName = val,
                 ),
                 const SizedBox(height: 16),
                 TextFormField(
                   keyboardType: TextInputType.phone,
                   decoration: InputDecoration(
-                    labelText: 'Buyer Phone',
+                    labelText: LanguageService.getText('buyerPhone', language),
                     prefixIcon: const Icon(Icons.phone),
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                   ),
-                  validator: (val) => val == null || val.isEmpty ? 'Required' : null,
+                  validator: (val) => val == null || val.isEmpty ? LanguageService.getText('required', language) : null,
                   onSaved: (val) => _buyerPhone = val,
                 ),
                 const SizedBox(height: 16),
                 TextFormField(
                   decoration: InputDecoration(
-                    labelText: 'Buyer Location',
+                    labelText: LanguageService.getText('buyerLocation', language),
                     prefixIcon: const Icon(Icons.location_on),
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                   ),
@@ -187,15 +197,15 @@ class _RecordSaleSheetState extends State<_RecordSaleSheet> {
                     child: TextFormField(
                       keyboardType: const TextInputType.numberWithOptions(decimal: true),
                       decoration: InputDecoration(
-                        labelText: 'Quantity (kg)',
+                        labelText: LanguageService.getText('quantityKg', language),
                         suffixText: 'kg',
                         border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                       ),
                       validator: (val) {
-                        if (val == null || val.isEmpty) return 'Required';
+                        if (val == null || val.isEmpty) return LanguageService.getText('required', language);
                         double? parsed = double.tryParse(val);
-                        if (parsed == null) return 'Invalid';
-                        if (parsed > widget.aggregation.remainingQuantity) return 'Over limit';
+                        if (parsed == null) return LanguageService.getText('invalid', language);
+                        if (parsed > widget.aggregation.remainingQuantity) return LanguageService.getText('overLimit', language);
                         return null;
                       },
                       onSaved: (val) => _quantitySold = val,
@@ -206,15 +216,54 @@ class _RecordSaleSheetState extends State<_RecordSaleSheet> {
                     child: TextFormField(
                       keyboardType: const TextInputType.numberWithOptions(decimal: true),
                       decoration: InputDecoration(
-                        labelText: 'Price/Unit',
+                        labelText: LanguageService.getText('priceUnit', language),
                         prefixText: 'MWK ',
                         border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                       ),
-                      validator: (val) => val == null || val.isEmpty ? 'Required' : null,
+                      validator: (val) => val == null || val.isEmpty ? LanguageService.getText('required', language) : null,
                       onSaved: (val) => _pricePerUnit = val,
                     ),
                   ),
                 ],
+              ),
+              const SizedBox(height: 16),
+
+              // ── Date of Sale picker ───────────────────────────────────────
+              GestureDetector(
+                onTap: () async {
+                  final now = DateTime.now();
+                  final picked = await showDatePicker(
+                    context: context,
+                    initialDate: _dateSold ?? now,
+                    firstDate: DateTime(now.year - 2),
+                    lastDate: now,
+                  );
+                  if (picked != null) setState(() => _dateSold = picked);
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey.shade400),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(Icons.calendar_today_rounded, size: 18, color: kPrimaryColor),
+                      const SizedBox(width: 12),
+                      Text(
+                        _dateSold == null
+                            ? LanguageService.getText('dateSold', language)
+                            : '${_dateSold!.day}/${_dateSold!.month}/${_dateSold!.year}',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: _dateSold == null ? Colors.grey[400] : Colors.black87,
+                        ),
+                      ),
+                      const Spacer(),
+                      Icon(Icons.arrow_drop_down_rounded, color: Colors.grey[400]),
+                    ],
+                  ),
+                ),
               ),
               const SizedBox(height: 32),
 
@@ -230,7 +279,7 @@ class _RecordSaleSheetState extends State<_RecordSaleSheet> {
                     onPressed: provider.isActionLoading ? null : _submit,
                     child: provider.isActionLoading 
                       ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2)) 
-                      : const Text('Confirm Sale', style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
+                      : Text(LanguageService.getText('confirmSale', language), style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
                   );
                 }
               )
@@ -273,10 +322,11 @@ class _AddContributionSheetState extends State<_AddContributionSheet> {
   }
 
   void _submit() async {
+    final language = GetStorage().read('language') ?? 'en';
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       final provider = Provider.of<AggregationProvider>(context, listen: false);
-
+ 
       bool success;
       if (_isNewMember) {
         Map<String, dynamic> payload = {
@@ -295,18 +345,19 @@ class _AddContributionSheetState extends State<_AddContributionSheet> {
         };
         success = await provider.addContribution(widget.aggregation.id!, payload);
       }
-
+ 
       if (success && mounted) {
         Navigator.pop(context);
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Contribution added successfully!'), backgroundColor: Colors.green));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(LanguageService.getText('successAddContribution', language)), backgroundColor: Colors.green));
       } else if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(provider.errorMessage ?? 'Error adding contribution'), backgroundColor: Colors.red));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(provider.errorMessage ?? LanguageService.getText('errorLoading', language)), backgroundColor: Colors.red));
       }
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final language = GetStorage().read('language') ?? 'en';
     final bottomInset = MediaQuery.of(context).viewInsets.bottom;
     return Container(
       decoration: const BoxDecoration(color: Colors.white, borderRadius: BorderRadius.only(topLeft: Radius.circular(24), topRight: Radius.circular(24))),
@@ -318,15 +369,15 @@ class _AddContributionSheetState extends State<_AddContributionSheet> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Text('Add Contribution', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+              Text(LanguageService.getText('addContribution', language), style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
               const SizedBox(height: 16),
               
               Row(
                 children: [
                   Expanded(
                     child: ChoiceChip(
-                      label: const Center(child: Text('Existing Member')),
-                      selectedColor: kPrimaryColor.withOpacity(0.2),
+                      label: Center(child: Text(LanguageService.getText('existingMember', language))),
+                      selectedColor: kPrimaryColor.withValues(alpha: 0.2),
                       selected: !_isNewMember,
                       onSelected: (val) => setState(() => _isNewMember = false),
                     ),
@@ -334,8 +385,8 @@ class _AddContributionSheetState extends State<_AddContributionSheet> {
                   const SizedBox(width: 8),
                   Expanded(
                     child: ChoiceChip(
-                      label: const Center(child: Text('New Member')),
-                      selectedColor: kPrimaryColor.withOpacity(0.2),
+                      label: Center(child: Text(LanguageService.getText('newMember', language))),
+                      selectedColor: kPrimaryColor.withValues(alpha: 0.2),
                       selected: _isNewMember,
                       onSelected: (val) => setState(() => _isNewMember = true),
                     ),
@@ -348,35 +399,36 @@ class _AddContributionSheetState extends State<_AddContributionSheet> {
                 Consumer<AggregationProvider>(
                   builder: (ctx, provider, child) {
                     if (provider.isLoadingMembers) return const LinearProgressIndicator();
-                    if (provider.groupMembers.isEmpty) return const Text('No members found in this group.', style: TextStyle(color: Colors.red));
+                    if (provider.groupMembers.isEmpty) return Text(LanguageService.getText('noData', language), style: const TextStyle(color: Colors.red));
                     return DropdownButtonFormField<int>(
                       decoration: InputDecoration(
-                        labelText: 'Select Member',
+                        labelText: LanguageService.getText('selectMember', language),
                         prefixIcon: const Icon(Icons.person),
                         border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                       ),
+                      // ignore: deprecated_member_use
                       value: _selectedMemberId,
                       items: provider.groupMembers.map((m) => DropdownMenuItem(value: m.id, child: Text(m.name))).toList(),
                       onChanged: (val) => setState(() => _selectedMemberId = val),
-                      validator: (val) => val == null ? 'Required' : null,
+                      validator: (val) => val == null ? LanguageService.getText('required', language) : null,
                     );
                   }
                 )
               else ...[
                 TextFormField(
                   decoration: InputDecoration(
-                    labelText: 'Full Name',
+                    labelText: LanguageService.getText('fullName', language),
                     prefixIcon: const Icon(Icons.person_add),
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                   ),
-                  validator: (val) => val == null || val.isEmpty ? 'Required' : null,
+                  validator: (val) => val == null || val.isEmpty ? LanguageService.getText('required', language) : null,
                   onSaved: (val) => _name = val,
                 ),
                 const SizedBox(height: 16),
                 TextFormField(
                   keyboardType: TextInputType.phone,
                   decoration: InputDecoration(
-                    labelText: 'Phone Number',
+                    labelText: LanguageService.getText('phoneNumber', language),
                     prefixIcon: const Icon(Icons.phone),
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                   ),
@@ -387,19 +439,19 @@ class _AddContributionSheetState extends State<_AddContributionSheet> {
                   children: [
                     Expanded(
                       child: DropdownButtonFormField<String>(
-                        decoration: InputDecoration(labelText: 'Gender', border: OutlineInputBorder(borderRadius: BorderRadius.circular(12))),
-                        items: ['Male', 'Female'].map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
+                        decoration: InputDecoration(labelText: LanguageService.getText('gender', language), border: OutlineInputBorder(borderRadius: BorderRadius.circular(12))),
+                        items: ['Male', 'Female'].map((e) => DropdownMenuItem(value: e, child: Text(LanguageService.getText(e.toLowerCase(), language)))).toList(),
                         onChanged: (val) => _gender = val,
-                        validator: (val) => val == null ? 'Required' : null,
+                        validator: (val) => val == null ? LanguageService.getText('required', language) : null,
                       ),
                     ),
                     const SizedBox(width: 12),
                     Expanded(
                       child: DropdownButtonFormField<String>(
-                        decoration: InputDecoration(labelText: 'Age Range', border: OutlineInputBorder(borderRadius: BorderRadius.circular(12))),
+                        decoration: InputDecoration(labelText: LanguageService.getText('ageRange', language), border: OutlineInputBorder(borderRadius: BorderRadius.circular(12))),
                         items: ['18-35', '36-50', '51+'].map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
                         onChanged: (val) => _ageRange = val,
-                        validator: (val) => val == null ? 'Required' : null,
+                        validator: (val) => val == null ? LanguageService.getText('required', language) : null,
                       ),
                     ),
                   ],
@@ -410,19 +462,19 @@ class _AddContributionSheetState extends State<_AddContributionSheet> {
               TextFormField(
                 keyboardType: const TextInputType.numberWithOptions(decimal: true),
                 decoration: InputDecoration(
-                  labelText: 'Quantity Contributed (kg)',
+                  labelText: LanguageService.getText('quantityContributed', language),
                   suffixText: 'kg',
                   border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                 ),
                 validator: (val) {
-                  if (val == null || val.isEmpty) return 'Required';
-                  if (double.tryParse(val) == null) return 'Invalid';
+                  if (val == null || val.isEmpty) return LanguageService.getText('required', language);
+                  if (double.tryParse(val) == null) return LanguageService.getText('invalidNumber', language);
                   return null;
                 },
                 onSaved: (val) => _quantity = val,
               ),
               const SizedBox(height: 32),
-
+ 
               Consumer<AggregationProvider>(
                 builder: (ctx, provider, child) {
                   return ElevatedButton(
@@ -435,7 +487,7 @@ class _AddContributionSheetState extends State<_AddContributionSheet> {
                     onPressed: provider.isActionLoading ? null : _submit,
                     child: provider.isActionLoading 
                       ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2)) 
-                      : const Text('Submit Contribution', style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
+                      : Text(LanguageService.getText('submitContribution', language), style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
                   );
                 }
               )
@@ -468,30 +520,31 @@ class _EditContributionSheetState extends State<_EditContributionSheet> {
   }
 
   void _submit() async {
+    final language = GetStorage().read('language') ?? 'en';
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       final provider = Provider.of<AggregationProvider>(context, listen: false);
-
+ 
       Map<String, dynamic> payload = {
         'quantity': double.parse(_quantity),
         'group_member_id': widget.contribution.groupMemberId,
       };
-
+ 
       bool success = await provider.updateContribution(
         widget.aggregation.id!,
         widget.contribution.id!,
         payload,
       );
-
+ 
       if (success && mounted) {
         Navigator.pop(context);
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text('Contribution updated successfully!'),
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(LanguageService.getText('successUpdateContribution', language)),
           backgroundColor: Colors.green,
         ));
       } else if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(provider.errorMessage ?? 'Error updating contribution'),
+          content: Text(provider.errorMessage ?? LanguageService.getText('errorLoading', language)),
           backgroundColor: Colors.red,
         ));
       }
@@ -500,6 +553,7 @@ class _EditContributionSheetState extends State<_EditContributionSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final language = GetStorage().read('language') ?? 'en';
     final bottomInset = MediaQuery.of(context).viewInsets.bottom;
     return Container(
       decoration: const BoxDecoration(
@@ -514,10 +568,10 @@ class _EditContributionSheetState extends State<_EditContributionSheet> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Text('Update Contribution', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+              Text(LanguageService.getText('updateContribution', language), style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
               const SizedBox(height: 16),
               Text(
-                'Member: ${widget.contribution.groupMember?.name ?? "Unknown"}',
+                '${LanguageService.getText('member', language)}: ${widget.contribution.groupMember?.name ?? "Unknown"}',
                 style: const TextStyle(fontSize: 16, color: Colors.blueGrey),
               ),
               const SizedBox(height: 24),
@@ -525,13 +579,13 @@ class _EditContributionSheetState extends State<_EditContributionSheet> {
                 initialValue: _quantity,
                 keyboardType: const TextInputType.numberWithOptions(decimal: true),
                 decoration: InputDecoration(
-                  labelText: 'Quantity Contributed (kg)',
+                  labelText: LanguageService.getText('quantityContributed', language),
                   suffixText: 'kg',
                   border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                 ),
                 validator: (val) {
-                  if (val == null || val.isEmpty) return 'Required';
-                  if (double.tryParse(val) == null) return 'Invalid number';
+                  if (val == null || val.isEmpty) return LanguageService.getText('required', language);
+                  if (double.tryParse(val) == null) return LanguageService.getText('invalidNumber', language);
                   return null;
                 },
                 onSaved: (val) => _quantity = val!,
@@ -552,8 +606,8 @@ class _EditContributionSheetState extends State<_EditContributionSheet> {
                             height: 20,
                             width: 20,
                             child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
-                        : const Text('Update Contribution',
-                            style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
+                        : Text(LanguageService.getText('updateContribution', language),
+                            style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
                   );
                 },
               )
