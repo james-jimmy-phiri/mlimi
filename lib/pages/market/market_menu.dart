@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mlimi/constants/color.dart';
+import 'package:mlimi/pages/radio/radio_landing_page.dart';
 
 class MarketMenu extends StatelessWidget {
   const MarketMenu({super.key});
@@ -16,10 +17,115 @@ class MarketMenu extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: ListView.builder(
               shrinkWrap: true,
-              itemCount: 2, // Only 2 custom tiles
+              itemCount: 3, // 3 custom tiles: Mlimi Radio, Weather, Financial Literacy
               
               itemBuilder: (context, index) {
                 if (index == 0) {
+                  return InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const RadioLandingPage(),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.only(bottom: 16.0),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 16, horizontal: 16),
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          colors: [Color(0xFF065F46), Color(0xFF047857), Color(0xFF0D9488)],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Color(0x2E047857),
+                            blurRadius: 14,
+                            offset: Offset(0, 6),
+                          )
+                        ],
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Container(
+                                      width: 8,
+                                      height: 8,
+                                      decoration: const BoxDecoration(
+                                        color: Color(0xFF34D399),
+                                        shape: BoxShape.circle,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 6),
+                                    Text(
+                                      "98.4 & 98.6 FM • ON AIR",
+                                      style: TextStyle(
+                                        color: Colors.white.withOpacity(0.85),
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.w700,
+                                        letterSpacing: 0.5,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 6),
+                                const Text(
+                                  "Mlimi Radio",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w800,
+                                    letterSpacing: -0.5,
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  "Live streaming, market prices & programmes >",
+                                  maxLines: 2,
+                                  style: TextStyle(
+                                    color: Colors.white.withOpacity(0.9),
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(width: 14),
+                          Container(
+                            width: 58,
+                            height: 58,
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.2),
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: Colors.white.withOpacity(0.4),
+                                width: 1.5,
+                              ),
+                            ),
+                            child: const Center(
+                              child: Icon(
+                                Icons.radio_rounded,
+                                size: 32,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                } else if (index == 1) {
                   return InkWell(
                     onTap: () {
                       Navigator.push(
@@ -87,7 +193,7 @@ class MarketMenu extends StatelessWidget {
                       ),
                     ),
                   );
-                } else if (index == 1) {
+                } else if (index == 2) {
                   return InkWell(
                     onTap: () {
                       Navigator.push(

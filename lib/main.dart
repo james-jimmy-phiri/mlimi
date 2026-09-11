@@ -10,6 +10,7 @@ import 'package:mlimi/provider/cart_provider.dart';
 import 'package:mlimi/provider/location_provider.dart';
 import 'package:mlimi/provider/notification_provider.dart';
 import 'package:mlimi/utils/navigation_service.dart';
+import 'package:mlimi/provider/radio_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:upgrader/upgrader.dart';
 
@@ -19,9 +20,6 @@ import 'package:upgrader/upgrader.dart';
 // requests when the widget tree rebuilds.
 // ---------------------------------------------------------------------------
 final _upgrader = Upgrader(
-  // Re-check every time the app is resumed so users on very old versions
-  // are prompted immediately after deploying a new release.
-  checkOnResume: true,
   // Show the dialog again after 1 day if the user tapped "Later".
   durationUntilAlertAgain: const Duration(days: 1),
   // Enable this temporarily during development to diagnose issues:
@@ -49,6 +47,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => LocationProvider()),
         ChangeNotifierProvider(create: (_) => AggregationProvider()),
         ChangeNotifierProvider(create: (_) => CartProvider()),
+        ChangeNotifierProvider(create: (_) => RadioProvider()),
         ChangeNotifierProvider.value(value: notificationProvider),
       ],
       child: const MyApp(),

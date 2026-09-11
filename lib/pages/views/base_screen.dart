@@ -10,6 +10,7 @@ import 'package:mlimi/pages/trendings/trendings_screen.dart';
 import 'package:mlimi/pages/views/featured_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:mlimi/services/advisory_service.dart';
+import 'package:mlimi/pages/radio/widgets/mini_player_bar.dart';
 
 class BaseScreen extends StatefulWidget {
   const BaseScreen({super.key});
@@ -65,8 +66,16 @@ class _BaseScreenState extends State<BaseScreen> {
         } else if (snapshot.hasData) {
           // Build screens with the fetched data
           return Scaffold(
-            body: Center(
-              child: _buildScreens(snapshot.data!).elementAt(_selectedIndex),
+            body: Stack(
+              children: [
+                _buildScreens(snapshot.data!).elementAt(_selectedIndex),
+                const Positioned(
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  child: MiniPlayerBar(),
+                ),
+              ],
             ),
             bottomNavigationBar: BottomNavigationBar(
               type: BottomNavigationBarType.fixed,

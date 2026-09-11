@@ -10,6 +10,7 @@ import 'package:mlimi/pages/sale/supply.dart';
 import 'package:mlimi/pages/wallet/wallet.dart';
 import 'package:mlimi/pages/views/aggregations/dashboard_screen.dart';
 import 'package:mlimi/pages/views/aggregations/public_aggregations_screen.dart';
+import 'package:mlimi/pages/radio/radio_landing_page.dart';
 
 class Category_featured {
   String thumbnail;
@@ -27,6 +28,11 @@ class Category_featured {
 List<Category_featured> getCategoryList(String language) {
   if (language == 'ny') {
     return [
+      Category_featured(
+        name: 'Mlimi Radio',
+        thumbnail: 'radio',
+        targetPage: const RadioLandingPage(),
+      ),
       Category_featured(
         name: 'Gulitsani',
         thumbnail: 'sell',
@@ -87,6 +93,11 @@ List<Category_featured> getCategoryList(String language) {
     ];
   } else {
     return [
+      Category_featured(
+        name: 'Mlimi Radio',
+        thumbnail: 'radio',
+        targetPage: const RadioLandingPage(),
+      ),
       Category_featured(
         name: 'Sale',
         thumbnail: 'sell',

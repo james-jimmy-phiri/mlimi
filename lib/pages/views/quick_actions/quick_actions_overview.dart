@@ -322,6 +322,7 @@ class _ActionCard extends StatelessWidget {
 
 class _ActionDescriptions {
   static const Map<String, String> en = {
+    'radio': 'Tune into live agricultural broadcasting, market prices, and farming podcasts.',
     'sell': 'Instantly post produce for sale and reach thousands of buyers.',
     'buy': 'Browse verified suppliers and negotiate deals in one tap.',
     'wallet': 'Track, save and move your farm finances securely.',
@@ -333,6 +334,7 @@ class _ActionDescriptions {
   };
 
   static const Map<String, String> ny = {
+    'radio': 'Mverani wailesi ya ulimi, mitengo ya pamsika, ndi mapulogalamu ophunzitsa.',
     'sell': 'Ikani zinthu zogulitsa kuti mupeze ogula ambiri nthawi yomweyo.',
     'buy': 'Yang’anani ogulitsa odalirika ndikukambirana mtengo mosavuta.',
     'wallet': 'Yendetsani ndalama zaulimi mosamala ndi Mlimi Wallet.',
